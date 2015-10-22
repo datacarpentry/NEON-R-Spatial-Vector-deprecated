@@ -1,2 +1,2 @@
-# NEON-R-Spatial-Vector
-The vector data less repository.
+# NEON-DC-DataLesson-Hackathon
+A repo for the spatio-temporal data lesson hackathon.
