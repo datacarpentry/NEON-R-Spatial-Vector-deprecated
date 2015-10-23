@@ -4,6 +4,16 @@
 # to an R script to be included with the lesson. 
 ##################
 
+#Inputs
+gitRepoPath <-"~/Documents/GitHub/NEON-R-Spatial-Vector/"
+#gitRepoPathPC <- 
+
+#specify the file that you want to knit
+file <- "~/Documents/GitHub/NEON-R-Spatial-Vector/02-csv-vector-raster-plotting.Rmd"
+
+/Users/lwasser/Documents/GitHub/NEON-R-Spatial-Vector
+
+gitRepoPath
 # Determine whether i'm on a MAC or PC, then define paths
 if(.Platform$OS.type == "windows") {
   print("defining windows paths")
@@ -16,28 +26,21 @@ if(.Platform$OS.type == "windows") {
     gitRepoPath <- "~/Documents/GitHub/NEON-DC-DataLesson-Hackathon/"
     }
 
-#this is the path where the lessons will be stored
+#this is the path where the markdown files will be stored in the repo
 #you can modify i depending upon which module you are working on.
-repoCodePath <- "_posts/sampleLessons"
+#repoCodePath <- "_posts/"
 
 #get the working dir where the data are stored
 wd <- getwd()
-
-#specify the file to be knit and purled
-
-#file <- "2015-10-10-work-with-fiu-data.Rmd"
-#file <- "2015-10-10-work-with-NDVI-daylength.Rmd"
-file <- "2015-10-15-spatio-temporal-data-workshop.Rmd"
-
 
 #copy .Rmd file to local working directory where the data are located
 #file.copy(from = (paste0(gitRepoPath,repoCodePath,file)), to=wd, overwrite = TRUE)
 
 #specify where should the file go within the GH repo
 #postsDir <- ("_posts/SPATIALDATA/")
-postsDir <- ("_posts/sampleLessons/")
+postsDir <- ("_posts/")
 
-#define the file path
+#define the IMAGE file path
 imagePath <- "images/rfigs/"
 # poth to RMD files
 
@@ -66,23 +69,23 @@ if (file.exists(paste0(wd,"/","images"))){
   }
 
 fig.path <- paste0("images/rfigs/", sub(".Rmd$", "", basename(input)), "/")
+
 opts_chunk$set(fig.path = fig.path)
 opts_chunk$set(fig.cap = " ")
 #render_jekyll()
 render_markdown(strict = TRUE)
 print(paste0(gitRepoPath,postsDir, sub(".Rmd$", "", basename(input)), ".md"))
-#knit(input, output = paste0(filepath,"/_posts/HDF5/", sub(".Rmd$", "", basename(input)), ".md"), envir = parent.frame())
+
+
 #knit the markdown doc
-knit(input, output = paste0(gitRepoPath,postsDir, sub(".Rmd$", "", basename(input)), ".md"), envir = parent.frame())
+#add a date so jekyll recognizes it.
+knit(input, output = paste0(gitRepoPath,postsDir,"2015-10-10", sub(".Rmd$", "", basename(input)), ".md"), envir = parent.frame())
 paste0(wd,"/_posts")
 
 
 #### COPY EVERYTHING OVER to the GIT SITE###
-#copy markdown directory over
-#note: this should all become variables
+#copy things over to the git repo 
 
-#the code below isn't necessary if i knit it directly
-#file.copy(list.dirs("~/Documents/1_Workshops/R_HDF5Intr_NEON/_posts/HDF5", full.names = TRUE), "~/Documents/GitHub_Lwasser/NEON_DataSkills/_posts", recursive=TRUE)
 #copy image directory over
 file.copy(paste0(wd,"/",imagePath), paste0(gitRepoPath,"images/"), recursive=TRUE)
 #copy rmd file to the rmd directory on git
