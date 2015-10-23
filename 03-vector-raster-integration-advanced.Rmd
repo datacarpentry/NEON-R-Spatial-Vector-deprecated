@@ -48,16 +48,16 @@ r_cropped_man <- crop(x = r, y = extent)
 
 ##Extract values from a raster that correspond to a vector overlay
 
-We can extract values from our raster layer that correspond to our vector shapefiles by using the `extract()` function. The basic call to `extent()` simply returns all raster values that are _touched_ by the shapefile components. More complicated calls to `extract()` might involve pulling points that fall within a specified `buffer` radius around our shapefile geometries. See the documentation for the `extract()` function for more details (`help.search("extract", package = "raster")`). Note that the `lines_extract` and `poly_extract` objects are of class `list`. Each component of this list correspondes to a discrete feature of the vector layer. Our call to the `summary()` function uses `unlist()` to collapse the raster values for these features.
+We can extract values from our raster layer that correspond to our vector shapefiles by using the `extract()` function. The basic call to `extent()` simply returns all raster values that are _touched_ by the shapefile components. More complicated calls to `extract()` might involve pulling points that fall within a specified `buffer` radius around our shapefile geometries. See the documentation for the `extract()` function for more details (`help.search("extract", package = "raster")`). Note that the `lines_extract` and `poly_extract` objects are of class `list`. Each component of this list correspondes to a discrete feature of the vector layer. We can use the `summary()` function to get a sense of the value distribution. Note that our call to the `summary()` function uses `unlist()` to collapse the raster values for these features.
 
 ```{r Extract from raster}
-lines_extract <- extract(r, lines)
-point_extract <- extract(r, point)
-poly_extract <- extract(r, squarePlot)
+lines_extract <- extract(x = r, y = lines)
+point_extract <- extract(x = r, y = point)
+poly_extract <- extract(x = r, y = squarePlot)
 
-class(lines_extract)
-class(point_extract)
-class(poly_extract)
+class(x = lines_extract)
+class(x = point_extract)
+class(x = poly_extract)
 
 summary(unlist(lines_extract))
 summary(point_extract)

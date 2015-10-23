@@ -32,35 +32,35 @@ After completing this activity, you will:
  
 ##Querying shapefile attributes
 
-Recall from the previous lesson that shapefile attributes can include a _class_, a _features_ count, an _extent_, a _coordinate reference system_ (crs), and additional _attributes_.
+Recall from the previous lesson that shapefile metadata can include a _class_, a _features_ count, an _extent_, and a _coordinate reference system_ (crs). Shapefile _attributes_ include measurements that correspond to the geometry of the shapefile features.
 
-These attributes can be extracted individually using the `class()`, `length()`, `extent()`, `crs()`, and `slot()` `R` commands. 
+Metadata can be extracted individually using the `class()`, `length()`, `extent()`, `crs()`, `R` commands. Attributes can be extracted using the `slot()` command. 
 
 ```{r Extract Individual Attributes}
 #view class
-class(squarePlot)
-class(lines)
-class(point)
+class(x = squarePlot)
+class(x = lines)
+class(x = point)
 
 #view features count
-length(squarePlot)
-length(lines)
-length(point)
+length(x = squarePlot)
+length(x = lines)
+length(x = point)
 
 #view crs
-crs(squarePlot)
-crs(lines)
-crs(point)
+crs(x = squarePlot)
+crs(x = lines)
+crs(x = point)
 
 #view extent
-extent(squarePlot)
-extent(lines)
-extent(point)
+extent(x = squarePlot)
+extent(x = lines)
+extent(x = point)
 
 #view attributes
-slot(squarePlot, "data")
-slot(lines, "data")
-slot(point, "data")
+slot(object = squarePlot, name = "data")
+slot(object = lines, name = "data")
+slot(object = point, name = "data")
 ```
 
 
@@ -69,7 +69,7 @@ slot(point, "data")
 We already saw how to return all attributes of a spatial object using the `slot()` function. However, we can directly return individual attributes using the dollar sign notation. In the following code chunk we return a list of attribute names using the `slot()` and `names()` functions. Next, we query the _TYPE_ attribute individually. Finally, we subset the `lines` object using dollar sign notation. Note how our subsetting operation reduces the _features_ count from 13 to 2. 
 
 ```{r Subsetting shapefiles}
-names(slot(lines, "data"))
+names(slot(object = lines, name = "data"))
 
 lines$TYPE
 
