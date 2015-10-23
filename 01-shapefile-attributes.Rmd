@@ -1,9 +1,25 @@
 ---
+layout: post
 title: "Shapefile attributes"
-author: "Joseph Stachelek"
-date: "October 22, 2015"
-output: html_document
+date:   2015-10-23 20:49:52
+authors: "Joseph Stachelek, Leah Wasser"
+dateCreated:  2015-10-23 20:49:52
+lastModified: 2015-10-23 14:28:52
+category: 
+tags: []
+mainTag: 
+description: "This post explains the nature of shapefile attributes. Participants will be able to locate and query shapefile attributes as well as subset shapefiles by specific attribute values."
+code1: 
+image:
+  feature: NEONCarpentryHeader_2.png
+  credit: Graphic: National Ecological Observatory Network (NEON)
+  creditlink: http://www.neoninc.org
+permalink: /R/Raster-Data-In-R/
+code1: /R/2015-07-22-Introduction-to-Raster-Data-In-R.R
+comments:
+
 ---
+
 
 ##About
 This post explains the nature of shapefile attributes. Participants will be able to locate and query shapefile attributes as well as subset shapefiles by specific attribute values.

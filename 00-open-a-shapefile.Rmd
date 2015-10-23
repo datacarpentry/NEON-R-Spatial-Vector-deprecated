@@ -1,8 +1,23 @@
 ---
+layout: post
 title: "Open and plot shapefiles"
-author: "Joseph Stachelek"
-date: "October 22, 2015"
-output: html_document
+date:   2015-10-23 20:49:52
+authors: "Joseph Stachelek, Leah Wasser"
+dateCreated:  2015-10-23 20:49:52
+lastModified: 2015-10-23 14:28:52
+category: 
+tags: []
+mainTag: 
+description: "This post explains the how to open and plot point, line, and polygon shapefiles in R."
+code1: 
+image:
+  feature: NEONCarpentryHeader_2.png
+  credit: Graphic: National Ecological Observatory Network (NEON)
+  creditlink: http://www.neoninc.org
+permalink: /R/Raster-Data-In-R/
+code1: /R/2015-07-22-Introduction-to-Raster-Data-In-R.R
+comments:
+
 ---
 
 ##About
@@ -37,26 +52,24 @@ prepath <- "NEON-R-Spatial-Vector"
 #prepath <- ".."
 
 #Import a polygon shapefile 
-
 squarePlot <- readOGR(file.path(prepath, "/data/boundaryFiles/HARV/"), "HarClip_UTMZ18")
 
 #Import a line shapefile
-
 lines <- readOGR(file.path(prepath, "/data/boundaryFiles/HARV/"),"HARV_roadStream")
 
 #Import a point shapefile 
-
 point <- readOGR(file.path(prepath, "/data/boundaryFiles/HARV/"),"HARVtower_UTM18N")
   
 ```
 
-We can view an attribute summary of each shapefile by simplying entering the name of the `R` object in the console. Note that the output includes the _class_, the number of _features_, the _extent_, the _coordinate reference system_ (crs), and the _attributes_ of the`R` object.  
+We can view a metadata/attribute summary of each shapefile by simplying entering the name of the `R` object in the console. Note that the metadata output includes the _class_, the number of _features_, the _extent_, and the _coordinate reference system_ (crs) of the `R` object. The last two lines , and the _attributes_ of the`R` object.  
 
 ```{r View Attribute Summary}
-#view attributes
+#View attributes
 squarePlot
 lines
 point
+
 ```
 
 ##Plotting shapefiles

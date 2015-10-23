@@ -1,8 +1,23 @@
 ---
+layout: post
 title: "Advanced raster-vector integration"
-author: "Joseph Stachelek"
-date: "October 22, 2015"
-output: html_document
+date:   2015-10-23 20:49:52
+authors: "Joseph Stachelek, Leah Wasser"
+dateCreated:  2015-10-23 20:49:52
+lastModified: 2015-10-23 14:28:52
+category: 
+tags: []
+mainTag: 
+description: "This post explains how to modify (crop) a raster extent based on the extent of a vector shapefile. Particpants will also be able to extract values from a raster that correspond to the geometry of a vector overlay."
+code1: 
+image:
+  feature: NEONCarpentryHeader_2.png
+  credit: Graphic: National Ecological Observatory Network (NEON)
+  creditlink: http://www.neoninc.org
+permalink: /R/Raster-Data-In-R/
+code1: /R/2015-07-22-Introduction-to-Raster-Data-In-R.R
+comments:
+
 ---
 
 ##About
