@@ -5,18 +5,18 @@ date:   2015-1-26 20:49:52
 authors: "FirstName LastName, FirstName LastName"
 dateCreated:  2014-11-26 20:49:52
 lastModified: 2015-07-23 14:28:52
-category: time-series-workshop
-tags: [module-1]
-mainTag: GIS-Spatial-Data
+category: 
+tags: []
+mainTag: 
 description: "This post explains the fundamental principles, functions and metadata that you need to work with raster data in R."
 code1: 
 image:
-  feature: lidar_GrandMesa.png
-  credit: LiDAR data collected over Grand Mesa, Colorado - National Ecological Observatory Network (NEON)
+  feature: NEONCarpentryHeader_2.png
+  credit: Graphic: National Ecological Observatory Network (NEON)
   creditlink: http://www.neoninc.org
 permalink: /R/Raster-Data-In-R/
 code1: /R/2015-07-22-Introduction-to-Raster-Data-In-R.R
-comments: true
+comments:
 
 ---
 
