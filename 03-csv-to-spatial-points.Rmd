@@ -62,6 +62,9 @@ Objectives
 * Understand how to convert a csv with spatial points to a spatial object in R.
 * Convert to spatial points data frame
 * Know how to plot a spatial points data
+* Know how to create a basic map of a raster with a shapefile overlay
+* Be able to compare and align the projections of raster and vector objects
+
 
 Sometimes spatial data are downloaded or stored in a text file format (`txt` or csv`).
 We can convert these data in text format, into a spatial object in R `SpatialPointsDataFrame`. Note that there is a `SpatialPoints` object in R that does not
@@ -174,5 +177,28 @@ plot(addPlots.spatial, col="purple")
 #They are in a GEOGRAPHIC (latitude and longitude) coordinate system.
 #test
 
+
+```
+
+##Create a vector-raster overlay map
+
+We will use the base graphics `plot()` command to create a vector-raster overlay plot. The following code chunk loads a raster from disk user the `raster` command, plot this raster, and overlays the lines and squareplot shapefiles using the `add` argument. 
+
+```{r Plot vector-raster overlay}
+r <- raster(file.path(prepath, "data", "NEON_RemoteSensing", "HARV", "CHM", "HARV_chmCrop.tif"))
+
+plot(r)
+plot(lines, add = TRUE)
+plot(squarePlot, add = TRUE)
+```
+
+##Compare and align vector/raster projections
+
+Recall from lesson 2 that we can query the _coordinate reference system_ of a spatial object using the `crs()` function.
+
+```{r }
+(r_crs <- crs(r))
+(squarePlot_crs <- crs(squarePlot))
+(lines_crs <- crs(lines))
 
 ```
