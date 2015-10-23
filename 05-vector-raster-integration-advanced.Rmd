@@ -1,0 +1,51 @@
+---
+title: "Advanced raster-vector integration"
+author: "Joseph Stachelek"
+date: "October 22, 2015"
+output: html_document
+---
+
+##About
+
+This post explains how to modify (crop) a raster extent based on the extent of a vector shapefile. Particpants will also be able to extract values from a raster that correspond to the geometry of a vector overlay.
+
+###Goals / Objectives
+After completing this activity, you will:
+
+ * Be able to crop a raster to the extent of a vector layer
+ * Be able to extract values from raster that correspond to a vector overlay
+ 
+##Crop a raster to vector layer extent
+
+The following code chunk crops our previously loaded raster by the extent of our polygon shapefile.
+
+```{r Crop by vector extent}
+r_cropped <- crop(x = r, y = squarePlot)
+```
+
+We can also use an `extent` object as input to the `y` argument to `crop()`. The `drawExtent()` function is an easy (but imprecise) way to construct an `extent` object. See the documentation for the `extent()` function for more ways to create an `extent` object (`help.search("extent", package = "raster")). 
+
+```{r Crop by drawn extent}
+extent <- raster::drawExtent()
+r_cropped_man <- crop(x = r, y = extent)
+
+```
+
+##Extract values from a raster that correspond to a vector overlay
+
+We can extract values from our raster layer that correspond to our vector shapefiles by using the `extract()` function. The basic call to `extent()` simply returns all raster values that are _touched_ by the shapefile components. More complicated calls to `extract()` might involve pulling points that fall within a specified `buffer` radius around our shapefile geometries. See the documentation for the `extract()` function for more details (`help.search("extract", package = "raster")`). Note that the `lines_extract` and `poly_extract` objects are of class `list`. Each component of this list correspondes to a discrete feature of the vector layer. Our call to the `summary()` function uses `unlist()` to collapse the raster values for these features.
+
+```{r Extract from raster}
+lines_extract <- extract(r, lines)
+point_extract <- extract(r, point)
+poly_extract <- extract(r, squarePlot)
+
+class(lines_extract)
+class(point_extract)
+class(poly_extract)
+
+summary(unlist(lines_extract))
+summary(point_extract)
+summary(unlist(poly_extract))
+
+```
