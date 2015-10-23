@@ -72,7 +72,7 @@ allow you to store associated `attributes. The `SpatialPointsDataFrame allows yo
 columns from your `dataFrame` in the object.
 
 To work with vector data in R, we can use the `rgdal` library. We will load the `raster`
-library to work with rasters.
+library to work with rasters. 
 
 ```{r load-libraries }
 
@@ -107,17 +107,16 @@ head(plot.location)
 
 ```
 
-If the object is not still open in R, let's open up a shapefil that cno
-Next, we will convert the `plot.location` object to a `SpatialPointsDataFrame`.
-When we create this object, it is preferred to assign a coordinate reference system `CRS` 
-to it.
+When we create a spatial points dataframe from a csv, there is no inherent `CRS` associated
+with it. We can assign a CRS if we know what the coordinate system the x,y values are in.
+
+In this case, the CRS of our csv is UTM zone 18N (similar to our boundary shapefiles) that
+we opened previously. If the object is not still open in R, let's open up a shapefile that is in that project. Next, we will convert our imported `plot.location` object to a `SpatialPointsDataFrame` and assign it a CRS using the shapefile.
+
 
 NOTE: it is important to first CONFIRM that the CRS of our CSV coordinates is the 
 SAME as the CRS of the shapefile. We can figure that out by looking at the metadata for
-the CSV file.
-
-In this case, they are the same. Thus, we can grab the `CRS` from one of our shapefiles. 
-
+the CSV file which we hopefully have!
 
 ```{r}
 #note: read ogr is preferred as it maintains prj info
@@ -146,7 +145,8 @@ the CRS of our shapefiles. Let's plot our data!
 ```{r}
 
 #plot the points
-plot(plot.location_spatial)
+#use main = to add a title to the map
+plot(plot.location_spatial, main="Map of Study Area")
 
 #let's add the polygon layer to our plot
 plot(squarePlot, add=TRUE)
@@ -157,48 +157,86 @@ plot(roads, add=TRUE)
 
 ```
 
-#Challenge!
-Add the ...
+#Create a New Shapefile from A Spatial Object
+
+We can write an R spatial object to a shapefile using the `writeOGR` function 
+in `rgdal`. To do this we need the following arguments
+
+* the name of the spatial object
+* the director where we want to save our shapefile
+* the nae of the new shapefile
+* the driver which specifies the file format (in this case a shapefile)
+
+
+```{r }
+#write a shapefile
+writeOGR(plot.location_spatial, getwd(), "newFile", driver="ESRI Shapefile")
+
+```
+
+#Dealing with Spatial objects in different CRS'
+
+Often, we have data that are in different CRS'. In order to map these objects
+in the same visual space, we need to then reproject them. We can use the 
+`spTransform` function to reproject a vector.
+
+In this case, we have a shapefile called `newPlots_latLon` that is in a 
+geographic coordinate system (latitude and longitude). Let's read these data in
+and try to add them to our map
+
 ```{r}
 
-#let's read in the two extra points
-addPlots <- read.csv("boundaryFiles/HARV/HARV_PhenPlots.csv")
+#note: read ogr is preferred as it maintains prj info
+newPlots <- readOGR("boundaryFiles/HARV/","newPlots_latLon")
 
-#
-addPlots.spatial <- SpatialPointsDataFrame(addPlots[,2:1],
-                                           addPlots,
-                                           proj4string=CRS("+proj=longlat"))
+#http://www.statmethods.net/advgraphs/parameters.html
+#add these points to our plot
+plot(newPlots, add=TRUE, col=115, pch=19)
 
-new <- spTransform(addPlots.spatial,crs(squarePlot))
+
+#let's check the CRS of our data to see what's going on
+crs(newPlots)
+
+
+```
+
+We've added points to our map. However, they are not appearing in our study area.
+This is because our shapefile is in a GEOGRAPHIC (latitude and logiture) reference system.
+We will need to reproject it to UTM to see if on our map. We will use `spTransform` to do
+this.
+
+
+```{r }
+
+#let's double check the crs of our plots layer
+crs(plot.location_spatial)
+
+#reproject our vector layer to the projection of our other plot data.
+newPlots_UTMZ18N<- spTransform(newPlots,crs(plot.location_spatial))
 #try to plot the data
-plot(addPlots.spatial, col="purple")
-
-#the data that we've imported have decimal degrees coordinates.
-#They are in a GEOGRAPHIC (latitude and longitude) coordinate system.
-#test
+plot(newPlots_UTMZ18N, add=TRUE, col=116,pch=19)
 
 
 ```
 
 ##Create a vector-raster overlay map
 
-We will use the base graphics `plot()` command to create a vector-raster overlay plot. The following code chunk loads a raster from disk user the `raster` command, plot this raster, and overlays the lines and squareplot shapefiles using the `add` argument. 
+We will use the base graphics `plot()` command to create a vector-raster overlay plot. 
+Next, we will load a raster from disk user the `raster` command, plot this raster, and overlay the lines and squareplot shapefiles using the `add` argument. 
 
-```{r Plot vector-raster overlay}
-r <- raster(file.path(prepath, "data", "NEON_RemoteSensing", "HARV", "CHM", "HARV_chmCrop.tif"))
+```{r Plot vector-raster overlay }
 
-plot(r)
-plot(lines, add = TRUE)
+r <- raster("NEON_RemoteSensing/HARV/CHM/HARV_chmCrop.tif")
+
+#notice that the `\n` command allows you to split title lines into two.
+
+plot(r, main="Tree Height\nHarvard Forest")
+
+plot(roads, add = TRUE)
 plot(squarePlot, add = TRUE)
-```
 
-##Compare and align vector/raster projections
-
-Recall from lesson 2 that we can query the _coordinate reference system_ of a spatial object using the `crs()` function.
-
-```{r }
-(r_crs <- crs(r))
-(squarePlot_crs <- crs(squarePlot))
-(lines_crs <- crs(lines))
+plot(plot.location_spatial, add = TRUE, pch=19)
 
 ```
+
+#NEED TO ADD CHALLENGES!
