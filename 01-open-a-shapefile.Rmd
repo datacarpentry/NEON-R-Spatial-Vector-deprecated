@@ -1,0 +1,82 @@
+---
+title: "Open and plot shapefiles"
+author: "Joseph Stachelek"
+date: "October 22, 2015"
+output: html_document
+---
+
+##About
+This post explains the how to open and plot point, line, and polygon shapefiles in R.
+
+###Goals / Objectives
+After completing this activity, you will:
+
+ * Understand the concept of point, line, and polygon shapefiles
+ * Know how to open shapefiles (vector data)
+ * Understand the components of a _spatial object_ (in R)
+ 
+###Tools To Install
+
+```{r Load Libraries}
+library(rgdal, quietly = TRUE)
+library(raster)
+```
+
+###Recommended Pre-Lesson Reading
+
+#About Vector Data
+##Shapefiles: Points, Lines, and Polygons
+Vector geospatial data can be expressed as collections of points, lines, and polygons. This data is most commonly held in _shapefiles_ which store information about the geometry of the geospatial data as well as _attributes_ that describe the data. More about shapefiles can found on [Wikipedia](https://en.wikipedia.org/wiki/Shapefile) (add link to Metadata lesson?).
+
+##Importing shapefiles
+
+We are going to use the `R` function `readOGR()` to import shapefiles stored on disk. These shapefiles include a polygon shapefile representing the boundaries of our study area, a line shapefile representing roads and streams, and a point shapefile representing the location of a NEON measurement tower.
+
+```{r Import Shapefile}
+prepath <- "NEON-DC-DataLesson-Hackathon/_posts"
+#prepath <- ".."
+
+#Import a polygon shapefile 
+
+squarePlot <- readOGR(file.path(prepath, "/data/boundaryFiles/HARV/"),"HarClip_UTMZ18")
+
+#Import a line shapefile
+
+lines <- readOGR(file.path(prepath, "/data/boundaryFiles/HARV/"),"HARV_roadStream")
+
+#Import a point shapefile 
+
+point <- readOGR(file.path(prepath, "/data/boundaryFiles/HARV/"),"HARVtower_UTM18N")
+  
+```
+
+We can view an attribute summary of each shapefile by simplying entering the name of the `R` object in the console. Note that the output includes the _class_, the number of _features_, the _extent_, the _coordinate reference system_ (crs), and the _attributes_ of the`R` object.  
+
+```{r View Attribute Summary}
+#view attributes
+squarePlot
+lines
+point
+```
+
+##Plotting shapefiles
+
+The `plot()` function can be used for basic plotting of these spatial objects. Note that we use the `add = TRUE` argument to _overplot_ the lines and point shapefile onto the polygon shapefile. 
+
+```{r Plotting}
+#look at the shapefiles
+plot(squarePlot, col = "purple")
+plot(lines, add = TRUE)
+plot(point, add  = TRUE, pch = 19, col = "red")
+```
+
+We can use the `col` argument to the `plot()` function to color our lines according to the _TYPE_ attribute. The following code chunk extracts a vector of this attribute, creates a character color vector of the same length, and changes the positions of this color vector that correspond to _footpath_.
+
+```{r Color lines by attribute}
+#color lines by TYPE attribute
+type <- slot(lines, "data")$TYPE
+col <- rep("black", length = length(type))
+col[type == "footpath"] <- "red"
+
+plot(lines, col = col, add = TRUE)
+```

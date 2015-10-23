@@ -1,0 +1,44 @@
+---
+title: "Basic raster-vector integration"
+author: "Joseph Stachelek"
+date: "October 22, 2015"
+output: html_document
+---
+
+##About
+
+This post explains how to visualize raster and vector objects in the same plotting window.
+
+###Goals / Objectives
+After completing this activity, you will:
+
+ * Know how to create a basic map of a raster with a shapefile overlay
+ * Be able to compare and align the projections of raster and vector objects
+ 
+##Create a vector-raster overlay map
+
+We will use the base graphics `plot()` command to create a vector-raster overlay plot. The following code chunk loads a raster from disk user the `raster` command, plot this raster, and overlays the lines and squareplot shapefiles using the `add` argument. 
+
+```{r Plot vector-raster overlay}
+r <- raster(file.path(prepath, "data", "NEON_RemoteSensing", "HARV", "CHM", "HARV_chmCrop.tif"))
+
+plot(r)
+plot(lines, add = TRUE)
+plot(squarePlot, add = TRUE)
+```
+
+##Compare and align vector/raster projections
+
+Recall from lesson 2 that we can query the _coordinate reference system_ of a spatial object using the `crs()` function.
+
+```{r }
+(r_crs <- crs(r))
+(squarePlot_crs <- crs(squarePlot))
+(lines_crs <- crs(lines))
+
+```
+
+```{r }
+spTransform(lines, )
+projectRaster(r, )
+```
