@@ -33,4 +33,6 @@ comments:
 ###here is a test
 
 and here is some text
+* one
+* two
 {: .notice}
