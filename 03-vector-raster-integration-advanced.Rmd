@@ -36,6 +36,9 @@ The following code chunk crops our previously loaded raster by the extent of our
 
 ```{r Crop by vector extent}
 r_cropped <- crop(x = r, y = squarePlot)
+
+plot(squarePlot, main = "Cropped raster")
+plot(r_cropped, add = TRUE)
 ```
 
 We can also use an `extent` object as input to the `y` argument to `crop()`. The `drawExtent()` function is an easy (but imprecise) way to construct an `extent` object. See the documentation for the `extent()` function for more ways to create an `extent` object (`help.search("extent", package = "raster")). 
@@ -44,6 +47,9 @@ We can also use an `extent` object as input to the `y` argument to `crop()`. The
 extent <- raster::drawExtent()
 r_cropped_man <- crop(x = r, y = extent)
 
+plot(squarePlot, main = "Manually cropped raster")
+plot(extent, add = TRUE)
+plot(r_cropped_man, add = TRUE)
 ```
 
 ##Extract values from a raster that correspond to a vector overlay
