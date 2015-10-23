@@ -1,0 +1,178 @@
+---
+layout: post
+title: "CSV to Spatial Points in R"
+date:   2015-1-26 20:49:52
+authors: "Joe LastName, Leah Wasser"
+dateCreated:  2014-11-26 20:49:52
+lastModified: 2015-07-23 14:28:52
+category: time-series-workshop
+tags: [module-1]
+mainTag: GIS-Spatial-Data
+description: "About this post."
+image:
+  feature: 
+  credit: 
+  creditlink: http://www.neoninc.org
+permalink: /R/csv-to-spatial-points/
+code1: /R/2015-07-22-csv-to-spatial-points-In-R.R
+comments: true
+---
+
+<section id="table-of-contents" class="toc">
+  <header>
+    <h3>Contents</h3>
+  </header>
+<div id="drawer" markdown="1">
+*  Auto generated table of contents
+{:toc}
+</div>
+</section><!-- /#table-of-contents -->
+
+
+
+<div id="objectives">
+<strong>R Skill Level:</strong> Beginner / Intermediate
+
+<h3>Goals / Objectives</h3>
+After completing this activity, you will:
+<ol>
+<li>Import a time series formated csv file.</li>
+<li>Modify a date field that contains non-date characters and turn it into a proper
+date formated field.</li>
+<li>Plot the data.</li>
+<li>Convert time to a local time zone.</li>
+</ol>
+
+<h3>R Libraries to Install</h3>
+<ul>
+
+</ul>
+
+<h3>Data to Download</h3>
+ 
+
+<h3>Pre-reqs</h3>
+<p>.</p>
+</div>
+
+###Lesson 3 - How to convert csv with spatial locations to a spatial data frame
+
+
+Objectives
+* Understand how to convert a csv with spatial points to a spatial object in R.
+* Convert to spatial points data frame
+* Know how to plot a spatial points data
+
+Sometimes spatial data are downloaded or stored in a text file format (`txt` or csv`).
+We can convert these data in text format, into a spatial object in R `SpatialPointsDataFrame`. Note that there is a `SpatialPoints` object in R that does not
+allow you to store associated `attributes. The `SpatialPointsDataFrame allows you to store
+columns from your `dataFrame` in the object.
+
+To work with vector data in R, we can use the `rgdal` library. We will load the `raster`
+library to work with rasters.
+
+```{r load-libraries }
+
+#first load libraries
+library(rgdal)
+library(raster)
+
+```
+
+##Reading in our CSV
+
+The `HARV_PlotLocations.csv` file contains x,y locations for some plots that 
+NEON field crew are sampling vegetation and other ecological metrics. We would like
+to create a map that includes the locations of these plot locations. We also would like
+to export the data in a `shapefile` format to facilitate bring the data into a `GIS`.
+
+To begin, let's read in the `csv` file that contains the x,y coordinate locations.
+
+```{r read-csv }
+
+#Leah's notes
+setwd("~/Documents/data/1_DataPortal_Workshop/1_WorkshopData")
+
+#set strings as factors to false
+options(stringsAsFactors = FALSE)
+
+#Read the csv file
+plot.location <- read.csv("boundaryFiles/HARV/HARV_PlotLocations.csv")
+
+#look at the data structure
+head(plot.location)
+
+```
+
+If the object is not still open in R, let's open up a shapefil that cno
+Next, we will convert the `plot.location` object to a `SpatialPointsDataFrame`.
+When we create this object, it is preferred to assign a coordinate reference system `CRS` 
+to it.
+
+NOTE: it is important to first CONFIRM that the CRS of our CSV coordinates is the 
+SAME as the CRS of the shapefile. We can figure that out by looking at the metadata for
+the CSV file.
+
+In this case, they are the same. Thus, we can grab the `CRS` from one of our shapefiles. 
+
+
+```{r}
+#note: read ogr is preferred as it maintains prj info
+squarePlot <- readOGR("boundaryFiles/HARV/","HarClip_UTMZ18")
+
+#check the CRS
+crs(squarePlot)
+
+#the x,y location values for the dataset are availble in 
+#the x and y columns. We can use that for our spatial data point object
+#we know the csv file coordinates are in the same CRS as the other shapefiles.
+#we can assign this to the spatial points data frame when we import it.
+plot.location_spatial <- SpatialPointsDataFrame(plot.location[,1:2],
+                                                plot.location,
+                                                proj4string = crs(squarePlot))
+
+#look at CRS
+crs(plot.location_spatial)
+
+```
+
+Now, we have a `SpatialPointsDataFrame` object in R! The `R` object has a CRS that matches
+the CRS of our shapefiles. Let's plot our data!
+
+
+```{r}
+
+#plot the points
+plot(plot.location_spatial)
+
+#let's add the polygon layer to our plot
+plot(squarePlot, add=TRUE)
+
+#add roads to our plot
+roads <- readOGR("boundaryFiles/HARV/","HARV_roadStream")
+plot(roads, add=TRUE)
+
+```
+
+#Challenge!
+Add the ...
+```{r}
+
+#let's read in the two extra points
+addPlots <- read.csv("boundaryFiles/HARV/HARV_PhenPlots.csv")
+
+#
+addPlots.spatial <- SpatialPointsDataFrame(addPlots[,2:1],
+                                           addPlots,
+                                           proj4string=CRS("+proj=longlat"))
+
+new <- spTransform(addPlots.spatial,crs(squarePlot))
+#try to plot the data
+plot(addPlots.spatial, col="purple")
+
+#the data that we've imported have decimal degrees coordinates.
+#They are in a GEOGRAPHIC (latitude and longitude) coordinate system.
+#test
+
+
+```
