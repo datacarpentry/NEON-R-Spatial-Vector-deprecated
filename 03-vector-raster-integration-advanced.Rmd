@@ -9,7 +9,7 @@ category:
 tags: []
 mainTag: 
 description: "This post explains how to modify (crop) a raster extent based on the extent of a vector shapefile. Particpants will also be able to extract values from a raster that correspond to the geometry of a vector overlay."
-code1: 
+code1:
 image:
   feature: NEONCarpentryHeader_2.png
   credit: Graphic: National Ecological Observatory Network (NEON)
@@ -43,8 +43,15 @@ plot(r_cropped, add = TRUE)
 
 We can also use an `extent` object as input to the `y` argument to `crop()`. The `drawExtent()` function is an easy (but imprecise) way to construct an `extent` object. See the documentation for the `extent()` function for more ways to create an `extent` object (`help.search("extent", package = "raster")). 
 
-```{r Crop by drawn extent}
+```{r Create custom extent object}
 extent <- raster::drawExtent()
+```
+
+```{r Hidden extent chunk, echo=FALSE}
+extent <- extent(xmin = 732161.2, xmax = 732238.7, ymin = 4713249, ymax = 4713333)
+```
+
+```{r Crop by drawn extent}
 r_cropped_man <- crop(x = r, y = extent)
 
 plot(squarePlot, main = "Manually cropped raster")
