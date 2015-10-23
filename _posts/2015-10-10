@@ -1,0 +1,37 @@
+---
+layout: post
+title: "Jekyll Template Layout"
+date:   2015-1-26 20:49:52
+authors: Leah A. Wasser
+dateCreated:  2014-11-26 20:49:52
+lastModified: 2015-07-23 14:28:52
+categories: []
+category:  
+tags: []
+description: "TTesting content."
+image:
+  feature: lidar_GrandMesa.png
+  credit: LiDAR data collected over Grand Mesa, Colorado - National Ecological Observatory Network (NEON)
+  creditlink: http://www.neoninc.org
+permalink: /R/Raster-Data-In-R/
+code1: /R/2015-07-22-Introduction-to-Raster-Data-In-R.R
+comments: true
+
+---
+
+<section id="table-of-contents" class="toc">
+  <header>
+    <h3>Contents</h3>
+  </header>
+<div id="drawer" markdown="1">
+*  Auto generated table of contents
+{:toc}
+</div>
+</section><!-- /#table-of-contents -->
+
+#Title here
+
+###here is a test
+
+and here is some text
+{: .notice}
