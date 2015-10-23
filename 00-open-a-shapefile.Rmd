@@ -18,7 +18,7 @@ After completing this activity, you will:
 ###Tools To Install
 
 ```{r Load Libraries}
-library(rgdal, quietly = TRUE)
+suppressMessages(library(rgdal, quietly = TRUE))
 library(raster)
 ```
 
@@ -33,12 +33,12 @@ Vector geospatial data can be expressed as collections of points, lines, and pol
 We are going to use the `R` function `readOGR()` to import shapefiles stored on disk. These shapefiles include a polygon shapefile representing the boundaries of our study area, a line shapefile representing roads and streams, and a point shapefile representing the location of a NEON measurement tower.
 
 ```{r Import Shapefile}
-prepath <- "NEON-DC-DataLesson-Hackathon/_posts"
+prepath <- "NEON-R-Spatial-Vector"
 #prepath <- ".."
 
 #Import a polygon shapefile 
 
-squarePlot <- readOGR(file.path(prepath, "/data/boundaryFiles/HARV/"),"HarClip_UTMZ18")
+squarePlot <- readOGR(file.path(prepath, "/data/boundaryFiles/HARV/"), "HarClip_UTMZ18")
 
 #Import a line shapefile
 
