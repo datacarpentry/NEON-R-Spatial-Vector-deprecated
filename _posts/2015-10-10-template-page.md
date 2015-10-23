@@ -8,7 +8,7 @@ lastModified: 2015-07-23 14:28:52
 categories: []
 category:  
 tags: [module-1]
-description: "TTesting content."
+description: "Testing content."
 image:
   feature: NEONCarpentryHeader_2.png
   credit: A collaboration between the National Ecological Observatory Network (NEON) and Data Carpentry
@@ -16,7 +16,6 @@ image:
 permalink: /R/vector-data/
 code1: 
 comments: 
-
 ---
 
 <section id="table-of-contents" class="toc">
