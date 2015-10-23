@@ -7,15 +7,15 @@ dateCreated:  2014-11-26 20:49:52
 lastModified: 2015-07-23 14:28:52
 categories: []
 category:  
-tags: []
+tags: [module-1]
 description: "TTesting content."
 image:
-  feature: lidar_GrandMesa.png
-  credit: LiDAR data collected over Grand Mesa, Colorado - National Ecological Observatory Network (NEON)
+  feature: NEONCarpentryHeader_2.png
+  credit: A collaboration between the National Ecological Observatory Network (NEON) and Data Carpentry
   creditlink: http://www.neoninc.org
-permalink: /R/Raster-Data-In-R/
-code1: /R/2015-07-22-Introduction-to-Raster-Data-In-R.R
-comments: true
+permalink: /R/vector-data/
+code1: 
+comments: 
 
 ---
 
