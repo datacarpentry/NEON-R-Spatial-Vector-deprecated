@@ -1,95 +1,215 @@
 ---
 layout: post
-title: "Open and plot shapefiles"
+title: "Vector Data in R - Open and plot shapefiles"
 date:   2015-10-23 20:49:52
 authors: "Joseph Stachelek, Leah Wasser"
 dateCreated:  2015-10-23 20:49:52
 lastModified: 2015-10-23 14:28:52
-category: 
-tags: []
-mainTag: 
 description: "This post explains the how to open and plot point, line, and polygon shapefiles in R."
-code1: 
-image:
-  feature: NEONCarpentryHeader_2.png
-  credit: Graphic: National Ecological Observatory Network (NEON)
-  creditlink: http://www.neoninc.org
-permalink: /R/Raster-Data-In-R/
-code1: /R/2015-07-22-Introduction-to-Raster-Data-In-R.R
-comments:
-
 ---
 
 ##About
-This post explains the how to open and plot point, line, and polygon shapefiles in R.
+In this lesson, we will work with vector data in R. We will open and plot point, 
+line, and polygon data, stored in `shapefile` format, in R.
 
 ###Goals / Objectives
 After completing this activity, you will:
 
- * Understand the concept of point, line, and polygon shapefiles
- * Know how to open shapefiles (vector data)
+ * Know the difference between point, line, and polygon vector elements.
+ * Understand the differences between opening point, line and polygon shapefiles in R.
  * Understand the components of a _spatial object_ (in R)
  
 ###Tools To Install
 
-```{r Load Libraries}
-suppressMessages(library(rgdal, quietly = TRUE))
+```{r load-libraries }
+
+#load required libraries
+library(rgdal)
 library(raster)
+
 ```
 
 ###Recommended Pre-Lesson Reading
 
 #About Vector Data
+Vector data are composed of discrete geometric locations (x,y values) that make 
+up objects. The organization of the geometric locations, determines the type of 
+vector that we are working with (point, line or polygon) as follows: 
+
+* **Points:** in a point vector dataset, each point is represented by an x,y coordinate location. 
+There can be many points in a vector point file. Examples of points include plot locations, or the
+locations of individual trees.
+* **Lines:** Lines are composed of many points that are connected. For instance, a road, 
+or a stream is a line, each bend in the road or stream represents a vertex that 
+has an x,y location associated with it. A line consists of ATLEAST 2 vertices 
+that are connnected. Examples: Roads, Streams.
+* **Polygons:** a polygon consists of 3 or more vertices that are both connected and
+most often closed. Thus the outline of a plot boundary, a lake, ocean, state or 
+country would all most often be stored in a polygon format. 
+
+NOTE: a line can represent a boundary as well - however a line will not create a 
+closed object.
+
+**INSERT GRAPHIC HERE**
+
 ##Shapefiles: Points, Lines, and Polygons
-Vector geospatial data can be expressed as collections of points, lines, and polygons. This data is most commonly held in _shapefiles_ which store information about the geometry of the geospatial data as well as _attributes_ that describe the data. More about shapefiles can found on [Wikipedia](https://en.wikipedia.org/wiki/Shapefile) (add link to Metadata lesson?).
+Geospatial data in vector format, is often stored in a `shapefile` format. Because the 
+structure of a point, line and polygon object is different, each shapefile
+can only contain one vector type (all points, all polygons or all lines). You will 
+not find a mixture of point, line and polygon objects in one shapefile!
+
+Each vector in the shapefile often has a set os associated `attributes` that describe the data.
+For example, a line shapefile that contains the locations of streams, might contain stream
+names for each line.
+
+More about shapefiles can found on [Wikipedia](https://en.wikipedia.org/wiki/Shapefile) 
+(add link to Metadata lesson?).
 
 ##Importing shapefiles
 
-We are going to use the `R` function `readOGR()` to import shapefiles stored on disk. These shapefiles include a polygon shapefile representing the boundaries of our study area, a line shapefile representing roads and streams, and a point shapefile representing the location of a NEON measurement tower.
+We are going to use the `R` function `readOGR()` to import shapefiles. These 
+shapefiles include 
 
-```{r Import Shapefile}
-prepath <- "NEON-R-Spatial-Vector"
-#prepath <- ".."
+* a polygon shapefile representing our study area boundary, 
+* a line shapefile representing roads and streams, and 
+* a point shapefile representing the location of a [flux tower](http://www.neoninc.org/science-design/collection-methods/flux-tower-measurements) located at the NEON 
+Harvard Forest field site.
+
+
+```{r Import-Shapefile}
 
 #Import a polygon shapefile 
-squarePlot <- readOGR(dsn = file.path(prepath, "/data/boundaryFiles/HARV/"), layer = "HarClip_UTMZ18")
+aoiBoundary <- readOGR("boundaryFiles/HARV/", "HarClip_UTMZ18")
+
+#view attributes of the layer
+aoiBoundary
+
+#you can also use the attributes command to just view the attributes of the data
+(aoiBoundary@data)
+
+#create a quick plot of the shapefile
+plot(aoiBoundary)
+
+```
+
+#View Shapefile Metadata
+
+When we import the `HarClip_UTMZ18` layer into R, some key metadata are stored
+with the spatial R object:
+
+1. the object type: in this case our area of interest (AOI) is a polygon boundary
+R knows to bring it in as a `SpatialPolygonsDataFrame`
+2. The shapefile also contains projection information `coord ref.` in the output 
+above.
+3. extent - we can see the spatial extent of the shapefile. Note that the spatial
+extent for a shapefile represents the extent for ALL polygons (or spatial objects)
+in the shapefile!
+
+We can view the CRS, Extent and other metadata for the shapefile using the following
+commands:
+
+```{r view-crs-extent }
+#view just the crs for the shapefile
+crs(aoiBoundary)
+
+#view just the extent for the shapefile
+extent(aoiBoundary)
+
+```
+
+#Import a line and point shapefile
+#ON YOUR OWN ACTIVITY
+
+Using the steps above, import the HARV_roadStream and HARVtower_UTM18N layers into R.
+Answer the following questions:
+
+1. What type of R spatial object is created when you import each layer?
+2. What is the extent and CRS for each object?
+3. Do the files contains, points, lines or polygons?
+4. how many spatial objects are in each object?
+
+
+```{r import-point-line, echo=FALSE }
 
 #Import a line shapefile
-lines <- readOGR(dsn = file.path(prepath, "/data/boundaryFiles/HARV/"),layer = "HARV_roadStream")
+lines <- readOGR( "boundaryFiles/HARV/",layer = "HARV_roadStream")
 
 #Import a point shapefile 
-point <- readOGR(dsn = file.path(prepath, "/data/boundaryFiles/HARV/"), layer = "HARVtower_UTM18N")
+point <- readOGR("boundaryFiles/HARV/", "HARVtower_UTM18N")
   
 ```
 
-We can view a metadata/attribute summary of each shapefile by simplying entering the name of the `R` object in the console. Note that the metadata output includes the _class_, the number of _features_, the _extent_, and the _coordinate reference system_ (crs) of the `R` object. The last two lines of summary show a preview of the `R` object _attributes_.
+#Shapefile Attributes
+Each spatial object in a shapefile can have the same set of attributes. These attributes
+can be any sort of attribute that you might store in a spreadsheet about your data. 
+
+We can view a metadata/attribute summary of each shapefile by entering 
+the name of the `R` object in the console. Note that the metadata output includes 
+the _class_, the number of _features_, the _extent_, and the `coordinate reference 
+system` (crs) of the `R` object. The last two lines of summary show a preview of 
+the `R` object _attributes_.
 
 ```{r View Attribute Summary}
 #View attributes
 squarePlot
+
+#view a summary of each attribute associated with the spatial object
+summary(squarePlot)
+
+#explore the lines and point objects
 lines
 point
 
 ```
 
-##Plotting shapefiles
+##Plotting Multiple Shapefiles
 
-The `plot()` function can be used for basic plotting of these spatial objects. Note that we use the `add = TRUE` argument to _overplot_ the lines and point shapefile onto the polygon shapefile. 
+The `plot()` function can be used for basic plotting of these spatial objects. 
+We use the `add = TRUE` argument to overlay shapefiles on top of each other. As we 
+would when creating a map in a typical GIS application like QGIS.
 
-```{r Plotting}
-#Look at the shapefiles
+```{r plot-multiple-shapefiles }
+#Plot multiple 
 plot(x = squarePlot, col = "purple")
 plot(x = lines, add = TRUE)
+
+#use the pch element to adjust the symbology of the points
 plot(x = point, add  = TRUE, pch = 19, col = "red")
 ```
 
-We can use the `col` argument to the `plot()` function to color our lines according to the _TYPE_ attribute. The following code chunk extracts a vector of this attribute, creates a character color vector of the same length, and changes the positions of this color vector that correspond to _footpath_.
+We can use the `col` argument to the `plot()` function to specify the color of spatial objects.
+If type is an attribute of our data, we can use the syntax `$TYPE` to tell `R` to plot the spatial
+objects according to their unique TYPE values. 
+
+The following code chunk extracts a vector of this attribute, creates a character color vector of the same length, and changes the positions of this color vector that correspond to _footpath_.
+
+#NOTE -- this doesn't seem like a good way to may. the TYPE is a factor in R world -
+#it's a categorical attribute. We should teach best practices but I am not sure
+#what that is in R.
+
+we should plot:
+* then add a legend
+* color by road type and add that to the legend.
+* this would be a typical workflow.
+
 
 ```{r Color lines by attribute}
 #color lines by TYPE attribute
 type <- slot(object = lines, name = "data")$TYPE
+#you can also write
+type <- lines@data$TYPE
+
 col <- rep(x= "black", length = length(type))
 col[type == "footpath"] <- "red"
 
-plot(x = lines, col = col, add = TRUE)
+plot(x=lines, col=col,add=T)
+
 ```
+
+#some other challenge?
+#maybe plotting should be it's own lesson in this set??
+
+```{r}
+
+```
+
