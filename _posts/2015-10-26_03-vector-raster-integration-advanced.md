@@ -4,7 +4,8 @@ title: "Advanced raster-vector integration"
 date:   2015-10-23 20:49:52
 authors: "Joseph Stachelek, Leah Wasser"
 dateCreated:  2015-10-23 20:49:52
-lastModified: 2015-10-23 14:28:52
+lastModified: 2015-10-26 14:28:52
+tags: [module-1]
 description: "This post explains how to modify (crop) a raster extent based on the extent of a vector shapefile. Particpants will also be able to extract values from a raster that correspond to the geometry of a vector overlay."
 image:
   feature: NEONCarpentryHeader_2.png
