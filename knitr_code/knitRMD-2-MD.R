@@ -9,11 +9,11 @@ gitRepoPath <-"~/Documents/GitHub/NEON-R-Spatial-Vector/"
 #gitRepoPathPC <- 
 
 #specify the file that you want to knit
-file <- "~/Documents/GitHub/NEON-R-Spatial-Vector/02-csv-vector-raster-plotting.Rmd"
+file <- "02-csv-vector-raster-plotting.Rmd"
 
-/Users/lwasser/Documents/GitHub/NEON-R-Spatial-Vector
+date <- "2015-10-26_"
+#/Users/lwasser/Documents/GitHub/NEON-R-Spatial-Vector
 
-gitRepoPath
 # Determine whether i'm on a MAC or PC, then define paths
 if(.Platform$OS.type == "windows") {
   print("defining windows paths")
@@ -23,7 +23,7 @@ if(.Platform$OS.type == "windows") {
     print("defining MAC paths")
     #this is the MAC path to the github repo
     #gitRepoPath <- "~/Documents/GitHub_Lwasser/NEON_DataSkills/"
-    gitRepoPath <- "~/Documents/GitHub/NEON-DC-DataLesson-Hackathon/"
+    gitRepoPath <- "~/Documents/GitHub/NEON-R-Spatial-Vector/"
     }
 
 #this is the path where the markdown files will be stored in the repo
@@ -74,12 +74,13 @@ opts_chunk$set(fig.path = fig.path)
 opts_chunk$set(fig.cap = " ")
 #render_jekyll()
 render_markdown(strict = TRUE)
-print(paste0(gitRepoPath,postsDir, sub(".Rmd$", "", basename(input)), ".md"))
+
+mdFile <- paste0(gitRepoPath,postsDir,date ,sub(".Rmd$", "", basename(input)), ".md")
 
 
 #knit the markdown doc
 #add a date so jekyll recognizes it.
-knit(input, output = paste0(gitRepoPath,postsDir,"2015-10-10", sub(".Rmd$", "", basename(input)), ".md"), envir = parent.frame())
+knit(input, output = mdFile, envir = parent.frame())
 paste0(wd,"/_posts")
 
 

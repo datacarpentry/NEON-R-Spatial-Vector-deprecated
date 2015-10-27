@@ -121,7 +121,7 @@ for the CSV file which we hopefully have!
 
 #NOTE: create metadata for this file!
 
-```{r read-csv }
+```{r read-shp }
 #note: read ogr is preferred as it maintains prj info
 aoiBoundary <- readOGR("boundaryFiles/HARV/","HarClip_UTMZ18")
 
