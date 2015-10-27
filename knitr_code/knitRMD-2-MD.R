@@ -9,7 +9,8 @@ gitRepoPath <-"~/Documents/GitHub/NEON-R-Spatial-Vector/"
 #gitRepoPathPC <- 
 
 #specify the file that you want to knit
-file <- "02-csv-vector-raster-plotting.Rmd"
+#file <- "00-open-a-shapefile.Rmd"
+file <- "01-shapefile-attributes.Rmd"
 
 date <- "2015-10-26_"
 #/Users/lwasser/Documents/GitHub/NEON-R-Spatial-Vector
@@ -81,22 +82,20 @@ mdFile <- paste0(gitRepoPath,postsDir,date ,sub(".Rmd$", "", basename(input)), "
 #knit the markdown doc
 #add a date so jekyll recognizes it.
 knit(input, output = mdFile, envir = parent.frame())
-paste0(wd,"/_posts")
-
 
 #### COPY EVERYTHING OVER to the GIT SITE###
-#copy things over to the git repo 
 
 #copy image directory over
 file.copy(paste0(wd,"/",imagePath), paste0(gitRepoPath,"images/"), recursive=TRUE)
+
 #copy rmd file to the rmd directory on git
-file.copy(paste0(wd,"/",file), paste0(gitRepoPath,"code"), recursive=TRUE)
+file.copy(paste0(wd,"/",file), gitRepoPath, recursive=TRUE)
 
 #delete local repo copies of RMD files just so things are cleaned up??
 
 ## OUTPUT STUFF TO R ##
 #output code in R format
-rCodeOutput <- paste0(gitRepoPath,"code/", sub(".Rmd$", "", basename(input)), ".R")
+rCodeOutput <- paste0(gitRepoPath, sub(".Rmd$", "", basename(input)), ".R")
 rCodeOutput
 #purl the code to R
 purl(file, output = rCodeOutput)
