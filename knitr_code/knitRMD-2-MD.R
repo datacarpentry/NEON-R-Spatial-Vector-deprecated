@@ -14,7 +14,7 @@ gitRepoPath <-"~/Documents/GitHub/NEON-R-Spatial-Vector/"
 #file <- "02-csv-vector-raster-plotting.Rmd"
 file <- "03-vector-raster-integration-advanced.Rmd"
 
-date <- "2015-10-26_"
+date <- "2015-10-26-L"
 #/Users/lwasser/Documents/GitHub/NEON-R-Spatial-Vector
 
 # Determine whether i'm on a MAC or PC, then define paths

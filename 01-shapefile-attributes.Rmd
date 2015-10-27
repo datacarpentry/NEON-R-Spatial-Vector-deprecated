@@ -1,16 +1,28 @@
 ---
 layout: post
-title: "Shapefile attributes"
-date:   2015-10-23 20:49:52
+title: "Vector Data in R - Open and plot shapefiles"
+date:   2015-10-23
 authors: "Joseph Stachelek, Leah Wasser"
-dateCreated:  2015-10-23 20:49:52
-lastModified: 2015-10-23 14:28:52
+dateCreated:  2015-10-23
+lastModified: 2015-10-26
+tags: [module-1]
 description: "This post explains the nature of shapefile attributes. Participants will be able to locate and query shapefile attributes as well as subset shapefiles by specific attribute values."
 image:
   feature: NEONCarpentryHeader_2.png
-  credit: Graphic: National Ecological Observatory Network (NEON)
+  credit: A collaboration between the National Ecological Observatory Network (NEON) and Data Carpentry
   creditlink: http://www.neoninc.org
+permalink: /R/shapefile-attributes-in-R/
 ---
+
+<section id="table-of-contents" class="toc">
+  <header>
+    <h3>Contents</h3>
+  </header>
+<div id="drawer" markdown="1">
+*  Auto generated table of contents
+{:toc}
+</div>
+</section><!-- /#table-of-contents -->
 
 
 ##About

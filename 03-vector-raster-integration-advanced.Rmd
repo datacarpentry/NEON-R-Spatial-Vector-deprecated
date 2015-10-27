@@ -1,17 +1,30 @@
 ---
 layout: post
-title: "Advanced raster-vector integration"
-date:   2015-10-23 20:49:52
+title: "Crop Rasters and Extract values in R"
+date:   2015-10-23
 authors: "Joseph Stachelek, Leah Wasser"
-dateCreated:  2015-10-23 20:49:52
-lastModified: 2015-10-26 14:28:52
+dateCreated:  2015-10-23
+lastModified: 2015-10-26
 tags: [module-1]
-description: "This post explains how to modify (crop) a raster extent based on the extent of a vector shapefile. Particpants will also be able to extract values from a raster that correspond to the geometry of a vector overlay."
+description: "This lesson explains how to modify (crop) a raster extent based on the extent of a vector shapefile. Particpants will also be able to extract values from a raster that correspond to the geometry of a vector overlay."
 image:
   feature: NEONCarpentryHeader_2.png
-  credit: Graphic: National Ecological Observatory Network (NEON)
+  credit: A collaboration between the National Ecological Observatory Network (NEON) and Data Carpentry
   creditlink: http://www.neoninc.org
+permalink: /R/crop-extract-raster-data-R/
 ---
+
+<section id="table-of-contents" class="toc">
+  <header>
+    <h3>Contents</h3>
+  </header>
+<div id="drawer" markdown="1">
+*  Auto generated table of contents
+{:toc}
+</div>
+</section><!-- /#table-of-contents -->
+
+
 
 ##About
 

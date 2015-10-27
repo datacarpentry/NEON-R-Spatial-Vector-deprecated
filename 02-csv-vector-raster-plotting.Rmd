@@ -1,15 +1,17 @@
 ---
 layout: post
-title: "CSV to Spatial Points in R"
-date:   2015-1-26 20:49:52
+title: "CSV to Shapefile in R"
+date:   2015-10-23
 authors: "Joseph Stachelek, Leah Wasser"
-dateCreated:  2014-11-26 20:49:52
-lastModified: 2015-07-23 14:28:52
+dateCreated:  2015-10-23
+lastModified: 2015-10-26
+tags: [module-1]
 description: "This lesson walks through how to convert a csv file contains coordinate information into a spatial object in R."
 image:
   feature: NEONCarpentryHeader_2.png
-  credit: Graphic: National Ecological Observatory Network (NEON)
+  credit: A collaboration between the National Ecological Observatory Network (NEON) and Data Carpentry
   creditlink: http://www.neoninc.org
+permalink: /R/csv-to-shapefile-R/
 ---
 
 <section id="table-of-contents" class="toc">
