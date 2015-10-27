@@ -25,6 +25,10 @@ After completing this activity, you will:
  
 ###Tools To Install
 
+To work with vector data in R, we can use the `rgdal` library. We will load the `raster`
+library to work with rasters. The `raster` library also allows us to explore metadata
+using similar commands with both rasters and vectors.
+
 ```{r load-libraries }
 
 #load required libraries
