@@ -10,9 +10,9 @@ gitRepoPath <-"~/Documents/GitHub/NEON-R-Spatial-Vector/"
 
 #specify the file that you want to knit
 #file <- "00-open-a-shapefile.Rmd"
-#file <- "01-shapefile-attributes.Rmd"
+file <- "01-shapefile-attributes.Rmd"
 #file <- "02-csv-vector-raster-plotting.Rmd"
-file <- "03-vector-raster-integration-advanced.Rmd"
+#file <- "03-vector-raster-integration-advanced.Rmd"
 
 date <- "2015-10-26-L"
 #/Users/lwasser/Documents/GitHub/NEON-R-Spatial-Vector

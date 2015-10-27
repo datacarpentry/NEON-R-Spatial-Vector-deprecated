@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Vector Data in R - Open and plot shapefiles"
+title: "Work With Shapefile Attributes in R"
 date:   2015-10-23
 authors: "Joseph Stachelek, Leah Wasser"
 dateCreated:  2015-10-23
