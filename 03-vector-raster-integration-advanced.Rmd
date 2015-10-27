@@ -5,63 +5,133 @@ date:   2015-10-23 20:49:52
 authors: "Joseph Stachelek, Leah Wasser"
 dateCreated:  2015-10-23 20:49:52
 lastModified: 2015-10-23 14:28:52
-category: 
-tags: []
-mainTag: 
 description: "This post explains how to modify (crop) a raster extent based on the extent of a vector shapefile. Particpants will also be able to extract values from a raster that correspond to the geometry of a vector overlay."
-code1:
 image:
   feature: NEONCarpentryHeader_2.png
   credit: Graphic: National Ecological Observatory Network (NEON)
   creditlink: http://www.neoninc.org
-permalink: /R/Raster-Data-In-R/
-code1: /R/2015-07-22-Introduction-to-Raster-Data-In-R.R
-comments:
-
 ---
 
 ##About
 
-This post explains how to modify (crop) a raster extent based on the extent of a vector shapefile. Particpants will also be able to extract values from a raster that correspond to the geometry of a vector overlay.
+This lesson explains how to modify (crop) a raster extent based on the extent of a 
+vector shapefile. Particpants will also be able to extract values from a raster 
+that occur within a set of polygons, or in a buffer (surrounding) region around 
+a set of points.
+
 
 ###Goals / Objectives
 After completing this activity, you will:
 
  * Be able to crop a raster to the extent of a vector layer
- * Be able to extract values from raster that correspond to a vector overlay
+ * Be able to extract values from raster that correspond to a vector file overlay
  
 ##Crop a raster to vector layer extent
 
-The following code chunk crops our previously loaded raster by the extent of our polygon shapefile.
+The following code chunk crops our previously loaded raster by the extent of our 
+polygon shapefile.
+
+```{r load-libraries-data }
+
+library(raster)
+library(rgdal)
+
+#if the data aren't already loaded
+#Import a polygon shapefile 
+aoiBoundary <- readOGR("boundaryFiles/HARV/", "HarClip_UTMZ18")
+
+#Import a line shapefile
+lines <- readOGR( "boundaryFiles/HARV/",layer = "HARV_roadStream")
+
+#Import a point shapefile 
+point <- readOGR("boundaryFiles/HARV/", "HARVtower_UTM18N")
+
+#import raster chm
+chm <- raster("NEON_RemoteSensing/HARV/CHM/HARV_chmCrop.tif")
+
+```
+
+#Crop a Raster using the EXTENT of a vector layer
+
+We can use the `crop` function to crop a raster to the extent of another spatial 
+object.
 
 ```{r Crop by vector extent}
-r_cropped <- crop(x = r, y = squarePlot)
 
-plot(squarePlot, main = "Cropped raster")
+#crop the chm
+chm.cropped <- crop(x = chm, y = aoiBoundary)
+
+#view the data in a plot
+plot(aoiBoundary, main = "Cropped raster")
 plot(r_cropped, add = TRUE)
+
+#lets look at the extent of all of our objects
+extent(chm)
+extent(chm.cropped)
+extent(aoiBoundary)
+
 ```
 
-We can also use an `extent` object as input to the `y` argument to `crop()`. The `drawExtent()` function is an easy (but imprecise) way to construct an `extent` object. See the documentation for the `extent()` function for more ways to create an `extent` object (`help.search("extent", package = "raster")). 
+#On Your Own -- still in progress
 
-```{r Create custom extent object}
+We should have them import the shapefile they mad in lesson 02 and crop to that
+extent. Then ask - how does crop work because a point file isn't a boundary...
+but it does have an extent...
+
+```{r crop-raster-points}
+
+plotLocations <- readOGR(".", "newFile")
+
+#crop the chm 
+chm.cropped <- crop(x = chm, y = plotLocations)
+
+```
+
+
+#I AM NOT SURE IF WE WANT TO DRAW ONE OR NOT. 
+# you can also grab en extent from another object and use that.
+
+We can also use an `extent` object as input to the `y` argument to `crop()`. 
+The `drawExtent()` function is an easy (but imprecise) way to construct an `extent` 
+object. See the documentation for the `extent()` function for more ways to create 
+an `extent` object (`help.search("extent", package = "raster")). 
+
+```{r Create-custom-extent-object }
 extent <- raster::drawExtent()
+
 ```
 
-```{r Hidden extent chunk, echo=FALSE}
-extent <- extent(xmin = 732161.2, xmax = 732238.7, ymin = 4713249, ymax = 4713333)
+#CHECK THE CODE BELOW - THROWING AN ERROR BUT NOT SURE WHY?
+```{r Hidden-extent-chunk, echo=FALSE}
+#this is throwing an error
+new.extent <- extent(xmin = 732161.2, xmax = 732238.7, ymin = 4713249, ymax = 4713333)
+
 ```
+  
+#this section still doesn't work.  
 
 ```{r Crop by drawn extent}
-r_cropped_man <- crop(x = r, y = extent)
+r_cropped_man <- crop(x = r, y = new.extent)
 
-plot(squarePlot, main = "Manually cropped raster")
+plot(aoiBoundary, main = "Manually cropped raster")
 plot(extent, add = TRUE)
 plot(r_cropped_man, add = TRUE)
 ```
 
-##Extract values from a raster that correspond to a vector overlay
+##Extract values from a raster using a vector overlay
 
-We can extract values from our raster layer that correspond to our vector shapefiles by using the `extract()` function. The basic call to `extent()` simply returns all raster values that are _touched_ by the shapefile components. More complicated calls to `extract()` might involve pulling points that fall within a specified `buffer` radius around our shapefile geometries. See the documentation for the `extract()` function for more details (`help.search("extract", package = "raster")`). Note that the `lines_extract` and `poly_extract` objects are of class `list`. Each component of this list correspondes to a discrete feature of the vector layer. We can use the `summary()` function to get a sense of the value distribution. Note that our call to the `summary()` function uses `unlist()` to collapse the raster values for these features.
+We can extract values from our raster layer that correspond to our vector 
+shapefiles by using the `extract()` function. The basic call to `extent()` 
+returns all raster values that are _touched_ by the shapefile components. More 
+complicated calls to `extract()` might involve pulling points that fall within a 
+specified `buffer` radius around our shapefile geometries. See the documentation 
+for the `extract()` function for more details (`help.search("extract", package = "raster")`). 
+Note that the `lines_extract` and `poly_extract` objects are of class `list`. 
+Each component of this list correspondes to a discrete feature of the vector layer. 
+We can use the `summary()` function to get a sense of the value distribution. 
+Note that our call to the `summary()` function uses `unlist()` to collapse the raster values for these features.
+
+#this should demonstrate the buffer and function elements of extract!
 
 ```{r Extract from raster}
 lines_extract <- extract(x = r, y = lines)
