@@ -5,24 +5,18 @@ date:   2015-10-23 20:49:52
 authors: "Joseph Stachelek, Leah Wasser"
 dateCreated:  2015-10-23 20:49:52
 lastModified: 2015-10-23 14:28:52
-category: 
-tags: []
-mainTag: 
 description: "This post explains the nature of shapefile attributes. Participants will be able to locate and query shapefile attributes as well as subset shapefiles by specific attribute values."
-code1: 
 image:
   feature: NEONCarpentryHeader_2.png
   credit: Graphic: National Ecological Observatory Network (NEON)
   creditlink: http://www.neoninc.org
-permalink: /R/Raster-Data-In-R/
-code1: /R/2015-07-22-Introduction-to-Raster-Data-In-R.R
-comments:
-
 ---
 
 
 ##About
-This post explains the nature of shapefile attributes. Participants will be able to locate and query shapefile attributes as well as subset shapefiles by specific attribute values.
+This lesson explains what an attribute is associated with shapefiles and also
+how to work with attributes in `R`. It covers how to identify and query shapefile 
+attributes as well as subset shapefiles by specific attribute values.
 
 ###Goals / Objectives
 After completing this activity, you will:
@@ -30,25 +24,48 @@ After completing this activity, you will:
  * Be able to query shapefile attributes
  * Be able to subset shapefiles based on specific attributes
  
+ 
+ 
+ 
 ##Querying shapefile attributes
+```{r load-libraries-data }
 
-Recall from the previous lesson that shapefile metadata can include a _class_, a _features_ count, an _extent_, and a _coordinate reference system_ (crs). Shapefile _attributes_ include measurements that correspond to the geometry of the shapefile features.
+library(rgdal)
+#in case the libraries and data are not still loaded
 
-Metadata can be extracted individually using the `class()`, `length()`, `extent()`, `crs()`, `R` commands. Attributes can be extracted using the `slot()` command. 
+#Import a polygon shapefile 
+aoiBoundary <- readOGR("boundaryFiles/HARV/", "HarClip_UTMZ18")
 
-```{r Extract Individual Attributes}
+#Import a line shapefile
+lines <- readOGR( "boundaryFiles/HARV/",layer = "HARV_roadStream")
+
+#Import a point shapefile 
+point <- readOGR("boundaryFiles/HARV/", "HARVtower_UTM18N")
+
+```
+
+Recall from the previous lesson that shapefile metadata can include a _class_, 
+a _features_ count, an _extent_, and a _coordinate reference system_ (crs). 
+Shapefile _attributes_ include measurements that correspond to the geometry of 
+the shapefile features.
+
+Metadata can be extracted individually using the `class()`, `length()`, `extent()`, 
+`crs()`, `R` commands. Attributes can be extracted using the `slot()` command. 
+
+```{r view-shapefile-metadata }
+
 #view class
-class(x = squarePlot)
+class(x = aoiBoundary)
 class(x = lines)
 class(x = point)
 
 #view features count
-length(x = squarePlot)
+length(x = aoiBoundary)
 length(x = lines)
 length(x = point)
 
-#view crs
-crs(x = squarePlot)
+#view crs - note - this only works with the raster package loaded
+crs(x = aoiBoundary)
 crs(x = lines)
 crs(x = point)
 
@@ -57,21 +74,125 @@ extent(x = squarePlot)
 extent(x = lines)
 extent(x = point)
 
-#view attributes
-slot(object = squarePlot, name = "data")
-slot(object = lines, name = "data")
-slot(object = point, name = "data")
 ```
 
+#Shapefile Attributes
+
+Shapefiles often contain an associated database or spreadsheet of values called
+`attributes` that describe the vector features in the shapefile. You can think
+of this like a spreadsheet with rows and columns. Each column in the spreadsheet
+is an individual `Attribute` that describes an object.
+
+For example, the `roads_stream` shapefile contains an attribute called `TYPE`. Each
+line in the shapefile has an associated type which describes the type of road, or 
+element in the file. 
+
+
+You can quickly view all attributes of a spatial object in r using the `@data`. 
+Let's give it a try.
+
+```{r view-shapefile-attributes }
+
+#view just the attribute names for the lines spatial object
+names(lines@data)
+
+#view all attribute data for the lines spatial object
+lines@data 
+
+#view just the tope 5 attributes for the lines spatial object
+head(lines@data)
+
+#view attributes for the other spatial objects
+aoiBoundary@data
+point@data
+
+```
+
+#CHALLENGE
+Explore the attributes associated with the `point` and `aoiBoundary` spatial objects. 
+
+1. How many attributes do each have?
+2. Another question??
+
+#Exploring values in One Attribute
+We can also explore individual values stored within a particulat attribute. Again,
+comparing attributes to a spreadsheet or a `data.frame`, this is similar to 
+exploring values in a column. We can do this using the `$`.
+
+```{r explore-attribute-values }
+
+#view all attributes in the lines shapefile within the TYPE field
+lines$TYPE
+
+#view unique attributes in the lines shapefiles within the Type field
+levels(lines$TYPE)
+
+```
+
+#How do you access the LEVELS when working with categorical variables in a shapefile?
 
 ##Subsetting shapefiles
 
-We already saw how to return all attributes of a spatial object using the `slot()` function. However, we can directly return individual attributes using the dollar sign notation. In the following code chunk we return a list of attribute names using the `slot()` and `names()` functions. Next, we query the _TYPE_ attribute individually. Finally, we subset the `lines` object using dollar sign notation. Note how our subsetting operation reduces the _features_ count from 13 to 2. 
+Using the `$` symbol, we were able to access the values associated with a 
+particular `Attribute` in a shapefile. Next, we will use this syntax to select 
+a subset of features from a spatial object in `R`. 
+
+Note how our subsetting operation reduces the _features_ count from 13 to 2. 
 
 ```{r Subsetting shapefiles}
-names(slot(object = lines, name = "data"))
 
+#view all attributes in the TYPE column
 lines$TYPE
 
+#select features that are of TYPE "footpath"
 lines[lines$TYPE == "footpath",]
+
+```
+
+
+#I think we should plot by attribute HERE - given we are introducing attributes here
+#we should also have some sort of application - maybe we want to find out in a point data set 
+#how many points are of type "X"
+#can we run summary stats on the different categories?
+
+#Plotting Spatial Data in R
+
+We can use the `col` argument to the `plot()` function to specify 
+the color of spatial objects. If type is an attribute of our data, 
+we can use the syntax `$TYPE` to tell `R` to plot the spatial
+objects according to their unique TYPE values. 
+
+The following code chunk extracts a vector of this attribute, creates 
+a character color vector of the same length, and changes the positions 
+of this color vector that correspond to _footpath_.
+
+#NOTE -- It's worth visiting this to determine the BEST and most efficient
+way to plot by attribute. The TYPE is a factor in R world -
+#it's a categorical attribute. We should teach best practices but I am not sure
+#what that is in R.
+
+we should plot:
+* then add a legend
+* color by road type and add that to the legend.
+* this would be a typical workflow.
+
+
+```{r Color lines by attribute}
+#color lines by TYPE attribute
+type <- slot(object = lines, name = "data")$TYPE
+#you can also write
+type <- lines@data$TYPE
+
+col <- rep(x= "black", length = length(type))
+col[type == "footpath"] <- "red"
+
+plot(x=lines, col=col,add=T)
+
+```
+
+#some other challenge?
+#maybe plotting should be it's own lesson in this set??
+
+```{r}
+
 ```
