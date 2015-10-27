@@ -92,6 +92,8 @@ shapefiles include
 * a point shapefile representing the location of a [flux tower](http://www.neoninc.org/science-design/collection-methods/flux-tower-measurements) located at the NEON 
 Harvard Forest field site.
 
+The first shapefile we will open, contains the boundary of our study area. 
+It is a polygon layer.
 
 
     #Import a polygon shapefile 
@@ -159,15 +161,18 @@ commands:
     ## ymax        : 4713359
 
 #Import a line and point shapefile
-#ON YOUR OWN ACTIVITY
 
-Using the steps above, import the HARV_roadStream and HARVtower_UTM18N layers into R.
-Answer the following questions:
+>#ON YOUR OWN ACTIVITY
+>
+>Using the steps above, import the HARV_roadStream and HARVtower_UTM18N layers into R.
+>Answer the following questions:
 
-1. What type of R spatial object is created when you import each layer?
-2. What is the extent and CRS for each object?
-3. Do the files contains, points, lines or polygons?
-4. how many spatial objects are in each object?
+>1. What type of R spatial object is created when you import each layer?
+>2. What is the extent and CRS for each object?
+>3. Do the files contain, points, lines or polygons?
+>4. How many spatial objects are in each file?
+>
+>Discuss the data with your neighbor as you work through this challenge!
 
 
 
