@@ -108,7 +108,7 @@ new.extent <- extent(xmin = 732161.2, xmax = 732238.7, ymin = 4713249, ymax = 47
 
 ```
   
-#this section still doesn't work.  
+#this section still doesn't work. (above error) 
 
 ```{r Crop by drawn extent}
 r_cropped_man <- crop(x = r, y = new.extent)
@@ -120,30 +120,98 @@ plot(r_cropped_man, add = TRUE)
 
 ##Extract values from a raster using a vector overlay
 
-We can extract values from our raster layer that correspond to our vector 
-shapefiles by using the `extract()` function. The basic call to `extent()` 
-returns all raster values that are _touched_ by the shapefile components. More 
-complicated calls to `extract()` might involve pulling points that fall within a 
-specified `buffer` radius around our shapefile geometries. See the documentation 
-for the `extract()` function for more details (`help.search("extract", package = "raster")`). 
-Note that the `lines_extract` and `poly_extract` objects are of class `list`. 
-Each component of this list correspondes to a discrete feature of the vector layer. 
-We can use the `summary()` function to get a sense of the value distribution. 
-Note that our call to the `summary()` function uses `unlist()` to collapse the raster values for these features.
+Often we want to extract values from a raster layer for particular locations - 
+for example plot locations that we are sampling on the ground. To do this, we can
+use the `extract()` function. We will begin by extracting all canopy height pixel 
+values located within our aoiBoundary polygon which surrounds the tower located at the NEON
+field site, Harvard Forest. We can use this to view a histogram of tree heights
+in our area of interest!
 
-#this should demonstrate the buffer and function elements of extract!
+Check out the documentation for the `extract()` function for more details 
+(`help.search("extract", package = "raster")`).
+
+
+![Extract using polygon boundary](http://neondataskills.org/images/spatialData/BufferSquare.png "Extract using polygon boundary")
 
 ```{r Extract from raster}
-lines_extract <- extract(x = r, y = lines)
-point_extract <- extract(x = r, y = point)
-poly_extract <- extract(x = r, y = squarePlot)
 
-class(x = lines_extract)
-class(x = point_extract)
-class(x = poly_extract)
+#extract tree height for AOI
+#set df=TRUE to return a data.frame rather than a list of values
+tree_height <- extract(x = chm, y = aoiBoundary, df=TRUE)
 
-summary(unlist(lines_extract))
-summary(point_extract)
-summary(unlist(poly_extract))
+#view the object
+head(tree_height)
+
+#view histogram of tree heights in study area
+hist(tree_height$HARV_chmCrop, main="Tree Height (m) \nHarvard Forest AOI")
+
+#view summary of values
+summary(tree_height$HARV_chmCrop)
 
 ```
+
+#Summarizing Extracted Values 
+
+Note that the extract function returns a `LIST` of values if you do not summarize
+the data in some way or tell R to return a data.frame (`df=TRUE`). You can also
+tell R to summarize and RETURN the extracted values
+
+```{r summarize-extract }
+
+#extract the average tree height (calculated using the raster pixels)
+#located within the AOI polygon
+av_tree_height_AOI <- extract(x = chm, y = aoiBoundary, fun=mean, df=TRUE)
+
+#view output
+av_tree_height_AOI
+
+```
+
+#Extracting Data Using X,Y Locations
+
+We can also extract data from a raster using point locations. We can specify the
+buffer region (or area around the point) that we wish to extract pixels from. Below
+is code that demonstrates how to do this, using a single point - the Harvard Forest
+tower location.
+
+![Extract using buffer region](http://neondataskills.org/images/spatialData/BufferCircular.png "Extract using buffer region")
+
+
+```{r extract-point-to-buffer }
+
+#extract the average tree height (calculated using the raster pixels)
+#located within the AOI polygon
+av_tree_height_tower <- extract(x = chm, 
+                               y = point, 
+                               buffer=20,
+                               fun=mean, 
+                               df=TRUE)
+
+#view data
+av_tree_height_tower
+
+```
+
+#CHALLENGE
+Use the plot location shapefile that you created in lesson 02 to extract an average
+tree height value for each plot location in the study area!
+
+```{r extract-plot-tree-height, ECHO=FALSE}
+
+############ CODE FOR ON YOUR OWN ACTIVITY #####################
+#Import a polygon shapefile 
+plotLocations <- readOGR(".", "newFile")
+
+#extract data at each plot location
+av_tree_height_plots <- extract(x = chm, 
+                               y = plotLocations, 
+                               buffer=20,
+                               fun=mean, 
+                               df=TRUE)
+
+#view data
+av_tree_height_plots
+
+
+```
+
