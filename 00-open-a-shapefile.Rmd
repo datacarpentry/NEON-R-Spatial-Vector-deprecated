@@ -6,6 +6,10 @@ authors: "Joseph Stachelek, Leah Wasser"
 dateCreated:  2015-10-23 20:49:52
 lastModified: 2015-10-23 14:28:52
 description: "This post explains the how to open and plot point, line, and polygon shapefiles in R."
+image:
+  feature: NEONCarpentryHeader_2.png
+  credit: Graphic: National Ecological Observatory Network (NEON)
+  creditlink: http://www.neoninc.org
 ---
 
 ##About
@@ -97,11 +101,11 @@ plot(aoiBoundary)
 When we import the `HarClip_UTMZ18` layer into R, some key metadata are stored
 with the spatial R object:
 
-1. the object type: in this case our area of interest (AOI) is a polygon boundary
+1. ** object type: **  in this case our area of interest (AOI) is a polygon boundary
 R knows to bring it in as a `SpatialPolygonsDataFrame`
-2. The shapefile also contains projection information `coord ref.` in the output 
+2. **CRS** - The shapefile also contains projection information `coord ref.` in the output 
 above.
-3. extent - we can see the spatial extent of the shapefile. Note that the spatial
+3. **extent** - we can see the spatial extent of the shapefile. Note that the spatial
 extent for a shapefile represents the extent for ALL polygons (or spatial objects)
 in the shapefile!
 
@@ -149,7 +153,7 @@ the _class_, the number of _features_, the _extent_, and the `coordinate referen
 system` (crs) of the `R` object. The last two lines of summary show a preview of 
 the `R` object _attributes_.
 
-```{r View Attribute Summary}
+```{r View-Attribute-Summary}
 #View attributes
 squarePlot
 
@@ -162,54 +166,23 @@ point
 
 ```
 
-##Plotting Multiple Shapefiles
+#Plot Multiple Shapefiles
 
 The `plot()` function can be used for basic plotting of these spatial objects. 
 We use the `add = TRUE` argument to overlay shapefiles on top of each other. As we 
 would when creating a map in a typical GIS application like QGIS.
 
+We can use the `main=""` to give our plot a title. If you want the title to 
+span 2 lines, use `\n` where you'd like the line break.
+
 ```{r plot-multiple-shapefiles }
-#Plot multiple 
-plot(x = squarePlot, col = "purple")
+#Plot multiple shapefiles
+
+plot(x = aoiBoundary, col = "purple", main="Harvard Forest\nStudy Area")
 plot(x = lines, add = TRUE)
 
 #use the pch element to adjust the symbology of the points
 plot(x = point, add  = TRUE, pch = 19, col = "red")
 ```
 
-We can use the `col` argument to the `plot()` function to specify the color of spatial objects.
-If type is an attribute of our data, we can use the syntax `$TYPE` to tell `R` to plot the spatial
-objects according to their unique TYPE values. 
-
-The following code chunk extracts a vector of this attribute, creates a character color vector of the same length, and changes the positions of this color vector that correspond to _footpath_.
-
-#NOTE -- this doesn't seem like a good way to may. the TYPE is a factor in R world -
-#it's a categorical attribute. We should teach best practices but I am not sure
-#what that is in R.
-
-we should plot:
-* then add a legend
-* color by road type and add that to the legend.
-* this would be a typical workflow.
-
-
-```{r Color lines by attribute}
-#color lines by TYPE attribute
-type <- slot(object = lines, name = "data")$TYPE
-#you can also write
-type <- lines@data$TYPE
-
-col <- rep(x= "black", length = length(type))
-col[type == "footpath"] <- "red"
-
-plot(x=lines, col=col,add=T)
-
-```
-
-#some other challenge?
-#maybe plotting should be it's own lesson in this set??
-
-```{r}
-
-```
 
