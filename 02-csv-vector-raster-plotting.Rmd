@@ -5,17 +5,11 @@ date:   2015-1-26 20:49:52
 authors: "Joseph Stachelek, Leah Wasser"
 dateCreated:  2014-11-26 20:49:52
 lastModified: 2015-07-23 14:28:52
-category: time-series-workshop
-tags: [module-1]
-mainTag: GIS-Spatial-Data
-description: "About this post."
+description: "This lesson walks through how to convert a csv file contains coordinate information into a spatial object in R."
 image:
-  feature: 
-  credit: 
+  feature: NEONCarpentryHeader_2.png
+  credit: Graphic: National Ecological Observatory Network (NEON)
   creditlink: http://www.neoninc.org
-permalink: /R/csv-to-spatial-points/
-code1: /R/2015-07-22-csv-to-spatial-points-In-R.R
-comments: true
 ---
 
 <section id="table-of-contents" class="toc">
@@ -29,6 +23,13 @@ comments: true
 </section><!-- /#table-of-contents -->
 
 
+> ##Goals / Objectives
+> After completing this activity, you will:
+>
+> * Import csv file containing x,y coordinate locations.
+> * Convert the csv to a spatial object
+> * Project coordinate locations provided in a Geographic Coordinate System (Latitude, Longitide) to projected (UTM)
+> * 
 
 <div id="objectives">
 <strong>R Skill Level:</strong> Beginner / Intermediate
@@ -55,7 +56,7 @@ date formated field.</li>
 <p>.</p>
 </div>
 
-###Lesson 3 - How to convert csv with spatial locations to a spatial data frame
+###Lesson 02 - How to convert csv with spatial locations to a spatial data frame
 
 
 Objectives
@@ -66,13 +67,11 @@ Objectives
 * Be able to compare and align the projections of raster and vector objects
 
 
-Sometimes spatial data are downloaded or stored in a text file format (`txt` or csv`).
-We can convert these data in text format, into a spatial object in R `SpatialPointsDataFrame`. Note that there is a `SpatialPoints` object in R that does not
-allow you to store associated `attributes. The `SpatialPointsDataFrame allows you to store
-columns from your `dataFrame` in the object.
+Sometimes spatial data are downloaded or stored in a text file format (`txt` or 
+csv`). We can convert these data in text format, into a spatial object in R `SpatialPointsDataFrame`. Note that there is a `SpatialPoints` object in R that 
+does not allow you to store associated `attributes. The `SpatialPointsDataFrame 
+allows you to store columns from your `data.frame` in the object.
 
-To work with vector data in R, we can use the `rgdal` library. We will load the `raster`
-library to work with rasters. 
 
 ```{r load-libraries }
 
@@ -85,9 +84,11 @@ library(raster)
 ##Reading in our CSV
 
 The `HARV_PlotLocations.csv` file contains x,y locations for some plots that 
-NEON field crew are sampling vegetation and other ecological metrics. We would like
-to create a map that includes the locations of these plot locations. We also would like
-to export the data in a `shapefile` format to facilitate bring the data into a `GIS`.
+(NEON)[http://www.neoninc.org] field crew are sampling vegetation and other 
+ecological metrics. We would like to create a map that includes the locations of 
+these plot locations. We also would like to export the data in a `shapefile` 
+format to share with our colleagues. This shapefile can also be imported into any
+`GIS` software.
 
 To begin, let's read in the `csv` file that contains the x,y coordinate locations.
 
@@ -95,9 +96,6 @@ To begin, let's read in the `csv` file that contains the x,y coordinate location
 
 #Leah's notes
 setwd("~/Documents/data/1_DataPortal_Workshop/1_WorkshopData")
-
-#set strings as factors to false
-options(stringsAsFactors = FALSE)
 
 #Read the csv file
 plot.location <- read.csv("boundaryFiles/HARV/HARV_PlotLocations.csv")
@@ -107,49 +105,55 @@ head(plot.location)
 
 ```
 
-When we create a spatial points dataframe from a csv, there is no inherent `CRS` associated
-with it. We can assign a CRS if we know what the coordinate system the x,y values are in.
+When we create a spatial points dataframe from a csv, there is no inherent `CRS` 
+associated with it. We can assign a CRS if we know what the coordinate system 
+the x,y values are in.
 
-In this case, the CRS of our csv is UTM zone 18N (similar to our boundary shapefiles) that
-we opened previously. If the object is not still open in R, let's open up a shapefile that is in that project. Next, we will convert our imported `plot.location` object to a `SpatialPointsDataFrame` and assign it a CRS using the shapefile.
+In this case, the CRS of our csv is UTM zone 18N (similar to our boundary shapefiles) 
+that we opened previously. If the object is not still open in R, let's open up a 
+shapefile that is in that project. Next, we will convert our imported `plot.location` 
+object to a `SpatialPointsDataFrame` and assign it a CRS using the shapefile.
 
 
 NOTE: it is important to first CONFIRM that the CRS of our CSV coordinates is the 
-SAME as the CRS of the shapefile. We can figure that out by looking at the metadata for
-the CSV file which we hopefully have!
+SAME as the CRS of the shapefile. We can figure that out by looking at the metadata 
+for the CSV file which we hopefully have!
 
-```{r}
+#NOTE: create metadata for this file!
+
+```{r read-csv }
 #note: read ogr is preferred as it maintains prj info
-squarePlot <- readOGR("boundaryFiles/HARV/","HarClip_UTMZ18")
+aoiBoundary <- readOGR("boundaryFiles/HARV/","HarClip_UTMZ18")
 
 #check the CRS
-crs(squarePlot)
+crs(aoiBoundary)
 
-#the x,y location values for the dataset are availble in 
+#the x,y location values for the dataset are available in 
 #the x and y columns. We can use that for our spatial data point object
 #we know the csv file coordinates are in the same CRS as the other shapefiles.
-#we can assign this to the spatial points data frame when we import it.
-plot.location_spatial <- SpatialPointsDataFrame(plot.location[,1:2],
+#we can assign this to the SpatialPointsDataFrame when we import it.
+plot.locationSp <- SpatialPointsDataFrame(plot.location[,1:2],
                                                 plot.location,
-                                                proj4string = crs(squarePlot))
+                                                proj4string = crs(aoiBoundary))
 
 #look at CRS
-crs(plot.location_spatial)
+crs(plot.locationSp)
 
 ```
 
-Now, we have a `SpatialPointsDataFrame` object in R! The `R` object has a CRS that matches
-the CRS of our shapefiles. Let's plot our data!
+Now, we have created a `SpatialPointsDataFrame` object in R using a csv file! 
+The `R` object has a CRS that matches the CRS of our shapefiles. Let's plot our 
+data!
 
 
-```{r}
+```{r plot-data }
 
 #plot the points
 #use main = to add a title to the map
-plot(plot.location_spatial, main="Map of Study Area")
+plot(plot.locationSp, main="Map of Study Area")
 
 #let's add the polygon layer to our plot
-plot(squarePlot, add=TRUE)
+plot(aoiBoundary, add=TRUE)
 
 #add roads to our plot
 roads <- readOGR("boundaryFiles/HARV/","HARV_roadStream")
@@ -164,13 +168,13 @@ in `rgdal`. To do this we need the following arguments
 
 * the name of the spatial object
 * the director where we want to save our shapefile
-* the nae of the new shapefile
+* the name of the new shapefile
 * the driver which specifies the file format (in this case a shapefile)
 
 
-```{r }
+```{r write-shapefile }
 #write a shapefile
-writeOGR(plot.location_spatial, getwd(), "newFile", driver="ESRI Shapefile")
+writeOGR(plot.locationSp, getwd(), "newFile", driver="ESRI Shapefile")
 
 ```
 
@@ -184,7 +188,7 @@ In this case, we have a shapefile called `newPlots_latLon` that is in a
 geographic coordinate system (latitude and longitude). Let's read these data in
 and try to add them to our map
 
-```{r}
+```{r project-vectors }
 
 #note: read ogr is preferred as it maintains prj info
 newPlots <- readOGR("boundaryFiles/HARV/","newPlots_latLon")
@@ -193,7 +197,23 @@ newPlots <- readOGR("boundaryFiles/HARV/","newPlots_latLon")
 #add these points to our plot
 plot(newPlots, add=TRUE, col=115, pch=19)
 
+```
 
+We tried to add the newPlots to our existing plot and nothing happened? What
+is the issue? Typically when data that we know should line up, doesn't, there
+is a projection issue. Let's check it out.
+
+First, let's look at the data in our new plots layer.
+Often the coordinates themselves can give us a clue as to whether the data are
+projected OR are in latitude and longitude (geographic coordinate system).
+We can use the `@coords` function to view the coordinates of the points in our
+spatial object.
+
+``` {r explore-spatial-data }
+#view coordinates
+newPlots@coords
+
+#it appears as if our coordinates are in lat / long
 #let's check the CRS of our data to see what's going on
 crs(newPlots)
 
@@ -201,42 +221,69 @@ crs(newPlots)
 ```
 
 We've added points to our map. However, they are not appearing in our study area.
-This is because our shapefile is in a GEOGRAPHIC (latitude and logiture) reference system.
-We will need to reproject it to UTM to see if on our map. We will use `spTransform` to do
-this.
+This is because our shapefile is in a GEOGRAPHIC (latitude and longitude) reference 
+system. They are not projected. We will need to project the data to `UTM` which is
+what our other shapefiles are in to make things line up.
+
+We will use `spTransform` to do project our data.
 
 
-```{r }
+```{r project-data }
 
 #let's double check the crs of our plots layer
-crs(plot.location_spatial)
+crs(plot.locationSp)
 
 #reproject our vector layer to the projection of our other plot data.
-newPlots_UTMZ18N<- spTransform(newPlots,crs(plot.location_spatial))
+newPlots_UTMZ18N<- spTransform(newPlots,crs(plot.locationSp))
 #try to plot the data
 plot(newPlots_UTMZ18N, add=TRUE, col=116,pch=19)
 
 
 ```
 
-##Create a vector-raster overlay map
 
-We will use the base graphics `plot()` command to create a vector-raster overlay plot. 
-Next, we will load a raster from disk user the `raster` command, plot this raster, and overlay the lines and squareplot shapefiles using the `add` argument. 
+#ON YOUR OWN -- 
+#Plotting - Order of Operations
 
-```{r Plot vector-raster overlay }
+Note that we had 2 points in our new plots layer, however the only one new point
+appeared on our map. This is due to the extent of the map, which was defined by 
+the order in which layers were added. 
 
-r <- raster("NEON_RemoteSensing/HARV/CHM/HARV_chmCrop.tif")
+What happens if we create a new plot, but add the roads layer first?
 
-#notice that the `\n` command allows you to split title lines into two.
+```{r plot-data-2 }
 
-plot(r, main="Tree Height\nHarvard Forest")
+#add roads to our plot
+plot(roads, main="Study Area")
+#plot the points
+#use main = to add a title to the map
+plot(newPlots_UTMZ18N,add=T, col=116,pch=19)
 
-plot(roads, add = TRUE)
-plot(squarePlot, add = TRUE)
+plot(plot.locationSp, add=T)
 
-plot(plot.location_spatial, add = TRUE, pch=19)
+#let's add the polygon layer to our plot
+plot(aoiBoundary, add=TRUE)
 
 ```
 
-#NEED TO ADD CHALLENGES!
+#this could also be on your own -- they know how to plot rasters.
+
+##Create a vector-raster overlay map
+
+We will use the base graphics `plot()` command to create a vector-raster overlay 
+plot. Next, we will load a raster from disk user the `raster` command, plot this 
+raster, and overlay the lines and squareplot shapefiles using the `add` argument. 
+
+```{r Plot vector-raster overlay }
+
+chm <- raster("NEON_RemoteSensing/HARV/CHM/HARV_chmCrop.tif")
+
+#notice that the `\n` command allows you to split title lines into two.
+
+plot(chm, main="Tree Height\nHarvard Forest")
+
+plot(roads, add = TRUE)
+plot(aoiBoundary, add = TRUE)
+plot(plot.location_spatial, add = TRUE, pch=19)
+
+```
