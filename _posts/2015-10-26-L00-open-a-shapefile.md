@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Vector Data in R - Open and plot shapefiles"
-date:   2015-10-23
+title: "Lesson 00: Vector Data in R - Open and plot shapefiles"
+date:   2015-10-26
 authors: "Joseph Stachelek, Leah Wasser"
 dateCreated:  2015-10-23
 lastModified: 2015-10-26
@@ -99,33 +99,22 @@ It is a polygon layer.
     #Import a polygon shapefile 
     aoiBoundary <- readOGR("boundaryFiles/HARV/", "HarClip_UTMZ18")
 
-    ## OGR data source with driver: ESRI Shapefile 
-    ## Source: "boundaryFiles/HARV/", layer: "HarClip_UTMZ18"
-    ## with 1 features
-    ## It has 1 fields
+    ## Error in ogrInfo(dsn = dsn, layer = layer, encoding = encoding, use_iconv = use_iconv, : Cannot open file
 
     #view attributes of the layer
     aoiBoundary
 
-    ## class       : SpatialPolygonsDataFrame 
-    ## features    : 1 
-    ## extent      : 732128, 732251.1, 4713209, 4713359  (xmin, xmax, ymin, ymax)
-    ## coord. ref. : +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
-    ## variables   : 1
-    ## names       : id 
-    ## min values  :  1 
-    ## max values  :  1
+    ## Error in eval(expr, envir, enclos): object 'aoiBoundary' not found
 
     #you can also use the attributes command to just view the attributes of the data
     (aoiBoundary@data)
 
-    ##   id
-    ## 0  1
+    ## Error in eval(expr, envir, enclos): object 'aoiBoundary' not found
 
     #create a quick plot of the shapefile
     plot(aoiBoundary)
 
-![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/Import-Shapefile-1.png) 
+    ## Error in plot(aoiBoundary): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'aoiBoundary' not found
 
 #View Shapefile Metadata
 
@@ -147,18 +136,12 @@ commands:
     #view just the crs for the shapefile
     crs(aoiBoundary)
 
-    ## CRS arguments:
-    ##  +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84
-    ## +towgs84=0,0,0
+    ## Error in crs(aoiBoundary): error in evaluating the argument 'x' in selecting a method for function 'crs': Error: object 'aoiBoundary' not found
 
     #view just the extent for the shapefile
     extent(aoiBoundary)
 
-    ## class       : Extent 
-    ## xmin        : 732128 
-    ## xmax        : 732251.1 
-    ## ymin        : 4713209 
-    ## ymax        : 4713359
+    ## Error in extent(aoiBoundary): error in evaluating the argument 'x' in selecting a method for function 'extent': Error: object 'aoiBoundary' not found
 
 #Import a line and point shapefile
 
@@ -176,15 +159,9 @@ commands:
 
 
 
-    ## OGR data source with driver: ESRI Shapefile 
-    ## Source: "boundaryFiles/HARV/", layer: "HARV_roadStream"
-    ## with 13 features
-    ## It has 15 fields
+    ## Error in ogrInfo(dsn = dsn, layer = layer, encoding = encoding, use_iconv = use_iconv, : Cannot open file
 
-    ## OGR data source with driver: ESRI Shapefile 
-    ## Source: "boundaryFiles/HARV/", layer: "HARVtower_UTM18N"
-    ## with 1 features
-    ## It has 14 fields
+    ## Error in ogrInfo(dsn = dsn, layer = layer, encoding = encoding, use_iconv = use_iconv, : Cannot open file
 
 #Shapefile Attributes
 Each spatial object in a shapefile can have the same set of attributes. These attributes
@@ -210,25 +187,17 @@ the `R` object _attributes_.
     #explore the lines and point objects
     lines
 
-    ## class       : SpatialLinesDataFrame 
-    ## features    : 13 
-    ## extent      : 730741.2, 733295.5, 4711942, 4714260  (xmin, xmax, ymin, ymax)
-    ## coord. ref. : +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
-    ## variables   : 15
-    ## names       : OBJECTID_1, OBJECTID,       TYPE,             NOTES, MISCNOTES, RULEID,          MAPLABEL, SHAPE_LENG,             LABEL, BIKEHORSE, RESVEHICLE, RECMAP, Shape_Le_1,                         ResVehic_1,                  BicyclesHo 
-    ## min values  :         14,       48,  boardwalk, Locust Opening Rd,        NA,      1, Locust Opening Rd,   35.88146, Locust Opening Rd,         N,         R1,      N,   35.88152, R1 - All Research Vehicles Allowed, Bicycles and Horses Allowed 
-    ## max values  :        754,      674, woods road,    Pierce Farm Rd,        NA,      6,    Pierce Farm Rd, 3808.43252,    Pierce Farm Rd,         Y,         R3,      Y, 1885.82912,           R3 - No Vehicles Allowed,      DO NOT SHOW ON REC MAP
+    ## standardGeneric for "lines" defined from package "graphics"
+    ## 
+    ## function (x, ...) 
+    ## standardGeneric("lines")
+    ## <environment: 0x11307e640>
+    ## Methods may be defined for arguments: x
+    ## Use  showMethods("lines")  for currently available ones.
 
     point
 
-    ## class       : SpatialPointsDataFrame 
-    ## features    : 1 
-    ## extent      : 732183.2, 732183.2, 4713265, 4713265  (xmin, xmax, ymin, ymax)
-    ## coord. ref. : +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
-    ## variables   : 14
-    ## names       : Un_ID, Domain, DomainName,       SiteName, Type,       Sub_Type,     Lat,      Long, Zone,  Easting, Northing,                Ownership,    County, annotation 
-    ## min values  :     A,      1,  Northeast, Harvard Forest, Core, Advanced Tower, 42.5369, -72.17266,   18, 732183.2,  4713265, Harvard University, LTER, Worcester,         C1 
-    ## max values  :     A,      1,  Northeast, Harvard Forest, Core, Advanced Tower, 42.5369, -72.17266,   18, 732183.2,  4713265, Harvard University, LTER, Worcester,         C1
+    ## Error in eval(expr, envir, enclos): object 'point' not found
 
 #Plot Multiple Shapefiles
 
@@ -243,11 +212,16 @@ span 2 lines, use `\n` where you'd like the line break.
     #Plot multiple shapefiles
     
     plot(x = aoiBoundary, col = "purple", main="Harvard Forest\nStudy Area")
+
+    ## Error in plot(x = aoiBoundary, col = "purple", main = "Harvard Forest\nStudy Area"): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'aoiBoundary' not found
+
     plot(x = lines, add = TRUE)
-    
+
+    ## Error in plot.xy(xy.coords(x, y), type = type, ...): plot.new has not been called yet
+
     #use the pch element to adjust the symbology of the points
     plot(x = point, add  = TRUE, pch = 19, col = "red")
 
-![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/plot-multiple-shapefiles-1.png) 
+    ## Error in plot(x = point, add = TRUE, pch = 19, col = "red"): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'point' not found
 
 

@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "CSV to Shapefile in R"
-date:   2015-10-23
+title: "Lesson 02: CSV to Shapefile in R"
+date:   2015-10-24
 authors: "Joseph Stachelek, Leah Wasser"
 dateCreated:  2015-10-23
 lastModified: 2015-10-26
@@ -171,17 +171,12 @@ for the CSV file which we hopefully have!
     #note: read ogr is preferred as it maintains prj info
     aoiBoundary <- readOGR("boundaryFiles/HARV/","HarClip_UTMZ18")
 
-    ## OGR data source with driver: ESRI Shapefile 
-    ## Source: "boundaryFiles/HARV/", layer: "HarClip_UTMZ18"
-    ## with 1 features
-    ## It has 1 fields
+    ## Error in ogrInfo(dsn = dsn, layer = layer, encoding = encoding, use_iconv = use_iconv, : Cannot open file
 
     #check the CRS
     crs(aoiBoundary)
 
-    ## CRS arguments:
-    ##  +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84
-    ## +towgs84=0,0,0
+    ## Error in crs(aoiBoundary): error in evaluating the argument 'x' in selecting a method for function 'crs': Error: object 'aoiBoundary' not found
 
     #the x,y location values for the dataset are available in 
     #the x and y columns. We can use that for our spatial data point object
@@ -190,13 +185,13 @@ for the CSV file which we hopefully have!
     plot.locationSp <- SpatialPointsDataFrame(plot.location[,1:2],
                                                     plot.location,
                                                     proj4string = crs(aoiBoundary))
-    
+
+    ## Error in crs(aoiBoundary): error in evaluating the argument 'x' in selecting a method for function 'crs': Error: object 'aoiBoundary' not found
+
     #look at CRS
     crs(plot.locationSp)
 
-    ## CRS arguments:
-    ##  +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84
-    ## +towgs84=0,0,0
+    ## Error in crs(plot.locationSp): error in evaluating the argument 'x' in selecting a method for function 'crs': Error: object 'plot.locationSp' not found
 
 Now, we have created a `SpatialPointsDataFrame` object in R using a csv file! 
 The `R` object has a CRS that matches the CRS of our shapefiles. Let's plot our 
@@ -207,21 +202,22 @@ data!
     #plot the points
     #use main = to add a title to the map
     plot(plot.locationSp, main="Map of Study Area")
-    
+
+    ## Error in plot(plot.locationSp, main = "Map of Study Area"): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'plot.locationSp' not found
+
     #let's add the polygon layer to our plot
     plot(aoiBoundary, add=TRUE)
-    
+
+    ## Error in plot(aoiBoundary, add = TRUE): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'aoiBoundary' not found
+
     #add roads to our plot
     roads <- readOGR("boundaryFiles/HARV/","HARV_roadStream")
 
-    ## OGR data source with driver: ESRI Shapefile 
-    ## Source: "boundaryFiles/HARV/", layer: "HARV_roadStream"
-    ## with 13 features
-    ## It has 15 fields
+    ## Error in ogrInfo(dsn = dsn, layer = layer, encoding = encoding, use_iconv = use_iconv, : Cannot open file
 
     plot(roads, add=TRUE)
 
-![ ]({{ site.baseurl }}/images/rfigs/02-csv-vector-raster-plotting/plot-data-1.png) 
+    ## Error in plot(roads, add = TRUE): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'roads' not found
 
 #Create a New Shapefile from A Spatial Object
 
@@ -238,7 +234,7 @@ in `rgdal`. To do this we need the following arguments
     #write a shapefile
     writeOGR(plot.locationSp, getwd(), "newFile", driver="ESRI Shapefile")
 
-    ## Error in writeOGR(plot.locationSp, getwd(), "newFile", driver = "ESRI Shapefile"): layer exists, use a new layer name
+    ## Error in inherits(obj, "Spatial"): object 'plot.locationSp' not found
 
 #Dealing with Spatial objects in different CRS'
 
@@ -254,16 +250,13 @@ and try to add them to our map
     #note: read ogr is preferred as it maintains prj info
     newPlots <- readOGR("boundaryFiles/HARV/","newPlots_latLon")
 
-    ## OGR data source with driver: ESRI Shapefile 
-    ## Source: "boundaryFiles/HARV/", layer: "newPlots_latLon"
-    ## with 2 features
-    ## It has 18 fields
+    ## Error in ogrInfo(dsn = dsn, layer = layer, encoding = encoding, use_iconv = use_iconv, : Cannot open file
 
     #http://www.statmethods.net/advgraphs/parameters.html
     #add these points to our plot
     plot(newPlots, add=TRUE, col=115, pch=19)
 
-    ## Error in plot.xy(xy.coords(x, y), type = type, ...): plot.new has not been called yet
+    ## Error in plot(newPlots, add = TRUE, col = 115, pch = 19): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'newPlots' not found
 
 We tried to add the newPlots to our existing plot and nothing happened? What
 is the issue? Typically when data that we know should line up, doesn't, there
@@ -279,15 +272,13 @@ spatial object.
     #view coordinates
     newPlots@coords
 
-    ##      coords.x1 coords.x2
-    ## [1,] -72.17213  42.54278
-    ## [2,] -72.17233  42.53955
+    ## Error in eval(expr, envir, enclos): object 'newPlots' not found
 
     #it appears as if our coordinates are in lat / long
     #let's check the CRS of our data to see what's going on
     crs(newPlots)
 
-    ## CRS arguments: +proj=longlat +ellps=WGS84 +no_defs
+    ## Error in crs(newPlots): error in evaluating the argument 'x' in selecting a method for function 'crs': Error: object 'newPlots' not found
 
 We've added points to our map. However, they are not appearing in our study area.
 This is because our shapefile is in a GEOGRAPHIC (latitude and longitude) reference 
@@ -301,16 +292,17 @@ We will use `spTransform` to do project our data.
     #let's double check the crs of our plots layer
     crs(plot.locationSp)
 
-    ## CRS arguments:
-    ##  +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84
-    ## +towgs84=0,0,0
+    ## Error in crs(plot.locationSp): error in evaluating the argument 'x' in selecting a method for function 'crs': Error: object 'plot.locationSp' not found
 
     #reproject our vector layer to the projection of our other plot data.
     newPlots_UTMZ18N<- spTransform(newPlots,crs(plot.locationSp))
+
+    ## Error in spTransform(newPlots, crs(plot.locationSp)): error in evaluating the argument 'x' in selecting a method for function 'spTransform': Error: object 'newPlots' not found
+
     #try to plot the data
     plot(newPlots_UTMZ18N, add=TRUE, col=116,pch=19)
 
-    ## Error in plot.xy(xy.coords(x, y), type = type, ...): plot.new has not been called yet
+    ## Error in plot(newPlots_UTMZ18N, add = TRUE, col = 116, pch = 19): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'newPlots_UTMZ18N' not found
 
 
 #ON YOUR OWN -- 
@@ -325,16 +317,23 @@ What happens if we create a new plot, but add the roads layer first?
 
     #add roads to our plot
     plot(roads, main="Study Area")
+
+    ## Error in plot(roads, main = "Study Area"): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'roads' not found
+
     #plot the points
     #use main = to add a title to the map
     plot(newPlots_UTMZ18N,add=T, col=116,pch=19)
-    
+
+    ## Error in plot(newPlots_UTMZ18N, add = T, col = 116, pch = 19): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'newPlots_UTMZ18N' not found
+
     plot(plot.locationSp, add=T)
-    
+
+    ## Error in plot(plot.locationSp, add = T): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'plot.locationSp' not found
+
     #let's add the polygon layer to our plot
     plot(aoiBoundary, add=TRUE)
 
-![ ]({{ site.baseurl }}/images/rfigs/02-csv-vector-raster-plotting/plot-data-2-1.png) 
+    ## Error in plot(aoiBoundary, add = TRUE): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'aoiBoundary' not found
 
 #this could also be on your own -- they know how to plot rasters.
 
@@ -346,13 +345,23 @@ raster, and overlay the lines and squareplot shapefiles using the `add` argument
 
 
     chm <- raster("NEON_RemoteSensing/HARV/CHM/HARV_chmCrop.tif")
-    
+
+    ## Error in .rasterObjectFromFile(x, band = band, objecttype = "RasterLayer", : Cannot create a RasterLayer object from this file. (file does not exist)
+
     #notice that the `\n` command allows you to split title lines into two.
     
     plot(chm, main="Tree Height\nHarvard Forest")
-    
+
+    ## Error in plot(chm, main = "Tree Height\nHarvard Forest"): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'chm' not found
+
     plot(roads, add = TRUE)
+
+    ## Error in plot(roads, add = TRUE): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'roads' not found
+
     plot(aoiBoundary, add = TRUE)
+
+    ## Error in plot(aoiBoundary, add = TRUE): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'aoiBoundary' not found
+
     plot(plot.location_spatial, add = TRUE, pch=19)
 
-![ ]({{ site.baseurl }}/images/rfigs/02-csv-vector-raster-plotting/Plot vector-raster overlay-1.png) 
+    ## Error in plot(plot.location_spatial, add = TRUE, pch = 19): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'plot.location_spatial' not found
