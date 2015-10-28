@@ -62,11 +62,11 @@ for (files in rmd.files) {
 
   #copy .Rmd file to data working directory 
   file.copy(from = files, to=wd, overwrite = TRUE)
-  input=files
+  input=basename(files)
  
   #setup path to images
   #print(paste0(imagePath, sub(".Rmd$", "", basename(input)), "/"))
-  fig.path <- print(paste0("images/", sub(".Rmd$", "", basename(input)), "/"))
+  fig.path <- print(paste0("images/", sub(".Rmd$", "", input), "/"))
   
   
   opts_chunk$set(fig.path = fig.path)
@@ -75,7 +75,7 @@ for (files in rmd.files) {
   render_markdown(strict = TRUE)
   #create the markdown file name - add a date at the beginning to Jekyll recognizes
   #it as a post
-  mdFile <- paste0(gitRepoPath,postsDir,add.date ,sub(".Rmd$", "", basename(files)), ".md")
+  mdFile <- paste0(gitRepoPath,postsDir,add.date ,sub(".Rmd$", "", input), ".md")
 
   #knit Rmd to jekyll flavored md format 
   knit(input, output = mdFile, envir = parent.frame())

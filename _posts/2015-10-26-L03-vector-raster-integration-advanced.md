@@ -53,22 +53,29 @@ polygon shapefile.
     #Import a polygon shapefile 
     aoiBoundary <- readOGR("boundaryFiles/HARV/", "HarClip_UTMZ18")
 
-    ## Error in ogrInfo(dsn = dsn, layer = layer, encoding = encoding, use_iconv = use_iconv, : Cannot open file
+    ## OGR data source with driver: ESRI Shapefile 
+    ## Source: "boundaryFiles/HARV/", layer: "HarClip_UTMZ18"
+    ## with 1 features
+    ## It has 1 fields
 
     #Import a line shapefile
     lines <- readOGR( "boundaryFiles/HARV/",layer = "HARV_roadStream")
 
-    ## Error in ogrInfo(dsn = dsn, layer = layer, encoding = encoding, use_iconv = use_iconv, : Cannot open file
+    ## OGR data source with driver: ESRI Shapefile 
+    ## Source: "boundaryFiles/HARV/", layer: "HARV_roadStream"
+    ## with 13 features
+    ## It has 15 fields
 
     #Import a point shapefile 
     point <- readOGR("boundaryFiles/HARV/", "HARVtower_UTM18N")
 
-    ## Error in ogrInfo(dsn = dsn, layer = layer, encoding = encoding, use_iconv = use_iconv, : Cannot open file
+    ## OGR data source with driver: ESRI Shapefile 
+    ## Source: "boundaryFiles/HARV/", layer: "HARVtower_UTM18N"
+    ## with 1 features
+    ## It has 14 fields
 
     #import raster chm
     chm <- raster("NEON_RemoteSensing/HARV/CHM/HARV_chmCrop.tif")
-
-    ## Error in .rasterObjectFromFile(x, band = band, objecttype = "RasterLayer", : Cannot create a RasterLayer object from this file. (file does not exist)
 
 #Crop a Raster using the EXTENT of a vector layer
 
@@ -78,13 +85,11 @@ object.
 
     #crop the chm
     chm.cropped <- crop(x = chm, y = aoiBoundary)
-
-    ## Error in crop(x = chm, y = aoiBoundary): error in evaluating the argument 'x' in selecting a method for function 'crop': Error: object 'chm' not found
-
+    
     #view the data in a plot
     plot(aoiBoundary, main = "Cropped raster")
 
-    ## Error in plot(aoiBoundary, main = "Cropped raster"): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'aoiBoundary' not found
+![ ]({{ site.baseurl }}/images/03-vector-raster-integration-advanced/Crop by vector extent-1.png) 
 
     plot(r_cropped, add = TRUE)
 
@@ -93,15 +98,27 @@ object.
     #lets look at the extent of all of our objects
     extent(chm)
 
-    ## Error in extent(chm): error in evaluating the argument 'x' in selecting a method for function 'extent': Error: object 'chm' not found
+    ## class       : Extent 
+    ## xmin        : 731453 
+    ## xmax        : 733150 
+    ## ymin        : 4712471 
+    ## ymax        : 4713838
 
     extent(chm.cropped)
 
-    ## Error in extent(chm.cropped): error in evaluating the argument 'x' in selecting a method for function 'extent': Error: object 'chm.cropped' not found
+    ## class       : Extent 
+    ## xmin        : 732128 
+    ## xmax        : 732251 
+    ## ymin        : 4713209 
+    ## ymax        : 4713359
 
     extent(aoiBoundary)
 
-    ## Error in extent(aoiBoundary): error in evaluating the argument 'x' in selecting a method for function 'extent': Error: object 'aoiBoundary' not found
+    ## class       : Extent 
+    ## xmin        : 732128 
+    ## xmax        : 732251.1 
+    ## ymin        : 4713209 
+    ## ymax        : 4713359
 
 #On Your Own -- still in progress
 
@@ -119,8 +136,6 @@ but it does have an extent...
 
     #crop the chm 
     chm.cropped <- crop(x = chm, y = plotLocations)
-
-    ## Error in crop(x = chm, y = plotLocations): error in evaluating the argument 'x' in selecting a method for function 'crop': Error: object 'chm' not found
 
 
 #I AM NOT SURE IF WE WANT TO DRAW ONE OR NOT. 
@@ -149,7 +164,7 @@ an `extent` object (`help.search("extent", package = "raster")).
 
     plot(aoiBoundary, main = "Manually cropped raster")
 
-    ## Error in plot(aoiBoundary, main = "Manually cropped raster"): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'aoiBoundary' not found
+![ ]({{ site.baseurl }}/images/03-vector-raster-integration-advanced/Crop by drawn extent-1.png) 
 
     plot(extent, add = TRUE)
 
@@ -180,23 +195,28 @@ Check out the documentation for the `extract()` function for more details
     #extract tree height for AOI
     #set df=TRUE to return a data.frame rather than a list of values
     tree_height <- extract(x = chm, y = aoiBoundary, df=TRUE)
-
-    ## Error in extract(x = chm, y = aoiBoundary, df = TRUE): error in evaluating the argument 'x' in selecting a method for function 'extract': Error: object 'chm' not found
-
+    
     #view the object
     head(tree_height)
 
-    ## Error in head(tree_height): error in evaluating the argument 'x' in selecting a method for function 'head': Error: object 'tree_height' not found
+    ##   ID HARV_chmCrop
+    ## 1  1        21.20
+    ## 2  1        23.85
+    ## 3  1        23.83
+    ## 4  1        22.36
+    ## 5  1        23.95
+    ## 6  1        23.89
 
     #view histogram of tree heights in study area
     hist(tree_height$HARV_chmCrop, main="Tree Height (m) \nHarvard Forest AOI")
 
-    ## Error in hist(tree_height$HARV_chmCrop, main = "Tree Height (m) \nHarvard Forest AOI"): error in evaluating the argument 'x' in selecting a method for function 'hist': Error: object 'tree_height' not found
+![ ]({{ site.baseurl }}/images/03-vector-raster-integration-advanced/Extract from raster-1.png) 
 
     #view summary of values
     summary(tree_height$HARV_chmCrop)
 
-    ## Error in summary(tree_height$HARV_chmCrop): error in evaluating the argument 'object' in selecting a method for function 'summary': Error: object 'tree_height' not found
+    ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    ##    2.03   21.36   22.81   22.43   23.97   38.17
 
 #Summarizing Extracted Values 
 
@@ -208,13 +228,12 @@ tell R to summarize and RETURN the extracted values
     #extract the average tree height (calculated using the raster pixels)
     #located within the AOI polygon
     av_tree_height_AOI <- extract(x = chm, y = aoiBoundary, fun=mean, df=TRUE)
-
-    ## Error in extract(x = chm, y = aoiBoundary, fun = mean, df = TRUE): error in evaluating the argument 'x' in selecting a method for function 'extract': Error: object 'chm' not found
-
+    
     #view output
     av_tree_height_AOI
 
-    ## Error in eval(expr, envir, enclos): object 'av_tree_height_AOI' not found
+    ##   ID HARV_chmCrop
+    ## 1  1     22.43018
 
 #Extracting Data Using X,Y Locations
 
@@ -234,13 +253,12 @@ tower location.
                                    buffer=20,
                                    fun=mean, 
                                    df=TRUE)
-
-    ## Error in extract(x = chm, y = point, buffer = 20, fun = mean, df = TRUE): error in evaluating the argument 'x' in selecting a method for function 'extract': Error: object 'chm' not found
-
+    
     #view data
     av_tree_height_tower
 
-    ## Error in eval(expr, envir, enclos): object 'av_tree_height_tower' not found
+    ##   ID HARV_chmCrop
+    ## 1  1     22.38812
 
 #CHALLENGE
 Use the plot location shapefile that you created in lesson 02 to extract an average
@@ -262,11 +280,30 @@ tree height value for each plot location in the study area!
                                    buffer=20,
                                    fun=mean, 
                                    df=TRUE)
-
-    ## Error in extract(x = chm, y = plotLocations, buffer = 20, fun = mean, : error in evaluating the argument 'x' in selecting a method for function 'extract': Error: object 'chm' not found
-
+    
     #view data
     av_tree_height_plots
 
-    ## Error in eval(expr, envir, enclos): object 'av_tree_height_plots' not found
+    ##    ID HARV_chmCrop
+    ## 1   1           NA
+    ## 2   2     23.96708
+    ## 3   3     22.35182
+    ## 4   4     16.49719
+    ## 5   5     21.55459
+    ## 6   6     19.16891
+    ## 7   7     20.61542
+    ## 8   8     21.61490
+    ## 9   9     12.23897
+    ## 10 10     19.13231
+    ## 11 11     21.36908
+    ## 12 12     19.31904
+    ## 13 13     17.25802
+    ## 14 14     20.47314
+    ## 15 15     12.68322
+    ## 16 16     15.51574
+    ## 17 17     18.90796
+    ## 18 18     18.19454
+    ## 19 19     19.67558
+    ## 20 20     20.23258
+    ## 21 21     20.44836
 
