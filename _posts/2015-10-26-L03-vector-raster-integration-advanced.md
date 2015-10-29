@@ -61,10 +61,7 @@ polygon shapefile.
     #Import a line shapefile
     lines <- readOGR( "boundaryFiles/HARV/",layer = "HARV_roadStream")
 
-    ## OGR data source with driver: ESRI Shapefile 
-    ## Source: "boundaryFiles/HARV/", layer: "HARV_roadStream"
-    ## with 13 features
-    ## It has 15 fields
+    ## Error in ogrInfo(dsn = dsn, layer = layer, encoding = encoding, use_iconv = use_iconv, : Cannot open layer
 
     #Import a point shapefile 
     point <- readOGR("boundaryFiles/HARV/", "HARVtower_UTM18N")

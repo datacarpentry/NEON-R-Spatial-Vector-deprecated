@@ -26,9 +26,10 @@ permalink: /R/shapefile-attributes-in-R/
 
 
 ##About
-This lesson explains what an attribute is associated with shapefiles and also
-how to work with attributes in `R`. It covers how to identify and query shapefile 
-attributes as well as subset shapefiles by specific attribute values.
+This lesson explains what attributes in shapefiles are. It also covers how to work 
+with shapefile attributes in `R`. It covers how to identify and query shapefile 
+attributes as well as subset shapefiles by specific attribute values. Finally,
+we will review how to plot a shapefile according to a set of attribute values.
 
 ###Goals / Objectives
 After completing this activity, you will:
@@ -37,7 +38,56 @@ After completing this activity, you will:
  * Be able to subset shapefiles based on specific attributes
  
  
+<div id="objectives">
+<h3>What you'll need</h3>
+
+You will need the most current version of R or R studio loaded on your computer 
+to complete this lesson.
+
+<h3>R Libraries to Install:</h3>
+<ul>
+<li><strong>raster:</strong> <code> install.packages("raster")</code></li>
+<li><strong>rgdal:</strong> <code> install.packages("rgdal")</code></li>
+<li><strong>ggplot2:</strong> <code> install.packages("ggplot2")</code></li>
+</ul>
+
+<a href="{{ site.baseurl }}/R/Packages-In-R/" target="_blank"> 
+More on Packages in R - Adapted from Software Carpentry.</a>
+
+<h2>Data to Download</h2>
+
+Download the shapefiles neede to complete this lesson:
+
+<a href="http://files.figshare.com/2387960/boundaryFiles.zip" class="btn btn-success"> 
+DOWNLOAD Harvard Forest Shapefiles</a>
+
+<h3>Recommended Reading</h3>
+This lesson is a part of a series on vector and raster data in R.
+
+<ol>
+<li> <a href="{{ site.baseurl }}/R/open-shapefiles-in-R/">
+Intro to shapefiles in R</a></li>
+<li><a href="{{ site.baseurl }}/R/shapefile-attributes-in-R/">
+Intro to shapefiles in R</a></li>
+<li><a href="{{ site.baseurl }}/R/csv-to-shapefile-R/">
+CSV to Shapefile in R</a></li>
+<li><a href="{{ site.baseurl }}/R/crop-extract-raster-data-R/">
+Crop and extract raster values in R</a></li>
+</ol>
+
+</div>
+
+> NOTE: The data used in this tutorial were collected at Harvard Forest which is
+> a the National Ecological Observatory Network field site <a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank">
+> Domain 17 California field site</a>. These data are proxy data for what will be
+> available for 30 years from the NEON flux tower 
+> [from the NEON data portal](http://data.neoninc.org/ "NEON data").
  
+ ###Notes about R Libraries
+
+To work with vector data in R, we can use the `rgdal` library. We will load the `raster`
+library to work with rasters. The `raster` library also allows us to explore metadata
+using similar commands with both rasters and vectors.
  
 ##Querying shapefile attributes
 ```{r load-libraries-data }

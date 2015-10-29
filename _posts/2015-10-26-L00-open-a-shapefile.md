@@ -24,6 +24,7 @@ permalink: /R/open-shapefiles-in-R/
 </div>
 </section><!-- /#table-of-contents -->
 
+
 ##About
 In this lesson, we will work with vector data in R. We will open and plot point, 
 line, and polygon data, stored in `shapefile` format, in R.
@@ -34,8 +35,53 @@ After completing this activity, you will:
  * Know the difference between point, line, and polygon vector elements.
  * Understand the differences between opening point, line and polygon shapefiles in R.
  * Understand the components of a _spatial object_ (in R)
+
+<div id="objectives">
+<h3>What you'll need</h3>
+
+You will need the most current version of R or R studio loaded on your computer 
+to complete this lesson.
+
+<h3>R Libraries to Install:</h3>
+<ul>
+<li><strong>raster:</strong> <code> install.packages("raster")</code></li>
+<li><strong>sp:</strong> <code> install.packages("sp")</code></li>
+<li><strong>rgdal:</strong> <code> install.packages("rgdal")</code></li>
+<li><strong>ggplot2:</strong> <code> install.packages("ggplot2")</code></li>
+</ul>
+
+<a href="{{ site.baseurl }}/R/Packages-In-R/" target="_blank"> 
+More on Packages in R - Adapted from Software Carpentry.</a>
+
+<h2>Data to Download</h2>
+
+Download the raster and <i>insitu</i> collected vegetation structure data:
+
+<a href="http://files.figshare.com/2387960/boundaryFiles.zip" class="btn btn-success"> 
+DOWNLOAD Harvard Forest Shapefiles</a>
+
+<h3>Recommended Reading</h3>
+This lesson is a part of a series on vector and raster data in R.
+
+<ol>
+<li> <a href="{{ site.baseurl }}/R/open-shapefiles-in-R/">
+Intro to shapefiles in R</a></li>
+<li><a href="{{ site.baseurl }}/R/shapefile-attributes-in-R/">
+Intro to shapefiles in R</a></li>
+<li><a href="{{ site.baseurl }}/R/csv-to-shapefile-R/">
+CSV to Shapefile in R</a></li>
+<li><a href="{{ site.baseurl }}/R/crop-extract-raster-data-R/">
+Crop and extract raster values in R</a></li>
+</ol>
+</div>
+
+> NOTE: The data used in this tutorial were collected at Harvard Forest which is
+> a the National Ecological Observatory Network field site <a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank">
+> Domain 17 California field site</a>. THese data are proxy data for what will be
+> available for 30 years from the NEON flux tower [from the NEON data portal](http://data.neoninc.org/ "NEON data").
+
  
-###Tools To Install
+###Notes about R Libraries
 
 To work with vector data in R, we can use the `rgdal` library. We will load the `raster`
 library to work with rasters. The `raster` library also allows us to explore metadata
@@ -46,7 +92,6 @@ using similar commands with both rasters and vectors.
     library(rgdal)
     library(raster)
 
-###Recommended Pre-Lesson Reading
 
 #About Vector Data
 Vector data are composed of discrete geometric locations (x,y values) that make 
@@ -92,8 +137,9 @@ shapefiles include
 * a point shapefile representing the location of a [flux tower](http://www.neoninc.org/science-design/collection-methods/flux-tower-measurements) located at the NEON 
 Harvard Forest field site.
 
-The first shapefile we will open, contains the boundary of our study area. 
-It is a polygon layer.
+The first shapefile that we will open, contains the boundary of our study area. 
+It is a polygon layer. We can tell it is a polygon by viewing it's `class` in the 
+attributes of the object which is `SpatialPolygonsDataFrame`.
 
 
     #Import a polygon shapefile 
@@ -123,7 +169,10 @@ It is a polygon layer.
     ## 0  1
 
     #create a quick plot of the shapefile
-    plot(aoiBoundary)
+    #note: lwd sets the line width!
+    #for a list of r color options 
+    #https://codeyarns.files.wordpress.com/2011/07/20110729-vim-named-colors.png?w=700
+    plot(aoiBoundary,col="cyan1", border="black", lwd=3)
 
 ![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/Import-Shapefile-1.png) 
 
@@ -132,11 +181,11 @@ It is a polygon layer.
 When we import the `HarClip_UTMZ18` layer into R, some key metadata are stored
 with the spatial R object:
 
-1. ** object type: **  in this case our area of interest (AOI) is a polygon boundary
+1. **Object Type: **  in this case our area of interest (AOI) is a polygon boundary
 R knows to bring it in as a `SpatialPolygonsDataFrame`
 2. **CRS** - The shapefile also contains projection information `coord ref.` in the output 
 above.
-3. **extent** - we can see the spatial extent of the shapefile. Note that the spatial
+3. **Extent** - we can see the spatial extent of the shapefile. Note that the spatial
 extent for a shapefile represents the extent for ALL polygons (or spatial objects)
 in the shapefile!
 
@@ -176,15 +225,7 @@ commands:
 
 
 
-    ## OGR data source with driver: ESRI Shapefile 
-    ## Source: "boundaryFiles/HARV/", layer: "HARV_roadStream"
-    ## with 13 features
-    ## It has 15 fields
-
-    ## OGR data source with driver: ESRI Shapefile 
-    ## Source: "boundaryFiles/HARV/", layer: "HARVtower_UTM18N"
-    ## with 1 features
-    ## It has 14 fields
+    ## Error in ogrInfo(dsn = dsn, layer = layer, encoding = encoding, use_iconv = use_iconv, : Cannot open layer
 
 #Shapefile Attributes
 Each spatial object in a shapefile can have the same set of attributes. These attributes
@@ -273,4 +314,8 @@ span 2 lines, use `\n` where you'd like the line break.
 
 ![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/plot-multiple-shapefiles-1.png) 
 
+#Another On Your Own Activity
 
+>More here on what this is
+>
+>
