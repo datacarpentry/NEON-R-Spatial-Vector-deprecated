@@ -68,7 +68,7 @@ This lesson is a part of a series on vector and raster data in R.
 <li> <a href="{{ site.baseurl }}/R/open-shapefiles-in-R/">
 Intro to shapefiles in R</a></li>
 <li><a href="{{ site.baseurl }}/R/shapefile-attributes-in-R/">
-Intro to shapefiles in R</a></li>
+Working With Shapefile Attributes in R </a></li>
 <li><a href="{{ site.baseurl }}/R/csv-to-shapefile-R/">
 CSV to Shapefile in R</a></li>
 <li><a href="{{ site.baseurl }}/R/crop-extract-raster-data-R/">
@@ -77,13 +77,14 @@ Crop and extract raster values in R</a></li>
 
 </div>
 
-> NOTE: The data used in this tutorial were collected at Harvard Forest which is
-> a the National Ecological Observatory Network field site <a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank">
-> Domain 17 California field site</a>. These data are proxy data for what will be
-> available for 30 years from the NEON flux tower 
-> [from the NEON data portal](http://data.neoninc.org/ "NEON data").
+NOTE: The data used in this tutorial were collected at Harvard Forest which is
+a the National Ecological Observatory Network field site <a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank">
+Domain 17 California field site</a>. These data are proxy data for what will be
+available for 30 years from the NEON flux tower 
+[from the NEON data portal](http://data.neoninc.org/ "NEON data").
+{: .notice}
  
- ###Notes about R Libraries
+ ##Notes about R Libraries
 
 To work with vector data in R, we can use the `rgdal` library. We will load the `raster`
 library to work with rasters. The `raster` library also allows us to explore metadata
