@@ -39,10 +39,10 @@ point <- readOGR("boundaryFiles/HARV/", "HARVtower_UTM18N")
 
 ## ----View-Attribute-Summary----------------------------------------------
 #View attributes
-squarePlot
+aoiBoundary
 
 #view a summary of each attribute associated with the spatial object
-summary(squarePlot)
+summary(aoiBoundary)
 
 #explore the lines and point objects
 lines

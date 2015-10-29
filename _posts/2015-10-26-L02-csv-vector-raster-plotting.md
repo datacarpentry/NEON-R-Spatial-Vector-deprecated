@@ -221,7 +221,7 @@ data!
 
     plot(roads, add=TRUE)
 
-![ ]({{ site.baseurl }}/images/02-csv-vector-raster-plotting/plot-data-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/02-csv-vector-raster-plotting/plot-data-1.png) 
 
 #Create a New Shapefile from A Spatial Object
 
@@ -334,7 +334,7 @@ What happens if we create a new plot, but add the roads layer first?
     #let's add the polygon layer to our plot
     plot(aoiBoundary, add=TRUE)
 
-![ ]({{ site.baseurl }}/images/02-csv-vector-raster-plotting/plot-data-2-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/02-csv-vector-raster-plotting/plot-data-2-1.png) 
 
 #this could also be on your own -- they know how to plot rasters.
 
@@ -354,7 +354,7 @@ raster, and overlay the lines and squareplot shapefiles using the `add` argument
     plot(roads, add = TRUE)
     plot(aoiBoundary, add = TRUE)
 
-![ ]({{ site.baseurl }}/images/02-csv-vector-raster-plotting/Plot vector-raster overlay-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/02-csv-vector-raster-plotting/Plot vector-raster overlay-1.png) 
 
     plot(plot.location_spatial, add = TRUE, pch=19)
 

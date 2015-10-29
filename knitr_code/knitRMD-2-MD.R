@@ -66,7 +66,7 @@ for (files in rmd.files) {
  
   #setup path to images
   #print(paste0(imagePath, sub(".Rmd$", "", basename(input)), "/"))
-  fig.path <- print(paste0("images/", sub(".Rmd$", "", input), "/"))
+  fig.path <- print(paste0(imagePath, sub(".Rmd$", "", input), "/"))
   
   
   opts_chunk$set(fig.path = fig.path)
@@ -108,6 +108,6 @@ for (files in rmd.files) {
 }
 
 #clean up images directory (remove all sub dirs)
-unlink(test, recursive = TRUE)
+unlink(paste0(wd,imagePath,"*"), recursive = TRUE)
   
 ########################### end script  

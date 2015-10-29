@@ -89,7 +89,7 @@ object.
     #view the data in a plot
     plot(aoiBoundary, main = "Cropped raster")
 
-![ ]({{ site.baseurl }}/images/03-vector-raster-integration-advanced/Crop by vector extent-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/03-vector-raster-integration-advanced/Crop by vector extent-1.png) 
 
     plot(r_cropped, add = TRUE)
 
@@ -164,7 +164,7 @@ an `extent` object (`help.search("extent", package = "raster")).
 
     plot(aoiBoundary, main = "Manually cropped raster")
 
-![ ]({{ site.baseurl }}/images/03-vector-raster-integration-advanced/Crop by drawn extent-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/03-vector-raster-integration-advanced/Crop by drawn extent-1.png) 
 
     plot(extent, add = TRUE)
 
@@ -210,7 +210,7 @@ Check out the documentation for the `extract()` function for more details
     #view histogram of tree heights in study area
     hist(tree_height$HARV_chmCrop, main="Tree Height (m) \nHarvard Forest AOI")
 
-![ ]({{ site.baseurl }}/images/03-vector-raster-integration-advanced/Extract from raster-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/03-vector-raster-integration-advanced/Extract from raster-1.png) 
 
     #view summary of values
     summary(tree_height$HARV_chmCrop)

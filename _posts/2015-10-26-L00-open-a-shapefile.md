@@ -125,7 +125,7 @@ It is a polygon layer.
     #create a quick plot of the shapefile
     plot(aoiBoundary)
 
-![ ]({{ site.baseurl }}/images/00-open-a-shapefile/Import-Shapefile-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/Import-Shapefile-1.png) 
 
 #View Shapefile Metadata
 
@@ -198,14 +198,37 @@ the `R` object _attributes_.
 
 
     #View attributes
-    squarePlot
+    aoiBoundary
 
-    ## Error in eval(expr, envir, enclos): object 'squarePlot' not found
+    ## class       : SpatialPolygonsDataFrame 
+    ## features    : 1 
+    ## extent      : 732128, 732251.1, 4713209, 4713359  (xmin, xmax, ymin, ymax)
+    ## coord. ref. : +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
+    ## variables   : 1
+    ## names       : id 
+    ## min values  :  1 
+    ## max values  :  1
 
     #view a summary of each attribute associated with the spatial object
-    summary(squarePlot)
+    summary(aoiBoundary)
 
-    ## Error in summary(squarePlot): error in evaluating the argument 'object' in selecting a method for function 'summary': Error: object 'squarePlot' not found
+    ## Object of class SpatialPolygonsDataFrame
+    ## Coordinates:
+    ##       min       max
+    ## x  732128  732251.1
+    ## y 4713209 4713359.2
+    ## Is projected: TRUE 
+    ## proj4string :
+    ## [+proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84
+    ## +towgs84=0,0,0]
+    ## Data attributes:
+    ##        id   
+    ##  Min.   :1  
+    ##  1st Qu.:1  
+    ##  Median :1  
+    ##  Mean   :1  
+    ##  3rd Qu.:1  
+    ##  Max.   :1
 
     #explore the lines and point objects
     lines
@@ -248,6 +271,6 @@ span 2 lines, use `\n` where you'd like the line break.
     #use the pch element to adjust the symbology of the points
     plot(x = point, add  = TRUE, pch = 19, col = "red")
 
-![ ]({{ site.baseurl }}/images/00-open-a-shapefile/plot-multiple-shapefiles-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/plot-multiple-shapefiles-1.png) 
 
 
