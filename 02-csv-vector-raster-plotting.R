@@ -46,11 +46,11 @@ plot(plot.locationSp, main="Map of Study Area")
 plot(aoiBoundary, add=TRUE)
 
 #add roads to our plot
-roads <- readOGR("boundaryFiles/HARV/","HARV_roadStream")
+roads <- readOGR("boundaryFiles/HARV/","HARV_roads")
 plot(roads, add=TRUE)
 
 
-## ----write-shapefile-----------------------------------------------------
+## ----write-shapefile, results="hide"-------------------------------------
 #write a shapefile
 writeOGR(plot.locationSp, getwd(), "newFile", driver="ESRI Shapefile")
 

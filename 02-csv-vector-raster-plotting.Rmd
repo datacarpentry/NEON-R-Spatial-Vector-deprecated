@@ -80,13 +80,9 @@ Crop and extract raster values in R</a></li>
 </div>
 
 
-
-
-
-
 Sometimes spatial data are downloaded or stored in a text file format (`txt` or 
-csv`). We can convert these data in text format, into a spatial object in R `SpatialPointsDataFrame`. Note that there is a `SpatialPoints` object in R that 
-does not allow you to store associated `attributes. The `SpatialPointsDataFrame 
+`csv`). We can convert these data in text format, into a spatial object in R `SpatialPointsDataFrame`. Note that there is a `SpatialPoints` object in R that 
+does not allow you to store associated `attributes`. The `SpatialPointsDataFrame` 
 allows you to store columns from your `data.frame` in the object.
 
 
@@ -173,7 +169,7 @@ plot(plot.locationSp, main="Map of Study Area")
 plot(aoiBoundary, add=TRUE)
 
 #add roads to our plot
-roads <- readOGR("boundaryFiles/HARV/","HARV_roadStream")
+roads <- readOGR("boundaryFiles/HARV/","HARV_roads")
 plot(roads, add=TRUE)
 
 ```
@@ -189,7 +185,7 @@ in `rgdal`. To do this we need the following arguments
 * the driver which specifies the file format (in this case a shapefile)
 
 
-```{r write-shapefile }
+```{r write-shapefile, results="hide" }
 #write a shapefile
 writeOGR(plot.locationSp, getwd(), "newFile", driver="ESRI Shapefile")
 

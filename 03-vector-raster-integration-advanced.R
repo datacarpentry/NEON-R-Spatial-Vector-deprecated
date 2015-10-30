@@ -17,7 +17,7 @@ point <- readOGR("boundaryFiles/HARV/", "HARVtower_UTM18N")
 chm <- raster("NEON_RemoteSensing/HARV/CHM/HARV_chmCrop.tif")
 
 
-## ----Crop by vector extent-----------------------------------------------
+## ----Crop-by-vector-extent-----------------------------------------------
 
 #crop the chm
 chm.cropped <- crop(x = chm, y = aoiBoundary)
@@ -61,7 +61,7 @@ plot(new.extent, col="cyan1", add = TRUE)
 plot(r_cropped_man, add = TRUE)
 
 
-## ----Extract from raster-------------------------------------------------
+## ----Extract-from-raster-------------------------------------------------
 
 #extract tree height for AOI
 #set df=TRUE to return a data.frame rather than a list of values

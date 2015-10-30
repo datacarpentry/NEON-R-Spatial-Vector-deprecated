@@ -107,7 +107,7 @@ chm <- raster("NEON_RemoteSensing/HARV/CHM/HARV_chmCrop.tif")
 We can use the `crop` function to crop a raster to the extent of another spatial 
 object.
 
-```{r Crop by vector extent}
+```{r Crop-by-vector-extent}
 
 #crop the chm
 chm.cropped <- crop(x = chm, y = aoiBoundary)
@@ -192,7 +192,7 @@ Check out the documentation for the `extract()` function for more details
 
 ![Extract using polygon boundary](http://neondataskills.org/images/spatialData/BufferSquare.png "Extract using polygon boundary")
 
-```{r Extract from raster}
+```{r Extract-from-raster}
 
 #extract tree height for AOI
 #set df=TRUE to return a data.frame rather than a list of values

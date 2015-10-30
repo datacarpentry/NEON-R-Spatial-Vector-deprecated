@@ -80,13 +80,9 @@ Crop and extract raster values in R</a></li>
 </div>
 
 
-
-
-
-
 Sometimes spatial data are downloaded or stored in a text file format (`txt` or 
-csv`). We can convert these data in text format, into a spatial object in R `SpatialPointsDataFrame`. Note that there is a `SpatialPoints` object in R that 
-does not allow you to store associated `attributes. The `SpatialPointsDataFrame 
+`csv`). We can convert these data in text format, into a spatial object in R `SpatialPointsDataFrame`. Note that there is a `SpatialPoints` object in R that 
+does not allow you to store associated `attributes`. The `SpatialPointsDataFrame` 
 allows you to store columns from your `data.frame` in the object.
 
 
@@ -225,17 +221,18 @@ data!
     
     #let's add the polygon layer to our plot
     plot(aoiBoundary, add=TRUE)
-
-![ ]({{ site.baseurl }}/images/rfigs/02-csv-vector-raster-plotting/plot-data-1.png) 
-
+    
     #add roads to our plot
-    roads <- readOGR("boundaryFiles/HARV/","HARV_roadStream")
+    roads <- readOGR("boundaryFiles/HARV/","HARV_roads")
 
-    ## Error in ogrInfo(dsn = dsn, layer = layer, encoding = encoding, use_iconv = use_iconv, : Cannot open layer
+    ## OGR data source with driver: ESRI Shapefile 
+    ## Source: "boundaryFiles/HARV/", layer: "HARV_roads"
+    ## with 13 features
+    ## It has 15 fields
 
     plot(roads, add=TRUE)
 
-    ## Error in plot(roads, add = TRUE): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'roads' not found
+![ ]({{ site.baseurl }}/images/rfigs/02-csv-vector-raster-plotting/plot-data-1.png) 
 
 #Create a New Shapefile from A Spatial Object
 
@@ -339,23 +336,16 @@ What happens if we create a new plot, but add the roads layer first?
 
     #add roads to our plot
     plot(roads, main="Study Area")
-
-    ## Error in plot(roads, main = "Study Area"): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'roads' not found
-
     #plot the points
     #use main = to add a title to the map
     plot(newPlots_UTMZ18N,add=T, col=116,pch=19)
-
-    ## Error in plot.xy(xy.coords(x, y), type = type, ...): plot.new has not been called yet
-
+    
     plot(plot.locationSp, add=T)
-
-    ## Error in plot.xy(xy.coords(x, y), type = type, ...): plot.new has not been called yet
-
+    
     #let's add the polygon layer to our plot
     plot(aoiBoundary, add=TRUE)
 
-    ## Error in polypath(x = mcrds[, 1], y = mcrds[, 2], border = border, col = col, : plot.new has not been called yet
+![ ]({{ site.baseurl }}/images/rfigs/02-csv-vector-raster-plotting/plot-data-2-1.png) 
 
 #this could also be on your own -- they know how to plot rasters.
 
@@ -373,9 +363,6 @@ raster, and overlay the lines and squareplot shapefiles using the `add` argument
     plot(chm, main="Tree Height\nHarvard Forest")
     
     plot(roads, add = TRUE)
-
-    ## Error in plot(roads, add = TRUE): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'roads' not found
-
     plot(aoiBoundary, add = TRUE)
     plot(plot.locationSp, add = TRUE, pch=19)
 
