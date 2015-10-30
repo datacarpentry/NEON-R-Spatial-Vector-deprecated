@@ -77,7 +77,7 @@ Crop and extract raster values in R</a></li>
 
 NOTE: The data used in this tutorial were collected at Harvard Forest which is
 a the National Ecological Observatory Network field site <a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank">
-Domain 17 California field site</a>. THese data are proxy data for what will be
+More about the NEON Harvard Forest field site</a>. These data are proxy data for what will be
 available for 30 years from the NEON flux tower [from the NEON data portal](http://data.neoninc.org/ "NEON data").
 {: .notice}
  
@@ -193,6 +193,7 @@ extent(aoiBoundary)
 >#ON YOUR OWN ACTIVITY
 >
 >Using the steps above, import the HARV_roadStream and HARVtower_UTM18N layers into R.
+>Call the Harv_roadStream object `lines` and the HARVtower_UTM18N `point`
 >Answer the following questions:
 
 >1. What type of R spatial object is created when you import each layer?
@@ -258,5 +259,5 @@ plot(x = point, add  = TRUE, pch = 19, col = "red")
 #Another On Your Own Activity
 
 >More here on what this is
->
+>Ideas?
 >

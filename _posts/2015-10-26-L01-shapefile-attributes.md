@@ -79,9 +79,8 @@ Crop and extract raster values in R</a></li>
 
 NOTE: The data used in this tutorial were collected at Harvard Forest which is
 a the National Ecological Observatory Network field site <a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank">
-Domain 17 California field site</a>. These data are proxy data for what will be
-available for 30 years from the NEON flux tower 
-[from the NEON data portal](http://data.neoninc.org/ "NEON data").
+More about the NEON Harvard Forest field site</a>. These data are proxy data for what will be
+available for 30 years from the NEON flux tower [from the NEON data portal](http://data.neoninc.org/ "NEON data").
 {: .notice}
  
  ##Notes about R Libraries

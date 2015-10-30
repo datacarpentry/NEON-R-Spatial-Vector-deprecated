@@ -25,20 +25,57 @@ permalink: /R/crop-extract-raster-data-R/
 </section><!-- /#table-of-contents -->
 
 
-
 ##About
 
-This lesson explains how to modify (crop) a raster extent based on the extent of a 
-vector shapefile. Particpants will also be able to extract values from a raster 
+This lesson explains how to crop a raster using the extent of a 
+vector shapefile. We will also cover how to extract values from a raster 
 that occur within a set of polygons, or in a buffer (surrounding) region around 
 a set of points.
-
 
 ###Goals / Objectives
 After completing this activity, you will:
 
  * Be able to crop a raster to the extent of a vector layer
  * Be able to extract values from raster that correspond to a vector file overlay
+ 
+<div id="objectives">
+<strong>R Skill Level:</strong> Beginner / Intermediate
+<h3>What you'll need</h3>
+
+You will need the most current version of R or R studio loaded on your computer 
+to complete this lesson.
+
+<h3>R Libraries to Install:</h3>
+<ul>
+<li><strong>raster:</strong> <code> install.packages("raster")</code></li>
+<li><strong>rgdal:</strong> <code> install.packages("rgdal")</code></li>
+<li><strong>ggplot2:</strong> <code> install.packages("ggplot2")</code></li>
+</ul>
+
+<a href="{{ site.baseurl }}/R/Packages-In-R/" target="_blank"> 
+More on Packages in R - Adapted from Software Carpentry.</a>
+
+<h2>Data to Download</h2>
+
+Download the shapefiles neede to complete this lesson:
+
+<a href="http://files.figshare.com/2387960/boundaryFiles.zip" class="btn btn-success"> 
+DOWNLOAD Harvard Forest Shapefiles</a>
+
+<h3>Recommended Reading</h3>
+This lesson is a part of a series on vector and raster data in R.
+
+<ol>
+<li> <a href="{{ site.baseurl }}/R/open-shapefiles-in-R/">
+Intro to shapefiles in R</a></li>
+<li><a href="{{ site.baseurl }}/R/shapefile-attributes-in-R/">
+Working With Shapefile Attributes in R </a></li>
+<li><a href="{{ site.baseurl }}/R/csv-to-shapefile-R/">
+CSV to Shapefile in R</a></li>
+<li><a href="{{ site.baseurl }}/R/crop-extract-raster-data-R/">
+Crop and extract raster values in R</a></li>
+</ol>
+</div> 
  
 ##Crop a raster to vector layer extent
 
@@ -55,7 +92,7 @@ library(rgdal)
 aoiBoundary <- readOGR("boundaryFiles/HARV/", "HarClip_UTMZ18")
 
 #Import a line shapefile
-lines <- readOGR( "boundaryFiles/HARV/",layer = "HARV_roadStream")
+lines <- readOGR( "boundaryFiles/HARV/",layer = "HARV_roads")
 
 #Import a point shapefile 
 point <- readOGR("boundaryFiles/HARV/", "HARVtower_UTM18N")
@@ -77,7 +114,7 @@ chm.cropped <- crop(x = chm, y = aoiBoundary)
 
 #view the data in a plot
 plot(aoiBoundary, main = "Cropped raster")
-plot(r_cropped, add = TRUE)
+plot(chm.cropped, add = TRUE)
 
 #lets look at the extent of all of our objects
 extent(chm)
@@ -109,27 +146,35 @@ We can also use an `extent` object as input to the `y` argument to `crop()`.
 The `drawExtent()` function is an easy (but imprecise) way to construct an `extent` 
 object. See the documentation for the `extent()` function for more ways to create 
 an `extent` object (`help.search("extent", package = "raster")). 
+(More on the extent class in R)[http://www.inside-r.org/packages/cran/raster/docs/extent]
 
 ```{r Create-custom-extent-object }
-extent <- raster::drawExtent()
+new.extent  <- raster::drawExtent()
 
 ```
+
 
 #CHECK THE CODE BELOW - THROWING AN ERROR BUT NOT SURE WHY?
 ```{r Hidden-extent-chunk, echo=FALSE}
-#this is throwing an error
-new.extent <- extent(xmin = 732161.2, xmax = 732238.7, ymin = 4713249, ymax = 4713333)
+
+#extent format (xmin,xmax,ymin,ymax)
+new.extent <- extent(732161.2, 732238.7, 4713249, 4713333)
 
 ```
   
-#this section still doesn't work. (above error) 
+Once we have defined the extent that we wish to crop our raster to, we can then
+use the `crop` function to crop our `chm`. 
 
-```{r Crop by drawn extent}
-r_cropped_man <- crop(x = r, y = new.extent)
+```{r crop-using-drawn-extent}
 
+#crop raster
+r_cropped_man <- crop(x = chm, y = new.extent)
+
+#plot extent boundary and newly cropped raster
 plot(aoiBoundary, main = "Manually cropped raster")
-plot(extent, add = TRUE)
+plot(new.extent, col="cyan1", add = TRUE)
 plot(r_cropped_man, add = TRUE)
+
 ```
 
 ##Extract values from a raster using a vector overlay
@@ -206,9 +251,10 @@ av_tree_height_tower
 
 ```
 
-#CHALLENGE
-Use the plot location shapefile that you created in lesson 02 to extract an average
-tree height value for each plot location in the study area!
+>#CHALLENGE - On Your Own
+>
+>Use the plot location shapefile that you created in lesson 02 to extract an average
+>tree height value for each plot location in the study area.
 
 ```{r extract-plot-tree-height, ECHO=FALSE}
 

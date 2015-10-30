@@ -111,6 +111,6 @@ plot(chm, main="Tree Height\nHarvard Forest")
 
 plot(roads, add = TRUE)
 plot(aoiBoundary, add = TRUE)
-plot(plot.location_spatial, add = TRUE, pch=19)
+plot(plot.locationSp, add = TRUE, pch=19)
 
 

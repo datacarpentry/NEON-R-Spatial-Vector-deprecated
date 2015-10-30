@@ -24,49 +24,64 @@ permalink: /R/csv-to-shapefile-R/
 </div>
 </section><!-- /#table-of-contents -->
 
+#About
+This lesson will review how to import spatial points, stored in a  csv file into
+R as a spatial object - a `SpatialPointsDataFrame`. We will also learn how to
+reproject data imported in shapefile format, into another projection, create a 
+shapefile from a spatial object in R and plot raster and vector data as overlays
+in the same plot. 
 
-> ##Goals / Objectives
-> After completing this activity, you will:
->
-> * Import csv file containing x,y coordinate locations.
-> * Convert the csv to a spatial object
-> * Project coordinate locations provided in a Geographic Coordinate System (Latitude, Longitide) to projected (UTM)
-> * 
+##Goals / Objectives
+After completing this activity, you will:
+
+* Import csv file containing x,y coordinate locations.
+* Convert the csv to a spatial object
+* Project coordinate locations provided in a Geographic Coordinate System (Latitude, Longitide) to projected (UTM)
+* Plot raster and vector data in the same plot (create a map).
+
 
 <div id="objectives">
 <strong>R Skill Level:</strong> Beginner / Intermediate
+<h3>What you'll need</h3>
 
-<h3>Goals / Objectives</h3>
-After completing this activity, you will:
-<ol>
-<li>Import a time series formated csv file.</li>
-<li>Modify a date field that contains non-date characters and turn it into a proper
-date formated field.</li>
-<li>Plot the data.</li>
-<li>Convert time to a local time zone.</li>
-</ol>
+You will need the most current version of R or R studio loaded on your computer 
+to complete this lesson.
 
-<h3>R Libraries to Install</h3>
+<h3>R Libraries to Install:</h3>
 <ul>
-
+<li><strong>raster:</strong> <code> install.packages("raster")</code></li>
+<li><strong>rgdal:</strong> <code> install.packages("rgdal")</code></li>
+<li><strong>ggplot2:</strong> <code> install.packages("ggplot2")</code></li>
 </ul>
 
-<h3>Data to Download</h3>
- 
+<a href="{{ site.baseurl }}/R/Packages-In-R/" target="_blank"> 
+More on Packages in R - Adapted from Software Carpentry.</a>
 
-<h3>Pre-reqs</h3>
-<p>.</p>
+<h2>Data to Download</h2>
+
+Download the shapefiles neede to complete this lesson:
+
+<a href="http://files.figshare.com/2387960/boundaryFiles.zip" class="btn btn-success"> 
+DOWNLOAD Harvard Forest Shapefiles</a>
+
+<h3>Recommended Reading</h3>
+This lesson is a part of a series on vector and raster data in R.
+
+<ol>
+<li> <a href="{{ site.baseurl }}/R/open-shapefiles-in-R/">
+Intro to shapefiles in R</a></li>
+<li><a href="{{ site.baseurl }}/R/shapefile-attributes-in-R/">
+Working With Shapefile Attributes in R </a></li>
+<li><a href="{{ site.baseurl }}/R/csv-to-shapefile-R/">
+CSV to Shapefile in R</a></li>
+<li><a href="{{ site.baseurl }}/R/crop-extract-raster-data-R/">
+Crop and extract raster values in R</a></li>
+</ol>
 </div>
 
-###Lesson 02 - How to convert csv with spatial locations to a spatial data frame
 
 
-Objectives
-* Understand how to convert a csv with spatial points to a spatial object in R.
-* Convert to spatial points data frame
-* Know how to plot a spatial points data
-* Know how to create a basic map of a raster with a shapefile overlay
-* Be able to compare and align the projections of raster and vector objects
+
 
 
 Sometimes spatial data are downloaded or stored in a text file format (`txt` or 
@@ -286,6 +301,12 @@ plot(chm, main="Tree Height\nHarvard Forest")
 
 plot(roads, add = TRUE)
 plot(aoiBoundary, add = TRUE)
-plot(plot.location_spatial, add = TRUE, pch=19)
+plot(plot.locationSp, add = TRUE, pch=19)
 
 ```
+
+#Challenge - One Your Own
+
+> to go here
+>
+>
