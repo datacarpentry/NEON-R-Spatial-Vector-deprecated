@@ -2,7 +2,7 @@
 layout: post
 title: "Lesson 00: Vector Data in R - Open and plot shapefiles"
 date:   2015-10-26
-authors: "Joseph Stachelek, Leah Wasser"
+authors: [Joseph Stachelek, Leah Wasser]
 dateCreated:  2015-10-23
 lastModified: 2015-10-26
 tags: [module-1]

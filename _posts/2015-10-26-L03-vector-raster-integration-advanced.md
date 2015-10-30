@@ -2,7 +2,7 @@
 layout: post
 title: "Lesson 03: Crop Rasters and Extract values in R"
 date:   2015-10-23
-authors: "Joseph Stachelek, Leah Wasser"
+authors: [Joseph Stachelek, Leah Wasser]
 dateCreated:  2015-10-23
 lastModified: 2015-10-26
 tags: [module-1]

@@ -2,7 +2,7 @@
 layout: post
 title: "Lesson 02: CSV to Shapefile in R"
 date:   2015-10-24
-authors: "Joseph Stachelek, Leah Wasser"
+authors: [Joseph Stachelek, Leah Wasser]
 dateCreated:  2015-10-23
 lastModified: 2015-10-26
 tags: [module-1]
