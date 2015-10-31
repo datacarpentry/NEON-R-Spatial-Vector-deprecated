@@ -99,7 +99,7 @@ library(rgdal)
 aoiBoundary <- readOGR("boundaryFiles/HARV/", "HarClip_UTMZ18")
 
 #Import a line shapefile
-lines <- readOGR( "boundaryFiles/HARV/",layer = "HARV_roadStream")
+lines <- readOGR( "boundaryFiles/HARV/",layer = "HARV_roads")
 
 #Import a point shapefile 
 point <- readOGR("boundaryFiles/HARV/", "HARVtower_UTM18N")
