@@ -29,22 +29,13 @@ permalink: /R/open-shapefiles-in-R/
 
 A list is below:
 
-*one
-*two
+* one
+* two
 
 Then the list ends here.
 <a href="">a link</a>
 
 </div>
-
-<span markdown="1">
-#heading one
-
-*list
-*list2
-
-here is some stuff
-</span>
 
 
 ##About
