@@ -12,6 +12,7 @@ image:
   credit: A collaboration between the National Ecological Observatory Network (NEON) and Data Carpentry
   creditlink: http://www.neoninc.org
 permalink: /R/crop-extract-raster-data-R/
+comments: false
 ---
 
 <section id="table-of-contents" class="toc">
@@ -32,49 +33,49 @@ vector shapefile. We will also cover how to extract values from a raster
 that occur within a set of polygons, or in a buffer (surrounding) region around 
 a set of points.
 
+<div id="objectives" markdown="1">
+
+**R Skill Level:** Beginner / Intermediate
+
 ###Goals / Objectives
 After completing this activity, you will:
 
  * Be able to crop a raster to the extent of a vector layer
  * Be able to extract values from raster that correspond to a vector file overlay
  
-<div id="objectives">
-<strong>R Skill Level:</strong> Beginner / Intermediate
-<h3>What you'll need</h3>
+###What you'll need
 
 You will need the most current version of R or R studio loaded on your computer 
 to complete this lesson.
 
-<h3>R Libraries to Install:</h3>
-<ul>
-<li><strong>raster:</strong> <code> install.packages("raster")</code></li>
-<li><strong>rgdal:</strong> <code> install.packages("rgdal")</code></li>
-<li><strong>ggplot2:</strong> <code> install.packages("ggplot2")</code></li>
-</ul>
+###R Libraries to Install:
+
+* **raster:** `install.packages("raster")`
+* **rgdal:** `install.packages("rgdal")`
+* **ggplot2:** `install.packages("ggplot2")`
 
 <a href="{{ site.baseurl }}/R/Packages-In-R/" target="_blank"> 
 More on Packages in R - Adapted from Software Carpentry.</a>
 
-<h2>Data to Download</h2>
+##Data to Download
 
 Download the shapefiles neede to complete this lesson:
 
 <a href="http://files.figshare.com/2387960/boundaryFiles.zip" class="btn btn-success"> 
 DOWNLOAD Harvard Forest Shapefiles</a>
 
-<h3>Recommended Reading</h3>
+###Recommended Reading
 This lesson is a part of a series on vector and raster data in R.
 
-<ol>
-<li> <a href="{{ site.baseurl }}/R/open-shapefiles-in-R/">
-Intro to shapefiles in R</a></li>
-<li><a href="{{ site.baseurl }}/R/shapefile-attributes-in-R/">
-Working With Shapefile Attributes in R </a></li>
-<li><a href="{{ site.baseurl }}/R/csv-to-shapefile-R/">
-CSV to Shapefile in R</a></li>
-<li><a href="{{ site.baseurl }}/R/crop-extract-raster-data-R/">
-Crop and extract raster values in R</a></li>
-</ol>
+1. <a href="{{ site.baseurl }}/R/open-shapefiles-in-R/">
+Intro to shapefiles in R</a>
+2. <a href="{{ site.baseurl }}/R/shapefile-attributes-in-R/">
+Working With Shapefile Attributes in R </a>
+3. <a href="{{ site.baseurl }}/R/csv-to-shapefile-R/">
+CSV to Shapefile in R</a>
+4. <a href="{{ site.baseurl }}/R/crop-extract-raster-data-R/">
+Crop and extract raster values in R</a>
+
 </div> 
  
 ##Crop a raster to vector layer extent
