@@ -24,6 +24,22 @@ permalink: /R/open-shapefiles-in-R/
 </div>
 </section><!-- /#table-of-contents -->
 
+<div id="objectives" markdown="1">
+#testing this
+
+*one
+*two
+</div>
+
+<span markdown="1">
+#heading one
+
+*list
+*list2
+
+here is some stuff
+</span>
+
 
 ##About
 In this lesson, we will work with vector data in R. We will open and plot point, 
