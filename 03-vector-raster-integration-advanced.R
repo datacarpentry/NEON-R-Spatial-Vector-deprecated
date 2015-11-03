@@ -8,7 +8,7 @@ library(rgdal)
 aoiBoundary <- readOGR("boundaryFiles/HARV/", "HarClip_UTMZ18")
 
 #Import a line shapefile
-lines <- readOGR( "boundaryFiles/HARV/",layer = "HARV_roadStream")
+lines <- readOGR( "boundaryFiles/HARV/",layer = "HARV_roads")
 
 #Import a point shapefile 
 point <- readOGR("boundaryFiles/HARV/", "HARVtower_UTM18N")
@@ -17,14 +17,14 @@ point <- readOGR("boundaryFiles/HARV/", "HARVtower_UTM18N")
 chm <- raster("NEON_RemoteSensing/HARV/CHM/HARV_chmCrop.tif")
 
 
-## ----Crop by vector extent-----------------------------------------------
+## ----Crop-by-vector-extent-----------------------------------------------
 
 #crop the chm
 chm.cropped <- crop(x = chm, y = aoiBoundary)
 
 #view the data in a plot
 plot(aoiBoundary, main = "Cropped raster")
-plot(r_cropped, add = TRUE)
+plot(chm.cropped, add = TRUE)
 
 #lets look at the extent of all of our objects
 extent(chm)
@@ -41,22 +41,27 @@ chm.cropped <- crop(x = chm, y = plotLocations)
 
 
 ## ----Create-custom-extent-object-----------------------------------------
-extent <- raster::drawExtent()
+new.extent  <- raster::drawExtent()
 
 
 ## ----Hidden-extent-chunk, echo=FALSE-------------------------------------
-#this is throwing an error
-new.extent <- extent(xmin = 732161.2, xmax = 732238.7, ymin = 4713249, ymax = 4713333)
+
+#extent format (xmin,xmax,ymin,ymax)
+new.extent <- extent(732161.2, 732238.7, 4713249, 4713333)
 
 
-## ----Crop by drawn extent------------------------------------------------
-r_cropped_man <- crop(x = r, y = new.extent)
+## ----crop-using-drawn-extent---------------------------------------------
 
+#crop raster
+r_cropped_man <- crop(x = chm, y = new.extent)
+
+#plot extent boundary and newly cropped raster
 plot(aoiBoundary, main = "Manually cropped raster")
-plot(extent, add = TRUE)
+plot(new.extent, col="cyan1", add = TRUE)
 plot(r_cropped_man, add = TRUE)
 
-## ----Extract from raster-------------------------------------------------
+
+## ----Extract-from-raster-------------------------------------------------
 
 #extract tree height for AOI
 #set df=TRUE to return a data.frame rather than a list of values

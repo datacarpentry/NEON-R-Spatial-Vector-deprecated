@@ -108,6 +108,6 @@ for (files in rmd.files) {
 }
 
 #clean up images directory (remove all sub dirs)
-unlink(paste0(wd,imagePath,"*"), recursive = TRUE)
+unlink(paste0(wd,"/",imagePath,"*"), recursive = TRUE)
   
 ########################### end script  

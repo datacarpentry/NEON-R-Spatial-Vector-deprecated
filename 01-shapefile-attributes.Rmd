@@ -2,7 +2,8 @@
 layout: post
 title: "Lesson 01: Work With Shapefile Attributes in R"
 date:   2015-10-25
-authors: "Joseph Stachelek, Leah Wasser"
+authors: [Joseph Stachelek, Leah Wasser]
+contributors: [Megan Jones]
 dateCreated:  2015-10-23
 lastModified: 2015-10-26
 tags: [module-1]
@@ -12,6 +13,7 @@ image:
   credit: A collaboration between the National Ecological Observatory Network (NEON) and Data Carpentry
   creditlink: http://www.neoninc.org
 permalink: /R/shapefile-attributes-in-R/
+comments: false
 ---
 
 <section id="table-of-contents" class="toc">
@@ -26,9 +28,12 @@ permalink: /R/shapefile-attributes-in-R/
 
 
 ##About
-This lesson explains what an attribute is associated with shapefiles and also
-how to work with attributes in `R`. It covers how to identify and query shapefile 
-attributes as well as subset shapefiles by specific attribute values.
+This lesson explains what attributes in shapefiles are. It also covers how to work 
+with shapefile attributes in `R`. It covers how to identify and query shapefile 
+attributes as well as subset shapefiles by specific attribute values. Finally,
+we will review how to plot a shapefile according to a set of attribute values.
+
+<div id="objectives" markdown="1">
 
 ###Goals / Objectives
 After completing this activity, you will:
@@ -36,10 +41,58 @@ After completing this activity, you will:
  * Be able to query shapefile attributes
  * Be able to subset shapefiles based on specific attributes
  
+###What you'll need
+
+You will need the most current version of R or R studio loaded on your computer 
+to complete this lesson.
+
+###R Libraries to Install:
+
+
+* **raster:** `install.packages("raster")`
+* **rgdal:** `install.packages("rgdal")`
+* **ggplot2:** `install.packages("ggplot2")`
+
+
+<a href="{{ site.baseurl }}/R/Packages-In-R/" target="_blank"> 
+More on Packages in R - Adapted from Software Carpentry.</a>
+
+##Data to Download
+
+Download the shapefiles neede to complete this lesson:
+
+<a href="http://files.figshare.com/2387960/boundaryFiles.zip" class="btn btn-success"> 
+DOWNLOAD Harvard Forest Shapefiles</a>
+
+###Recommended Reading
+
+This lesson is a part of a series on vector and raster data in R.
+
+1. <a href="{{ site.baseurl }}/R/open-shapefiles-in-R/">
+Intro to shapefiles in R</a>
+2. <a href="{{ site.baseurl }}/R/shapefile-attributes-in-R/">
+Working With Shapefile Attributes in R </a>
+3. <a href="{{ site.baseurl }}/R/csv-to-shapefile-R/">
+CSV to Shapefile in R</a>
+4. <a href="{{ site.baseurl }}/R/crop-extract-raster-data-R/">
+Crop and extract raster values in R</a>
+
+</div>
+
+NOTE: The data used in this tutorial were collected at Harvard Forest which is
+a the National Ecological Observatory Network field site <a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank">
+More about the NEON Harvard Forest field site</a>. These data are proxy data for what will be
+available for 30 years from the NEON flux tower [from the NEON data portal](http://data.neoninc.org/ "NEON data").
+{: .notice}
  
- 
+##Notes about R Libraries
+
+To work with vector data in R, we can use the `rgdal` library. We will load the `raster`
+library to work with rasters. The `raster` library also allows us to explore metadata
+using similar commands with both rasters and vectors.
  
 ##Querying shapefile attributes
+
 ```{r load-libraries-data }
 
 library(rgdal)
@@ -49,7 +102,7 @@ library(rgdal)
 aoiBoundary <- readOGR("boundaryFiles/HARV/", "HarClip_UTMZ18")
 
 #Import a line shapefile
-lines <- readOGR( "boundaryFiles/HARV/",layer = "HARV_roadStream")
+lines <- readOGR( "boundaryFiles/HARV/",layer = "HARV_roads")
 
 #Import a point shapefile 
 point <- readOGR("boundaryFiles/HARV/", "HARVtower_UTM18N")

@@ -2,7 +2,8 @@
 layout: post
 title: "Lesson 02: CSV to Shapefile in R"
 date:   2015-10-24
-authors: "Joseph Stachelek, Leah Wasser"
+authors: [Joseph Stachelek, Leah Wasser]
+contributors: []
 dateCreated:  2015-10-23
 lastModified: 2015-10-26
 tags: [module-1]
@@ -12,6 +13,7 @@ image:
   credit: A collaboration between the National Ecological Observatory Network (NEON) and Data Carpentry
   creditlink: http://www.neoninc.org
 permalink: /R/csv-to-shapefile-R/
+comments: false
 ---
 
 <section id="table-of-contents" class="toc">
@@ -24,54 +26,68 @@ permalink: /R/csv-to-shapefile-R/
 </div>
 </section><!-- /#table-of-contents -->
 
+#About
+This lesson will review how to import spatial points, stored in a  csv file into
+R as a spatial object - a `SpatialPointsDataFrame`. We will also learn how to
+reproject data imported in shapefile format, into another projection, create a 
+shapefile from a spatial object in R and plot raster and vector data as overlays
+in the same plot. 
 
-> ##Goals / Objectives
-> After completing this activity, you will:
->
-> * Import csv file containing x,y coordinate locations.
-> * Convert the csv to a spatial object
-> * Project coordinate locations provided in a Geographic Coordinate System (Latitude, Longitide) to projected (UTM)
-> * 
 
-<div id="objectives">
+<div id="objectives" markdown="1">
+
 <strong>R Skill Level:</strong> Beginner / Intermediate
 
-<h3>Goals / Objectives</h3>
+##Goals / Objectives
 After completing this activity, you will:
-<ol>
-<li>Import a time series formated csv file.</li>
-<li>Modify a date field that contains non-date characters and turn it into a proper
-date formated field.</li>
-<li>Plot the data.</li>
-<li>Convert time to a local time zone.</li>
-</ol>
 
-<h3>R Libraries to Install</h3>
-<ul>
+* Import csv file containing x,y coordinate locations.
+* Convert the csv to a spatial object
+* Project coordinate locations provided in a Geographic Coordinate System (Latitude, Longitide) to projected (UTM)
+* Plot raster and vector data in the same plot (create a map).
 
-</ul>
 
-<h3>Data to Download</h3>
- 
+###What you'll need
 
-<h3>Pre-reqs</h3>
-<p>.</p>
+You will need the most current version of R or R studio loaded on your computer 
+to complete this lesson.
+
+###R Libraries to Install:
+
+* **raster:** `install.packages("raster")`
+* **rgdal:** `install.packages("rgdal")`
+* **ggplot2:** `install.packages("ggplot2")`
+
+<a href="{{ site.baseurl }}/R/Packages-In-R/" target="_blank"> 
+More on Packages in R - Adapted from Software Carpentry.</a>
+
+##Data to Download
+
+Download the shapefiles neede to complete this lesson:
+
+<a href="http://files.figshare.com/2387960/boundaryFiles.zip" class="btn btn-success"> 
+DOWNLOAD Harvard Forest Shapefiles</a>
+
+
+###Recommended Reading
+This lesson is a part of a series on vector and raster data in R.
+
+1. <a href="{{ site.baseurl }}/R/open-shapefiles-in-R/">
+Intro to shapefiles in R</a>
+2. <a href="{{ site.baseurl }}/R/shapefile-attributes-in-R/">
+Working With Shapefile Attributes in R </a>
+3. <a href="{{ site.baseurl }}/R/csv-to-shapefile-R/">
+CSV to Shapefile in R</a>
+4. <a href="{{ site.baseurl }}/R/crop-extract-raster-data-R/">
+Crop and extract raster values in R</a>
+
 </div>
-
-###Lesson 02 - How to convert csv with spatial locations to a spatial data frame
-
-
-Objectives
-* Understand how to convert a csv with spatial points to a spatial object in R.
-* Convert to spatial points data frame
-* Know how to plot a spatial points data
-* Know how to create a basic map of a raster with a shapefile overlay
-* Be able to compare and align the projections of raster and vector objects
 
 
 Sometimes spatial data are downloaded or stored in a text file format (`txt` or 
-csv`). We can convert these data in text format, into a spatial object in R `SpatialPointsDataFrame`. Note that there is a `SpatialPoints` object in R that 
-does not allow you to store associated `attributes. The `SpatialPointsDataFrame 
+`csv`). We can convert these data in text format, into a spatial object in R 
+`SpatialPointsDataFrame`. Note that there is a `SpatialPoints` object in R that 
+does not allow you to store associated `attributes`. The `SpatialPointsDataFrame` 
 allows you to store columns from your `data.frame` in the object.
 
 
@@ -212,10 +228,10 @@ data!
     plot(aoiBoundary, add=TRUE)
     
     #add roads to our plot
-    roads <- readOGR("boundaryFiles/HARV/","HARV_roadStream")
+    roads <- readOGR("boundaryFiles/HARV/","HARV_roads")
 
     ## OGR data source with driver: ESRI Shapefile 
-    ## Source: "boundaryFiles/HARV/", layer: "HARV_roadStream"
+    ## Source: "boundaryFiles/HARV/", layer: "HARV_roads"
     ## with 13 features
     ## It has 15 fields
 
@@ -353,9 +369,12 @@ raster, and overlay the lines and squareplot shapefiles using the `add` argument
     
     plot(roads, add = TRUE)
     plot(aoiBoundary, add = TRUE)
+    plot(plot.locationSp, add = TRUE, pch=19)
 
 ![ ]({{ site.baseurl }}/images/rfigs/02-csv-vector-raster-plotting/Plot vector-raster overlay-1.png) 
 
-    plot(plot.location_spatial, add = TRUE, pch=19)
+#Challenge - One Your Own
 
-    ## Error in plot(plot.location_spatial, add = TRUE, pch = 19): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'plot.location_spatial' not found
+> to go here
+>
+>

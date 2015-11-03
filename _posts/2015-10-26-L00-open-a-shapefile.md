@@ -2,7 +2,7 @@
 layout: post
 title: "Lesson 00: Vector Data in R - Open and plot shapefiles"
 date:   2015-10-26
-authors: "Joseph Stachelek, Leah Wasser"
+authors: [Joseph Stachelek, Leah Wasser]
 dateCreated:  2015-10-23
 lastModified: 2015-10-26
 tags: [module-1]
@@ -12,6 +12,7 @@ image:
   credit: A collaboration between the National Ecological Observatory Network (NEON) and Data Carpentry
   creditlink: http://www.neoninc.org
 permalink: /R/open-shapefiles-in-R/
+comments: false
 ---
 
 <section id="table-of-contents" class="toc">
@@ -24,9 +25,12 @@ permalink: /R/open-shapefiles-in-R/
 </div>
 </section><!-- /#table-of-contents -->
 
+
 ##About
 In this lesson, we will work with vector data in R. We will open and plot point, 
 line, and polygon data, stored in `shapefile` format, in R.
+
+<div id="objectives" markdown="1">
 
 ###Goals / Objectives
 After completing this activity, you will:
@@ -34,8 +38,51 @@ After completing this activity, you will:
  * Know the difference between point, line, and polygon vector elements.
  * Understand the differences between opening point, line and polygon shapefiles in R.
  * Understand the components of a _spatial object_ (in R)
+###What you'll need
+
+You will need the most current version of R or R studio loaded on your computer 
+to complete this lesson.
+
+###R Libraries to Install:
+
+
+* **raster:** `install.packages("raster")`
+* **sp:** `install.packages("sp")`
+* **rgdal:** `install.packages("rgdal")`
+* **ggplot2:** `install.packages("ggplot2")`
+
+<a href="{{ site.baseurl }}/R/Packages-In-R/" target="_blank"> 
+More on Packages in R - Adapted from Software Carpentry.</a>
+
+##Data to Download
+
+Download the raster and <i>insitu</i> collected vegetation structure data:
+
+<a href="http://files.figshare.com/2387960/boundaryFiles.zip" class="btn btn-success"> 
+DOWNLOAD Harvard Forest Shapefiles</a>
+
+###Recommended Reading
+This lesson is a part of a series on vector and raster data in R.
+
+
+1. <a href="{{ site.baseurl }}/R/open-shapefiles-in-R/">
+Intro to shapefiles in R</a>
+2. <a href="{{ site.baseurl }}/R/shapefile-attributes-in-R/">
+Working With Shapefile Attributes in R </a>
+3. <a href="{{ site.baseurl }}/R/csv-to-shapefile-R/">
+CSV to Shapefile in R</a>
+4. <a href="{{ site.baseurl }}/R/crop-extract-raster-data-R/">
+Crop and extract raster values in R</a>
  
-###Tools To Install
+</div>
+
+NOTE: The data used in this tutorial were collected at Harvard Forest which is
+a the National Ecological Observatory Network field site <a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank">
+More about the NEON Harvard Forest field site</a>. These data are proxy data for what will be
+available for 30 years from the NEON flux tower [from the NEON data portal](http://data.neoninc.org/ "NEON data").
+{: .notice}
+ 
+###Notes about R Libraries
 
 To work with vector data in R, we can use the `rgdal` library. We will load the `raster`
 library to work with rasters. The `raster` library also allows us to explore metadata
@@ -46,7 +93,6 @@ using similar commands with both rasters and vectors.
     library(rgdal)
     library(raster)
 
-###Recommended Pre-Lesson Reading
 
 #About Vector Data
 Vector data are composed of discrete geometric locations (x,y values) that make 
@@ -92,8 +138,9 @@ shapefiles include
 * a point shapefile representing the location of a [flux tower](http://www.neoninc.org/science-design/collection-methods/flux-tower-measurements) located at the NEON 
 Harvard Forest field site.
 
-The first shapefile we will open, contains the boundary of our study area. 
-It is a polygon layer.
+The first shapefile that we will open, contains the boundary of our study area. 
+It is a polygon layer. We can tell it is a polygon by viewing it's `class` in the 
+attributes of the object which is `SpatialPolygonsDataFrame`.
 
 
     #Import a polygon shapefile 
@@ -123,7 +170,10 @@ It is a polygon layer.
     ## 0  1
 
     #create a quick plot of the shapefile
-    plot(aoiBoundary)
+    #note: lwd sets the line width!
+    #for a list of r color options 
+    #https://codeyarns.files.wordpress.com/2011/07/20110729-vim-named-colors.png?w=700
+    plot(aoiBoundary,col="cyan1", border="black", lwd=3)
 
 ![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/Import-Shapefile-1.png) 
 
@@ -132,11 +182,11 @@ It is a polygon layer.
 When we import the `HarClip_UTMZ18` layer into R, some key metadata are stored
 with the spatial R object:
 
-1. ** object type: **  in this case our area of interest (AOI) is a polygon boundary
+1. **Object Type: **  in this case our area of interest (AOI) is a polygon boundary
 R knows to bring it in as a `SpatialPolygonsDataFrame`
 2. **CRS** - The shapefile also contains projection information `coord ref.` in the output 
 above.
-3. **extent** - we can see the spatial extent of the shapefile. Note that the spatial
+3. **Extent** - we can see the spatial extent of the shapefile. Note that the spatial
 extent for a shapefile represents the extent for ALL polygons (or spatial objects)
 in the shapefile!
 
@@ -165,6 +215,7 @@ commands:
 >#ON YOUR OWN ACTIVITY
 >
 >Using the steps above, import the HARV_roadStream and HARVtower_UTM18N layers into R.
+>Call the Harv_roadStream object `lines` and the HARVtower_UTM18N `point`
 >Answer the following questions:
 
 >1. What type of R spatial object is created when you import each layer?
@@ -176,15 +227,7 @@ commands:
 
 
 
-    ## OGR data source with driver: ESRI Shapefile 
-    ## Source: "boundaryFiles/HARV/", layer: "HARV_roadStream"
-    ## with 13 features
-    ## It has 15 fields
-
-    ## OGR data source with driver: ESRI Shapefile 
-    ## Source: "boundaryFiles/HARV/", layer: "HARVtower_UTM18N"
-    ## with 1 features
-    ## It has 14 fields
+    ## Error in ogrInfo(dsn = dsn, layer = layer, encoding = encoding, use_iconv = use_iconv, : Cannot open layer
 
 #Shapefile Attributes
 Each spatial object in a shapefile can have the same set of attributes. These attributes
@@ -273,4 +316,8 @@ span 2 lines, use `\n` where you'd like the line break.
 
 ![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/plot-multiple-shapefiles-1.png) 
 
+#Another On Your Own Activity
 
+>More here on what this is
+>Ideas?
+>

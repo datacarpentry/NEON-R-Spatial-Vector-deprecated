@@ -17,7 +17,10 @@ aoiBoundary
 (aoiBoundary@data)
 
 #create a quick plot of the shapefile
-plot(aoiBoundary)
+#note: lwd sets the line width!
+#for a list of r color options 
+#https://codeyarns.files.wordpress.com/2011/07/20110729-vim-named-colors.png?w=700
+plot(aoiBoundary,col="cyan1", border="black", lwd=3)
 
 
 ## ----view-crs-extent-----------------------------------------------------
@@ -28,7 +31,7 @@ crs(aoiBoundary)
 extent(aoiBoundary)
 
 
-## ----import-point-line, echo=FALSE---------------------------------------
+## ----import-point-line, echo=FALSE, results="hide"-----------------------
 
 #Import a line shapefile
 lines <- readOGR( "boundaryFiles/HARV/",layer = "HARV_roadStream")
