@@ -16,15 +16,7 @@ permalink: /R/csv-to-shapefile-R/
 comments: false
 ---
 
-<section id="table-of-contents" class="toc">
-  <header>
-    <h3>Contents</h3>
-  </header>
-<div id="drawer" markdown="1">
-*  Auto generated table of contents
-{:toc}
-</div>
-</section><!-- /#table-of-contents -->
+{% include _toc.html %}
 
 #About
 This lesson will review how to import spatial points, stored in a  csv file into
