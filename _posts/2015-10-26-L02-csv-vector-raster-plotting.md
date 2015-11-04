@@ -5,7 +5,7 @@ date:   2015-10-24
 authors: [Joseph Stachelek, Leah Wasser]
 contributors: []
 dateCreated:  2015-10-23
-lastModified: 2015-10-26
+lastModified: 2015-11-03
 tags: [module-1]
 description: "This lesson walks through how to convert a csv file contains coordinate information into a spatial object in R."
 image:

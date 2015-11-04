@@ -4,7 +4,7 @@ title: "Lesson 00: Vector Data in R - Open and plot shapefiles"
 date:   2015-10-26
 authors: [Joseph Stachelek, Leah Wasser]
 dateCreated:  2015-10-23
-lastModified: 2015-10-26
+lastModified: 2015-11-03
 tags: [module-1]
 description: "This post explains the how to open and plot point, line, and polygon shapefiles in R."
 image:
@@ -268,13 +268,14 @@ the `R` object _attributes_.
     #explore the lines and point objects
     lines
 
-    ## standardGeneric for "lines" defined from package "graphics"
-    ## 
-    ## function (x, ...) 
-    ## standardGeneric("lines")
-    ## <environment: 0x10a3b18b0>
-    ## Methods may be defined for arguments: x
-    ## Use  showMethods("lines")  for currently available ones.
+    ## class       : SpatialLinesDataFrame 
+    ## features    : 13 
+    ## extent      : 730741.2, 733295.5, 4711942, 4714260  (xmin, xmax, ymin, ymax)
+    ## coord. ref. : +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
+    ## variables   : 15
+    ## names       : OBJECTID_1, OBJECTID,       TYPE,             NOTES, MISCNOTES, RULEID,          MAPLABEL, SHAPE_LENG,             LABEL, BIKEHORSE, RESVEHICLE, RECMAP, Shape_Le_1,                         ResVehic_1,                  BicyclesHo 
+    ## min values  :         14,       48,  boardwalk, Locust Opening Rd,        NA,      1, Locust Opening Rd,   35.88146, Locust Opening Rd,         N,         R1,      N,   35.88152, R1 - All Research Vehicles Allowed, Bicycles and Horses Allowed 
+    ## max values  :        754,      674, woods road,    Pierce Farm Rd,        NA,      6,    Pierce Farm Rd, 3808.43252,    Pierce Farm Rd,         Y,         R3,      Y, 1885.82912,           R3 - No Vehicles Allowed,      DO NOT SHOW ON REC MAP
 
     point
 
@@ -301,9 +302,7 @@ span 2 lines, use `\n` where you'd like the line break.
     
     plot(x = aoiBoundary, col = "purple", main="Harvard Forest\nStudy Area")
     plot(x = lines, add = TRUE)
-
-    ## Error in curve(expr = x, from = from, to = to, xlim = xlim, ylab = ylab, : 'expr' did not evaluate to an object of length 'n'
-
+    
     #use the pch element to adjust the symbology of the points
     plot(x = point, add  = TRUE, pch = 19, col = "red")
 

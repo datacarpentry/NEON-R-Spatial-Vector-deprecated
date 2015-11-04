@@ -5,7 +5,7 @@ date:   2015-10-25
 authors: [Joseph Stachelek, Leah Wasser]
 contributors: [Megan Jones]
 dateCreated:  2015-10-23
-lastModified: 2015-10-26
+lastModified: 2015-11-03
 tags: [module-1]
 description: "This post explains the nature of shapefile attributes. Participants will be able to locate and query shapefile attributes as well as subset shapefiles by specific attribute values."
 image:
