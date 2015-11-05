@@ -28,15 +28,17 @@ line, and polygon data, stored in `shapefile` format, in R.
 After completing this activity, you will:
 
  * Know the difference between point, line, and polygon vector elements.
- * Understand the differences between opening point, line and polygon shapefiles in R.
- * Understand the components of a _spatial object_ (in R)
+ * Understand the differences between opening point, line and polygon shapefiles
+    in R.
+ * Understand the components of a _spatial object_ (in R).
+ 
+ 
 ###What you'll need
 
 You will need the most current version of R or R studio loaded on your computer 
 to complete this lesson.
 
 ###R Libraries to Install:
-
 
 * **raster:** `install.packages("raster")`
 * **sp:** `install.packages("sp")`
@@ -48,7 +50,7 @@ More on Packages in R - Adapted from Software Carpentry.</a>
 
 ##Data to Download
 
-Download the raster and <i>insitu</i> collected vegetation structure data:
+Download the raster and <i>in situ</i> collected vegetation structure data:
 
 <a href="http://files.figshare.com/2387960/boundaryFiles.zip" class="btn btn-success"> 
 DOWNLOAD Harvard Forest Shapefiles</a>
@@ -76,9 +78,10 @@ available for 30 years from the NEON flux tower [from the NEON data portal](http
  
 ###Notes about R Libraries
 
-To work with vector data in R, we can use the `rgdal` library. We will load the `raster`
-library to work with rasters. The `raster` library also allows us to explore metadata
-using similar commands with both rasters and vectors.
+To work with vector data in R, we can use the `rgdal` library. Notice that `sp`
+also automatically loads when `rgdal` is loaded. We will load the `raster`
+library to work with rasters. The `raster` library also allows us to explore
+metadata using similar commands with both rasters and vectors.
 
 ```{r load-libraries }
 
@@ -94,15 +97,16 @@ Vector data are composed of discrete geometric locations (x,y values) that make
 up objects. The organization of the geometric locations, determines the type of 
 vector that we are working with (point, line or polygon) as follows: 
 
-* **Points:** in a point vector dataset, each point is represented by an x,y coordinate location. 
-There can be many points in a vector point file. Examples of points include plot locations, or the
-locations of individual trees.
-* **Lines:** Lines are composed of many points that are connected. For instance, a road, 
-or a stream is a line, each bend in the road or stream represents a vertex that 
-has an x,y location associated with it. A line consists of ATLEAST 2 vertices 
-that are connnected. Examples: Roads, Streams.
-* **Polygons:** a polygon consists of 3 or more vertices that are both connected and
-most often closed. Thus the outline of a plot boundary, a lake, ocean, state or 
+* **Points:** In a point vector dataset, each point is represented by an x,y
+coordinate location. There can be many points in a vector point file. Examples:
+plot locations or the locations of individual trees.
+* **Lines:** Lines are composed of many points that are connected. For instance,
+a road, or a stream is a series of straight line segments, each bend in the road
+or stream represents a vertex that has an x,y location associated with it. A
+line consists of AT LEAST 2 vertices that are connnected. Examples: roads or
+streams.
+* **Polygons:** A polygon consists of 3 or more vertices that are connected and,
+most often, closed. Thus the outline of a plot boundary, a lake, ocean, state or 
 country would all most often be stored in a polygon format. 
 
 NOTE: a line can represent a boundary as well - however a line will not create a 
@@ -116,7 +120,7 @@ structure of a point, line and polygon object is different, each shapefile
 can only contain one vector type (all points, all polygons or all lines). You will 
 not find a mixture of point, line and polygon objects in one shapefile!
 
-Each vector in the shapefile often has a set os associated `attributes` that describe the data.
+Each vector in the shapefile often has a set of associated `attributes` that describe the data.
 For example, a line shapefile that contains the locations of streams, might contain stream
 names for each line.
 
