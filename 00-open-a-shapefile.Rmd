@@ -146,20 +146,45 @@ shapefiles include
 Harvard Forest field site.
 
 The first shapefile that we will open, contains the boundary of our study area. 
-It is a polygon layer. We can tell it is a polygon by viewing it's `class` in the 
-attributes of the object which is `SpatialPolygonsDataFrame`.
+It is a polygon layer. We can tell it is a polygon by viewing it's `class` in
+the attributes of the object which is `SpatialPolygonsDataFrame`.
 
 ```{r Import-Shapefile}
 
 #Import a polygon shapefile 
 aoiBoundary <- readOGR("boundaryFiles/HARV/", "HarClip_UTMZ18")
+```
 
+Whenever adding a new file it is good coding practice to include what the file
+is and it source.  [In the initial what is the additional metadata added and
+why? ->add to description ]
+
+After loading a new data set we also want to view the attributes of the layer.
+This can be done simple by entering the file name.
+
+``` {r Shapefile-attributes}
 #view attributes of the layer
 aoiBoundary
+```
 
-#you can also use the attributes command to just view the attributes of the data
+Here we see that R interprets the data as a SpatialPolygonsDataFrame data class
+and information about the coordinate reference including that the coordinates 
+are UTMs from zone 18.  This helps us interpret the previous line giving the
+extent of the file.  Finally we see there is one variable named "id" that 
+appears to consists of only ones (min and max value both 1).
+
+But we can look just at attribute data by using @data.  
+
+```{r Shapefile-attributes-2}
+#just view the attributes of the data
 (aoiBoundary@data)
+```
 
+Now that we see just the attributes we see that the variable “id” actually consists of 0s and 1s.  [Why the difference? R doesn’t recognize 0 as data but as null?]
+
+Once we know what is in the attributes it is time to visualize that data.
+
+``` {r Plot-shapefile}
 #create a quick plot of the shapefile
 #note: lwd sets the line width!
 #for a list of r color options 
