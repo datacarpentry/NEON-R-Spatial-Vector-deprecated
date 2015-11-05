@@ -36,15 +36,17 @@ line, and polygon data, stored in `shapefile` format, in R.
 After completing this activity, you will:
 
  * Know the difference between point, line, and polygon vector elements.
- * Understand the differences between opening point, line and polygon shapefiles in R.
- * Understand the components of a _spatial object_ (in R)
+ * Understand the differences between opening point, line and polygon shapefiles
+    in R.
+ * Understand the components of a _spatial object_ (in R).
+ 
+ 
 ###What you'll need
 
 You will need the most current version of R or R studio loaded on your computer 
 to complete this lesson.
 
 ###R Libraries to Install:
-
 
 * **raster:** `install.packages("raster")`
 * **sp:** `install.packages("sp")`
@@ -84,9 +86,10 @@ available for 30 years from the NEON flux tower [from the NEON data portal](http
  
 ###Notes about R Libraries
 
-To work with vector data in R, we can use the `rgdal` library. We will load the `raster`
-library to work with rasters. The `raster` library also allows us to explore metadata
-using similar commands with both rasters and vectors.
+To work with vector data in R, we can use the `rgdal` library. Notice that `sp`
+also automatically loads when `rgdal` is loaded. We will load the `raster`
+library to work with rasters. The `raster` library also allows us to explore
+metadata using similar commands with both rasters and vectors.
 
 ```{r load-libraries }
 
