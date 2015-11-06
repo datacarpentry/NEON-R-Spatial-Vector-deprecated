@@ -5,7 +5,7 @@ date:   2015-10-24
 authors: [Joseph Stachelek, Leah Wasser]
 contributors: []
 dateCreated:  2015-10-23
-lastModified: 2015-10-26
+lastModified: 2015-11-03
 tags: [module-1]
 description: "This lesson walks through how to convert a csv file contains coordinate information into a spatial object in R."
 image:
@@ -16,15 +16,7 @@ permalink: /R/csv-to-shapefile-R/
 comments: false
 ---
 
-<section id="table-of-contents" class="toc">
-  <header>
-    <h3>Contents</h3>
-  </header>
-<div id="drawer" markdown="1">
-*  Auto generated table of contents
-{:toc}
-</div>
-</section><!-- /#table-of-contents -->
+{% include _toc.html %}
 
 #About
 This lesson will review how to import spatial points, stored in a  csv file into

@@ -5,7 +5,7 @@ date:   2015-10-25
 authors: [Joseph Stachelek, Leah Wasser]
 contributors: [Megan Jones]
 dateCreated:  2015-10-23
-lastModified: 2015-10-26
+lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 tags: [module-1]
 description: "This post explains the nature of shapefile attributes. Participants will be able to locate and query shapefile attributes as well as subset shapefiles by specific attribute values."
 image:
@@ -16,15 +16,7 @@ permalink: /R/shapefile-attributes-in-R/
 comments: false
 ---
 
-<section id="table-of-contents" class="toc">
-  <header>
-    <h3>Contents</h3>
-  </header>
-<div id="drawer" markdown="1">
-*  Auto generated table of contents
-{:toc}
-</div>
-</section><!-- /#table-of-contents -->
+{% include _toc.html %}
 
 
 ##About
