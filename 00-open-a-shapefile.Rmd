@@ -159,9 +159,9 @@ aoiBoundary
 Here we see that R interprets the data as a SpatialPolygonsDataFrame data class
 and information about the coordinate reference system including that the 
 coordinates  are UTMs from zone 18.  This helps us interpret the previous line 
-giving the extent of the file.  We will discuss attributes in more detail a bit 
-later. Finally we see there is one variable named "id" that appears to consists 
-of only ones (min and max value both 1).
+giving the extent of the file.  We will discuss metadata and attributes in more
+detail a bit later. Finally we see there is one variable named "id" that appears
+to consists of only ones (min and max value both 1).
 
 But we can look just at attribute data by using @data.  
 
@@ -228,9 +228,12 @@ the output above.
 spatial extent for a shapefile represents the extent for ALL polygons (or 
 spatial objects) in the shapefile!
 
-Each spatial object in a shapefile can have the same set of attributes. These
-attributes can be any sort of attribute that you might store in a spreadsheet 
-about your data. 
+In addition to the metadata, each object has one or more attributes linked 
+to it.  Attributes of an object can include measurements, description, or
+classification of the object. Attribute data can be any sort of information or 
+attribute that you might store in a spreadsheet of your data. Each spatial 
+object in a shapefile can have the same set of attributes or each can be 
+different. 
 
 We can view a metadata & attribute summary of each shapefile by entering 
 the name of the `R` object in the console. Note that the metadata output includes
@@ -249,8 +252,7 @@ summary(aoiBoundary)
 
 ```
 
-We can also view the just CRS or Extent for the shapefile using the 
-following commands:
+We can also view specific metadata for the shapefile:
 
 ```{r view-crs-extent }
 #view just the crs for the shapefile
@@ -258,6 +260,9 @@ crs(aoiBoundary)
 
 #view just the extent for the shapefile
 extent(aoiBoundary)
+
+#view just the class for the shapefile
+class(aoiBoundary)
 
 ```
 
