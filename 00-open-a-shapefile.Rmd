@@ -43,7 +43,7 @@ to complete this lesson.
 * **raster:** `install.packages("raster")`
 * **sp:** `install.packages("sp")`
 * **rgdal:** `install.packages("rgdal")`
-* **ggplot2:** `install.packages("ggplot2")`
+
 
 <a href="{{ site.baseurl }}/R/Packages-In-R/" target="_blank"> 
 More on Packages in R - Adapted from Software Carpentry.</a>
@@ -124,8 +124,7 @@ Each vector in the shapefile often has a set of associated `attributes` that
 describe the data. For example, a line shapefile that contains the locations of 
 streams, might contain stream names for each line.
 
-More about shapefiles can found on [Wikipedia](https://en.wikipedia.org/wiki/Shapefile) 
-(add link to Metadata lesson?).
+More about shapefiles can found on [Wikipedia](https://en.wikipedia.org/wiki/Shapefile).
 
 ##Importing shapefiles
 
@@ -142,6 +141,8 @@ It is a polygon layer. We can tell it is a polygon by viewing it's `class` in
 the attributes of the object which is `SpatialPolygonsDataFrame`.
 
 ```{r Import-Shapefile}
+#set working directory to where the data files were saved.  
+setwd("~/Documents/data/Spatio_TemporalWorkshop/1_WorkshopData")
 
 #Import a polygon shapefile 
 aoiBoundary <- readOGR("boundaryFiles/HARV/", "HarClip_UTMZ18")
@@ -158,9 +159,9 @@ aoiBoundary
 Here we see that R interprets the data as a SpatialPolygonsDataFrame data class
 and information about the coordinate reference system including that the 
 coordinates  are UTMs from zone 18.  This helps us interpret the previous line 
-giving the extent of the file.  We will discuss in more detail a bit later.
-Finally we see there is one variable named "id" that appears to consists of only 
-ones (min and max value both 1).
+giving the extent of the file.  We will discuss attributes in more detail a bit 
+later. Finally we see there is one variable named "id" that appears to consists 
+of only ones (min and max value both 1).
 
 But we can look just at attribute data by using @data.  
 
@@ -186,9 +187,9 @@ plot(aoiBoundary,col="cyan1", border="black", lwd=3)
 We get a box representing the boundaries specified in the shapefile that we
 just imported.  
 
-#Import a line and point shapefile
 
->#ON YOUR OWN ACTIVITY
+
+>#ON YOUR OWN ACTIVITY: Import a line and point shapefile
 >
 >Using the steps above, import the HARV_roads and HARVtower_UTM18N layers into R.
 >Call the Harv_roads object `lines` and the HARVtower_UTM18N `point`
@@ -215,8 +216,8 @@ lines
 point
 ```
 
-#Shapefile Attributes
-When we import the `HarClip_UTMZ18` layer into R, some key metadata are stored
+#Shapefile Metadata & Attributes
+When we imported the `HarClip_UTMZ18` layer into R, some key metadata were stored
 with the spatial R object:
 
 1. **Object Type:**  In this case our area of interest (AOI) is a polygon 
@@ -231,7 +232,7 @@ Each spatial object in a shapefile can have the same set of attributes. These
 attributes can be any sort of attribute that you might store in a spreadsheet 
 about your data. 
 
-We can view a metadata/attribute summary of each shapefile by entering 
+We can view a metadata & attribute summary of each shapefile by entering 
 the name of the `R` object in the console. Note that the metadata output includes
 the _class_, the number of _features_, the _extent_, and the `coordinate 
 reference system` (CRS) of the `R` object. The last two lines of summary show a 
@@ -264,8 +265,8 @@ extent(aoiBoundary)
 #Plot Multiple Shapefiles
 
 The `plot()` function can be used for basic plotting of these spatial objects. 
-We use the `add = TRUE` argument to overlay shapefiles on top of each other. As we 
-would when creating a map in a typical GIS application like QGIS.
+We use the `add = TRUE` argument to overlay shapefiles on top of each other, as
+we would when creating a map in a typical GIS application like QGIS.
 
 We can use the `main=""` to give our plot a title. If you want the title to 
 span 2 lines, use `\n` where you'd like the line break.
@@ -273,15 +274,11 @@ span 2 lines, use `\n` where you'd like the line break.
 ```{r plot-multiple-shapefiles }
 #Plot multiple shapefiles
 
-plot(x = aoiBoundary, col = "purple", main="Harvard Forest\nStudy Area")
-plot(x = lines, add = TRUE)
+plot(aoiBoundary, col = "purple", main="Harvard Forest\nStudy Area")
+plot(lines, add = TRUE)
 
 #use the pch element to adjust the symbology of the points
-plot(x = point, add  = TRUE, pch = 19, col = "red")
+plot(point, add  = TRUE, pch = 19, col = "red")
 ```
 
 #Another On Your Own Activity
-
->More here on what this is
->Ideas?
->
