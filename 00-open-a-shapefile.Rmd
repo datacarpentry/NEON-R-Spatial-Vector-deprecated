@@ -160,10 +160,10 @@ aoiBoundary
 ```
 
 Here we see that R interprets the data as a SpatialPolygonsDataFrame data class
-and information about the coordinate reference including that the coordinates 
-are UTMs from zone 18.  This helps us interpret the previous line giving the
-extent of the file.  Finally we see there is one variable named "id" that 
-appears to consists of only ones (min and max value both 1).
+and information about the coordinate reference system including that the 
+coordinates  are UTMs from zone 18.  This helps us interpret the previous line 
+giving the extent of the file.  We will discuss CRS and extent a little later.
+Finally we see there is one variable named "id" that appears to consists of only ones (min and max value both 1).
 
 But we can look just at attribute data by using @data.  
 
@@ -185,21 +185,25 @@ plot(aoiBoundary,col="cyan1", border="black", lwd=3)
 
 ```
 
+We get a box representing the boundaries specified in the shapefile that we
+just imported.  
+
 #View Shapefile Metadata
 
 When we import the `HarClip_UTMZ18` layer into R, some key metadata are stored
 with the spatial R object:
 
-1. **Object Type: **  in this case our area of interest (AOI) is a polygon boundary
-R knows to bring it in as a `SpatialPolygonsDataFrame`
-2. **CRS** - The shapefile also contains projection information `coord ref.` in the output 
-above.
-3. **Extent** - we can see the spatial extent of the shapefile. Note that the spatial
-extent for a shapefile represents the extent for ALL polygons (or spatial objects)
-in the shapefile!
+1. **Object Type:**  In this case our area of interest (AOI) is a polygon 
+boundary R knows to bring it in as a `SpatialPolygonsDataFrame`
+2. **CRS** - The shapefile also contains projection information `coord ref.` in
+the output above.
+3. **Extent** - we can see the spatial extent of the shapefile. Note that the 
+spatial extent for a shapefile represents the extent for ALL polygons (or 
+spatial objects) in the shapefile!
 
-We can view the CRS, Extent and other metadata for the shapefile using the following
-commands:
+While we previoulsy viewed this data by just entering the object name
+`aoiBoundary` we can view the just CRS or Extent for the shapefile using the 
+following commands:
 
 ```{r view-crs-extent }
 #view just the crs for the shapefile
@@ -214,8 +218,8 @@ extent(aoiBoundary)
 
 >#ON YOUR OWN ACTIVITY
 >
->Using the steps above, import the HARV_roadStream and HARVtower_UTM18N layers into R.
->Call the Harv_roadStream object `lines` and the HARVtower_UTM18N `point`
+>Using the steps above, import the HARV_roads and HARVtower_UTM18N layers into R.
+>Call the Harv_roads object `lines` and the HARVtower_UTM18N `point`
 >Answer the following questions:
 
 >1. What type of R spatial object is created when you import each layer?
@@ -229,7 +233,7 @@ extent(aoiBoundary)
 ```{r import-point-line, echo=FALSE, results="hide" }
 
 #Import a line shapefile
-lines <- readOGR( "boundaryFiles/HARV/",layer = "HARV_roadStream")
+lines <- readOGR( "boundaryFiles/HARV/",layer = "HARV_roads")
 
 #Import a point shapefile 
 point <- readOGR("boundaryFiles/HARV/", "HARVtower_UTM18N")
@@ -237,14 +241,15 @@ point <- readOGR("boundaryFiles/HARV/", "HARVtower_UTM18N")
 ```
 
 #Shapefile Attributes
-Each spatial object in a shapefile can have the same set of attributes. These attributes
-can be any sort of attribute that you might store in a spreadsheet about your data. 
+Each spatial object in a shapefile can have the same set of attributes. These
+attributes can be any sort of attribute that you might store in a spreadsheet 
+about your data. 
 
 We can view a metadata/attribute summary of each shapefile by entering 
-the name of the `R` object in the console. Note that the metadata output includes 
-the _class_, the number of _features_, the _extent_, and the `coordinate reference 
-system` (crs) of the `R` object. The last two lines of summary show a preview of 
-the `R` object _attributes_.
+the name of the `R` object in the console. Note that the metadata output includes
+the _class_, the number of _features_, the _extent_, and the `coordinate 
+reference system` (CRS) of the `R` object. The last two lines of summary show a 
+preview of the `R` object _attributes_.
 
 ```{r View-Attribute-Summary}
 #View attributes
