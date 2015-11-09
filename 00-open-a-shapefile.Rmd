@@ -115,13 +115,15 @@ closed object.
 **INSERT GRAPHIC HERE**
 
 ##Shapefiles: Points, Lines, and Polygons
-Geospatial data in vector format, is often stored in a `shapefile` format. Because the 
-structure of a point, line and polygon object is different, each shapefile
-can only contain one vector type (all points, all polygons or all lines). You will 
-not find a mixture of point, line and polygon objects in one shapefile!
+Geospatial data in vector format, is often stored in a `shapefile` format. 
+Because the structure of a point, line and polygon object is different, each 
+shapefile can only contain one vector type (all points, all polygons or all 
+lines). You will  not find a mixture of point, line and polygon objects in one shapefile!
 
-Each vector in the shapefile often has a set of associated `attributes` that describe the data.
-For example, a line shapefile that contains the locations of streams, might contain stream
+Each vector in the shapefile often has a set of associated `attributes` that
+describe the data.
+For example, a line shapefile that contains the locations of streams, might 
+contain stream
 names for each line.
 
 More about shapefiles can found on [Wikipedia](https://en.wikipedia.org/wiki/Shapefile) 
@@ -147,10 +149,6 @@ the attributes of the object which is `SpatialPolygonsDataFrame`.
 aoiBoundary <- readOGR("boundaryFiles/HARV/", "HarClip_UTMZ18")
 ```
 
-Whenever adding a new file it is good coding practice to include what the file
-is and it source.  [In the initial what is the additional metadata added and
-why? ->add to description ]
-
 After loading a new data set we also want to view the attributes of the layer.
 This can be done simple by entering the file name.
 
@@ -163,7 +161,8 @@ Here we see that R interprets the data as a SpatialPolygonsDataFrame data class
 and information about the coordinate reference system including that the 
 coordinates  are UTMs from zone 18.  This helps us interpret the previous line 
 giving the extent of the file.  We will discuss CRS and extent a little later.
-Finally we see there is one variable named "id" that appears to consists of only ones (min and max value both 1).
+Finally we see there is one variable named "id" that appears to consists of only 
+ones (min and max value both 1).
 
 But we can look just at attribute data by using @data.  
 
@@ -172,7 +171,8 @@ But we can look just at attribute data by using @data.
 (aoiBoundary@data)
 ```
 
-Now that we see just the attributes we see that the variable “id” actually consists of 0s and 1s.  [Why the difference? R doesn’t recognize 0 as data but as null?]
+Now that we see just the attributes we see that the variable “id” actually
+consists of 0s and 1s. 
 
 Once we know what is in the attributes it is time to visualize that data.
 
@@ -187,32 +187,6 @@ plot(aoiBoundary,col="cyan1", border="black", lwd=3)
 
 We get a box representing the boundaries specified in the shapefile that we
 just imported.  
-
-#View Shapefile Metadata
-
-When we import the `HarClip_UTMZ18` layer into R, some key metadata are stored
-with the spatial R object:
-
-1. **Object Type:**  In this case our area of interest (AOI) is a polygon 
-boundary R knows to bring it in as a `SpatialPolygonsDataFrame`
-2. **CRS** - The shapefile also contains projection information `coord ref.` in
-the output above.
-3. **Extent** - we can see the spatial extent of the shapefile. Note that the 
-spatial extent for a shapefile represents the extent for ALL polygons (or 
-spatial objects) in the shapefile!
-
-While we previoulsy viewed this data by just entering the object name
-`aoiBoundary` we can view the just CRS or Extent for the shapefile using the 
-following commands:
-
-```{r view-crs-extent }
-#view just the crs for the shapefile
-crs(aoiBoundary)
-
-#view just the extent for the shapefile
-extent(aoiBoundary)
-
-```
 
 #Import a line and point shapefile
 
@@ -241,6 +215,17 @@ point <- readOGR("boundaryFiles/HARV/", "HARVtower_UTM18N")
 ```
 
 #Shapefile Attributes
+When we import the `HarClip_UTMZ18` layer into R, some key metadata are stored
+with the spatial R object:
+
+1. **Object Type:**  In this case our area of interest (AOI) is a polygon 
+boundary R knows to bring it in as a `SpatialPolygonsDataFrame`
+2. **CRS** - The shapefile also contains projection information `coord ref.` in
+the output above.
+3. **Extent** - we can see the spatial extent of the shapefile. Note that the 
+spatial extent for a shapefile represents the extent for ALL polygons (or 
+spatial objects) in the shapefile!
+
 Each spatial object in a shapefile can have the same set of attributes. These
 attributes can be any sort of attribute that you might store in a spreadsheet 
 about your data. 
@@ -263,6 +248,22 @@ lines
 point
 
 ```
+
+#Viewing Specific Shapefile Attributes
+
+While we previoulsy viewed this data by just entering the object name
+`aoiBoundary` we can view the just CRS or Extent for the shapefile using the 
+following commands:
+
+```{r view-crs-extent }
+#view just the crs for the shapefile
+crs(aoiBoundary)
+
+#view just the extent for the shapefile
+extent(aoiBoundary)
+
+```
+
 
 #Plot Multiple Shapefiles
 
