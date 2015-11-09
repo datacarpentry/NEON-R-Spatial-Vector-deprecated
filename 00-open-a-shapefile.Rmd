@@ -121,10 +121,8 @@ shapefile can only contain one vector type (all points, all polygons or all
 lines). You will  not find a mixture of point, line and polygon objects in one shapefile!
 
 Each vector in the shapefile often has a set of associated `attributes` that
-describe the data.
-For example, a line shapefile that contains the locations of streams, might 
-contain stream
-names for each line.
+describe the data. For example, a line shapefile that contains the locations of 
+streams, might contain stream names for each line.
 
 More about shapefiles can found on [Wikipedia](https://en.wikipedia.org/wiki/Shapefile) 
 (add link to Metadata lesson?).
@@ -136,8 +134,8 @@ shapefiles include
 
 * a polygon shapefile representing our study area boundary, 
 * a line shapefile representing roads and streams, and 
-* a point shapefile representing the location of a [flux tower](http://www.neoninc.org/science-design/collection-methods/flux-tower-measurements) located at the NEON 
-Harvard Forest field site.
+* a point shapefile representing the location of a [flux tower](http://www.neoninc.org/science-design/collection-methods/flux-tower-measurements) 
+located at the NEON Harvard Forest field site.
 
 The first shapefile that we will open, contains the boundary of our study area. 
 It is a polygon layer. We can tell it is a polygon by viewing it's `class` in
@@ -160,7 +158,7 @@ aoiBoundary
 Here we see that R interprets the data as a SpatialPolygonsDataFrame data class
 and information about the coordinate reference system including that the 
 coordinates  are UTMs from zone 18.  This helps us interpret the previous line 
-giving the extent of the file.  We will discuss CRS and extent a little later.
+giving the extent of the file.  We will discuss in more detail a bit later.
 Finally we see there is one variable named "id" that appears to consists of only 
 ones (min and max value both 1).
 
@@ -211,7 +209,10 @@ lines <- readOGR( "boundaryFiles/HARV/",layer = "HARV_roads")
 
 #Import a point shapefile 
 point <- readOGR("boundaryFiles/HARV/", "HARVtower_UTM18N")
-  
+
+#viewing attributes
+lines
+point
 ```
 
 #Shapefile Attributes
@@ -222,7 +223,7 @@ with the spatial R object:
 boundary R knows to bring it in as a `SpatialPolygonsDataFrame`
 2. **CRS** - The shapefile also contains projection information `coord ref.` in
 the output above.
-3. **Extent** - we can see the spatial extent of the shapefile. Note that the 
+3. **Extent** - We can see the spatial extent of the shapefile. Note that the 
 spatial extent for a shapefile represents the extent for ALL polygons (or 
 spatial objects) in the shapefile!
 
@@ -237,22 +238,17 @@ reference system` (CRS) of the `R` object. The last two lines of summary show a
 preview of the `R` object _attributes_.
 
 ```{r View-Attribute-Summary}
-#View attributes
+#View all attributes 
 aoiBoundary
+lines
+point
 
 #view a summary of each attribute associated with the spatial object
 summary(aoiBoundary)
 
-#explore the lines and point objects
-lines
-point
-
 ```
 
-#Viewing Specific Shapefile Attributes
-
-While we previoulsy viewed this data by just entering the object name
-`aoiBoundary` we can view the just CRS or Extent for the shapefile using the 
+We can also view the just CRS or Extent for the shapefile using the 
 following commands:
 
 ```{r view-crs-extent }
