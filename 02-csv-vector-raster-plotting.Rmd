@@ -19,7 +19,7 @@ comments: false
 {% include _toc.html %}
 
 #About
-This lesson will review how to import spatial points, stored in a  csv file into
+This lesson will review how to import spatial points stored in a  csv file into
 R as a spatial object - a `SpatialPointsDataFrame`. We will also learn how to
 reproject data imported in shapefile format, into another projection, create a 
 shapefile from a spatial object in R and plot raster and vector data as overlays
@@ -35,13 +35,13 @@ After completing this activity, you will:
 
 * Import csv file containing x,y coordinate locations.
 * Convert the csv to a spatial object
-* Project coordinate locations provided in a Geographic Coordinate System (Latitude, Longitide) to projected (UTM)
+* Project coordinate locations provided in a Geographic Coordinate System (Latitude, Longitude) to projected (UTM)
 * Plot raster and vector data in the same plot (create a map).
 
 
 ###What you'll need
 
-You will need the most current version of R or R studio loaded on your computer 
+You will need the most current version of R or RStudio loaded on your computer 
 to complete this lesson.
 
 ###R Libraries to Install:
@@ -93,8 +93,7 @@ library(raster)
 
 ##Reading in our CSV
 
-The `HARV_PlotLocations.csv` file contains x,y locations for some plots that 
-(NEON)[http://www.neoninc.org] field crew are sampling vegetation and other 
+The `HARV_PlotLocations.csv` file contains x,y locations for some plots that are sampled by (NEON)[http://www.neoninc.org] field crews for vegetation and other 
 ecological metrics. We would like to create a map that includes the locations of 
 these plot locations. We also would like to export the data in a `shapefile` 
 format to share with our colleagues. This shapefile can also be imported into any
@@ -133,7 +132,7 @@ for the CSV file which we hopefully have!
 
 ```{r read-shp }
 #note: read ogr is preferred as it maintains prj info
-aoiBoundary <- readOGR("boundaryFiles/HARV/","HarClip_UTMZ18")
+aoiBoundary <- readOGR("boundaryFiles/HARV", "HarClip_UTMZ18")
 
 #check the CRS
 crs(aoiBoundary)
@@ -177,7 +176,7 @@ We can write an R spatial object to a shapefile using the `writeOGR` function
 in `rgdal`. To do this we need the following arguments
 
 * the name of the spatial object
-* the director where we want to save our shapefile
+* the directory where we want to save our shapefile
 * the name of the new shapefile
 * the driver which specifies the file format (in this case a shapefile)
 
@@ -201,7 +200,7 @@ and try to add them to our map
 ```{r project-vectors }
 
 #note: read ogr is preferred as it maintains prj info
-newPlots <- readOGR("boundaryFiles/HARV/","newPlots_latLon")
+newPlots <- readOGR("boundaryFiles/HARV", "newPlots_latLon")
 
 #http://www.statmethods.net/advgraphs/parameters.html
 #add these points to our plot
@@ -227,7 +226,6 @@ newPlots@coords
 #let's check the CRS of our data to see what's going on
 crs(newPlots)
 
-
 ```
 
 We've added points to our map. However, they are not appearing in our study area.
@@ -246,7 +244,7 @@ crs(plot.locationSp)
 #reproject our vector layer to the projection of our other plot data.
 newPlots_UTMZ18N<- spTransform(newPlots,crs(plot.locationSp))
 #try to plot the data
-plot(newPlots_UTMZ18N, add=TRUE, col=116,pch=19)
+plot(newPlots_UTMZ18N, add=TRUE, col=116, pch=19)
 
 
 ```
@@ -281,7 +279,7 @@ plot(aoiBoundary, add=TRUE)
 ##Create a vector-raster overlay map
 
 We will use the base graphics `plot()` command to create a vector-raster overlay 
-plot. Next, we will load a raster from disk user the `raster` command, plot this 
+plot. Next, we will load a raster from disk using the `raster` command, plot this 
 raster, and overlay the lines and squareplot shapefiles using the `add` argument. 
 
 ```{r Plot vector-raster overlay }
