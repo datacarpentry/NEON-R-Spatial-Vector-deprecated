@@ -140,7 +140,7 @@ attributes of the object which is `SpatialPolygonsDataFrame`.
 ```{r Import-Shapefile}
 
 #Import a polygon shapefile 
-aoiBoundary <- readOGR("boundaryFiles/HARV/", "HarClip_UTMZ18")
+aoiBoundary <- readOGR("boundaryFiles/HARV", "HarClip_UTMZ18")
 
 #view attributes of the layer
 aoiBoundary
