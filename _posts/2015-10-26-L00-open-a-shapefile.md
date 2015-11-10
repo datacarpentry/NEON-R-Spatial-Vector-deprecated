@@ -3,8 +3,9 @@ layout: post
 title: "Lesson 00: Vector Data in R - Open and plot shapefiles"
 date:   2015-10-26
 authors: [Joseph Stachelek, Leah Wasser]
+contributors: [Megan A. Jones, Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: 2015-11-03
+lastModified: 2015-11-10
 tags: [module-1]
 description: "This post explains the how to open and plot point, line, and polygon shapefiles in R."
 image:
@@ -28,8 +29,10 @@ line, and polygon data, stored in `shapefile` format, in R.
 After completing this activity, you will:
 
  * Know the difference between point, line, and polygon vector elements.
- * Understand the differences between opening point, line and polygon shapefiles in R.
- * Understand the components of a _spatial object_ (in R)
+ * Understand the differences between opening point, line and polygon shapefiles
+    in R.
+ * Understand the components of a _spatial object_ (in R).
+
 ###What you'll need
 
 You will need the most current version of R or R studio loaded on your computer 
@@ -37,18 +40,17 @@ to complete this lesson.
 
 ###R Libraries to Install:
 
-
 * **raster:** `install.packages("raster")`
 * **sp:** `install.packages("sp")`
 * **rgdal:** `install.packages("rgdal")`
-* **ggplot2:** `install.packages("ggplot2")`
+
 
 <a href="{{ site.baseurl }}/R/Packages-In-R/" target="_blank"> 
 More on Packages in R - Adapted from Software Carpentry.</a>
 
 ##Data to Download
 
-Download the raster and <i>insitu</i> collected vegetation structure data:
+Download the raster and <i>in situ</i> collected vegetation structure data:
 
 <a href="http://files.figshare.com/2387960/boundaryFiles.zip" class="btn btn-success"> 
 DOWNLOAD Harvard Forest Shapefiles</a>
@@ -69,20 +71,33 @@ Crop and extract raster values in R</a>
 </div>
 
 NOTE: The data used in this tutorial were collected at Harvard Forest which is
-a the National Ecological Observatory Network field site <a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank">
+a the National Ecological Observatory Network field site 
+<a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank">
 More about the NEON Harvard Forest field site</a>. These data are proxy data for what will be
-available for 30 years from the NEON flux tower [from the NEON data portal](http://data.neoninc.org/ "NEON data").
+available for 30 years from the NEON flux tower 
+[from the NEON data portal](http://data.neoninc.org/ "NEON data").
 {: .notice}
  
 ###Notes about R Libraries
 
-To work with vector data in R, we can use the `rgdal` library. We will load the `raster`
-library to work with rasters. The `raster` library also allows us to explore metadata
-using similar commands with both rasters and vectors.
+To work with vector data in R, we can use the `rgdal` library. Notice that `sp`
+also automatically loads when `rgdal` is loaded. We will load the `raster`
+library to work with rasters. The `raster` library also allows us to explore
+metadata using similar commands with both rasters and vectors.
 
 
     #load required libraries
     library(rgdal)
+
+    ## Loading required package: sp
+    ## rgdal: version: 1.1-1, (SVN revision 572)
+    ##  Geospatial Data Abstraction Library extensions to R successfully loaded
+    ##  Loaded GDAL runtime: GDAL 1.11.3, released 2015/09/16
+    ##  Path to GDAL shared files: /usr/local/Cellar/gdal/1.11.3/share/gdal
+    ##  Loaded PROJ.4 runtime: Rel. 4.9.2, 08 September 2015, [PJ_VERSION: 492]
+    ##  Path to PROJ.4 shared files: (autodetected)
+    ##  Linking to sp version: 1.2-1
+
     library(raster)
 
 
@@ -91,15 +106,16 @@ Vector data are composed of discrete geometric locations (x,y values) that make
 up objects. The organization of the geometric locations, determines the type of 
 vector that we are working with (point, line or polygon) as follows: 
 
-* **Points:** in a point vector dataset, each point is represented by an x,y coordinate location. 
-There can be many points in a vector point file. Examples of points include plot locations, or the
-locations of individual trees.
-* **Lines:** Lines are composed of many points that are connected. For instance, a road, 
-or a stream is a line, each bend in the road or stream represents a vertex that 
-has an x,y location associated with it. A line consists of ATLEAST 2 vertices 
-that are connnected. Examples: Roads, Streams.
-* **Polygons:** a polygon consists of 3 or more vertices that are both connected and
-most often closed. Thus the outline of a plot boundary, a lake, ocean, state or 
+* **Points:** In a point vector dataset, each point is represented by an x,y
+coordinate location. There can be many points in a vector point file. Examples:
+plot locations or the locations of individual trees.
+* **Lines:** Lines are composed of many points that are connected. For instance,
+a road, or a stream is a series of straight line segments, each bend in the road
+or stream represents a vertex that has an x,y location associated with it. A
+line consists of AT LEAST 2 vertices that are connnected. Examples: roads or
+streams.
+* **Polygons:** A polygon consists of 3 or more vertices that are connected and,
+most often, closed. Thus the outline of a plot boundary, a lake, ocean, state or 
 country would all most often be stored in a polygon format. 
 
 NOTE: a line can represent a boundary as well - however a line will not create a 
@@ -108,17 +124,16 @@ closed object.
 **INSERT GRAPHIC HERE**
 
 ##Shapefiles: Points, Lines, and Polygons
-Geospatial data in vector format, is often stored in a `shapefile` format. Because the 
-structure of a point, line and polygon object is different, each shapefile
-can only contain one vector type (all points, all polygons or all lines). You will 
-not find a mixture of point, line and polygon objects in one shapefile!
+Geospatial data in vector format, is often stored in a `shapefile` format. 
+Because the structure of a point, line and polygon object is different, each 
+shapefile can only contain one vector type (all points, all polygons or all 
+lines). You will  not find a mixture of point, line and polygon objects in one shapefile!
 
-Each vector in the shapefile often has a set os associated `attributes` that describe the data.
-For example, a line shapefile that contains the locations of streams, might contain stream
-names for each line.
+Each vector in the shapefile often has a set of associated `attributes` that
+describe the data. For example, a line shapefile that contains the locations of 
+streams, might contain stream names for each line.
 
-More about shapefiles can found on [Wikipedia](https://en.wikipedia.org/wiki/Shapefile) 
-(add link to Metadata lesson?).
+More about shapefiles can found on [Wikipedia](https://en.wikipedia.org/wiki/Shapefile).
 
 ##Importing shapefiles
 
@@ -127,21 +142,34 @@ shapefiles include
 
 * a polygon shapefile representing our study area boundary, 
 * a line shapefile representing roads and streams, and 
-* a point shapefile representing the location of a [flux tower](http://www.neoninc.org/science-design/collection-methods/flux-tower-measurements) located at the NEON 
-Harvard Forest field site.
+* a point shapefile representing the location of a flux tower 
+<a href="http://www.neoninc.org/science-design/collection-methods/flux-tower-measurements" target="_blank">
+NEON Flux Tower Measurement Methods</a> 
+located at the NEON Harvard Forest field site 
+<a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank">
+NEON Harvard Forest Field Site</a>.
 
 The first shapefile that we will open, contains the boundary of our study area. 
-It is a polygon layer. We can tell it is a polygon by viewing it's `class` in the 
-attributes of the object which is `SpatialPolygonsDataFrame`.
+It is a polygon layer. We can tell it is a polygon by viewing it's `class` in
+the attributes of the object which is `SpatialPolygonsDataFrame`.
 
+
+    #set working directory to where the data files were saved.  
+    setwd("~/Documents/data/Spatio_TemporalWorkshop/1_WorkshopData")
+
+    ## Error in setwd("~/Documents/data/Spatio_TemporalWorkshop/1_WorkshopData"): cannot change working directory
 
     #Import a polygon shapefile 
-    aoiBoundary <- readOGR("boundaryFiles/HARV/", "HarClip_UTMZ18")
+    aoiBoundary <- readOGR("boundaryFiles/HARV", "HarClip_UTMZ18")
 
     ## OGR data source with driver: ESRI Shapefile 
-    ## Source: "boundaryFiles/HARV/", layer: "HarClip_UTMZ18"
+    ## Source: "boundaryFiles/HARV", layer: "HarClip_UTMZ18"
     ## with 1 features
     ## It has 1 fields
+
+After loading a new data set we also want to view the attributes of the layer.
+This can be done simple by entering the file name.
+
 
     #view attributes of the layer
     aoiBoundary
@@ -155,26 +183,43 @@ attributes of the object which is `SpatialPolygonsDataFrame`.
     ## min values  :  1 
     ## max values  :  1
 
-    #you can also use the attributes command to just view the attributes of the data
+Here we see that R interprets the data as a SpatialPolygonsDataFrame data class
+and information about the coordinate reference system including that the 
+coordinates  are UTMs from zone 18.  This helps us interpret the previous line 
+giving the extent of the file.  We will discuss metadata and attributes in more
+detail a bit later. Finally we see there is one variable named "id" that appears
+to consists of min and max values of 1.
+
+But we can look just at attribute data by using @data.  
+
+
+    #just view the attributes of the data
     (aoiBoundary@data)
 
     ##   id
     ## 0  1
 
+Now that we see just the attributes we see that the variable “id” actually
+consists of 0s and 1s. 
+
+Once we know what is in the attributes it is time to visualize that data.
+
+
     #create a quick plot of the shapefile
     #note: lwd sets the line width!
-    #for a list of r color options 
-    #https://codeyarns.files.wordpress.com/2011/07/20110729-vim-named-colors.png?w=700
     plot(aoiBoundary,col="cyan1", border="black", lwd=3)
 
-![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/Import-Shapefile-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/Plot-shapefile-1.png) 
+
+We get a box representing the boundaries specified in the shapefile that we
+just imported.  
 
 #View Shapefile Metadata
 
 When we import the `HarClip_UTMZ18` layer into R, some key metadata are stored
 with the spatial R object:
 
-1. **Object Type: **  in this case our area of interest (AOI) is a polygon boundary
+1. **Object Type:** - in this case our area of interest (AOI) is a polygon boundary. 
 R knows to bring it in as a `SpatialPolygonsDataFrame`
 2. **CRS** - The shapefile also contains projection information `coord ref.` in the output 
 above.
@@ -203,11 +248,18 @@ commands:
     ## ymax        : 4713359
 
 #Import a line and point shapefile
+=======
+Bonus: For more on parameter options in base r plot() check out these resources:
 
->#ON YOUR OWN ACTIVITY
+* <a href="http://www.statmethods.net/advgraphs/parameters.html" target="_blank">Parameter methods in R.</a>
+* <a href="https://codeyarns.files.wordpress.com/2011/07/20110729-vim-named-colors.png?w=700">Color names in R</a>
+
+
+
+>#ON YOUR OWN ACTIVITY: Import a line and point shapefile
 >
->Using the steps above, import the HARV_roadStream and HARVtower_UTM18N layers into R.
->Call the Harv_roadStream object `lines` and the HARVtower_UTM18N `point`
+>Using the steps above, import the HARV_roads and HARVtower_UTM18N layers into R.
+>Call the Harv_roads object `lines` and the HARVtower_UTM18N `point`
 >Answer the following questions:
 
 >1. What type of R spatial object is created when you import each layer?
@@ -219,20 +271,34 @@ commands:
 
 
 
-    ## Error in ogrInfo(dsn = dsn, layer = layer, encoding = encoding, use_iconv = use_iconv, : Cannot open layer
 
-#Shapefile Attributes
-Each spatial object in a shapefile can have the same set of attributes. These attributes
-can be any sort of attribute that you might store in a spreadsheet about your data. 
+#Shapefile Metadata & Attributes
+When we imported the `HarClip_UTMZ18` layer into R, some key metadata were stored
+with the spatial R object:
 
-We can view a metadata/attribute summary of each shapefile by entering 
-the name of the `R` object in the console. Note that the metadata output includes 
-the _class_, the number of _features_, the _extent_, and the `coordinate reference 
-system` (crs) of the `R` object. The last two lines of summary show a preview of 
-the `R` object _attributes_.
+1. **Object Type:**  In this case our area of interest (AOI) is a polygon 
+boundary R knows to bring it in as a `SpatialPolygonsDataFrame`
+2. **CRS** - The shapefile also contains projection information `coord ref.` in
+the output above.
+3. **Extent** - We can see the spatial extent of the shapefile. Note that the 
+spatial extent for a shapefile represents the extent for ALL polygons (or 
+spatial objects) in the shapefile!
+
+In addition to the metadata, each object has one or more attributes linked 
+to it.  Attributes of an object can include measurements, description, or
+classification of the object. Attribute data can be any sort of information or 
+attribute that you might store in a spreadsheet of your data. Each spatial 
+object in a shapefile can have the same set of attributes or each can be 
+different. 
+
+We can view a metadata & attribute summary of each shapefile by entering 
+the name of the `R` object in the console. Note that the metadata output includes
+the _class_, the number of _features_, the _extent_, and the `coordinate 
+reference system` (CRS) of the `R` object. The last two lines of summary show a 
+preview of the `R` object _attributes_.
 
 
-    #View attributes
+    #View all attributes 
     aoiBoundary
 
     ## class       : SpatialPolygonsDataFrame 
@@ -244,28 +310,6 @@ the `R` object _attributes_.
     ## min values  :  1 
     ## max values  :  1
 
-    #view a summary of each attribute associated with the spatial object
-    summary(aoiBoundary)
-
-    ## Object of class SpatialPolygonsDataFrame
-    ## Coordinates:
-    ##       min       max
-    ## x  732128  732251.1
-    ## y 4713209 4713359.2
-    ## Is projected: TRUE 
-    ## proj4string :
-    ## [+proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84
-    ## +towgs84=0,0,0]
-    ## Data attributes:
-    ##        id   
-    ##  Min.   :1  
-    ##  1st Qu.:1  
-    ##  Median :1  
-    ##  Mean   :1  
-    ##  3rd Qu.:1  
-    ##  Max.   :1
-
-    #explore the lines and point objects
     lines
 
     ## class       : SpatialLinesDataFrame 
@@ -288,11 +332,59 @@ the `R` object _attributes_.
     ## min values  :     A,      1,  Northeast, Harvard Forest, Core, Advanced Tower, 42.5369, -72.17266,   18, 732183.2,  4713265, Harvard University, LTER, Worcester,         C1 
     ## max values  :     A,      1,  Northeast, Harvard Forest, Core, Advanced Tower, 42.5369, -72.17266,   18, 732183.2,  4713265, Harvard University, LTER, Worcester,         C1
 
+    #view a summary of each attribute associated with the spatial object
+    summary(aoiBoundary)
+
+    ## Object of class SpatialPolygonsDataFrame
+    ## Coordinates:
+    ##       min       max
+    ## x  732128  732251.1
+    ## y 4713209 4713359.2
+    ## Is projected: TRUE 
+    ## proj4string :
+    ## [+proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84
+    ## +towgs84=0,0,0]
+    ## Data attributes:
+    ##        id   
+    ##  Min.   :1  
+    ##  1st Qu.:1  
+    ##  Median :1  
+    ##  Mean   :1  
+    ##  3rd Qu.:1  
+    ##  Max.   :1
+
+We can also view specific metadata for the shapefile:
+
+
+    #view just the crs for the shapefile
+    crs(aoiBoundary)
+
+    ## CRS arguments:
+    ##  +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84
+    ## +towgs84=0,0,0
+
+    #view just the extent for the shapefile
+    extent(aoiBoundary)
+
+    ## class       : Extent 
+    ## xmin        : 732128 
+    ## xmax        : 732251.1 
+    ## ymin        : 4713209 
+    ## ymax        : 4713359
+
+    #view just the class for the shapefile
+    class(aoiBoundary)
+
+    ## [1] "SpatialPolygonsDataFrame"
+    ## attr(,"package")
+    ## [1] "sp"
+
+
 #Plot Multiple Shapefiles
 
 The `plot()` function can be used for basic plotting of these spatial objects. 
-We use the `add = TRUE` argument to overlay shapefiles on top of each other. As we 
-would when creating a map in a typical GIS application like QGIS.
+We use the `add = TRUE` argument to overlay shapefiles on top of each other, as
+we would when creating a map in a typical GIS application like QGIS.
 
 We can use the `main=""` to give our plot a title. If you want the title to 
 span 2 lines, use `\n` where you'd like the line break.
@@ -300,16 +392,12 @@ span 2 lines, use `\n` where you'd like the line break.
 
     #Plot multiple shapefiles
     
-    plot(x = aoiBoundary, col = "purple", main="Harvard Forest\nStudy Area")
-    plot(x = lines, add = TRUE)
+    plot(aoiBoundary, col = "purple", main="Harvard Forest\nStudy Area")
+    plot(lines, add = TRUE)
     
     #use the pch element to adjust the symbology of the points
-    plot(x = point, add  = TRUE, pch = 19, col = "red")
+    plot(point, add  = TRUE, pch = 19, col = "red")
 
 ![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/plot-multiple-shapefiles-1.png) 
 
 #Another On Your Own Activity
-
->More here on what this is
->Ideas?
->

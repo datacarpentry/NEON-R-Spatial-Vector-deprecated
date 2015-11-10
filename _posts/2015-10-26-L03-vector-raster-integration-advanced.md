@@ -4,7 +4,7 @@ title: "Lesson 03: Crop Rasters and Extract values in R"
 date:   2015-10-23
 authors: [Joseph Stachelek, Leah Wasser]
 dateCreated:  2015-10-23
-lastModified: 2015-11-03
+lastModified: 2015-11-10
 tags: [module-1]
 description: "This lesson explains how to modify (crop) a raster extent based on the extent of a vector shapefile. Particpants will also be able to extract values from a raster that correspond to the geometry of a vector overlay."
 image:

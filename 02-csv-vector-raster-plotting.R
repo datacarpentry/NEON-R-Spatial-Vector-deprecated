@@ -7,7 +7,7 @@ library(raster)
 
 ## ----read-csv------------------------------------------------------------
 
-#Leah's notes
+#set working directory to where you have stored the data
 setwd("~/Documents/data/1_DataPortal_Workshop/1_WorkshopData")
 
 #Read the csv file
@@ -19,19 +19,23 @@ head(plot.location)
 
 ## ----read-shp------------------------------------------------------------
 #note: read ogr is preferred as it maintains prj info
-aoiBoundary <- readOGR("boundaryFiles/HARV/","HarClip_UTMZ18")
+aoiBoundary <- readOGR("boundaryFiles/HARV", "HarClip_UTMZ18")
 
-#check the CRS
+
+## ----check-crs-shapefile-csv---------------------------------------------
+#check the CRS in shapefile
 crs(aoiBoundary)
 
-#the x,y location values for the dataset are available in 
-#the x and y columns. We can use that for our spatial data point object
-#we know the csv file coordinates are in the same CRS as the other shapefiles.
-#we can assign this to the SpatialPointsDataFrame when we import it.
-plot.locationSp <- SpatialPointsDataFrame(plot.location[,1:2],
-                                                plot.location,
-                                                proj4string = crs(aoiBoundary))
-
+## ----plot-csv-shapefile--------------------------------------------------
+#
+plot.locationSp <- SpatialPointsDataFrame(plot.location[,1:2],    #the columns which 
+                                              #represent x,y coordinate locations 
+                    plot.location,                    #The R object to convert to 
+                                                      # SpatialPointsDataframe
+                    proj4string = crs(aoiBoundary))   # assinging a CRS system
+                    #to our shapefile- in this instance we are pulling the CRS 
+                    #from the aoiBoundary object
+                                          
 #look at CRS
 crs(plot.locationSp)
 
@@ -39,18 +43,22 @@ crs(plot.locationSp)
 ## ----plot-data-----------------------------------------------------------
 
 #plot the points
-#use main = to add a title to the map
+#Add title to map using main=""
 plot(plot.locationSp, main="Map of Study Area")
 
-#let's add the polygon layer to our plot
+#let's add the polygon & tower point layer to our plot
 plot(aoiBoundary, add=TRUE)
+plot (point, col="red", add=TRUE)
 
-#add roads to our plot
-roads <- readOGR("boundaryFiles/HARV/","HARV_roads")
-plot(roads, add=TRUE)
+#add roads to our plot, Lesson00: lines<-readOGR("boundaryFiles/HARV/", "HARV_roads")
+plot(lines, add=TRUE)
 
 
-## ----write-shapefile, results="hide"-------------------------------------
+## ----extent-files--------------------------------------------------------
+extent(aoiBoundary)
+extent (plot.locationSp)
+
+## ----write-shapefile-----------------------------------------------------
 #write a shapefile
 writeOGR(plot.locationSp, getwd(), "newFile", driver="ESRI Shapefile")
 
@@ -58,9 +66,8 @@ writeOGR(plot.locationSp, getwd(), "newFile", driver="ESRI Shapefile")
 ## ----project-vectors-----------------------------------------------------
 
 #note: read ogr is preferred as it maintains prj info
-newPlots <- readOGR("boundaryFiles/HARV/","newPlots_latLon")
+newPlots <- readOGR("boundaryFiles/HARV", "newPlots_latLon")
 
-#http://www.statmethods.net/advgraphs/parameters.html
 #add these points to our plot
 plot(newPlots, add=TRUE, col=115, pch=19)
 
@@ -69,10 +76,10 @@ plot(newPlots, add=TRUE, col=115, pch=19)
 #view coordinates
 newPlots@coords
 
+
 #it appears as if our coordinates are in lat / long
 #let's check the CRS of our data to see what's going on
 crs(newPlots)
-
 
 
 ## ----project-data--------------------------------------------------------
@@ -83,7 +90,7 @@ crs(plot.locationSp)
 #reproject our vector layer to the projection of our other plot data.
 newPlots_UTMZ18N<- spTransform(newPlots,crs(plot.locationSp))
 #try to plot the data
-plot(newPlots_UTMZ18N, add=TRUE, col=116,pch=19)
+plot(newPlots_UTMZ18N, add=TRUE, col=116, pch=19)
 
 
 

@@ -1,6 +1,7 @@
 ## ----load-libraries-data-------------------------------------------------
 
 library(rgdal)
+library (raster)   #notice sp package should always load with raster. 
 #in case the libraries and data are not still loaded
 
 #Import a polygon shapefile 
@@ -71,17 +72,23 @@ lines[lines$TYPE == "footpath",]
 
 
 ## ----Color lines by attribute--------------------------------------------
-#color lines by TYPE attribute
-type <- slot(object = lines, name = "data")$TYPE
-#you can also write
-type <- lines@data$TYPE
+#add legend to previous plot
 
+
+#color lines by TYPE attribute
+#1st create object that is the TYPE attribute (you could just do this directly
+#in the col {} below but this makes for cleaner code)
+type <- lines@data$TYPE
+#Bonus: if you prefer using slot(). 
+type <- slot(object = lines, name = "data")$TYPE
+
+#2nd set the color for all the lines 
 col <- rep(x= "black", length = length(type))
+
+#3rd specify the color you want for the TYPE level you want 
 col[type == "footpath"] <- "red"
 
-plot(x=lines, col=col,add=T)
-
-
-## ------------------------------------------------------------------------
+#4th plot. Add is still true because we want this to map onto the previous plot 
+plot(x=lines, col=col,add=TRUE)
 
 
