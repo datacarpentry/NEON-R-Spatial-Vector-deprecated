@@ -134,8 +134,8 @@ shapefiles include
 
 * a polygon shapefile representing our study area boundary, 
 * a line shapefile representing roads and streams, and 
-* a point shapefile representing the location of a [flux tower](http://www.neoninc.org/science-design/collection-methods/flux-tower-measurements) 
-located at the NEON Harvard Forest field site.
+* a point shapefile representing the location of a flux tower <a href="http://www.neoninc.org/science-design/collection-methods/flux-tower-measurements" target="_blank">NEON Flux Tower Measurement Methods</a> 
+located at the NEON Harvard Forest field site <a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank">NEON Harvard Forest Field Site</a>.
 
 The first shapefile that we will open, contains the boundary of our study area. 
 It is a polygon layer. We can tell it is a polygon by viewing it's `class` in
@@ -165,7 +165,7 @@ and information about the coordinate reference system including that the
 coordinates  are UTMs from zone 18.  This helps us interpret the previous line 
 giving the extent of the file.  We will discuss metadata and attributes in more
 detail a bit later. Finally we see there is one variable named "id" that appears
-to consists of only ones (min and max value both 1).
+to consists of min and max values of 1.
 
 But we can look just at attribute data by using @data.  
 

@@ -44,7 +44,6 @@ to complete this lesson.
 * **raster:** `install.packages("raster")`
 * **sp:** `install.packages("sp")`
 * **rgdal:** `install.packages("rgdal")`
-* **ggplot2:** `install.packages("ggplot2")`
 
 
 <a href="{{ site.baseurl }}/R/Packages-In-R/" target="_blank"> 
@@ -86,10 +85,11 @@ To work with vector data in R, we can use the `rgdal` library. We will load the
 explore metadata using similar commands with both rasters and vectors.
 
 ##Setting up the workspace
-If you completed Lesson 00 {{site.baseurl }} R/open-shapefiles-in-R/ you can skip this code chunk.
+If you completed Lesson 00  {{site.baseurl}}R/open-shapefiles-in-R/  you can skip this code chunk.
 ```{r load-libraries-data }
 
 library(rgdal)
+library (raster)   #notice sp package should always load with raster. 
 #in case the libraries and data are not still loaded
 
 #Import a polygon shapefile 
