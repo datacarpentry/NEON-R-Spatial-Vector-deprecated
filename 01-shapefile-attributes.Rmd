@@ -52,7 +52,7 @@ More on Packages in R - Adapted from Software Carpentry.</a>
 
 ##Data to Download
 
-Download the shapefiles needes to complete this lesson:
+Download the shapefiles needed to complete this lesson:
 
 <a href="http://files.figshare.com/2387960/boundaryFiles.zip" class="btn btn-success"> 
 DOWNLOAD Harvard Forest Shapefiles</a>
@@ -73,9 +73,10 @@ Crop and extract raster values in R</a>
 </div>
 
 NOTE: The data used in this tutorial were collected at Harvard Forest which is
-a the National Ecological Observatory Network field site <a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank">
-More about the NEON Harvard Forest field site</a>. These data are proxy data for what will be
-available for 30 years from the NEON flux tower [from the NEON data portal](http://data.neoninc.org/ "NEON data").
+a the National Ecological Observatory Network field site <a 
+href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank">
+More about the NEON Harvard Forest field site</a>. These data are proxy data for
+what will be available for 30 years from the NEON flux tower [from the NEON data portal](http://data.neoninc.org/ "NEON data").
 {: .notice}
  
 ##Notes about R Libraries
@@ -85,7 +86,7 @@ To work with vector data in R, we can use the `rgdal` library. We will load the
 explore metadata using similar commands with both rasters and vectors.
 
 ##Setting up the workspace
-If you completed Lesson 00 you can skip this code chunk.
+If you completed Lesson 00 {{site.baseurl }} R/open-shapefiles-in-R/ you can skip this code chunk.
 ```{r load-libraries-data }
 
 library(rgdal)
@@ -103,8 +104,8 @@ point <- readOGR("boundaryFiles/HARV/", "HARVtower_UTM18N")
 ```
 
 ##Querying shapefile metadata 
-Recall from the previous lesson that shapefile metadata can include a _class_, 
-a _features_ count, an _extent_, and a _coordinate reference system_ (crs). 
+Recall from the previous lesson that shapefile metadata can include a `class`, 
+a `features` count, an `extent`, and a `coordinate reference system` (crs). 
 
 Metadata can be extracted individually using the `class()`, `length()`, 
 `extent()`, `crs()`, `R` commands. 
@@ -137,7 +138,7 @@ extent(x = point)
 Shapefiles often contain an associated database or spreadsheet of values called
 `attributes` that describe the vector features in the shapefile. You can think
 of this like a spreadsheet with rows and columns. Each column in the spreadsheet
-is an individual `Attribute` that describes an object. Shapefile _attributes_ 
+is an individual `Attribute` that describes an object. Shapefile `attributes` 
 include measurements that correspond to the geometry of the shapefile features.
 
 For example, the `roads` shapefile contains an attribute called `TYPE`. Each
@@ -197,7 +198,7 @@ Using the `$` symbol, we were able to access the values associated with a
 particular `Attribute` in a shapefile. Next, we will use this syntax to select 
 a subset of features from a spatial object in `R`. 
 
-Note how our subsetting operation reduces the _features_ count from 13 to 2. 
+Note how our subsetting operation reduces the `features` count from 13 to 2. 
 
 ```{r Subsetting shapefiles}
 
@@ -213,7 +214,7 @@ lines[lines$TYPE == "footpath",]
 
 The following code chunk extracts a vector of this attribute, creates 
 a character color vector of the same length, and changes the positions 
-of this color vector that correspond to _footpath_.
+of this color vector that correspond to `footpath`.
 
 We can use the `col` argument in the `plot()` function to specify the color of
 spatial objects. If type is an attribute of our data, we can use the syntax
