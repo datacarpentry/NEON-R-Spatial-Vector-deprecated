@@ -3,6 +3,7 @@ layout: post
 title: "Lesson 03: Crop Rasters and Extract values in R"
 date:   2015-10-23
 authors: [Joseph Stachelek, Leah Wasser]
+contributors: [Megan A. Jones, Sarah Newman]
 dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 tags: [module-1]
