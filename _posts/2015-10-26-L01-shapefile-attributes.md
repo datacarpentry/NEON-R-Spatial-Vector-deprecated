@@ -3,9 +3,9 @@ layout: post
 title: "Lesson 01: Work With Shapefile Attributes in R"
 date:   2015-10-25
 authors: [Joseph Stachelek, Leah Wasser]
-contributors: [Megan Jones]
+contributors: [Megan A. Jones]
 dateCreated:  2015-10-23
-lastModified: 2015-11-03
+lastModified: 2015-11-10
 tags: [module-1]
 description: "This post explains the nature of shapefile attributes. Participants will be able to locate and query shapefile attributes as well as subset shapefiles by specific attribute values."
 image:
@@ -42,8 +42,8 @@ to complete this lesson.
 
 
 * **raster:** `install.packages("raster")`
+* **sp:** `install.packages("sp")`
 * **rgdal:** `install.packages("rgdal")`
-* **ggplot2:** `install.packages("ggplot2")`
 
 
 <a href="{{ site.baseurl }}/R/Packages-In-R/" target="_blank"> 
@@ -51,7 +51,7 @@ More on Packages in R - Adapted from Software Carpentry.</a>
 
 ##Data to Download
 
-Download the shapefiles neede to complete this lesson:
+Download the shapefiles needed to complete this lesson:
 
 <a href="http://files.figshare.com/2387960/boundaryFiles.zip" class="btn btn-success"> 
 DOWNLOAD Harvard Forest Shapefiles</a>
@@ -72,21 +72,23 @@ Crop and extract raster values in R</a>
 </div>
 
 NOTE: The data used in this tutorial were collected at Harvard Forest which is
-a the National Ecological Observatory Network field site <a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank">
-More about the NEON Harvard Forest field site</a>. These data are proxy data for what will be
-available for 30 years from the NEON flux tower [from the NEON data portal](http://data.neoninc.org/ "NEON data").
+a the National Ecological Observatory Network field site <a 
+href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank">
+More about the NEON Harvard Forest field site</a>. These data are proxy data for
+what will be available for 30 years from the NEON flux tower [from the NEON data portal](http://data.neoninc.org/ "NEON data").
 {: .notice}
  
 ##Notes about R Libraries
 
-To work with vector data in R, we can use the `rgdal` library. We will load the `raster`
-library to work with rasters. The `raster` library also allows us to explore metadata
-using similar commands with both rasters and vectors.
- 
-##Querying shapefile attributes
+To work with vector data in R, we can use the `rgdal` library. We will load the 
+`raster` library to work with rasters. The `raster` library also allows us to 
+explore metadata using similar commands with both rasters and vectors.
 
+##Setting up the workspace
+If you completed Lesson 00  {{site.baseurl}}R/open-shapefiles-in-R/  you can skip this code chunk.
 
     library(rgdal)
+    library (raster)   #notice sp package should always load with raster. 
     #in case the libraries and data are not still loaded
     
     #Import a polygon shapefile 
@@ -113,13 +115,12 @@ using similar commands with both rasters and vectors.
     ## with 1 features
     ## It has 14 fields
 
-Recall from the previous lesson that shapefile metadata can include a _class_, 
-a _features_ count, an _extent_, and a _coordinate reference system_ (crs). 
-Shapefile _attributes_ include measurements that correspond to the geometry of 
-the shapefile features.
+##Querying shapefile metadata 
+Recall from the previous lesson that shapefile metadata can include a `class`, 
+a `features` count, an `extent`, and a `coordinate reference system` (crs). 
 
-Metadata can be extracted individually using the `class()`, `length()`, `extent()`, 
-`crs()`, `R` commands. Attributes can be extracted using the `slot()` command. 
+Metadata can be extracted individually using the `class()`, `length()`, 
+`extent()`, `crs()`, `R` commands. 
 
 
     #view class
@@ -194,19 +195,22 @@ Metadata can be extracted individually using the `class()`, `length()`, `extent(
     ## ymin        : 4713265 
     ## ymax        : 4713265
 
-#Shapefile Attributes
-
+#Querying Shapefile Attributes
 Shapefiles often contain an associated database or spreadsheet of values called
 `attributes` that describe the vector features in the shapefile. You can think
 of this like a spreadsheet with rows and columns. Each column in the spreadsheet
-is an individual `Attribute` that describes an object.
+is an individual `Attribute` that describes an object. Shapefile `attributes` 
+include measurements that correspond to the geometry of the shapefile features.
 
-For example, the `roads_stream` shapefile contains an attribute called `TYPE`. Each
+For example, the `roads` shapefile contains an attribute called `TYPE`. Each
 line in the shapefile has an associated type which describes the type of road, or 
 element in the file. 
 
 
 You can quickly view all attributes of a spatial object in r using the `@data`. 
+Bonus: If you are comfortable using `slot()` it is another method to do the same
+thing. 
+
 Let's give it a try.
 
 
@@ -328,9 +332,9 @@ Let's give it a try.
 Explore the attributes associated with the `point` and `aoiBoundary` spatial objects. 
 
 1. How many attributes do each have?
-2. Another question??
+2. Who owns the site in the `point` file? 
 
-#Exploring values in One Attribute
+#Exploring Values in One Attribute
 We can also explore individual values stored within a particulat attribute. Again,
 comparing attributes to a spreadsheet or a `data.frame`, this is similar to 
 exploring values in a column. We can do this using the `$`.
@@ -349,7 +353,7 @@ exploring values in a column. We can do this using the `$`.
 
     ## [1] "boardwalk"  "footpath"   "stone wall" "woods road"
 
-#How do you access the LEVELS when working with categorical variables in a shapefile?
+#Acessing levels for categorical variables
 
 ##Subsetting shapefiles
 
@@ -357,7 +361,7 @@ Using the `$` symbol, we were able to access the values associated with a
 particular `Attribute` in a shapefile. Next, we will use this syntax to select 
 a subset of features from a spatial object in `R`. 
 
-Note how our subsetting operation reduces the _features_ count from 13 to 2. 
+Note how our subsetting operation reduces the `features` count from 13 to 2. 
 
 
     #view all attributes in the TYPE column
@@ -380,48 +384,35 @@ Note how our subsetting operation reduces the _features_ count from 13 to 2.
     ## min values  :         40,       91, footpath,    NA,        NA,      6,       NA,   146.2998,    NA,         Y,         R1,      Y,   146.2998,    R1 - All Research Vehicles Allowed, Bicycles and Horses Allowed 
     ## max values  :         41,      106, footpath,    NA,        NA,      6,       NA,   676.7180,    NA,         Y,         R2,      Y,   676.7181, R2 - 4WD/High Clearance Vehicles Only, Bicycles and Horses Allowed
 
-
-#I think we should plot by attribute HERE - given we are introducing attributes here
-#we should also have some sort of application - maybe we want to find out in a point data set 
-#how many points are of type "X"
-#can we run summary stats on the different categories?
-
-#Plotting Spatial Data in R
-
-We can use the `col` argument to the `plot()` function to specify 
-the color of spatial objects. If type is an attribute of our data, 
-we can use the syntax `$TYPE` to tell `R` to plot the spatial
-objects according to their unique TYPE values. 
+#Plotting Vector Data in R
 
 The following code chunk extracts a vector of this attribute, creates 
 a character color vector of the same length, and changes the positions 
-of this color vector that correspond to _footpath_.
+of this color vector that correspond to `footpath`.
 
-#NOTE -- It's worth visiting this to determine the BEST and most efficient
-way to plot by attribute. The TYPE is a factor in R world -
-#it's a categorical attribute. We should teach best practices but I am not sure
-#what that is in R.
-
-we should plot:
-* then add a legend
-* color by road type and add that to the legend.
-* this would be a typical workflow.
+We can use the `col` argument in the `plot()` function to specify the color of
+spatial objects. If type is an attribute of our data, we can use the syntax
+`$TYPE` to tell `R` to plot the spatial objects according to their unique TYPE
+values. 
 
 
-
-    #color lines by TYPE attribute
-    type <- slot(object = lines, name = "data")$TYPE
-    #you can also write
-    type <- lines@data$TYPE
+    #add legend to previous plot
     
+    
+    #color lines by TYPE attribute
+    #1st create object that is the TYPE attribute (you could just do this directly
+    #in the col {} below but this makes for cleaner code)
+    type <- lines@data$TYPE
+    #Bonus: if you prefer using slot(). 
+    type <- slot(object = lines, name = "data")$TYPE
+    
+    #2nd set the color for all the lines 
     col <- rep(x= "black", length = length(type))
+    
+    #3rd specify the color you want for the TYPE level you want 
     col[type == "footpath"] <- "red"
     
-    plot(x=lines, col=col,add=T)
+    #4th plot. Add is still true because we want this to map onto the previous plot 
+    plot(x=lines, col=col,add=TRUE)
 
     ## Error in plot.xy(xy.coords(x, y), type = type, ...): plot.new has not been called yet
-
-#some other challenge?
-#maybe plotting should be it's own lesson in this set??
-
-
