@@ -61,6 +61,8 @@ Download the shapefiles needed to complete this lesson:
 <a href="http://files.figshare.com/2387960/boundaryFiles.zip" class="btn btn-success"> 
 DOWNLOAD Harvard Forest Shapefiles</a>
 
+<a href="http://files.figshare.com/2387960/NEON_RemoteSensing.zip" class="btn btn-success"> 
+DOWNLOAD Harvard Forest Remote Sensing</a>
 
 ###Recommended Reading
 This lesson is a part of a series on vector and raster data in R.
@@ -81,10 +83,10 @@ Crop and extract raster values in R</a>
 
 Sometimes spatial data are downloaded or stored in a text file format (`txt` or 
 `csv`). We can convert these data in text format into a spatial object as an R 
-`SpatialPointsDataFrame`. Note that there is a `SpatialPoints` object in R that 
-does not allow you to store associated `attributes`. The `SpatialPointsDataFrame` 
-allows you to store columns from your `data.frame` in the object so that you can
-bring along metadata and attribute data. 
+`SpatialPointsDataFrame`. The `SpatialPointsDataFrame` format allows you to store 
+columns from your `data.frame` in an object so that you can bring along metadata
+and attribute data. 
+Note: There is a `SpatialPoints` object in R that does not allow you to store associated `attributes`. 
 
 
 ```{r load-libraries }
@@ -267,7 +269,7 @@ crs(newPlots)
 ```
 
 We've added points to our map. However, they are not appearing in our study area.
-This is because our shapefile is in a GEOGRAPHIC (latitude and longitude) reference 
+This is because our shapefile is in a geographic (latitude and longitude) reference 
 system. They are not projected. We will need to project the data to `UTM` which is
 what our other shapefiles are in to make things line up.
 
@@ -317,8 +319,8 @@ plot(aoiBoundary, add=TRUE)
 ##Create a vector-raster overlay map
 
 We will use the base graphics `plot()` command to create a vector-raster overlay 
-plot. Next, we will load a raster from disk using the `raster` command, plot this 
-raster, and overlay the lines and squareplot shapefiles using the `add` argument. 
+plot. Next, we will load a raster file using the `raster` command, plot this 
+raster, and overlay the lines and squareplot shapefiles using the `add` argument. We'll name the raster data `chm` as it is a Canopy Height Model.  
 
 ```{r Plot vector-raster overlay }
 

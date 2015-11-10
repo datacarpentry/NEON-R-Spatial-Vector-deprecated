@@ -3,7 +3,7 @@ layout: post
 title: "Lesson 01: Work With Shapefile Attributes in R"
 date:   2015-10-25
 authors: [Joseph Stachelek, Leah Wasser]
-contributors: [Megan A. Jones]
+contributors: [Megan A. Jones, Sarah Newman]
 dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 tags: [module-1]
@@ -128,7 +128,7 @@ crs(x = lines)
 crs(x = point)
 
 #view extent
-extent(x = squarePlot)
+extent(x = aoiBoundary)
 extent(x = lines)
 extent(x = point)
 
@@ -160,7 +160,7 @@ names(lines@data)
 #view all attribute data for the lines spatial object
 lines@data 
 
-#view just the tope 5 attributes for the lines spatial object
+#view just the top 5 attributes for the lines spatial object
 head(lines@data)
 
 #view attributes for the other spatial objects
@@ -173,10 +173,12 @@ point@data
 Explore the attributes associated with the `point` and `aoiBoundary` spatial objects. 
 
 1. How many attributes do each have?
-2. Who owns the site in the `point` file? 
+2. Who owns the site in the `point` data object?
+3. Which of the following are NOT attributes of the `point` data object?
+    A) Lat B) County C) Country
 
 #Exploring Values in One Attribute
-We can also explore individual values stored within a particulat attribute. Again,
+We can also explore individual values stored within a particular attribute. Again,
 comparing attributes to a spreadsheet or a `data.frame`, this is similar to 
 exploring values in a column. We can do this using the `$`.
 

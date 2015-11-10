@@ -107,9 +107,11 @@ a road, or a stream is a series of straight line segments, each bend in the road
 or stream represents a vertex that has an x,y location associated with it. A
 line consists of AT LEAST 2 vertices that are connnected. Examples: roads or
 streams.
-* **Polygons:** A polygon consists of 3 or more vertices that are connected and,
-most often, closed. Thus the outline of a plot boundary, a lake, ocean, state or 
-country would all most often be stored in a polygon format. 
+* **Polygons:** A polygon consists of 3 or more vertices that are connected and 
+closed. Thus the outline of a plot boundary, a lake, ocean, state or 
+country would all most often be stored in a polygon format. Ocassionally, a 
+polygon can have a hole in the middle of it (like a donut), this is something to
+be aware of but not an issue we will deal with further.
 
 NOTE: a line can represent a boundary as well - however a line will not create a 
 closed object.
@@ -198,7 +200,7 @@ just imported.
 When we import the `HarClip_UTMZ18` layer into R, some key metadata are stored
 with the spatial R object:
 
-1. **Object Type:** - in this case our area of interest (AOI) is a polygon boundary. 
+1. **Object Type:** - In this case our area of interest (AOI) is a polygon boundary. 
 R knows to bring it in as a `SpatialPolygonsDataFrame`
 2. **CRS** - The shapefile also contains projection information `coord ref.` in the output 
 above.
