@@ -295,7 +295,7 @@ summary(aoiBoundary)
 
 We can also view specific metadata for the shapefile:
 
-```{r view-crs-extent }
+```{r view-crs-extent2 }
 #view just the crs for the shapefile
 crs(aoiBoundary)
 
