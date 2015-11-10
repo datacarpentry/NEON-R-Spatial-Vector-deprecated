@@ -76,6 +76,8 @@ Crop and extract raster values in R</a>
 </div>
 
 
+
+
 Sometimes spatial data are downloaded or stored in a text file format (`txt` or 
 `csv`). We can convert these data in text format into a spatial object as an R 
 `SpatialPointsDataFrame`. Note that there is a `SpatialPoints` object in R that 
@@ -99,7 +101,7 @@ The `HARV_PlotLocations.csv` file contains x,y locations for some plots that
 ecological metrics. We would like to create a map that includes the locations of 
 these plot locations. We also would like to export the data in a `shapefile` 
 format to share with our colleagues. This shapefile can also be imported into any
-`GIS` software.
+GIS software.
 
 To begin, let's read in the `csv` file that contains the x,y coordinate locations.
 
@@ -116,60 +118,82 @@ head(plot.location)
 
 ```
 
-When we create a spatial points dataframe from a csv, there is no inherent `CRS` 
-associated with it. We can assign a CRS if we know what the coordinate system 
-the x,y values are in.
+#Challenge: Reading data structure
+ * What is the coordinate reference system (CRS) for this data? 
+ 
 
-In this case, the CRS of our csv is UTM zone 18N (similar to our boundary shapefiles) 
-that we opened previously. If the object is not still open in R, let's open up a 
-shapefile that is in that project. Next, we will convert our imported `plot.location` 
-object to a `SpatialPointsDataFrame` and assign it a CRS using the shapefile.
+When we create a spatial points dataframe from a csv, there is no inherent
+Coordinate Reference System (CRS) associated with it. We can assign a CRS if we
+know what the coordinate system the x,y values are in.
 
+In this case, the CRS for this data is UTM zone 18N (utmZone is 18N for all
+points in the header we just looked at). Luckily this is similar to our boundary
+shapefiles that we opened previously. 
 
-NOTE: it is important to first CONFIRM that the CRS of our CSV coordinates is the 
-SAME as the CRS of the shapefile. We can figure that out by looking at the metadata 
-for the CSV file which we hopefully have!
-
-#NOTE: create metadata for this file!
+If it is not still open in R, let's open up the shapefile `HarClip_UTMZ18".
 
 ```{r read-shp }
-#note: read ogr is preferred as it maintains prj info
+
 aoiBoundary <- readOGR("boundaryFiles/HARV/","HarClip_UTMZ18")
+```
 
-#check the CRS
+This is the shapefile that we want to match up with our csv file.  It is
+important to first confirm that the CRS of our CSV coordinates is the same as 
+the CRS of the shapefile. We can figure that out by looking at the metadata for
+both files.
+
+```{r check-crs-shapefile-csv}
+#check the CRS in shapefile
 crs(aoiBoundary)
+```
 
-#the x,y location values for the dataset are available in 
-#the x and y columns. We can use that for our spatial data point object
-#we know the csv file coordinates are in the same CRS as the other shapefiles.
-#we can assign this to the SpatialPointsDataFrame when we import it.
-plot.locationSp <- SpatialPointsDataFrame(plot.location[,1:2],
-                                                plot.location,
-                                                proj4string = crs(aoiBoundary))
+Next, we will convert our imported `plot.location` object to a
+`SpatialPointsDataFrame` and assign it a CRS using the shapefile.
 
+The x,y location values for the dataset are available and named "x" (column 1) and
+"y" (column 2).  We can use that for our spatial data point objects. We know the csv file 
+coordinates are in the same CRS as the other shapefiles. We can assign this to the 
+`SpatialPointsDataFrame` when we import it.
+
+``` {r plot-csv-shapefile}
+#
+plot.locationSp <- SpatialPointsDataFrame(plot.location[,1:2],    #x,y coordinates
+                    plot.location,                    #?
+                    proj4string = crs(aoiBoundary))    # assinging the CRS system
+                                                      # in our shapefile
+                                          
 #look at CRS
 crs(plot.locationSp)
 
 ```
 
-Now, we have created a `SpatialPointsDataFrame` object in R using a csv file! 
-The `R` object has a CRS that matches the CRS of our shapefiles. Let's plot our 
-data!
+Now, we have created a `SpatialPointsDataFrame` object in R from a csv file! 
+The `R` object has a CRS that matches the CRS of our shapefiles. 
+
+Let's plot our data!
 
 
 ```{r plot-data }
 
 #plot the points
-#use main = to add a title to the map
+#Add title to map using main=""
 plot(plot.locationSp, main="Map of Study Area")
 
-#let's add the polygon layer to our plot
+#let's add the polygon & tower point layer to our plot
 plot(aoiBoundary, add=TRUE)
+plot (point, col="red", add=TRUE)
 
-#add roads to our plot
-roads <- readOGR("boundaryFiles/HARV/","HARV_roads")
-plot(roads, add=TRUE)
+#add roads to our plot, Lesson00: lines<-readOGR("boundaryFiles/HARV/", "HARV_roads")
+plot(lines, add=TRUE)
 
+```
+
+What happenned to the tower?  The extent of these data are much larger than the
+bouldery file that we originally originally projected.  
+
+```{r extent-files}
+extent(aoiBoundary)
+extent (plot.locationSp)
 ```
 
 #Create a New Shapefile from A Spatial Object
@@ -177,52 +201,57 @@ plot(roads, add=TRUE)
 We can write an R spatial object to a shapefile using the `writeOGR` function 
 in `rgdal`. To do this we need the following arguments
 
-* the name of the spatial object
+* the name of the spatial object (plot.locationSp)
 * the director where we want to save our shapefile
-* the name of the new shapefile
-* the driver which specifies the file format (in this case a shapefile)
+           (to use current = getwd() or you can specify a different path)
+* the name of the new shapefile  (newFile)
+* the driver which specifies the file format (ESRI Shapefile)
 
 
-```{r write-shapefile, results="hide" }
+```{r write-shapefile}
 #write a shapefile
 writeOGR(plot.locationSp, getwd(), "newFile", driver="ESRI Shapefile")
 
 ```
 
-#Dealing with Spatial objects in different CRS'
+#Dealing with Spatial Objects in Different CRSs
 
-Often, we have data that are in different CRS'. In order to map these objects
-in the same visual space, we need to then reproject them. We can use the 
+Often, we have data that are in different CRSs. In order to map these objects
+in the same visual space, we need to reproject one or the other. We can use the 
 `spTransform` function to reproject a vector.
 
 In this case, we have a shapefile called `newPlots_latLon` that is in a 
-geographic coordinate system (latitude and longitude). Let's read these data in
-and try to add them to our map
+geographic coordinate system (latitude and longitude) instead of the UTM
+coordinate system of our other shapefiles. 
+
+Let's read these data in and try to add them to our map without converting so we
+can see what this looks like. 
 
 ```{r project-vectors }
 
 #note: read ogr is preferred as it maintains prj info
 newPlots <- readOGR("boundaryFiles/HARV/","newPlots_latLon")
 
-#http://www.statmethods.net/advgraphs/parameters.html
 #add these points to our plot
 plot(newPlots, add=TRUE, col=115, pch=19)
 
 ```
 
-We tried to add the newPlots to our existing plot and nothing happened? What
-is the issue? Typically when data that we know should line up, doesn't, there
-is a projection issue. Let's check it out.
+We added the newPlots to our existing plot and nothing happened?
 
-First, let's look at the data in our new plots layer.
-Often the coordinates themselves can give us a clue as to whether the data are
-projected OR are in latitude and longitude (geographic coordinate system).
+What is the issue? Typically when data that we know should line up, doesn't,
+there is a projection issue. Let's check it out.
+
+First, let's look at the data in our new plots layer.Often the coordinates 
+themselves can give us a clue as to whether the data are projected or are in 
+latitude and longitude (geographic coordinate system).
 We can use the `@coords` function to view the coordinates of the points in our
 spatial object.
 
 ``` {r explore-spatial-data }
 #view coordinates
 newPlots@coords
+
 
 #it appears as if our coordinates are in lat / long
 #let's check the CRS of our data to see what's going on
