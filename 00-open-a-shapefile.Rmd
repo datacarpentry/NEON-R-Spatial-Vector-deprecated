@@ -3,7 +3,7 @@ layout: post
 title: "Lesson 00: Vector Data in R - Open and plot shapefiles"
 date:   2015-10-26
 authors: [Joseph Stachelek, Leah Wasser]
-contributors: [Megan A. Jones]
+contributors: [Megan A. Jones, Sarah Newman]
 dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 tags: [module-1]
@@ -32,8 +32,7 @@ After completing this activity, you will:
  * Understand the differences between opening point, line and polygon shapefiles
     in R.
  * Understand the components of a _spatial object_ (in R).
- 
- 
+
 ###What you'll need
 
 You will need the most current version of R or R studio loaded on your computer 
@@ -72,9 +71,11 @@ Crop and extract raster values in R</a>
 </div>
 
 NOTE: The data used in this tutorial were collected at Harvard Forest which is
-a the National Ecological Observatory Network field site <a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank">
+a the National Ecological Observatory Network field site 
+<a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank">
 More about the NEON Harvard Forest field site</a>. These data are proxy data for what will be
-available for 30 years from the NEON flux tower [from the NEON data portal](http://data.neoninc.org/ "NEON data").
+available for 30 years from the NEON flux tower 
+[from the NEON data portal](http://data.neoninc.org/ "NEON data").
 {: .notice}
  
 ###Notes about R Libraries
@@ -134,8 +135,12 @@ shapefiles include
 
 * a polygon shapefile representing our study area boundary, 
 * a line shapefile representing roads and streams, and 
-* a point shapefile representing the location of a flux tower <a href="http://www.neoninc.org/science-design/collection-methods/flux-tower-measurements" target="_blank">NEON Flux Tower Measurement Methods</a> 
-located at the NEON Harvard Forest field site <a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank">NEON Harvard Forest Field Site</a>.
+* a point shapefile representing the location of a flux tower 
+<a href="http://www.neoninc.org/science-design/collection-methods/flux-tower-measurements" target="_blank">
+NEON Flux Tower Measurement Methods</a> 
+located at the NEON Harvard Forest field site 
+<a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank">
+NEON Harvard Forest Field Site</a>.
 
 The first shapefile that we will open, contains the boundary of our study area. 
 It is a polygon layer. We can tell it is a polygon by viewing it's `class` in
@@ -146,11 +151,10 @@ the attributes of the object which is `SpatialPolygonsDataFrame`.
 setwd("~/Documents/data/Spatio_TemporalWorkshop/1_WorkshopData")
 
 #Import a polygon shapefile 
-aoiBoundary <- readOGR("boundaryFiles/HARV/", "HarClip_UTMZ18")
-```
+aoiBoundary <- readOGR("boundaryFiles/HARV", "HarClip_UTMZ18")
 
-When importing shape files, `readOGR()` is preferred as it maintains the projection
-infomation.  
+
+```
 
 After loading a new data set we also want to view the attributes of the layer.
 This can be done simple by entering the file name.
@@ -189,9 +193,38 @@ plot(aoiBoundary,col="cyan1", border="black", lwd=3)
 We get a box representing the boundaries specified in the shapefile that we
 just imported.  
 
+#View Shapefile Metadata
+
+When we import the `HarClip_UTMZ18` layer into R, some key metadata are stored
+with the spatial R object:
+
+1. **Object Type:** - in this case our area of interest (AOI) is a polygon boundary. 
+R knows to bring it in as a `SpatialPolygonsDataFrame`
+2. **CRS** - The shapefile also contains projection information `coord ref.` in the output 
+above.
+3. **Extent** - we can see the spatial extent of the shapefile. Note that the spatial
+extent for a shapefile represents the extent for ALL polygons (or spatial objects)
+in the shapefile!
+
+We can view the CRS, Extent and other metadata for the shapefile using the following
+commands:
+
+```{r view-crs-extent }
+#view just the crs for the shapefile
+crs(aoiBoundary)
+
+#view just the extent for the shapefile
+extent(aoiBoundary)
+
+```
+
+#Import a line and point shapefile
+=======
 Bonus: For more on parameter options in base r plot() check out these resources:
-http://www.statmethods.net/advgraphs/parameters.html
-https://codeyarns.files.wordpress.com/2011/07/20110729-vim-named-colors.png?w=700
+
+* <a href="http://www.statmethods.net/advgraphs/parameters.html" target="_blank">Parameter methods in R.</a>
+* <a href="https://codeyarns.files.wordpress.com/2011/07/20110729-vim-named-colors.png?w=700">Color names in R</a>
+
 
 
 >#ON YOUR OWN ACTIVITY: Import a line and point shapefile
@@ -211,14 +244,15 @@ https://codeyarns.files.wordpress.com/2011/07/20110729-vim-named-colors.png?w=70
 ```{r import-point-line, echo=FALSE, results="hide" }
 
 #Import a line shapefile
-lines <- readOGR( "boundaryFiles/HARV/",layer = "HARV_roads")
+lines <- readOGR("boundaryFiles/HARV",layer = "HARV_roads")
+#import a point shapefile
+point <- readOGR("boundaryFiles/HARV", layer="HARVtower_UTM18N")
+  
 
-#Import a point shapefile 
-point <- readOGR("boundaryFiles/HARV/", "HARVtower_UTM18N")
-
-#viewing attributes
+#view attributes
 lines
 point
+
 ```
 
 #Shapefile Metadata & Attributes
