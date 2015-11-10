@@ -3,7 +3,7 @@ layout: post
 title: "Lesson 02: CSV to Shapefile in R"
 date:   2015-10-24
 authors: [Joseph Stachelek, Leah Wasser]
-contributors: []
+contributors: [Megan A. Jones]
 dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 tags: [module-1]
@@ -19,10 +19,10 @@ comments: false
 {% include _toc.html %}
 
 #About
-This lesson will review how to import spatial points, stored in a  csv file into
+This lesson will review how to import spatial points, stored in a .csv file into
 R as a spatial object - a `SpatialPointsDataFrame`. We will also learn how to
-reproject data imported in shapefile format, into another projection, create a 
-shapefile from a spatial object in R and plot raster and vector data as overlays
+reproject data imported in shapefile format into another projection, create a 
+shapefile from a spatial object in R, and plot raster and vector data as overlays
 in the same plot. 
 
 
@@ -41,7 +41,7 @@ After completing this activity, you will:
 
 ###What you'll need
 
-You will need the most current version of R or R studio loaded on your computer 
+You will need the most current version of R or RStudio loaded on your computer 
 to complete this lesson.
 
 ###R Libraries to Install:
@@ -55,7 +55,7 @@ More on Packages in R - Adapted from Software Carpentry.</a>
 
 ##Data to Download
 
-Download the shapefiles neede to complete this lesson:
+Download the shapefiles needed to complete this lesson:
 
 <a href="http://files.figshare.com/2387960/boundaryFiles.zip" class="btn btn-success"> 
 DOWNLOAD Harvard Forest Shapefiles</a>
@@ -77,10 +77,11 @@ Crop and extract raster values in R</a>
 
 
 Sometimes spatial data are downloaded or stored in a text file format (`txt` or 
-`csv`). We can convert these data in text format, into a spatial object in R 
+`csv`). We can convert these data in text format into a spatial object as an R 
 `SpatialPointsDataFrame`. Note that there is a `SpatialPoints` object in R that 
 does not allow you to store associated `attributes`. The `SpatialPointsDataFrame` 
-allows you to store columns from your `data.frame` in the object.
+allows you to store columns from your `data.frame` in the object so that you can
+bring along metadata and attriubute data. 
 
 
 ```{r load-libraries }
@@ -91,10 +92,10 @@ library(raster)
 
 ```
 
-##Reading in our CSV
+##Reading in a CSV
 
 The `HARV_PlotLocations.csv` file contains x,y locations for some plots that 
-(NEON)[http://www.neoninc.org] field crew are sampling vegetation and other 
+(NEON)[http://www.neoninc.org] field crews are sampling vegetation and other 
 ecological metrics. We would like to create a map that includes the locations of 
 these plot locations. We also would like to export the data in a `shapefile` 
 format to share with our colleagues. This shapefile can also be imported into any
@@ -104,7 +105,7 @@ To begin, let's read in the `csv` file that contains the x,y coordinate location
 
 ```{r read-csv }
 
-#Leah's notes
+#set working directory to where you have stored the data
 setwd("~/Documents/data/1_DataPortal_Workshop/1_WorkshopData")
 
 #Read the csv file

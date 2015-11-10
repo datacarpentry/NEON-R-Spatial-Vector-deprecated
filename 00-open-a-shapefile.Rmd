@@ -3,6 +3,7 @@ layout: post
 title: "Lesson 00: Vector Data in R - Open and plot shapefiles"
 date:   2015-10-26
 authors: [Joseph Stachelek, Leah Wasser]
+contributors: [Megan A. Jones]
 dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 tags: [module-1]
@@ -148,6 +149,9 @@ setwd("~/Documents/data/Spatio_TemporalWorkshop/1_WorkshopData")
 aoiBoundary <- readOGR("boundaryFiles/HARV/", "HarClip_UTMZ18")
 ```
 
+When importing shape files, `readOGR()` is preferred as it maintains the projection
+infomation.  
+
 After loading a new data set we also want to view the attributes of the layer.
 This can be done simple by entering the file name.
 
@@ -178,8 +182,6 @@ Once we know what is in the attributes it is time to visualize that data.
 ``` {r Plot-shapefile}
 #create a quick plot of the shapefile
 #note: lwd sets the line width!
-#for a list of r color options 
-#https://codeyarns.files.wordpress.com/2011/07/20110729-vim-named-colors.png?w=700
 plot(aoiBoundary,col="cyan1", border="black", lwd=3)
 
 ```
@@ -187,6 +189,9 @@ plot(aoiBoundary,col="cyan1", border="black", lwd=3)
 We get a box representing the boundaries specified in the shapefile that we
 just imported.  
 
+Bonus: For more on parameter options in base r plot() check out these resources:
+http://www.statmethods.net/advgraphs/parameters.html
+https://codeyarns.files.wordpress.com/2011/07/20110729-vim-named-colors.png?w=700
 
 
 >#ON YOUR OWN ACTIVITY: Import a line and point shapefile

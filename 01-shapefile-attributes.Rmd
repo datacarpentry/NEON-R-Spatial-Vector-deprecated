@@ -3,7 +3,7 @@ layout: post
 title: "Lesson 01: Work With Shapefile Attributes in R"
 date:   2015-10-25
 authors: [Joseph Stachelek, Leah Wasser]
-contributors: [Megan Jones]
+contributors: [Megan A. Jones]
 dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 tags: [module-1]
@@ -228,7 +228,7 @@ values.
 #1st create object that is the TYPE attribute (you could just do this directly
 #in the col {} below but this makes for cleaner code)
 type <- lines@data$TYPE
-#Or if you prefer using slot(). 
+#Bonus: if you prefer using slot(). 
 type <- slot(object = lines, name = "data")$TYPE
 
 #2nd set the color for all the lines 
