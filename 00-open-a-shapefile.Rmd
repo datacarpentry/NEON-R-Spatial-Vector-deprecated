@@ -31,8 +31,7 @@ After completing this activity, you will:
  * Understand the differences between opening point, line and polygon shapefiles
     in R.
  * Understand the components of a _spatial object_ (in R).
- 
- 
+
 ###What you'll need
 
 You will need the most current version of R or R studio loaded on your computer 
@@ -165,7 +164,7 @@ plot(aoiBoundary,col="cyan1", border="black", lwd=3)
 When we import the `HarClip_UTMZ18` layer into R, some key metadata are stored
 with the spatial R object:
 
-1. **Object Type: **  in this case our area of interest (AOI) is a polygon boundary
+1. **Object Type:** - in this case our area of interest (AOI) is a polygon boundary. 
 R knows to bring it in as a `SpatialPolygonsDataFrame`
 2. **CRS** - The shapefile also contains projection information `coord ref.` in the output 
 above.
@@ -204,7 +203,7 @@ extent(aoiBoundary)
 ```{r import-point-line, echo=FALSE, results="hide" }
 
 #Import a line shapefile
-lines <- readOGR( "boundaryFiles/HARV/",layer = "HARV_roadStream")
+lines <- readOGR( "boundaryFiles/HARV/",layer = "HARV_roads")
 
 #Import a point shapefile 
 point <- readOGR("boundaryFiles/HARV/", "HARVtower_UTM18N")
