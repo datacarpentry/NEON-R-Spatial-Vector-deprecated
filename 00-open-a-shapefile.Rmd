@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Lesson 00: Vector Data in R - Open and plot shapefiles"
+title: "Lesson 00: Vector Data in R - Open and Plot Shapefiles"
 date:   2015-10-26
 authors: [Joseph Stachelek, Leah Wasser]
 contributors: [Megan A. Jones, Sarah Newman]
@@ -21,7 +21,7 @@ comments: false
 
 ##About
 In this lesson, we will work with vector data in R. We will open and plot point, 
-line, and polygon data, stored in `shapefile` format, in R.
+line, and polygon data, stored in shapefile format, in R.
 
 <div id="objectives" markdown="1">
 
@@ -31,7 +31,7 @@ After completing this activity, you will:
  * Know the difference between point, line, and polygon vector elements.
  * Understand the differences between opening point, line and polygon shapefiles
     in R.
- * Understand the components of a _spatial object_ (in R).
+ * Understand the components of a spatial object (in R).
 
 ###What you'll need
 
@@ -50,14 +50,13 @@ More on Packages in R - Adapted from Software Carpentry.</a>
 
 ##Data to Download
 
-Download the raster and <i>in situ</i> collected vegetation structure data:
+Download the vector files for the Harvard Forest dataset:
 
 <a href="http://files.figshare.com/2387960/boundaryFiles.zip" class="btn btn-success"> 
 DOWNLOAD Harvard Forest Shapefiles</a>
 
 ###Recommended Reading
 This lesson is a part of a series on vector and raster data in R.
-
 
 1. <a href="{{ site.baseurl }}/R/open-shapefiles-in-R/">
 Intro to shapefiles in R</a>
@@ -149,8 +148,9 @@ It is a polygon layer. We can tell it is a polygon by viewing it's `class` in
 the attributes of the object which is `SpatialPolygonsDataFrame`.
 
 ```{r Import-Shapefile}
-#set working directory to where the data files were saved.  
-setwd("~/Documents/data/Spatio_TemporalWorkshop/1_WorkshopData")
+#set working directory to the directory location on your computer where
+#you downloaded and unzipped the data files used in this lesson
+#setwd("pathToDirHere")
 
 #Import a polygon shapefile 
 aoiBoundary <- readOGR("boundaryFiles/HARV", "HarClip_UTMZ18")
@@ -221,11 +221,11 @@ extent(aoiBoundary)
 ```
 
 #Import a line and point shapefile
-=======
+
 Bonus: For more on parameter options in base r plot() check out these resources:
 
 * <a href="http://www.statmethods.net/advgraphs/parameters.html" target="_blank">Parameter methods in R.</a>
-* <a href="https://codeyarns.files.wordpress.com/2011/07/20110729-vim-named-colors.png?w=700">Color names in R</a>
+* <a href="https://codeyarns.files.wordpress.com/2011/07/20110729-vim-named-colors.png?w=700" target="_blank">Color names in R</a>
 
 
 
