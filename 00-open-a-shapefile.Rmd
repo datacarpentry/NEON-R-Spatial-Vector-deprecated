@@ -31,8 +31,7 @@ After completing this activity, you will:
  * Understand the differences between opening point, line and polygon shapefiles
     in R.
  * Understand the components of a _spatial object_ (in R).
- 
- 
+
 ###What you'll need
 
 You will need the most current version of R or R studio loaded on your computer 
@@ -146,11 +145,12 @@ the attributes of the object which is `SpatialPolygonsDataFrame`.
 ```{r Import-Shapefile}
 
 #Import a polygon shapefile 
-aoiBoundary <- readOGR("boundaryFiles/HARV/", "HarClip_UTMZ18")
-```
+aoiBoundary <- readOGR("boundaryFiles/HARV", "HarClip_UTMZ18")
 
+```
 After loading a new data set we also want to view the attributes of the layer.
 This can be done simple by entering the file name.
+
 
 ``` {r Shapefile-attributes}
 #view attributes of the layer
@@ -188,6 +188,31 @@ plot(aoiBoundary,col="cyan1", border="black", lwd=3)
 We get a box representing the boundaries specified in the shapefile that we
 just imported.  
 
+#View Shapefile Metadata
+
+When we import the `HarClip_UTMZ18` layer into R, some key metadata are stored
+with the spatial R object:
+
+1. **Object Type:** - in this case our area of interest (AOI) is a polygon boundary. 
+R knows to bring it in as a `SpatialPolygonsDataFrame`
+2. **CRS** - The shapefile also contains projection information `coord ref.` in the output 
+above.
+3. **Extent** - we can see the spatial extent of the shapefile. Note that the spatial
+extent for a shapefile represents the extent for ALL polygons (or spatial objects)
+in the shapefile!
+
+We can view the CRS, Extent and other metadata for the shapefile using the following
+commands:
+
+```{r view-crs-extent }
+#view just the crs for the shapefile
+crs(aoiBoundary)
+
+#view just the extent for the shapefile
+extent(aoiBoundary)
+
+```
+
 #Import a line and point shapefile
 
 >#ON YOUR OWN ACTIVITY
@@ -207,10 +232,10 @@ just imported.
 ```{r import-point-line, echo=FALSE, results="hide" }
 
 #Import a line shapefile
-lines <- readOGR( "boundaryFiles/HARV/",layer = "HARV_roads")
+lines <- readOGR( "boundaryFiles/HARV",layer = "HARV_roads")
 
 #Import a point shapefile 
-point <- readOGR("boundaryFiles/HARV/", "HARVtower_UTM18N")
+point <- readOGR("boundaryFiles/HARV", "HARVtower_UTM18N")
   
 ```
 
