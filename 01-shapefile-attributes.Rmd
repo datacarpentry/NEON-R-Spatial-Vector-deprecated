@@ -183,7 +183,6 @@ comparing attributes to a spreadsheet or a `data.frame`, this is similar to
 exploring values in a column. We can do this using the `$`.
 
 ```{r explore-attribute-values }
-
 #view all attributes in the lines shapefile within the TYPE field
 lines$TYPE
 
@@ -202,7 +201,12 @@ a subset of features from a spatial object in `R`.
 
 Note how our subsetting operation reduces the `features` count from 13 to 2. 
 
-```{r Subsetting shapefiles}
+```{r Subsetting-shapefiles}
+#base plot - you may already have this done
+plot(aoiBoundary, col="cyan2", main="Harvard Forest Tower")  #map Boundary polygon
+plot(point, col="red", add=TRUE)   #add tower point 
+plot(lines, add=TRUE)  #add in roads  
+
 
 #view all attributes in the TYPE column
 lines$TYPE

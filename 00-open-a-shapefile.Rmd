@@ -229,7 +229,7 @@ Bonus: For more on parameter options in base r plot() check out these resources:
 
 
 
->#ON YOUR OWN ACTIVITY: Import a line and point shapefile
+>#Challenge: Import a line and point shapefile
 >
 >Using the steps above, import the HARV_roads and HARVtower_UTM18N layers into R.
 >Call the Harv_roads object `lines` and the HARVtower_UTM18N `point`
@@ -327,4 +327,4 @@ plot(lines, add = TRUE)
 plot(point, add  = TRUE, pch = 19, col = "red")
 ```
 
-#Another On Your Own Activity
+#Challenge: 
