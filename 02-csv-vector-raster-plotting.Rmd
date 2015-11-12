@@ -6,8 +6,11 @@ authors: [Joseph Stachelek, Leah Wasser]
 contributors: [Megan A. Jones, Sarah Newman]
 dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
+category: 
 tags: [module-1]
+mainTag: GIS-Spatial-Data
 description: "This lesson walks through how to convert a csv file contains coordinate information into a spatial object in R."
+code1: 
 image:
   feature: NEONCarpentryHeader_2.png
   credit: A collaboration between the National Ecological Observatory Network (NEON) and Data Carpentry
@@ -26,10 +29,9 @@ reproject data imported in shapefile format into another projection, create a
 shapefile from a spatial object in R, and plot raster and vector data as overlays
 in the same plot. 
 
+**R Skill Level:** Intermediate - you've got the basics of `R` down.
 
 <div id="objectives" markdown="1">
-
-<strong>R Skill Level:</strong> Beginner / Intermediate
 
 ##Goals / Objectives
 After completing this activity, you will know how to:
@@ -152,18 +154,17 @@ crs(aoiBoundary)
 Next, we will convert our imported `plot.location` object to a
 `SpatialPointsDataFrame` and assign it a CRS using the shapefile.
 
-The x,y location values for the dataset are available and named "x" (column 1) and
-"y" (column 2).  We can use that for our spatial data point objects. We know the csv file 
-coordinates are in the same CRS as the other shapefiles. We can assign this to the 
-`SpatialPointsDataFrame` when we import it.
+The x,y location values for the dataset are available and named "x" (column 1)
+and "y" (column 2).  We can use that for our spatial data point objects. We know
+the .csv file coordinates are in the same CRS as the other shapefiles. We can
+assign this to the `SpatialPointsDataFrame` when we import it.
 
 ``` {r plot-csv-shapefile}
 #plot the points
 # Add title to map using main=""
-plot.locationSp <- SpatialPointsDataFrame(plot.location[,1:2],    #the columns which 
-                                              #represent x,y coordinate locations 
-                    plot.location,                    #The R object to convert to 
-                                                      # SpatialPointsDataframe
+plot.locationSp <- SpatialPointsDataFrame(plot.location[,1:2],    #the columns                                          #which represent x,y coordinate locations 
+                    plot.location,    #The R object to convert to        
+                                      #SpatialPointsDataframe
                     proj4string = crs(aoiBoundary))   # assinging a CRS system
                     #to our shapefile- in this instance we are pulling the CRS 
                     #from the aoiBoundary object
@@ -178,7 +179,6 @@ The `R` object has a CRS that matches the CRS of our shapefiles.
 
 Let's plot our data!
 
-
 ```{r plot-data }
 plot(plot.locationSp, main="Map of Study Area")
 
@@ -191,8 +191,8 @@ plot(lines, add=TRUE)
 
 ```
 
-What happenned to the tower?  The extent of these data covers a larger area than the
-aoiBoundary file that we originally originally projected.  
+What happenned to the tower?  The extent of these data covers a larger area than 
+the aoiBoundary file that we originally originally projected.  
 
 ```{r extent-files}
 extent(aoiBoundary)
@@ -204,17 +204,17 @@ extent (plot.locationSp)
 We can write an R spatial object to a shapefile using the `writeOGR` function 
 in `rgdal`. To do this we need the following arguments
 
-
 * the name of the spatial object (plot.locationSp)
 * the directory where we want to save our shapefile
            (to use current = getwd() or you can specify a different path)
-* the name of the new shapefile  (newFile)
+* the name of the new shapefile  (PlotLocations)
 * the driver which specifies the file format (ESRI Shapefile)
 
+We can now write the shapefile. 
 
 ``` {r write-shapefile}
 #write a shapefile
-writeOGR(plot.locationSp, getwd(), "newFile", driver="ESRI Shapefile")
+writeOGR(plot.locationSp, getwd(), "PlotLocations", driver="ESRI Shapefile")
 
 ```
 

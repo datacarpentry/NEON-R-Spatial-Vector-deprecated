@@ -6,8 +6,11 @@ authors: [Joseph Stachelek, Leah Wasser]
 contributors: [Megan A. Jones, Sarah Newman]
 dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
+category: 
 tags: [module-1]
+mainTag: GIS-Spatial-Data
 description: "This post explains the nature of shapefile attributes. Participants will be able to locate and query shapefile attributes as well as subset shapefiles by specific attribute values."
+code1: 
 image:
   feature: NEONCarpentryHeader_2.png
   credit: A collaboration between the National Ecological Observatory Network (NEON) and Data Carpentry
@@ -20,10 +23,13 @@ comments: false
 
 
 ##About
-This lesson explains what attributes in shapefiles are. It also covers how to work 
-with shapefile attributes in `R`. It covers how to identify and query shapefile 
-attributes as well as subset shapefiles by specific attribute values. Finally,
-we will review how to plot a shapefile according to a set of attribute values.
+This lesson explains what attributes in shapefiles are. It also covers how to
+work with shapefile attributes in `R`. It covers how to identify and query 
+shapefile attributes as well as subset shapefiles by specific attribute values. 
+Finally, we will review how to plot a shapefile according to a set of attribute 
+values.
+
+**R Skill Level:** Intermediate - you've got the basics of `R` down.
 
 <div id="objectives" markdown="1">
 
