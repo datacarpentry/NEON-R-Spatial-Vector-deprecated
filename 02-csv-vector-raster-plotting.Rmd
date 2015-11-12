@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Lesson 02: CSV to Shapefile in R"
+title: "Lesson 02: Converting from .csv to Shapefile in R"
 date:   2015-10-24
 authors: [Joseph Stachelek, Leah Wasser]
 contributors: [Megan A. Jones, Sarah Newman]
@@ -9,7 +9,7 @@ lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 category: 
 tags: [module-1]
 mainTag: GIS-Spatial-Data
-description: "This lesson walks through how to convert a csv file contains coordinate information into a spatial object in R."
+description: "This lesson walks through how to convert a .csv file contains coordinate information into a spatial object in R."
 code1: 
 image:
   feature: NEONCarpentryHeader_2.png
@@ -23,7 +23,7 @@ comments: false
 
 #About
 
-This lesson will review how to import spatial points stored in a  csv file into
+This lesson will review how to import spatial points stored in a .csv file into
 R as a spatial object - a `SpatialPointsDataFrame`. We will also learn how to
 reproject data imported in shapefile format into another projection, create a 
 shapefile from a spatial object in R, and plot raster and vector data as overlays
@@ -36,8 +36,8 @@ in the same plot.
 ##Goals / Objectives
 After completing this activity, you will know how to:
 
-* Import csv files containing x,y coordinate locations into R.
-* Convert a csv to a spatial object.
+* Import .csv files containing x,y coordinate locations into R.
+* Convert a .csv to a spatial object.
 * Project coordinate locations provided in a Geographic Coordinate System
 (Latitude, Longitude) to a projected coordinate system (UTM).
 * Plot raster and vector data in the same plot to create a map.
@@ -74,7 +74,7 @@ Intro to shapefiles in R</a>
 2. <a href="{{ site.baseurl }}/R/shapefile-attributes-in-R/">
 Working With Shapefile Attributes in R </a>
 3. <a href="{{ site.baseurl }}/R/csv-to-shapefile-R/">
-CSV to Shapefile in R</a>
+Converting from .csv to Shapefile in R</a>
 4. <a href="{{ site.baseurl }}/R/crop-extract-raster-data-R/">
 Crop and extract raster values in R</a>
 
@@ -104,8 +104,8 @@ library(raster)
 
 ```
 
-##Reading in a CSV
-To begin, let's read in the `csv` file that contains the x,y coordinate locations---`HARV_PlotLocations.csv`.
+##Reading in a .csv
+To begin, let's read in the .csv file that contains the x,y coordinate locations---`HARV_PlotLocations.csv`.
 
 ```{r read-csv }
 
@@ -113,7 +113,7 @@ To begin, let's read in the `csv` file that contains the x,y coordinate location
 #you downloaded and unzipped the data files used in this lesson
 #setwd("pathToDirHere")
 
-#Read the csv file
+#Read the .csv file
 plot.location <- read.csv("boundaryFiles/HARV/HARV_PlotLocations.csv")
 
 #look at the data structure
@@ -136,7 +136,7 @@ shapefiles that we previously opened.
 If it is not still open in R, let's open up the shapefile `HarClip_UTMZ18`.
 
 ```{r read-shp }
-#note: readGR is preferred as it maintains the projection infomation
+#note: readOGR is preferred as it maintains the projection infomation
 aoiBoundary <- readOGR("boundaryFiles/HARV", "HarClip_UTMZ18")
 
 ```
@@ -174,7 +174,7 @@ crs(plot.locationSp)
 
 ```
 
-Now, we have created a `SpatialPointsDataFrame` object in R from a csv file! 
+Now, we have created a `SpatialPointsDataFrame` object in R from a .csv file! 
 The `R` object has a CRS that matches the CRS of our shapefiles. 
 
 Let's plot our data!
