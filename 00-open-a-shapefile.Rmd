@@ -72,14 +72,14 @@ Crop and extract raster values in R</a>
 NOTE: The data used in this tutorial were collected at Harvard Forest which is
 a the National Ecological Observatory Network field site 
 <a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank">
-More about the NEON Harvard Forest field site</a>. These data are a preview of the 30 year time-series that will be collected from the NEON flux tower and made available
+More about the NEON Harvard Forest field site</a>. These data are a proxy of the 30 year time-series that will be collected from the NEON flux tower and made available
 [from the NEON data portal](http://data.neoninc.org/ "NEON data").
 {: .notice}
  
 ###Notes about R Libraries
 
 We will use the `rgdal` library (package) to work with vector data in R. Notice that `sp`
-is automatically loaded as a side-effect when `rgdal` is loaded. We will use the `raster`
+is automatically loaded when `rgdal` is loaded. We will use the `raster`
 library to work with rasters. The `rgdal` library also allows us to explore
 metadata using similar commands with both rasters and vectors.
 
@@ -120,7 +120,7 @@ Because the structures of points, lines, and polygons are different, each indivi
 shapefile can only contain one vector type (all points, all polygons or all 
 lines). You will not find a mixture of point, line and polygon objects in one shapefile!
 
-Each component of a shapefile often has a set of associated `attributes` that
+Objects stored in a shapefile often have a set of associated `attributes` that
 describe the data. For example, a line shapefile that contains the locations of 
 streams, might contain stream names for each line.
 
@@ -141,7 +141,7 @@ located at the NEON Harvard Forest field site
 NEON Harvard Forest Field Site</a>.
 
 The first shapefile that we will open contains the boundary of our study area. 
-We can use query the layer type either by entering the name of the `R` object into the console or by calling the `class()` function. In this case, we see that our object is a type of polygon layer called a `SpatialPolygonsDataFrame`.
+We can query the layer type either by entering the name of the `R` object into the console or by calling the `class()` function. In this case, we see that our object is a type of polygon layer called a `SpatialPolygonsDataFrame`.
 
 ```{r Import-Shapefile}
 #set working directory to the directory location on your computer where
@@ -155,14 +155,17 @@ aoiBoundary <- readOGR("boundaryFiles/HARV", "HarClip_UTMZ18")
 ```
 
 After loading a new data set we also want to view the attributes of the layer.
-This can be done simple by entering the file name. Alternatively, we can use the `attributes()` function.
+This can be done simple by entering the file name. 
+
+NOTE: we can also use the `attributes()` method to view objects attributes
+{: .notice }
 
 ``` {r Shapefile-attributes}
 #view attributes of the layer
 aoiBoundary
 ```
 
-Here `R` prints a number of attributes including information about the object's coordinate reference system. Note that the objects coordinates are UTM projected from zone 18. This information is critical to interpreting the object extent printed on the previous line. Also, note that our object only contains a single feature. We will discuss metadata and attributes in more
+Here `R` prints a number of attributes including information about the object's `coordinate reference system (CRS)`. Note that the objects coordinates are in the projection: UTM zone 18N. This information is critical to interpreting the object extent printed on the previous line. Also, note that our object only contains a single feature. We will discuss metadata and attributes in more
 detail a bit later. Finally, we see that there is one variable named "id" with min and max values of 1.
 
 We can look at all of the associated data attributes by printing the contents of the `data` slot with `@data`.  
