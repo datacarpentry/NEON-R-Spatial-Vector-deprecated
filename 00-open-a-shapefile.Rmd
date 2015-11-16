@@ -6,8 +6,12 @@ authors: [Joseph Stachelek, Leah Wasser]
 contributors: [Megan A. Jones, Sarah Newman]
 dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
+packagesLibraries: [raster, rgdal]
+category: 
 tags: [module-1]
-description: "This post explains the how to open and plot point, line, and polygon shapefiles in R."
+mainTag: GIS-Spatial-Data
+description: "This lesson explains the how to open and plot point, line, and polygon shapefiles in R."
+code1: 
 image:
   feature: NEONCarpentryHeader_2.png
   credit: A collaboration between the National Ecological Observatory Network (NEON) and Data Carpentry
@@ -23,6 +27,8 @@ comments: false
 In this lesson, we will work with vector data in R. We will open and plot point, 
 line, and polygon data, stored in shapefile format.
 
+**R Skill Level:** Intermediate - you've got the basics of `R` down.
+
 <div id="objectives" markdown="1">
 
 ###Goals / Objectives
@@ -33,10 +39,11 @@ After completing this activity, you will:
     in R.
  * Understand the components of a spatial object (in R).
 
-###What you'll need
+###Things You'll Need To Complete This Lesson
 
 You will need the most current version of R or RStudio loaded on your computer 
 to complete this lesson.
+
 
 ###R Libraries to Install:
 
@@ -45,8 +52,7 @@ to complete this lesson.
 * **rgdal:** `install.packages("rgdal")`
 
 
-<a href="{{ site.baseurl }}/R/Packages-In-R/" target="_blank"> 
-More on Packages in R - Adapted from Software Carpentry.</a>
+<a href="http://neondataskills.org/R/Packages-In-R/" target="_blank">More on Packages in R - Adapted from Software Carpentry.</a>
 
 ##Data to Download
 
@@ -54,6 +60,12 @@ Download the vector files for the Harvard Forest dataset:
 
 <a href="http://files.figshare.com/2387960/boundaryFiles.zip" class="btn btn-success"> 
 DOWNLOAD Harvard Forest Shapefiles</a>
+
+The data used in this tutorial were collected at Harvard Forest which is
+a the National Ecological Observatory Network field site 
+<a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank"> More about the NEON Harvard Forest field site</a>.
+These data are proxy data for what will be available for 30 years from the NEON
+flux towers [from the NEON data portal](http://data.neoninc.org/ "NEON data").
 
 ###Recommended Reading
 This lesson is a part of a series on vector and raster data in R.
@@ -72,8 +84,9 @@ Crop and extract raster values in R</a>
 NOTE: The data used in this tutorial were collected at Harvard Forest which is
 a the National Ecological Observatory Network field site 
 <a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank">
-More about the NEON Harvard Forest field site</a>. These data are a proxy of the 30 year time-series that will be collected from the NEON flux tower and made available
-[from the NEON data portal](http://data.neoninc.org/ "NEON data").
+More about the NEON Harvard Forest field site</a>. These data are a proxy of the 30 year 
+time-series that will be collected from the NEON flux tower and made available
+<a href="http://data.neoninc.org" target=_"blank">from the NEON data portal</a>.
 {: .notice}
  
 ###Notes about R Libraries
@@ -141,7 +154,19 @@ located at the NEON Harvard Forest field site
 NEON Harvard Forest Field Site</a>.
 
 The first shapefile that we will open contains the boundary of our study area. 
-We can query the layer type either by entering the name of the `R` object into the console or by calling the `class()` function. In this case, we see that our object is a type of polygon layer called a `SpatialPolygonsDataFrame`.
+We can query the layer type either by entering the name of the `R` object into the console 
+or by calling the `class()` function. In this case, we see that our object is a type of 
+polygon layer called a `SpatialPolygonsDataFrame`.
+
+Bonus:  The acronym, `OGR` refers to the OpenGIS Simple Features Reference 
+Implementation. 
+<a href="https://trac.osgeo.org/gdal/wiki/FAQGeneral" target="_blank"> Learn more about OGR.</a>
+{ : .notice }  
+
+The first shapefile that we will open, contains the boundary of our study area
+(or our Area Of Interest, hence the name `aoiBoundary`). 
+It is a polygon layer. We can tell it is a polygon by viewing it's `class` in
+the attributes of the object which is `SpatialPolygonsDataFrame`.
 
 ```{r Import-Shapefile}
 #set working directory to the directory location on your computer where
@@ -209,7 +234,11 @@ extent(aoiBoundary)
 
 ```
 
->#ON YOUR OWN ACTIVITY: Import a line and point shapefile
+
+#Import a line and point shapefile
+
+
+>#Challenge: Import a line and point shapefile
 >
 >Using the steps above, import the HARV_roads and HARVtower_UTM18N layers into R.
 >Call the Harv_roads object `lines` and the HARVtower_UTM18N `point`
@@ -241,7 +270,8 @@ point
 
 In addition to the metadata, each object has one or more attributes linked 
 to it.  Attributes of an object can include measurements, descriptions, or
-classifications of the object. Attribute data can be any sort of information that you might want to associate with your spatial objects. Each spatial 
+classifications of the object. Attribute data can be any sort of information that you might 
+want to associate with your spatial objects. Each spatial 
 object in a shapefile can have the same set of attributes or each can be 
 different. 
 
@@ -296,9 +326,9 @@ plot(lines, add = TRUE)
 plot(point, add  = TRUE, pch = 19, col = "red")
 ```
 
+
 Bonus: For more on parameter options in base r plot() check out these resources:
 
 * <a href="http://www.statmethods.net/advgraphs/parameters.html" target="_blank">Parameter methods in R.</a>
 * <a href="https://codeyarns.files.wordpress.com/2011/07/20110729-vim-named-colors.png?w=700" target="_blank">Color names in R</a>
 
-#Another On Your Own Activity
