@@ -326,7 +326,7 @@ col <- rep(x= "black", length = length(lineType))
 col[lineType == "footpath"] <- "red"
 
 #4th: plot. add=TRUE because we want this to map onto the previous plot 
-plot(x=lines_HARV, col=col,add=TRUE)
+plot(x=lines_HARV, col=col, add=TRUE)
 
 #5th: Add legend so that we know what the colors represent. 
 labels= c("footpath", "tower")
@@ -353,7 +353,7 @@ levels(lines_HARV@data$TYPE)
 col[lineType == "boardwalk"] <- "darkblue"
 
 #plot
-plot(x=lines_HARV, col=col,add=TRUE)
+plot(x=lines_HARV, col=col, add=TRUE)
 
 #legend
 labels= c("footpath", "boardwalk", "tower")
