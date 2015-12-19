@@ -1,15 +1,18 @@
 ---
 layout: post
-title: "Lesson 01: Work With Shapefile Attributes in R"
+title: "Lesson 01: Shapefile Metadata & Attributes in R"
 date:   2015-10-25
 authors: [Joseph Stachelek, Leah Wasser]
 contributors: [Megan A. Jones, Sarah Newman]
 dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
+packagesLibraries: [rgdal, raster]
 category: 
 tags: [module-1]
 mainTag: GIS-Spatial-Data
-description: "This lesson explains the nature of shapefile attributes. Participants will be able to locate and query shapefile attributes as well as subset shapefiles by specific attribute values."
+description: "This lesson explains the nature of shapefile attributes. The
+skills to locate and query shapefile attributes as well as subset shapefiles
+by specific attribute values are taught."
 code1: 
 image:
   feature: NEONCarpentryHeader_2.png
@@ -20,7 +23,6 @@ comments: false
 ---
 
 {% include _toc.html %}
-
 
 ##About
 This lesson explains what attributes in shapefiles are. It also covers how to
@@ -36,33 +38,35 @@ values.
 ###Goals / Objectives
 After completing this activity, you will:
 
- * Be able to query shapefile attributes
- * Be able to subset shapefiles based on specific attributes
+ * Be able to query shapefile attributes.
+ * Be able to subset shapefiles based on specific attributes.
+ * Know how to plot shapefiles with objects differentiated by attribute.
+ * Be able to plot with different objects in different colors.
  
-###What you'll need
+###Things You'll Need To Complete This Lesson
+You will need the most current version of `R` and, preferably, RStudio loaded on
+your computer to complete this lesson.
 
-You will need the most current version of R or R studio loaded on your computer 
-to complete this lesson.
+####R Libraries to Install:
 
-###R Libraries to Install:
-
-
-* **raster:** `install.packages("raster")`
-* **sp:** `install.packages("sp")`
 * **rgdal:** `install.packages("rgdal")`
-
+* **sp:** `install.packages("sp")`
 
 <a href="{{ site.baseurl }}/R/Packages-In-R/" target="_blank"> 
 More on Packages in R - Adapted from Software Carpentry.</a>
 
-##Data to Download
-
-Download the shapefiles needed to complete this lesson:
+####Data to Download
 
 <a href="http://files.figshare.com/2387960/boundaryFiles.zip" class="btn btn-success"> 
 DOWNLOAD Harvard Forest Shapefiles</a>
 
-###Recommended Reading
+The data used in this tutorial were collected  at the
+[National Ecological Observatory Network's](http://www.neoninc.org/)
+[Harvard Forest field site](http://www.neoninc.org/science-design/field-sites/harvard-forest) 
+These data are proxy data for what will be available for 30 years from the NEON
+flux towers from the [NEON data portal](http://data.neoninc.org/ "NEON data").
+
+###Lesson Series
 
 This lesson is a part of a series on vector and raster data in R.
 
@@ -75,182 +79,292 @@ CSV to Shapefile in R</a>
 4. <a href="{{ site.baseurl }}/R/crop-extract-raster-data-R/">
 Crop and extract raster values in R</a>
 
+###Additional Resources
+
 </div>
 
-NOTE: The data used in this tutorial were collected at Harvard Forest which is
-a the National Ecological Observatory Network field site <a 
-href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank">
-More about the NEON Harvard Forest field site</a>. These data are proxy data for
-what will be available for 30 years from the NEON flux tower [from the NEON data portal](http://data.neoninc.org/ "NEON data").
-{: .notice}
- 
-##Notes about R Libraries
+#Shapefile Metadata & Attributes
+When we imported a shapefile layer into `R`, the `readOGR()` function 
+automatically stores informatation about and associated with the data. The
+geospatial *metadata* that contains information on the data set and
+*attributes* that contain non-geographic information about the items in the data
+set. 
 
-To work with vector data in R, we can use the `rgdal` library. We will load the 
-`raster` library to work with rasters. The `raster` library also allows us to 
-explore metadata using similar commands with both rasters and vectors.
+##Load the Data
+To work with vector data in `R`, we can use the `rgdal` library. The `raster` 
+package also allows us to explore metadata using similar commands for both
+rasters and vectors. We will shapefiles with data for a field site boundary,
+roads within the field site, and the tower location.
+If you completed the
+[Vector Data in R - Open and Plot Shapefiles]({{site.baseurl}}R/open-shapefiles-in-R/ ) 
+lesson, you can skip this code chunk.
 
-##Setting up the workspace
-If you completed Lesson 00  {{site.baseurl}}R/open-shapefiles-in-R/  you can skip this code chunk.
-```{r load-libraries-data }
+```{r load-packages-data }
+#load packages
+library(rgdal)  #for vector work; sp package should always load with rgdal. 
+library (raster)   #for metadata/attributes- vectors or rasters
 
-library(rgdal)
-library (raster)   #notice sp package should always load with raster. 
-#in case the libraries and data are not still loaded
+#set working directory to data folder
+#setwd("pathToDirHere")
 
 #Import a polygon shapefile 
-aoiBoundary <- readOGR("boundaryFiles/HARV/", "HarClip_UTMZ18")
+aoiBoundary_HARV <- readOGR("boundaryFiles/HARV/", "HarClip_UTMZ18")
 
 #Import a line shapefile
-lines <- readOGR( "boundaryFiles/HARV/",layer = "HARV_roads")
+lines_HARV <- readOGR( "boundaryFiles/HARV/", "HARV_roads")
 
 #Import a point shapefile 
-point <- readOGR("boundaryFiles/HARV/", "HARVtower_UTM18N")
+point_HARV <- readOGR("boundaryFiles/HARV/", "HARVtower_UTM18N")
 
 ```
 
-##Querying shapefile metadata 
-Recall from the previous lesson that shapefile metadata can include a `class`, 
-a `features` count, an `extent`, and a `coordinate reference system` (crs). 
-
-Metadata can be extracted individually using the `class()`, `length()`, 
-`extent()`, `crs()`, `R` commands. 
+#Query Shapefile Metadata 
+Shapefile metadata can include object `class`, a features count (`length`), the
+object `extent`, and the object's coordinate reference system (`CRS`). To query
+the shapefile metadata the code is s
 
 ```{r view-shapefile-metadata }
-
 #view class
-class(x = aoiBoundary)
-class(x = lines)
-class(x = point)
+class(x = aoiBoundary_HARV)
+class(x = lines_HARV)
+class(x = point_HARV)
 
+# x= isn't actually needed; it just specifies which object
 #view features count
-length(x = aoiBoundary)
-length(x = lines)
-length(x = point)
+length(aoiBoundary_HARV)
+length(lines_HARV)
+length(point_HARV)
 
 #view crs - note - this only works with the raster package loaded
-crs(x = aoiBoundary)
-crs(x = lines)
-crs(x = point)
+crs(aoiBoundary_HARV)
+crs(lines_HARV)
+crs(point_HARV)
 
-#view extent
-extent(x = aoiBoundary)
-extent(x = lines)
-extent(x = point)
+#view extent- note - this only works with the raster package loaded
+extent(aoiBoundary_HARV)
+extent(lines_HARV)
+extent(point_HARV)
 
 ```
 
-#Querying Shapefile Attributes
+When we type in the full file name we see the same three types of metadata with
+some additional attribute information.  
+
+```{r view-shapefile-metadata2 }
+
+aoiBoundary_HARV
+lines_HARV
+point_HARV
+
+```
+
+#Query Shapefile Attributes
 Shapefiles often contain an associated database or spreadsheet of values called
 `attributes` that describe the vector features in the shapefile. You can think
 of this like a spreadsheet with rows and columns. Each column in the spreadsheet
-is an individual `Attribute` that describes an object. Shapefile `attributes` 
-include measurements that correspond to the geometry of the shapefile features.
+is an individual `attribute` that describes an object (sometimes called
+variables). Shapefile `attributes` include measurements that correspond to the
+geometry of the shapefile features.
 
-For example, the `roads` shapefile contains an attribute called `TYPE`. Each
-line in the shapefile has an associated type which describes the type of road, or 
-element in the file. 
+For example, the Roads shapefile (`lines_HARV` object) contains an attribute
+called `TYPE`. Each line in the shapefile has an associated TYPE which describes
+the type of road (road, footpath, boardwalk, etc).  
 
+We can look at all of the associated data attributes by printing the contents of
+the `data` slot with `@data`. 
 
-You can quickly view all attributes of a spatial object in r using the `@data`. 
-Bonus: If you are comfortable using `slot()` it is another method to do the same
-thing. 
+```{r shapefile-attributes}
+#just view the attributes of the data
+(lines_HARV@data)
+```
+
+Bonus: If you are comfortable using `slot()`, it is another method to do the
+same thing. {: .notice1}
+
+Using `@data` we can see a table with attribute names across the top and rows
+for each line (or point/ polygon if using those) in the shapefile. The 0-12
+printed in the first column is simply a `row.name`. We can test this by issuing
+the following command to the `R` console: `row.names(aoiBoundary@data)`.
+
+``` {r row-names}
+#What are the row names?
+row.names(lines_HARV@data)
+```
+
+If we want to select something about the attribuates, we can do this by 
+combining common functions (e.g. `names` or `head`) and then using `NAME@data`.
 
 Let's give it a try.
 
 ```{r view-shapefile-attributes }
-
 #view just the attribute names for the lines spatial object
-names(lines@data)
-
-#view all attribute data for the lines spatial object
-lines@data 
+names(lines_HARV@data)
 
 #view just the top 5 attributes for the lines spatial object
-head(lines@data)
-
-#view attributes for the other spatial objects
-aoiBoundary@data
-point@data
+head(lines_HARV@data)
 
 ```
 
-#CHALLENGE
-Explore the attributes associated with the `point` and `aoiBoundary` spatial objects. 
+Alternatively, you can find attributes by using the `attributes` function,
+although if you have lots of objects in your shapefile this can be difficult to
+look through for the information you need.  
+
+```{r view shapefile-attributes-2}
+attributes(lines_HARV)
+
+```
+
+#Challenge: Attributes in Different Spatial Classes
+Explore the attributes associated with the `point_HARV` and `aoiBoundary_HARV` spatial objects. 
 
 1. How many attributes do each have?
-2. Who owns the site in the `point` data object?
+2. Who owns the site in the `point_HARV` data object?
 3. Which of the following are NOT attributes of the `point` data object?
     A) Lat B) County C) Country
 
-#Exploring Values in One Attribute
-We can also explore individual values stored within a particular attribute. Again,
-comparing attributes to a spreadsheet or a `data.frame`, this is similar to 
-exploring values in a column. We can do this using the `$`.
+```{r challenge-code-attributes-classes, results="hide", echo=FALSE}
+#1
+names(point_HARV@data)  #14 attributes
+names(aoiBoundary_HARV@data)  #1 attribute
+
+#2
+head(point_HARV@data)  #Harvard University, LTER
+
+#3
+point_HARV@data  # C Country
+```
+
+
+#Explore Values in One Attribute
+We can also explore individual values stored within a particular attribute.
+Again, comparing attributes to a spreadsheet or a `data.frame`, this is similar
+to exploring values in a column. We can do this using the `$` and the name of
+the attribute. 
 
 ```{r explore-attribute-values }
 #view all attributes in the lines shapefile within the TYPE field
-lines$TYPE
+lines_HARV$TYPE
 
-#view unique attributes in the lines shapefiles within the Type field
-levels(lines$TYPE)
+#view unique attributes in the lines shapefiles within the TYPE field
+levels(lines_HARV$TYPE)
 
 ```
 
-#Acessing levels for categorical variables
+Levels is particularly useful if we have a object with lost of different lines,
+polygons, or points as it summarizes the differences for us.  
 
-##Subsetting shapefiles
+#Acessing Levels for Categorical Attributes
 
+At times we may want to work with a smaller subset of all the data contained in
+a shapefile. For example, in `lines_HARV` we've seen that there are different 
+types of roads.  We might want to create a map were each of the different road
+types is designated in a different color.  Or we might want to figure out a 
+total distance of all the stone walls in the study site.  Both of these tasks 
+can be accomplished by accessing the levels of this categorical attribute. 
+
+##Subsetting Shapefiles
 Using the `$` symbol, we were able to access the values associated with a 
-particular `Attribute` in a shapefile. Next, we will use this syntax to select 
+particular `attribute` in a shapefile. We can use this syntax to select 
 a subset of features from a spatial object in `R`. 
 
-Note how our subsetting operation reduces the `features` count from 13 to 2. 
-
 ```{r Subsetting-shapefiles}
-#base plot - you may already have this done
-plot(aoiBoundary, col="cyan2", main="Harvard Forest Tower")  #map Boundary polygon
-plot(point, col="red", add=TRUE)   #add tower point 
-plot(lines, add=TRUE)  #add in roads  
-
-
 #view all attributes in the TYPE column
-lines$TYPE
+lines_HARV$TYPE
 
-#select features that are of TYPE "footpath"
-lines[lines$TYPE == "footpath",]
+# select features that are of TYPE "footpath"
+# could put this code into other function to only have that function work on
+# "footpath" lines
+lines_HARV[lines_HARV$TYPE == "footpath",]
 
+#save an object with only footpath lines
+footpath_HARV<-lines_HARV[lines_HARV$TYPE == "footpath"]
+footpath_HARV
 ```
+
+Our subsetting operation reduces the `features` count from 13 to 2. 
 
 #Plotting Vector Data in R
 
-The following code chunk extracts a vector of this attribute, creates 
-a character color vector of the same length, and changes the positions 
-of this color vector that correspond to `footpath`.
+First, we need to plot all components: boundary, road, towers.  
 
-We can use the `col` argument in the `plot()` function to specify the color of
+```{r plot-multiple-shapefiles }
+#Plot multiple shapefiles
+plot(aoiBoundary_HARV, col = "lightgreen", 
+     main="NEON Harvard Forest\nField Site")
+plot(lines_HARV, add = TRUE)
+
+plot(point_HARV, add  = TRUE, pch = 19, col = "purple")
+```
+
+Then we can modify different subsets of the data and plot them in different
+colors.  To differentiate between the lines we need to add a figure legend.
+
+We use the `col` argument in the `plot()` function to specify the color of
 spatial objects. If type is an attribute of our data, we can use the syntax
 `$TYPE` to tell `R` to plot the spatial objects according to their unique TYPE
 values. 
 
-```{r Color lines by attribute}
-#add legend to previous plot
+The following code chunk extracts a vector of the attribute, creates 
+a character color vector of the same length, and changes the positions 
+of this color vector that correspond to `footpath`.
 
-
+```{r Color-lines-by-attribute}
 #color lines by TYPE attribute
-#1st create object that is the TYPE attribute (you could just do this directly
-#in the col {} below but this makes for cleaner code)
-type <- lines@data$TYPE
-#Bonus: if you prefer using slot(). 
-type <- slot(object = lines, name = "data")$TYPE
 
-#2nd set the color for all the lines 
-col <- rep(x= "black", length = length(type))
+#1st: create object that is the TYPE attribute 
+# alternatively: change in the col() below but this object creates cleaner code)
+lineType <- lines_HARV@data$TYPE
 
-#3rd specify the color you want for the TYPE level you want 
-col[type == "footpath"] <- "red"
+# Bonus: syntax if you prefer using slot(). 
+# lineType <- slot(object = lines, name = "data")$TYPE
 
-#4th plot. Add is still true because we want this to map onto the previous plot 
-plot(x=lines, col=col,add=TRUE)
+#2nd: set the color for all the lines 
+col <- rep(x= "black", length = length(lineType))
 
+#3rd: set the color you want for the TYPE level you want (changes it in the col
+# vector)
+col[lineType == "footpath"] <- "red"
+
+#4th: plot. add=TRUE because we want this to map onto the previous plot 
+plot(x=lines_HARV, col=col,add=TRUE)
+
+#5th: Add legend so that we know what the colors represent. 
+labels= c("footpath", "tower")
+labCols=c("red", "purple")
+
+# legend syntax: "bottom"= put legend in center bottom, bty="n" is no boarder
+# around legend, cex=0.8 is the font size
+plot(lines_HARV, add=TRUE,
+     legend("bottom", NULL, labels, fill=labCols, bty="n", cex=.8))
 ```
+
+#Challenge: Specify Color By Attribute When Plotting
+
+1. If it isn't a footpath, determine what TYPE the other two lines on the plot
+are. 
+2. Create a map to differentiate and determine what the other two paths are. 
+3. Why might there be line types that appear in our shapefile but aren't
+appearring on the plot? 
+
+``` {r challenge-code-plot-other, results="hide", echo=FALSE}
+#1 & 2 remind self what levels there are, then trial and error.  
+levels(lines_HARV@data$TYPE)
+# unk path in dark blue 
+col[lineType == "boardwalk"] <- "darkblue"
+
+#plot
+plot(x=lines_HARV, col=col,add=TRUE)
+
+#legend
+labels= c("footpath", "boardwalk", "tower")
+labCols=c("red", "darkblue", "purple")
+plot(lines_HARV, add=TRUE,
+     legend("bottom", NULL, labels, fill=labCols, bty="n", cex=.8))
+
+#3. The extent of the lines is much larger than the field site boundary.  Since
+# we plotted the field site boundary first only those lines in that extent are
+# appearing on our plot.  
+extent(aoiBoundary_HARV)
+extent(lines_HARV)
+```
+
