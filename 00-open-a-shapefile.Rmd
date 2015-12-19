@@ -6,7 +6,7 @@ authors: [Joseph Stachelek, Leah Wasser]
 contributors: [Megan A. Jones, Sarah Newman]
 dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
-packagesLibraries: [raster, rgdal]
+packagesLibraries: [rgdal, raster]
 category: 
 tags: [module-1]
 mainTag: GIS-Spatial-Data
@@ -23,7 +23,6 @@ comments: false
 ---
 
 {% include _toc.html %}
-
 
 ##About
 In this lesson, we will work with vector data in `R`. We will open and plot
@@ -49,8 +48,9 @@ your computer to complete this lesson.
 ####R Libraries to Install:
 
 * **raster:** `install.packages("raster")`
-* **sp:** `install.packages("sp")`
 * **rgdal:** `install.packages("rgdal")`
+* **sp:** `install.packages("sp")`
+
 
 * <a href="http://neondataskills.org/R/Packages-In-R/" target="_blank">More on Packages in R - Adapted from Software Carpentry.</a>
 
@@ -132,20 +132,18 @@ streams, might contain stream names for each line.
 
 ##Import Shapefiles
 
-We will use the `rgdal` package to work with vector data in `R`. Notice that the
-`sp` package is automatically loaded when `rgdal` is loaded. We will use the
-`raster` package to work with rasters. The `rgdal` package also allows us to
-explore metadata using similar commands with both rasters and vectors.
+To work with vector data in `R`, we can use the `rgdal` library. Notice that the
+`sp` package is automatically loaded when `rgdal` is loaded. The `raster` 
+package also allows us to explore metadata using similar commands for both
+rasters and vectors.  
 
 ```{r load-libraries }
 
 #load required libraries
-library(rgdal)
-library(raster)
-
+library(rgdal)    #for vector work; sp package should always load with rgdal.
+library(raster)    #for metadata/attributes- vectors or rasters
 ```
 
-To import shape files we use the `R` function `readOGR()`.
 The shapefiles we will import are:
 
 * a polygon shapefile representing our field site boundary, 
@@ -156,28 +154,24 @@ located at the
 <a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank"> NEON Harvard Forest field site</a>.
 
 The first shapefile that we will open contains the boundary of our study area
-(or our Area Of Interest, hence the name `aoiBoundary`). We can query the layer
-type by calling the `class()` function. 
+(or our Area Of Interest, hence the name `aoiBoundary`). To import shapefiles we
+use the `R` function `readOGR()`.
 
 ```{r Import-Shapefile}
 #set working directory to the directory location on your computer where
 #you downloaded and unzipped the data files for the lesson
 #setwd("pathToDirHere")
 
-#Import a polygon shapefile 
+#Import a polygon shapefile: readOGR("path","fileName")
+#no extension needed as readOGR only imports shapefiles
 aoiBoundary_HARV <- readOGR("boundaryFiles/HARV", "HarClip_UTMZ18")
 
-#What object type? 
-class(aoiBoundary_HARV)
 ```
 
 Note: The acronym, `OGR` refers to the OpenGIS Simple Features Reference 
 Implementation. 
 <a href="https://trac.osgeo.org/gdal/wiki/FAQGeneral" target="_blank"> 
 Learn more about OGR.</a> {: .notice1}  
-
-In this case, we see that our object is a type of polygon layer called a
-`SpatialPolygonsDataFrame`.
 
 #Shapefile Metadata & Attributes
 
@@ -187,6 +181,12 @@ informatation about and associated with the data. We are particularly interested
 in the geospatial *metadata* that contains information on the data set and
 *attributes* that contain non-geographic information about the items in the data
 set.  
+
+Below, we discuss some of the most commonly used metadata and attribute data
+used with spatial data.  The
+[Shapefile Metadata & Attributes in R]({{site.baseurl}}R/shapefile-attributes-in-R/) 
+lesson provides more information on both metadata and attributes as well as
+using attributes to subset and plot data.  
 
 ##Spatial Metadata
 Key metadata for all shapefiles include:
@@ -213,18 +213,13 @@ crs(aoiBoundary_HARV)
 #view just the extent for the shapefile
 extent(aoiBoundary_HARV)
 
-#view all metadata for the shapefile.
+#view all metadata at same time
 aoiBoundary_HARV
-
 ```
 
 Our `aoiBoundary_HARV` object is a polygon of class `SpatialPolygonsDataFrame`, 
 in the projection UTM zone 18N. This information is critical to interpreting the
 object `extent`. 
-
-When we type in the full file name we see the same three types of metadata with
-some additional information.  Our object only contains a single feature
-(`features`), there is one variable named "id" that has min and max values of 1.
 
 ##Spatial Data Attributes
 In addition to the metadata, each object has one or more attributes linked 
@@ -233,24 +228,6 @@ classifications of the object. Attribute data can be any sort of information
 that you might want to associate with your spatial objects. Each spatial 
 object in a shapefile can have the same set of attributes or each can be 
 different. 
-
-We can look at all of the associated data attributes by printing the contents of
-the `data` slot with `@data`.  
-
-```{r shapefile-attributes}
-#just view the attributes of the data
-(aoiBoundary_HARV@data)
-```
-
-Recall that our object only has a single feature. After printing the data
-attributes we see that the _id_ of this feature is 1. The 0
-printed in the first column is simply a `row.name`. We can test this by issuing
-the following command to the `R` console: `row.names(aoiBoundary@data)`.
-
-``` {r row-names}
-#What are the row names?
-row.names(aoiBoundary_HARV@data)
-```
 
 We can query all the attributes of the this `SpatialPolygonsDataFrame` by 
 using the `attributes()` function. 
@@ -262,9 +239,9 @@ attributes(aoiBoundary_HARV)
 
 ## Metadata & Attribute Summary
 We can view a metadata & attribute summary of each shapefile by entering 
-the name of the `R` object in the console. Note that the metadata output includes
-the _class_, the number of _features_, the _extent_, and the coordinate 
-reference system (`CRS`) of the `R` object. The last two lines of summary show a 
+the name of the `R` object in the console. Note that the metadata output
+includes the _class_, the number of _features_, the _extent_, and the coordinate
+reference system (`CRS`) of the `R` object. The last two lines of summary show a
 preview of the `R` object _attributes_.
 
 ```{r shapefile-summary}
@@ -335,12 +312,11 @@ extent(point_HARV)
 #lines_HARV contains only lines and point_HARV contains only 1 point
 
 #4 -> numerous ways to find this; lines_HARV=13,
+length(lines_HARV)  #easiest, but not previously taught
 lines_HARV  #look at 'features'
-lines_HARV@data  #look at # of rows 0 to 12 = 13
 attributes(lines_HARV)  #found in the $data section as above
-lines_HARV   
 
-#Alternative code for 1-4: view many of the attributes at once
+#Alternative code for 1-4: view metadata/attributes all at once
 lines_HARV
 attributes(lines_HARV)
 
