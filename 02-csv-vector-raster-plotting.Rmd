@@ -6,6 +6,7 @@ authors: [Joseph Stachelek, Leah Wasser]
 contributors: [Megan A. Jones, Sarah Newman]
 dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
+packagesLibraries: [rgdal, raster]
 category: 
 tags: [module-1]
 mainTag: GIS-Spatial-Data
@@ -24,29 +25,27 @@ comments: false
 #About
 
 This lesson will review how to import spatial points stored in a .csv file into
-R as a spatial object - a `SpatialPointsDataFrame`. We will also learn how to
-reproject data imported in shapefile format into another projection, create a 
-shapefile from a spatial object in R, and plot raster and vector data as overlays
-in the same plot. 
+`R` as a spatial object - a `SpatialPointsDataFrame`. We will also learn how to
+reproject data in a shapefile format into another projection, create a 
+shapefile from a spatial object in `R`, and plot raster and vector data as
+layers in the same plot. 
 
 **R Skill Level:** Intermediate - you've got the basics of `R` down.
 
 <div id="objectives" markdown="1">
 
 ##Goals / Objectives
-After completing this activity, you will know how to:
+After completing this activity, you will:
 
-* Import .csv files containing x,y coordinate locations into R.
-* Convert a .csv to a spatial object.
-* Project coordinate locations provided in a Geographic Coordinate System
-(Latitude, Longitude) to a projected coordinate system (UTM).
-* Plot raster and vector data in the same plot to create a map.
+* Be able to import .csv files containing x,y coordinate locations into `R`.
+* Know how to convert a .csv to a spatial object.
+* Understand how to project coordinate locations provided in a Geographic
+Coordinate System (Latitude, Longitude) to a projected coordinate system (UTM).
+* Be able to plot raster and vector data in the same plot to create a map.
 
-
-###What you'll need
-
-You will need the most current version of R or RStudio loaded on your computer 
-to complete this lesson.
+###Things You'll Need To Complete This Lesson
+You will need the most current version of `R` and, preferably, RStudio loaded on
+your computer to complete this lesson.
 
 ###R Libraries to Install:
 
@@ -56,17 +55,31 @@ to complete this lesson.
 <a href="{{ site.baseurl }}/R/Packages-In-R/" target="_blank"> 
 More on Packages in R - Adapted from Software Carpentry.</a>
 
-##Data to Download
-
-Download the shapefiles needed to complete this lesson:
+####Data to Download
 
 <a href="http://files.figshare.com/2387960/boundaryFiles.zip" class="btn btn-success"> 
 DOWNLOAD Harvard Forest Shapefiles</a>
 
-<a href="http://files.figshare.com/2387960/NEON_RemoteSensing.zip" class="btn btn-success"> 
-DOWNLOAD Harvard Forest Remote Sensing</a>
 
-###Recommended Reading
+<a href="https://ndownloader.figshare.com/files/3579867" class="btn btn-success"> Download NEON Airborne Observation Platform Raster Data Teaching Subset</a> 
+
+
+The vector data used in this tutorial were collected  at the
+[National Ecological Observatory Network's](http://www.neoninc.org/)
+[Harvard Forest field site](http://www.neoninc.org/science-design/field-sites/harvard-forest) 
+These data are proxy data for what will be available for 30 years from the NEON
+flux towers from the [NEON data portal](http://data.neoninc.org/ "NEON data").
+
+The LiDAR and imagery data used to create this raster teaching data subset were
+collected over the NEON <a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank" >Harvard Forest</a>
+and 
+<a href="http://www.neoninc.org/science-design/field-sites/san-joaquin-experimental-range" target="_blank" >San Joaquin Experimental Range</a>
+field sites and processed at
+<a href="http://www.neoninc.org" target="_blank" >NEON </a> 
+headquarters. The entire dataset can be accessed by request from the 
+<a href="http://www.neoninc.org/data-resources/get-data/airborne-data" target="_blank"> NEON Airborne Data Request Page on the NEON Website.</a>
+
+###Lesson Series
 This lesson is a part of a series on vector and raster data in R.
 
 1. <a href="{{ site.baseurl }}/R/open-shapefiles-in-R/">
@@ -78,8 +91,11 @@ Converting from .csv to Shapefile in R</a>
 4. <a href="{{ site.baseurl }}/R/crop-extract-raster-data-R/">
 Crop and extract raster values in R</a>
 
+###Additional Resources
+
 </div>
 
+#Create a Map
 The `HARV_PlotLocations.csv` file contains x,y locations for some plots that 
 NEON <a href="http://www.neoninc.org/science-design/collection-methods/terrestrial-organismal-sampling" target="_blank"> field crews are sampling vegetation and other 
 ecological metrics. We would like to create a map that includes the locations of 
@@ -89,260 +105,390 @@ any GIS software.
 
 Sometimes spatial data are downloaded or stored in a text file format (`.txt` or
 `.csv`). We can convert these data in text format into a spatial object as an R 
-`SpatialPointsDataFrame`. The `SpatialPointsDataFrame` format allows you to store
+`SpatialPointsDataFrame`. The `SpatialPointsDataFrame` format allows you to
+store
 columns from your `data.frame` in an object so that you can bring along metadata
 and attribute data. 
 Note: There is a `SpatialPoints` object in R that does not allow you to store
 associated `attributes`. 
 
 
-```{r load-libraries }
-
-#first load libraries
-library(rgdal)
-library(raster)
-
-```
-
 ##Reading in a .csv
-To begin, let's read in the .csv file that contains the x,y coordinate locations---`HARV_PlotLocations.csv`.
+To begin we need to read in the .csv file that contains the x,y coordinate
+locations of the plots (`HARV_PlotLocations.csv`).
 
 ```{r read-csv }
+#load packages
+library(rgdal)  #for vector work; sp package should always load with rgdal. 
+library (raster)   #for metadata/attributes- vectors or rasters
 
-#set working directory to the directory location on your computer where
-#you downloaded and unzipped the data files used in this lesson
+#set working directory to data folder
 #setwd("pathToDirHere")
 
 #Read the .csv file
-plot.location <- read.csv("boundaryFiles/HARV/HARV_PlotLocations.csv")
+plot.locations_HARV <- read.csv("boundaryFiles/HARV/HARV_PlotLocations.csv")
 
 #look at the data structure
-head(plot.location)
+str(plot.locations_HARV)
 
 ```
 
-#Challenge: Reading data structure
- * What is the coordinate reference system (CRS) for this data? 
- 
+`plot.locations_HARV` is a `data.frame` of 21 locations (rows) with 43 variables
+(attributes) each.  
 
-When we create a spatial points dataframe from a .csv, there is no inherent
-coordinate reference system (CRS) associated with it. We can assign a CRS if we
-know what the coordinate system the x,y values are in.
+#Challenge:  Data Structure & CRS
+What is the coordinate reference system (`CRS`) for this data? (Hint: Try what
+you may know about finding the `CRS` in spatial data, but don't struggle too
+long before reading the next bit.)
 
-In this case, the CRS for this data is UTM zone 18N (utmZone is 18N for all
-points in the header we just looked at). Luckily this is the same as our boundary
-shapefiles that we previously opened. 
+``` {r  challenge-code-crs, echo=FALSE}
+crs(plot.locations_HARV)
 
-If it is not still open in R, let's open up the shapefile `HarClip_UTMZ18`.
+attributes(plot.locations_HARV)
+```
+
+#Determine a Coordinate Reference System
+When we create a spatial points `data.frame` from a .csv, there is no inherent
+CRS associated with it. We must assign a CRS based knowledge of the coordinate
+system the x,y values are in.
+
+How do we know what the correct CRS for the data is? There are several ways we 
+know this.  
+
+1.  We collected the data ourselves and know from the GPS what the CRS, x,y
+values, and units are. 
+2. The source of our .csv file for the data points also has a .txt (or similar)
+file with metadata about the data.  For more information on metadata in
+associated files check out the
+[Understanding Time Series Metadata]({{site.baseurl}}/R/Time-Series-Metadata) 
+lesson. 
+3. We look at the data in our .csv (now `R` object) to see if it gives any
+hints.
+
+```{r crs-sleuthing}
+#view the column names
+names(plot.locations_HARV)
+```
+
+Okay, there are several colums related to a CRS.  Let's check out the first to
+rows of the `data.frame` to see what information is in these columns.
+
+```{r crs-sleuthing2}
+#view the first 6 rows
+head(plot.locations_HARV)
+```
+
+We have the following information that is relevant to a CRS: 
+* X: 73xxxx.3 -- no other information but these match the eastings
+* Y: 4713xxx -- no other information but these match the northings
+* decimalLat: 42.5xxxx
+* decimalLon: -72.1xxx
+* geodeticDa: WGS84  -- this is geodetic datum WGS84
+* utmZone: 18N
+* easting: 73xxxx.3
+* northing: 4713xxx
+
+What can we make our of this?   We have a geographic coordinate system (Latitude
+and Longitude, both in decimal degrees) and a projected coordinate system (UTM
+in Zone18N with Eastings and Northings).  Importantly for the projection we know
+that the datum is WGS84.  
+
+#Convert .csv to Shapefile
+Before we can combine our plot locations with the boundaries of our field site, 
+or other spatial data we need to convert the locations from a .csv file to a
+`SpatialPointsDataFrame`.  When we make the conversion we also have to specify 
+what the correct `crs`, datum, and other information.  We do this using a
+`proj4string`.  As we are going to be projecting this data on a 2D surface to
+make a map. We'll convert to a SpatialPointsDataFrame based on the UTM
+coordinates. 
+
+What is a `proj4string`? This is a string with specific information about the
+`crs` and related information for the data in a spatial file.  The format
+changes depending on the projection used.  This format is for UTMs. 
+`+proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0`
+
+* +proj=utm     the projection -- we know our data is in UTM
+* +zone=18      the UTM zone -- we know our data is in 18N but N isnt' needed
+* +datum=WGS84  the datum -- we know our data is in WGS84
+* +units=m      the coordinate value units -- UTM is by default meters (m)
+* +no_defs      with rare exceptions this default used 
+* +ellps=WGS84  which mapping ellipse was used -- we'll match the datum 
+* +towgs84=0,0,0  conversion from current datum/ellpse to WGS84 -- nothing,
+we're already in WGS84 for both.  
+
+* For more information on [proj4](http://proj.maptools.org/faq.html).
+* For information on datums in `R`: `projInfo(type = "datum")`
+
+``` {r convert-csv-shapefile}
+#Which data.frame columns represent the UTMs?
+names(plot.locations_HARV)
+#X, Y are 1:2 or easting,northing are 23:24.  We could use either
+
+#create an object defining the CRS in proj4string format
+#could be in the conversion code but this is cleaner coding.
+CRS_plot_HARV<- CRS("+proj=utm +zone=18 +datum=WGS84 +units=m +no_defs
+                    +ellps=WGS84 +towgs84=0,0,0")
+
+
+plot.locationSp_HARV <- SpatialPointsDataFrame(plot.locations_HARV[,23:23],
+                # [,23:24]the columns which represent UTM coordinate locations 
+                    plot.location_HARV,    #The R object to convert
+                    proj4string = CRS_plot_HARV)   # assign a CRS 
+                                          
+#look at CRS
+crs(plot.locationSp_HARV)
+
+```
+
+#Load Shapefiles 
+We now have a spatial `R` object. We can plot our data!
+
+```{r plot-data-points }
+plot(plot.locationSp_HARV, main="Map of Plot Locations")
+
+```
+
+While our points do plot the map isn't very informative.  We can bring in other
+spatial objects to create a better map. 
+
+Let's bring in shapefiles for a field site boundary, roads & trails, and a tower
+location in Harvard Forest. (If you completed
+[Shapefile Metadata & Attributes in R]({{site.baseurl}}/R/shapefile-attributes-in-R/)
+lesson you already have these `R` objects).
 
 ```{r read-shp }
 #note: readOGR is preferred as it maintains the projection infomation
-aoiBoundary <- readOGR("boundaryFiles/HARV", "HarClip_UTMZ18")
+#Import Field site boundary
+aoiBoundary_HARV <- readOGR("boundaryFiles/HARV", "HarClip_UTMZ18")
+
+#Import a roads/trails
+lines_HARV <- readOGR( "boundaryFiles/HARV/", "HARV_roads")
+
+#Import a tower point
+point_HARV <- readOGR("boundaryFiles/HARV/", "HARVtower_UTM18N")
 
 ```
 
-This is the shapefile that we want to match up with our .csv file.  It is
-important to first confirm that the CRS of our .csv coordinates is the same as 
-the CRS of the shapefile. We can figure that out by looking at the metadata for
-the shapefile.
+These are shapefiles that we want to match up with our, now converted, .csv
+file.  It is important to first confirm that both spatial objects have the same 
+CRS.
 
 ```{r check-crs-shapefile-csv}
 #check the CRS in shapefile
-crs(aoiBoundary)
+crs(plot.locationSp_HARV)
+crs(aoiBoundary_HARV)
+crs(lines_HARV)
+crs(point_HARV)
 ```
 
-Next, we will convert our imported `plot.location` object to a
-`SpatialPointsDataFrame` and assign it a CRS using the shapefile.
+Yep, they are all the same.  We can now plot the shapefiles together.  
 
-The x,y location values for the dataset are available and named "x" (column 1)
-and "y" (column 2).  We can use that for our spatial data point objects. We know
-the .csv file coordinates are in the same CRS as the other shapefiles. We can
-assign this to the `SpatialPointsDataFrame` when we import it.
+``` {r plot-data-maps}
 
-``` {r plot-csv-shapefile}
-#plot the points
-# Add title to map using main=""
-plot.locationSp <- SpatialPointsDataFrame(plot.location[,1:2],    #the columns                                          #which represent x,y coordinate locations 
-                    plot.location,    #The R object to convert to        
-                                      #SpatialPointsDataframe
-                    proj4string = crs(aoiBoundary))   # assinging a CRS system
-                    #to our shapefile- in this instance we are pulling the CRS 
-                    #from the aoiBoundary object
-                                          
-#look at CRS
-crs(plot.locationSp)
+#Add Field Site Boundary polygon & tower point layer to our "Map of Study Area"
+plot(aoiBoundary_HARV, add=TRUE)
+plot (point_HARV, col="red", add=TRUE)
+plot(lines_HARV, add=TRUE)
 
 ```
 
-Now, we have created a `SpatialPointsDataFrame` object in R from a .csv file! 
-The `R` object has a CRS that matches the CRS of our shapefiles. 
+What happenned to the tower?
 
-Let's plot our data!
-
-```{r plot-data }
-plot(plot.locationSp, main="Map of Study Area")
-
-#let's add the polygon & tower point layer to our plot
-plot(aoiBoundary, add=TRUE)
-plot (point, col="red", add=TRUE)
-
-#add roads to our plot, Lesson00: lines<-readOGR("boundaryFiles/HARV/", "HARV_roads")
-plot(lines, add=TRUE)
-
-```
-
-What happenned to the tower?  The extent of these data covers a larger area than 
-the aoiBoundary file that we originally originally projected.  
+The extent of the study plot locations covers a larger area than the
+`aoiBoundary_HARV` file that we originally originally projected.  
 
 ```{r extent-files}
-extent(aoiBoundary)
-extent (plot.locationSp)
+extent(aoiBoundary_HARV)
+extent (plot.locationSp_HARV)
 ```
+
+#Borrow a CRS When Converting to a Spatial.Data.Frame
+When we just convert our imported `plot.location_HARV` object to a
+`SpatialPointsDataFrame` we assign it a `CRS` using a written out `proj4string`.
+However, if we'd already had a Spatial.Data.Frame object with the same `CRS`)
+(such as `aoiBoundary_HARV`, `lines_HARV` or `point_HARV`) we could have simply
+borrowed the `CRS` from that object to use in the conversion.  
+
+We'd just identify the file from which we'd use the `CRS` when doing the
+conversion.  
+
+``` {r plot-csv-shapefile}
+
+plot.location_HARV_matchCRS <- SpatialPointsDataFrame(plot.location_HARV[,23:24],
+                                plot.location,    # object to convert
+                                proj4string = crs(aoiBoundary))   #assign CRS to
+                                                    #match `aoiBoundary_HARV CRS
+crs(plot.location_HARV_matchCRS)
+```
+
+WARNING: We still have to know the correct `CRS` for the data and 
+use a file with a matching `CRS`.  This doesn't solve our problems if we DO NOT 
+know our `CRS`. 
 
 #Create a New Shapefile from A Spatial Object
 
-We can write an R spatial object to a shapefile using the `writeOGR` function 
-in `rgdal`. To do this we need the following arguments
+We can write an `R` spatial object to a shapefile using the `writeOGR` function 
+in `rgdal`. To do this we need the following arguments:
 
-* the name of the spatial object (plot.locationSp)
+* the name of the spatial object (`plot.locationSp_HARV`)
 * the directory where we want to save our shapefile
            (to use current = getwd() or you can specify a different path)
-* the name of the new shapefile  (PlotLocations)
+* the name of the new shapefile  ("PlotLocations_HARV")
 * the driver which specifies the file format (ESRI Shapefile)
 
 We can now write the shapefile. 
 
 ``` {r write-shapefile}
 #write a shapefile
-writeOGR(plot.locationSp, getwd(), "PlotLocations", driver="ESRI Shapefile")
+writeOGR(plot.locationSp_HARV, getwd(),
+         "PlotLocations_HARV", driver="ESRI Shapefile")
 
 ```
 
-#Dealing with Spatial Objects in Different CRSs
 
-Often, we have data that are in different CRSs. In order to map these objects in
-in geographic space—so they line up on a map—we need to reproject one or the other.
-We can use the `spTransform` function to reproject a vector.
+#Spatial Objects in Different CRSs
+Too often, we have data that are in different `CRS`s. In order to map these
+objects in geographic space we need to reproject one or the other so that 
+they will line up on a map.
 
-In this case, we have a shapefile called `newPlots_latLon` that is in a 
-geographic coordinate system (latitude and longitude) instead of the UTM
-coordinate system of our other shapefiles. 
-
-Let's read these data in and try to add them to our map without converting so we
-can see what this looks like. 
+Let's explore reprojecting a spatial data object using a new study plot 
+location (shapefile: "newPlot_latLon").
 
 ```{r project-vectors }
+#note: readOGR is preferred as it maintains prj info
+newPlots_HARV <- readOGR("boundaryFiles/HARV", "newPlots_latLon")
 
-#note: read ogr is preferred as it maintains prj info
-newPlots <- readOGR("boundaryFiles/HARV", "newPlots_latLon")
-
-#re-creating base plot; you may already have this
-plot(plot.locationSp, main="Map of Study Area")
-plot(aoiBoundary, add=TRUE)
-plot(point, col="red", add=TRUE)
-plot(lines, add=TRUE)
-
-#add these points to our plot
-plot(newPlots, add=TRUE, col=115, pch=19)
+#add these points to our existing plot  "Map of Study Area"
+plot(newPlots_HARV, add=TRUE, col=115, pch=19)
 
 ```
 
-We added the newPlots to our existing plot and nothing happened?
+We added the new plot locations to our existing plot and nothing happened.  Why?
 
-What is the issue? Typically when data that we know should line up, doesn't,
-there is a projection issue. Let's check it out.
+What is the issue? Typically when data that we know should line up doesn't,
+there is a projection issue. (Plus we should ALWAYS check projections/ CRS prior
+to starting to work with any new spatial data)
 
-First, let's look at the data in our new plots layer.Often the coordinates 
-themselves can give us a clue as to whether the data are projected or are in 
-latitude and longitude (geographic coordinate system).
+Often the coordinates can give us a clue as to whether the data are projected or
+are in latitude and longitude (a geographic coordinate system).
 We can use the `@coords` function to view the coordinates of the points in our
 spatial object.
 
-``` {r explore-spatial-data }
+``` {r see-coords }
 #view coordinates
-newPlots@coords
-
-
-#it appears as if our coordinates are in lat / long
-#let's check the CRS of our data to see what's going on
-crs(newPlots)
-
+newPlots_HARV@coords
 ```
 
-We've added points to our map. However, they are not appearing in our study area.
-This is because our shapefile is in a geographic (latitude and longitude) reference 
-system. They are not projected. We will need to project the data to `UTM` which is
-what our other shapefiles are in to make things line up.
+It appears as if our coordinates for the two new plot locations are in latitude
+and longitude. Let's check the CRS of our data to see if it is also in latitude
+and longitude.
+``` {r see-crs}
+crs(newPlots_HARV)
+```
 
-We will use `spTransform` to do project our data.
+Our `newPlots_HARV` shapefile is in a geographic coordinate system (latitude and 
+longitude) instead of the UTM coordinate system of our other shapefiles. These
+coordinates are not projected, and we need to reproject them in order to make
+things line up in our map.
 
+We can use the `spTransform` function to reproject a vector.
 
 ```{r project-data }
-
-#let's double check the crs of our plots layer
-crs(plot.locationSp)
+#double check the CRS of our plots layer
+crs(plot.locationSp_HARV)
 
 #reproject our vector layer to the projection of our other plot data.
-newPlots_UTMZ18N<- spTransform(newPlots,crs(plot.locationSp))
+newPlots_HARV_UTM<- spTransform(newPlots_HARV,
+                               crs(plot.locationSp_HARV))
 
+#check crs
+crs(newPlots_HARV_UTM)
+```
 
-#plotting new projection
-plot(newPlots_UTMZ18N, add=TRUE, col=116, pch=19)
+Now that the `CRS`s match we can add our new plot points to our existing map.  
 
+```{r plot-reprojected-points}
+#plot new plot location -- reprojected
+#col & pch parameters to make it stand out!
+plot(newPlots_HARV_UTM, add=TRUE, col=116, pch=19) 
 
 ```
 
-
-#CHALLENGE: 
-
+Yes!  A nice blue points showed up for our new plot... but wait only one.  We 
+have two new plots.  Why did only one appear?  
 
 #Plotting - Order of Operations
-
-Note that we had 2 points in our new plots layer, however the only one new point
-appeared on our map. This is due to the extent of the map, which was defined by 
-the order in which layers were added. 
+We had 2 points in our new plots layer, however the only one new point
+appeared on our map. This is due to the extent of the map, which is defined by 
+the extent of the first layer plotted (all others are "added" to that layer). 
 
 What happens if we create a new plot, but add the roads layer first?
 
-```{r plot-data-2 }
-
+```{r plot-data-order }
 #add roads to our plot
-plot(roads, main="Study Area")
-#plot the points
-#use main = to add a title to the map
-plot(newPlots_UTMZ18N,add=T, col=116,pch=19)
+plot(lines_HARV, main="Study Area")
 
-plot(plot.locationSp, add=T)
+#add the study plot locations 
+plot(newPlots_HARV_UTM,add=T, col=116)
+plot(plot.locationSp_HARV, add=T)
 
-#let's add the polygon layer to our plot
-plot(aoiBoundary, add=TRUE)
+#add the boundary layer 
+plot(aoiBoundary_HARV, col="red", add=TRUE)
+
+#add the tower 
+plot(point_HARV, add =TRUE, pch=16)
 
 ```
 
-#this could also be on your own -- they know how to plot rasters.
+We can see all the study plot locations now because we plotted the roads/trails 
+layer (`lines_HARV`) first and it is the layer with the largest extent.  
 
-##Create a vector-raster overlay map
+#Plotting - Vector & Raster Layers Together
+To create a visually pleasing map or to combine all the data we are interested
+in we often need to combine raster and vector layers into one figure. We can
+use the base `R` `plot()` command to create a vector-raster layered 
+plot. 
 
-We will use the base graphics `plot()` command to create a vector-raster overlay 
-plot. Next, we will load a raster file using the `raster` command, plot this 
-raster, and overlay the lines and squareplot shapefiles using the `add` argument. We'll name the raster data `chm` as it is a Canopy Height Model.  
+We will use a Canopy Heigt Model (`chm`) from the Harvard forest as the base
+layer for a map of our study locations.  
 
 ```{r Plot vector-raster overlay }
 
-chm <- raster("NEON_RemoteSensing/HARV/CHM/HARV_chmCrop.tif")
+chm_HARV <- raster("NEON_RemoteSensing/HARV/CHM/HARV_chmCrop.tif")
 
-#notice that the `\n` command allows you to split title lines into two.
+plot(chm_HARV,
+     main="Map of Study Plots\n w/ Canopy Height Model\nNEON Harvard Forest")
 
-plot(chm, main="Tree Height\nHarvard Forest")
-
-plot(roads, add = TRUE)
-plot(aoiBoundary, add = TRUE)
-plot(plot.locationSp, add = TRUE, pch=19)
+plot(lines_HARV, add = TRUE)
+plot(aoiBoundary_HARV, border="forestgreen", add = TRUE)
+plot(plot.locationSp_HARV, add = TRUE)
+plot(newPlots_HARV_UTM, col="blue", add=TRUE)
+plot(point_HARV, pch=17, add=TRUE)
 
 ```
 
-#Challenge - One Your Own
+#Challenge: Useful Study Area Maps
+Using a Digital Terrain Model ("NEON_RemoteSensing/HARV/DTM/HARV_dtmCrop.tif") 
+create a usable map to the study area.  
+Include the following: 
 
-> to go here
->
->
+1. Useful title, figure legends, and axes labels. 
+2. Any or all vector layers that we have created. 
+3. A customized color ramp. 
+4. A color-coded system to identify the different types of roads or trails that
+occur in the study site.  
+
+For assistance consider using the 
+[Shapefile Metadata & Attributes in R]({{site.baseurl}}/R/shapefile-attributes-in-R/),   
+the [Plot Raster Data in R]({{site.baseurl}}/R/Plot-Rasters-In-R/ )   
+or the
+[Plot Raster Time Series Data in R Using RasterVis and Levelplot]({{site.baseurl}}/R/Plot-Raster-Times-Series-Data-In-R/) 
+lessons. 
+
+```{r challenge-code-plotting-pretty-map, echo=FALSE}
+
+DTM_HARV <- raster("NEON_RemoteSensing/HARV/DTM/HARV_dtmCrop.tif")
+
+
+
+```
