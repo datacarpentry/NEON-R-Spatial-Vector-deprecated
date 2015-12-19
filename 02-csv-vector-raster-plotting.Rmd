@@ -10,7 +10,8 @@ packagesLibraries: [rgdal, raster]
 category: 
 tags: [module-1]
 mainTag: GIS-Spatial-Data
-description: "This lesson walks through how to convert a .csv file contains coordinate information into a spatial object in R."
+description: "This lesson walks through how to convert a .csv file taht contains
+coordinate information into a spatial object in `R`."
 code1: 
 image:
   feature: NEONCarpentryHeader_2.png
