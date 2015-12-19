@@ -97,21 +97,24 @@ Crop and extract raster values in R</a>
 
 #Create a Map
 The `HARV_PlotLocations.csv` file contains x,y locations for some plots that 
-NEON <a href="http://www.neoninc.org/science-design/collection-methods/terrestrial-organismal-sampling" target="_blank"> field crews are sampling vegetation and other 
-ecological metrics. We would like to create a map that includes the locations of 
-these plot locations. We also would like to export the data in a `shapefile` 
-format to share with our colleagues. This shapefile could then be imported into
-any GIS software.
+NEON <a href="http://www.neoninc.org/science-design/collection-methods/terrestrial-organismal-sampling" target="_blank"> 
+field crews are sampling vegetation and other 
+ecological metrics. We would like to
 
-Sometimes spatial data are downloaded or stored in a text file format (`.txt` or
-`.csv`). We can convert these data in text format into a spatial object as an R 
-`SpatialPointsDataFrame`. The `SpatialPointsDataFrame` format allows you to
-store
-columns from your `data.frame` in an object so that you can bring along metadata
-and attribute data. 
-Note: There is a `SpatialPoints` object in R that does not allow you to store
-associated `attributes`. 
+* create a map of the locations of these plot locations. 
+* export the data in a `shapefile` format to share with our colleagues. This
+shapefile could then be imported into any GIS software.
+* create a map combining a raster Canopy Height Model with the vector
+shapefiles.
 
+Spatial data are downloaded from a website, off a GPS, or transcribed from old 
+field notes are stored in a text file format (`.txt` or `.csv`). We can convert
+these text format data into a spatial object as an `R` 
+`SpatialPointsDataFrame`. The `SpatialPointsDataFrame` format allows us to store
+both the x,y values that are the coordinates but also the columns describing associated metadata or associated attributes.  
+
+Note: There is a `SpatialPoints` object (not `SpatialPointsDataFrame`) in `R`
+that does not allow you to store associated attributes. {: .notice1}
 
 ##Reading in a .csv
 To begin we need to read in the .csv file that contains the x,y coordinate
