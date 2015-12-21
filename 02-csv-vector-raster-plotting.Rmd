@@ -10,8 +10,8 @@ packagesLibraries: [rgdal, raster]
 category: 
 tags: [module-1]
 mainTag: GIS-Spatial-Data
-description: "This lesson walks through how to convert a .csv file taht contains
-coordinate information into a spatial object in `R`."
+description: "This lesson walks through how to convert a .csv file that contains
+coordinate information into a spatial object in R."
 code1: 
 image:
   feature: NEONCarpentryHeader_2.png
@@ -61,15 +61,15 @@ More on Packages in R - Adapted from Software Carpentry.</a>
 <a href="http://files.figshare.com/2387960/boundaryFiles.zip" class="btn btn-success"> 
 DOWNLOAD Harvard Forest Shapefiles</a>
 
-
 <a href="https://ndownloader.figshare.com/files/3579867" class="btn btn-success"> Download NEON Airborne Observation Platform Raster Data Teaching Subset</a> 
 
 
-The vector data used in this tutorial were collected  at the
-[National Ecological Observatory Network's](http://www.neoninc.org/)
-[Harvard Forest field site](http://www.neoninc.org/science-design/field-sites/harvard-forest) 
+The vector data used in this lesson were collected at the 
+<a href="http://www.neoninc.org/" target="_blank"> National Ecological Observatory Network's</a> 
+<a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank"> Harvard Forest field site </a> 
 These data are proxy data for what will be available for 30 years from the NEON
-flux towers from the [NEON data portal](http://data.neoninc.org/ "NEON data").
+flux towers from the 
+<a href="http://data.neoninc.org/" target="_blank"> NEON data portal</a>.
 
 The LiDAR and imagery data used to create this raster teaching data subset were
 collected over the NEON <a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank" >Harvard Forest</a>
@@ -140,6 +140,7 @@ str(plot.locations_HARV)
 `plot.locations_HARV` is a `data.frame` of 21 locations (rows) with 43 variables
 (attributes) each.  
 
+<div id="challenge" markdown="1">
 #Challenge:  Data Structure & CRS
 What is the coordinate reference system (`CRS`) for this data? (Hint: Try what
 you may know about finding the `CRS` in spatial data, but don't struggle too
@@ -150,6 +151,7 @@ crs(plot.locations_HARV)
 
 attributes(plot.locations_HARV)
 ```
+</div>
 
 #Determine a Coordinate Reference System
 When we create a spatial points `data.frame` from a .csv, there is no inherent
@@ -174,7 +176,7 @@ hints.
 names(plot.locations_HARV)
 ```
 
-Okay, there are several colums related to a CRS.  Let's check out the first to
+Okay, there are several columns related to a CRS.  Let's check out the first to
 rows of the `data.frame` to see what information is in these columns.
 
 ```{r crs-sleuthing2}
@@ -203,7 +205,7 @@ or other spatial data we need to convert the locations from a .csv file to a
 `SpatialPointsDataFrame`.  When we make the conversion we also have to specify 
 what the correct `crs`, datum, and other information.  We do this using a
 `proj4string`.  As we are going to be projecting this data on a 2D surface to
-make a map. We'll convert to a SpatialPointsDataFrame based on the UTM
+make a map. We'll convert to a `SpatialPointsDataFrame` based on the UTM
 coordinates. 
 
 What is a `proj4string`? This is a string with specific information about the
@@ -212,31 +214,30 @@ changes depending on the projection used.  This format is for UTMs.
 `+proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0`
 
 * +proj=utm     the projection -- we know our data is in UTM
-* +zone=18      the UTM zone -- we know our data is in 18N but N isnt' needed
+* +zone=18      the UTM zone -- we know our data is in 18N but N isn't needed
 * +datum=WGS84  the datum -- we know our data is in WGS84
 * +units=m      the coordinate value units -- UTM is by default meters (m)
 * +no_defs      with rare exceptions this default used 
 * +ellps=WGS84  which mapping ellipse was used -- we'll match the datum 
-* +towgs84=0,0,0  conversion from current datum/ellpse to WGS84 -- nothing,
+* +towgs84=0,0,0  conversion from current datum/ellipse to WGS84 -- nothing,
 we're already in WGS84 for both.  
 
-* For more information on [proj4](http://proj.maptools.org/faq.html).
+* For more information on <a href="http://proj.maptools.org/faq.html" target="_blank"> proj4.</a>
 * For information on datums in `R`: `projInfo(type = "datum")`
 
 ``` {r convert-csv-shapefile}
 #Which data.frame columns represent the UTMs?
 names(plot.locations_HARV)
-#X, Y are 1:2 or easting,northing are 23:24.  We could use either
+#X, Y are 1:2 or easting,northing are 23:24.  We can use either.
 
 #create an object defining the CRS in proj4string format
 #could be in the conversion code but this is cleaner coding.
 CRS_plot_HARV<- CRS("+proj=utm +zone=18 +datum=WGS84 +units=m +no_defs
                     +ellps=WGS84 +towgs84=0,0,0")
 
-
 plot.locationSp_HARV <- SpatialPointsDataFrame(plot.locations_HARV[,23:23],
                 # [,23:24]the columns which represent UTM coordinate locations 
-                    plot.location_HARV,    #The R object to convert
+                    plot.location_HARV,    #the R object to convert
                     proj4string = CRS_plot_HARV)   # assign a CRS 
                                           
 #look at CRS
@@ -296,7 +297,7 @@ plot(lines_HARV, add=TRUE)
 
 ```
 
-What happenned to the tower?
+What happened to the tower?
 
 The extent of the study plot locations covers a larger area than the
 `aoiBoundary_HARV` file that we originally originally projected.  
@@ -320,7 +321,7 @@ conversion.
 
 plot.location_HARV_matchCRS <- SpatialPointsDataFrame(plot.location_HARV[,23:24],
                                 plot.location,    # object to convert
-                                proj4string = crs(aoiBoundary))   #assign CRS to
+                                proj4string = crs(aoiBoundary)) #assign CRS to
                                                     #match `aoiBoundary_HARV CRS
 crs(plot.location_HARV_matchCRS)
 ```
@@ -371,7 +372,7 @@ We added the new plot locations to our existing plot and nothing happened.  Why?
 
 What is the issue? Typically when data that we know should line up doesn't,
 there is a projection issue. (Plus we should ALWAYS check projections/ CRS prior
-to starting to work with any new spatial data)
+to starting to work with any new spatial data.)
 
 Often the coordinates can give us a clue as to whether the data are projected or
 are in latitude and longitude (a geographic coordinate system).
@@ -409,7 +410,7 @@ newPlots_HARV_UTM<- spTransform(newPlots_HARV,
 crs(newPlots_HARV_UTM)
 ```
 
-Now that the `CRS`s match we can add our new plot points to our existing map.  
+Now that the `CRSs` match we can add our new plot points to our existing map.  
 
 ```{r plot-reprojected-points}
 #plot new plot location -- reprojected
@@ -453,7 +454,7 @@ in we often need to combine raster and vector layers into one figure. We can
 use the base `R` `plot()` command to create a vector-raster layered 
 plot. 
 
-We will use a Canopy Heigt Model (`chm`) from the Harvard forest as the base
+We will use a Canopy Height Model (`chm`) from the Harvard forest as the base
 layer for a map of our study locations.  
 
 ```{r Plot vector-raster overlay }
@@ -471,6 +472,7 @@ plot(point_HARV, pch=17, add=TRUE)
 
 ```
 
+<div id="challenge" markdown="1">
 #Challenge: Useful Study Area Maps
 Using a Digital Terrain Model ("NEON_RemoteSensing/HARV/DTM/HARV_dtmCrop.tif") 
 create a usable map to the study area.  
@@ -496,3 +498,4 @@ DTM_HARV <- raster("NEON_RemoteSensing/HARV/DTM/HARV_dtmCrop.tif")
 
 
 ```
+</div>

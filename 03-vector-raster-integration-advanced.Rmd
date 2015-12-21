@@ -12,9 +12,8 @@ category:
 tags: [module-1]
 mainTag: GIS-Spatial-Data
 description: "This lesson explains how to modify (crop) a raster extent based on
-the extent of a vector shapefile. The skills to be able to extract
-values from a raster that correspond to the geometry of a vector overlay are
-also taught."
+the extent of a vector shapefile. The skills to be able to extract values from a
+raster that correspond to the geometry of a vector overlay are also taught."
 code1: 
 image:
   feature: NEONCarpentryHeader_2.png
@@ -39,8 +38,9 @@ points.
 ###Goals / Objectives
 After completing this activity, you will:
 
- * Be able to crop a raster to the extent of a vector layer
- * Be able to extract values from raster that correspond to a vector file overlay
+ * Be able to crop a raster to the extent of a vector layer.
+ * Be able to extract values from raster that correspond to a vector file
+ overlay.
  
 ###Things You'll Need To Complete This Lesson
 You will need the most current version of `R` and, preferably, RStudio loaded on
@@ -61,14 +61,16 @@ Download Harvard Forest Shapefiles</a>
 
 <a href="https://ndownloader.figshare.com/files/3579867" class="btn btn-success"> Download NEON Airborne Observation Platform Raster Data Teaching Subset</a> 
 
-The vector data used in this tutorial were collected  at the
-[National Ecological Observatory Network's](http://www.neoninc.org/)
-[Harvard Forest field site](http://www.neoninc.org/science-design/field-sites/harvard-forest) 
+The vector data used in this lesson were collected at the 
+<a href="http://www.neoninc.org/" target="_blank"> National Ecological Observatory Network's</a> 
+<a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank"> Harvard Forest field site </a> 
 These data are proxy data for what will be available for 30 years from the NEON
-flux towers from the [NEON data portal](http://data.neoninc.org/ "NEON data").
+flux towers from the 
+<a href="http://data.neoninc.org/" target="_blank"> NEON data portal</a>.
 
 The LiDAR and imagery data used to create this raster teaching data subset were
-collected over the NEON <a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank" >Harvard Forest</a>
+collected over the NEON 
+<a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank" >Harvard Forest</a>
 and 
 <a href="http://www.neoninc.org/science-design/field-sites/san-joaquin-experimental-range" target="_blank" >San Joaquin Experimental Range</a>
 field sites and processed at
@@ -134,7 +136,7 @@ file, a Canopy Height Model for the Harvard Forest, Massachusettes.
 If you completed
 [Vector Data in R: Open & Plot Shapefiles]({{site.baseurl}}/R/open-shapefile-in-R/)
 and [.csv to Shapefile in R]({{site.baseurl}}/R/csv-to-shapefile-in-R/)
-you may already have these `R` Spatial objects. 
+you may already have these `R` spatial objects. 
 
 ```{r load-libraries-data }
 #load packages
@@ -178,6 +180,7 @@ extent(aoiBoundary_HARV)
 
 ```
 
+<div id="challenge" markdown="1">
 #Challenge: Crop to Vector Points Extent
 Crop the Canopy Height Model to the extent of the study plot locations. Then
 plot both layers together. 
@@ -204,6 +207,7 @@ plot(CHM_plots_HARVcrop,
 plot(plot.locationSp_HARV, add=TRUE)
 
 ```
+</div>
 
 #Draw an Extent
 We can also use an `extent` object as input to the `y` argument to `crop()`. 
@@ -246,11 +250,9 @@ See the documentation for the `extent()` function for more ways
 to create an `extent` object. 
 * `help.search("extent", package = "raster"))
 * More on the 
-[extent class in R](http://www.inside-r.org/packages/cran/raster/docs/extent)
-
+<a href="http://www.inside-r.org/packages/cran/raster/docs/extent" target="_blank"> extent class in R</a>.
 
 ##Extract Raster Value Based on Vector Layer
-
 Often we want to extract values from a raster layer for particular locations - 
 for example, plot locations that we are sampling on the ground. 
 
@@ -258,11 +260,16 @@ To do this, we can use the `extract()` function. We will begin by extracting all
 canopy height pixel values located within our `aoiBoundary` polygon which
 surrounds the tower located at the NEON Harvard Forest field site.
 
-We can use this to view a histogram of tree heights in the study area!
+We can use this to view a histogram of tree heights in the study area
+<figure>
+    <a href="http://neondataskills.org/images/spatialData/BufferSquare.png">
+    <img src="http://neondataskills.org/images/spatialData/BufferSquare.png"></a>
+    <figcaption> Extract raster information using a polygon boundary. 
+    Image Source: NEON,Inc.  
+    </figcaption>
+</figure>
 
-![Extract using polygon boundary](http://neondataskills.org/images/spatialData/BufferSquare.png "Extract using polygon boundary")
-
-```{r Extract-from-raster}
+```{r extract-from-raster}
 
 #extract tree height for AOI
 #set df=TRUE to return a data.frame rather than a list of values
@@ -301,15 +308,19 @@ av_tree_height_AOI
 ```
 
 
-#Extract Data using X,Y Locations
-
+#Extract Data using x,y Locations
 We can also extract data from a raster using point locations. We can specify the
 buffer region (or area around the point) that we wish to extract pixels from.
 Below is code that demonstrates how to do this, using a single point - the
 Harvard Forest tower location.
 
-![Extract using buffer region](http://neondataskills.org/images/spatialData/BufferCircular.png "Extract using buffer region")
-
+<figure>
+    <a href="http://neondataskills.org/images/spatialData/BufferCircular.png">
+    <img src="http://neondataskills.org/images/spatialData/BufferCircular.png"></a>
+    <figcaption> Extract raster information using a buffer region. 
+    Image Source: NEON,Inc.  
+    </figcaption>
+</figure>
 
 ```{r extract-point-to-buffer }
 
@@ -326,6 +337,7 @@ av_tree_height_tower
 
 ```
 
+<div id="challenge" markdown="1">
 #Challenge: Extract & Summarize Raster Data in a Vector Extent
 Use the plot location shapefile `plot.locations_HARV` to extract an average
 tree height value for each plot location in the study area.
@@ -343,3 +355,4 @@ meanTreeHt_plots_HARV
 
 ```
 
+</div>
