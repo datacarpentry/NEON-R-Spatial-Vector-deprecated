@@ -8,8 +8,8 @@ dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 packagesLibraries: [rgdal, raster]
 category: 
-tags: [module-1]
-mainTag: GIS-Spatial-Data
+mainTag: spatial-vector-series
+tags: [vector-data]
 description: "This lesson walks through how to convert a .csv file that contains
 coordinate information into a spatial object in R."
 code1: 
@@ -97,10 +97,10 @@ Crop and extract raster values in R</a>
 </div>
 
 #Create a Map
-The `HARV_PlotLocations.csv` file contains x,y locations for some plots that 
-NEON <a href="http://www.neoninc.org/science-design/collection-methods/terrestrial-organismal-sampling" target="_blank"> 
-field crews are sampling vegetation and other 
-ecological metrics. We would like to
+The `HARV_PlotLocations.csv` file contains x,y locations for some 
+<a href="http://www.neoninc.org/science-design/collection-methods/terrestrial-organismal-sampling" target="_blank">  
+plots that NEON field crews </a>
+are sampling vegetation and other ecological metrics. We would like to
 
 * create a map of the locations of these plot locations. 
 * export the data in a `shapefile` format to share with our colleagues. This
@@ -112,10 +112,13 @@ Spatial data are downloaded from a website, off a GPS, or transcribed from old
 field notes are stored in a text file format (`.txt` or `.csv`). We can convert
 these text format data into a spatial object as an `R` 
 `SpatialPointsDataFrame`. The `SpatialPointsDataFrame` format allows us to store
-both the x,y values that are the coordinates but also the columns describing associated metadata or associated attributes.  
+both the x,y values that are the coordinates but also the columns describing
+associated metadata or associated attributes.  
 
-Note: There is a `SpatialPoints` object (not `SpatialPointsDataFrame`) in `R`
-that does not allow you to store associated attributes. {: .notice1}
+<i class="fa fa-star"></i> **Data Tip:** There is a `SpatialPoints` object (not
+`SpatialPointsDataFrame`) in `R` that does not allow you to store associated
+attributes. 
+{: .notice}
 
 ##Reading in a .csv
 To begin we need to read in the .csv file that contains the x,y coordinate
@@ -146,10 +149,11 @@ What is the coordinate reference system (`CRS`) for this data? (Hint: Try what
 you may know about finding the `CRS` in spatial data, but don't struggle too
 long before reading the next bit.)
 
-``` {r  challenge-code-crs, echo=FALSE}
+```{r challenge-code-crs, echo=FALSE}
 crs(plot.locations_HARV)
 
 attributes(plot.locations_HARV)
+
 ```
 </div>
 
@@ -171,20 +175,23 @@ lesson.
 3. We look at the data in our .csv (now `R` object) to see if it gives any
 hints.
 
-```{r crs-sleuthing}
+First, we'll look at the file names. 
+```{r crs-sleuthing} 
 #view the column names
 names(plot.locations_HARV)
+
 ```
 
 Okay, there are several columns related to a CRS.  Let's check out the first to
 rows of the `data.frame` to see what information is in these columns.
 
-```{r crs-sleuthing2}
+```{r crs-sleuthing2} 
 #view the first 6 rows
 head(plot.locations_HARV)
 ```
 
 We have the following information that is relevant to a CRS: 
+
 * X: 73xxxx.3 -- no other information but these match the eastings
 * Y: 4713xxx -- no other information but these match the northings
 * decimalLat: 42.5xxxx
@@ -202,7 +209,7 @@ that the datum is WGS84.
 #Convert .csv to Shapefile
 Before we can combine our plot locations with the boundaries of our field site, 
 or other spatial data we need to convert the locations from a .csv file to a
-`SpatialPointsDataFrame`.  When we make the conversion we also have to specify 
+`SpatialPointsDataFrame`.  When we make the conversion, we also have to specify 
 what the correct `crs`, datum, and other information.  We do this using a
 `proj4string`.  As we are going to be projecting this data on a 2D surface to
 make a map. We'll convert to a `SpatialPointsDataFrame` based on the UTM
@@ -225,7 +232,8 @@ we're already in WGS84 for both.
 * For more information on <a href="http://proj.maptools.org/faq.html" target="_blank"> proj4.</a>
 * For information on datums in `R`: `projInfo(type = "datum")`
 
-``` {r convert-csv-shapefile}
+Now we can convert the .csv file. 
+```{r convert-csv-shapefile}
 #Which data.frame columns represent the UTMs?
 names(plot.locations_HARV)
 #X, Y are 1:2 or easting,northing are 23:24.  We can use either.
@@ -235,13 +243,13 @@ names(plot.locations_HARV)
 CRS_plot_HARV<- CRS("+proj=utm +zone=18 +datum=WGS84 +units=m +no_defs
                     +ellps=WGS84 +towgs84=0,0,0")
 
-plot.locationSp_HARV <- SpatialPointsDataFrame(plot.locations_HARV[,23:23],
+plot.locationsSp_HARV <- SpatialPointsDataFrame(plot.locations_HARV[,23:24],
                 # [,23:24]the columns which represent UTM coordinate locations 
-                    plot.location_HARV,    #the R object to convert
+                    plot.locations_HARV,    #the R object to convert
                     proj4string = CRS_plot_HARV)   # assign a CRS 
                                           
 #look at CRS
-crs(plot.locationSp_HARV)
+crs(plot.locationsSp_HARV)
 
 ```
 
@@ -249,7 +257,7 @@ crs(plot.locationSp_HARV)
 We now have a spatial `R` object. We can plot our data!
 
 ```{r plot-data-points }
-plot(plot.locationSp_HARV, main="Map of Plot Locations")
+plot(plot.locationsSp_HARV, main="Map of Plot Locations")
 
 ```
 
@@ -280,7 +288,7 @@ CRS.
 
 ```{r check-crs-shapefile-csv}
 #check the CRS in shapefile
-crs(plot.locationSp_HARV)
+crs(plot.locationsSp_HARV)
 crs(aoiBoundary_HARV)
 crs(lines_HARV)
 crs(point_HARV)
@@ -304,7 +312,7 @@ The extent of the study plot locations covers a larger area than the
 
 ```{r extent-files}
 extent(aoiBoundary_HARV)
-extent (plot.locationSp_HARV)
+extent (plot.locationsSp_HARV)
 ```
 
 #Borrow a CRS When Converting to a Spatial.Data.Frame
@@ -319,11 +327,13 @@ conversion.
 
 ``` {r plot-csv-shapefile}
 
-plot.location_HARV_matchCRS <- SpatialPointsDataFrame(plot.location_HARV[,23:24],
-                                plot.location,    # object to convert
-                                proj4string = crs(aoiBoundary)) #assign CRS to
-                                                    #match `aoiBoundary_HARV CRS
-crs(plot.location_HARV_matchCRS)
+plot.locations_HARV_matchCRS <-
+               SpatialPointsDataFrame(plot.locations_HARV[,23:24],
+                                      plot.locations,    # object to convert
+                                      proj4string = crs(aoiBoundary_HARV))
+                                    #assign CRS to match `aoiBoundary_HARV CRS
+#check to make sure it worked
+crs(plot.locations_HARV_matchCRS)
 ```
 
 WARNING: We still have to know the correct `CRS` for the data and 

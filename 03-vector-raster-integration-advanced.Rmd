@@ -9,8 +9,8 @@ dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 packagesLibraries: [rgdal, raster]
 category: 
-tags: [module-1]
-mainTag: GIS-Spatial-Data
+mainTag: spatial-vector-series
+tags: [vector-data]
 description: "This lesson explains how to modify (crop) a raster extent based on
 the extent of a vector shapefile. The skills to be able to extract values from a
 raster that correspond to the geometry of a vector overlay are also taught."
@@ -170,7 +170,7 @@ object.
 chm_HARV_BoundCrop <- crop(x = chm_HARV, y = aoiBoundary_HARV)
 
 #view the data in a plot
-plot(aoiBoundary, main = "Cropped CHM Raster")
+plot(aoiBoundary_HARV, main = "Cropped CHM Raster")
 plot(chm_HARV_BoundCrop, add = TRUE)
 
 #lets look at the extent of all of our objects
@@ -194,7 +194,7 @@ you have these locations a the spatial `R` Spatial object
 These are discrete points not a large boundary like with `aoiBoundary_HARV` how
 is the extent for the cropping of the raster determined?  
 
-```{r challenge-code-crop-raster-points, echo=FALSE}
+```{r challenge-code-crop-raster-points, include=TRUE, results="hide", echo=FALSE}
 
 #Created/imported in L02: .csv to Shapefile in R
 plot.locationSp_HARV <- readOGR("boundaryFiles/HARV/", "PlotLocations_HARV")
@@ -260,7 +260,6 @@ To do this, we can use the `extract()` function. We will begin by extracting all
 canopy height pixel values located within our `aoiBoundary` polygon which
 surrounds the tower located at the NEON Harvard Forest field site.
 
-We can use this to view a histogram of tree heights in the study area
 <figure>
     <a href="http://neondataskills.org/images/spatialData/BufferSquare.png">
     <img src="http://neondataskills.org/images/spatialData/BufferSquare.png"></a>
@@ -277,7 +276,11 @@ tree_height <- extract(x = chm_HARV, y = aoiBoundary_HARV, df=TRUE)
 
 #view the object
 head(tree_height)
+```
 
+We can use this to view a histogram of tree heights in the study area.
+
+```{r view-extract-histogram}
 #view histogram of tree heights in study area
 hist(tree_height$HARV_chmCrop, main="Tree Height (m) \nHarvard Forest")
 
@@ -342,7 +345,7 @@ av_tree_height_tower
 Use the plot location shapefile `plot.locations_HARV` to extract an average
 tree height value for each plot location in the study area.
 
-```{r challenge-code-extract-plot-tree-height, Echo=FALSE}
+```{r challenge-code-extract-plot-tHeight, include=TRUE, results="hide", echo=FALSE}
 #extract data at each plot location
 meanTreeHt_plots_HARV <- extract(x = chm_HARV, 
                                y = plot.locations_HARV, 

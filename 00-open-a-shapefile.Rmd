@@ -8,8 +8,8 @@ dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 packagesLibraries: [rgdal, raster]
 category: 
-tags: [module-1]
-mainTag: GIS-Spatial-Data
+mainTag: spatial-vector-series
+tags: [vector-data]
 description: "This lesson explains the how to open and plot point, line and
 polygon shapefiles in R."
 code1: 
@@ -67,13 +67,14 @@ flux towers from the
 
 ### Vector Data Lesson Series
 This lesson is a part of a series on vector and raster data in R.
-1. <a href="{{ site.baseurl }}/R/open-shapefiles-in-R/">
+
+00. <a href="{{ site.baseurl }}/R/open-shapefiles-in-R/">
 Intro to shapefiles in R</a>
-2. <a href="{{ site.baseurl }}/R/shapefile-attributes-in-R/">
+01. <a href="{{ site.baseurl }}/R/shapefile-attributes-in-R/">
 Working With Shapefile Attributes in R </a>
-3. <a href="{{ site.baseurl }}/R/csv-to-shapefile-R/">
+02. <a href="{{ site.baseurl }}/R/csv-to-shapefile-R/">
 CSV to Shapefile in R</a>
-4. <a href="{{ site.baseurl }}/R/crop-extract-raster-data-R/">
+03. <a href="{{ site.baseurl }}/R/crop-extract-raster-data-R/">
 Crop and extract raster values in R</a>
 
 ###Additional Resources
@@ -247,6 +248,7 @@ summary(aoiBoundary_HARV)
 ```
 
 <div id="challenge" markdown="1">
+
 ##Challenge: Attributes & Metadata
 What is the difference between the information on the dataset you get from
 entering the object name, `summary()` and `attributes()`. When might you prefer

@@ -1,17 +1,8 @@
-- slug: module-1
-  name: Raster and Vector Data
+- slug: spatial-vector-series
+  name: Spatial Vector Lesson Series
   color: '#1abc9c'
-  
-- slug: module-2
-  name: Spatial Data Viz - Maps
+
+- slug: vector-data
+  name: Vector Data
   color: '#1abc9c'
-   
-- slug: module-3
-  name: Time Series 
-  color: '#1abc9c' 
-  
-- slug: module-4
-  name: Remote Sensing
-  color: '#1abc9c'
-  
   

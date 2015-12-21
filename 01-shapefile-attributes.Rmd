@@ -8,9 +8,11 @@ dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 packagesLibraries: [rgdal, raster]
 category: 
-tags: [module-1]
-mainTag: GIS-Spatial-Data
-description: "This lesson overviews how to locate and query shapefile attributes as well as subset shapefiles by specific attribute values in R."
+mainTag: spatial-vector-series
+tags: [vector-data]
+description: "This lesson provides an overview of how to locate and query
+shapefile attributes as well as subset shapefiles by specific attribute values
+in R."
 code1: 
 image:
   feature: NEONCarpentryHeader_2.png
@@ -299,7 +301,7 @@ footpath_HARV
 
 Our subsetting operation reduces the `features` count from 13 to 2. 
 
-#Plotting Vector Data in R
+#Plot Vector Data in R
 First, we need to plot all components: boundary, road, towers.  
 
 ```{r plot-multiple-shapefiles }
@@ -367,6 +369,11 @@ appearing on the plot?
 levels(lines_HARV@data$TYPE)
 # unk path in dark blue 
 col[lineType == "boardwalk"] <- "darkblue"
+
+#create base map w/ polygon & tower
+plot(aoiBoundary_HARV, col = "lightgreen", 
+     main="NEON Harvard Forest\nField Site")
+plot(point_HARV, add  = TRUE, pch = 19, col = "purple")
 
 #plot
 plot(x=lines_HARV, col=col, add=TRUE)
