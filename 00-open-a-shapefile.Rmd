@@ -56,7 +56,7 @@ your computer to complete this lesson.
 ##Data to Download
 
 <a href="http://files.figshare.com/2387960/boundaryFiles.zip" class="btn btn-success"> 
-DOWNLOAD Harvard Forest Field Site Shapefiles</a>
+Download Harvard Forest Field Site Shapefiles</a>
 
 The data used in this lesson were collected at the 
 <a href="http://www.neoninc.org/" target="_blank"> National Ecological Observatory Network's</a> 
@@ -102,8 +102,8 @@ segments, each bend in the road or stream represents a vertex that has an x,y
 location associated with it.
 * **Polygons:** A polygon consists of 3 or more vertices that are connected and 
 closed. Thus the outlines of plot boundaries, lakes, oceans, and states or 
-countries are often represented by polygons. Ocassionally, a polygon can have a
-hole in the middle of it (like a donut), this is something to be aware of but
+countries are often represented by polygons. Occasionally, a polygon can have a
+hole in the middle of it (like a doughnut), this is something to be aware of but
 not an issue we will deal with further.
 
  <i class="fa fa-star"></i> **Data Tip:** a line can represent a boundary as well - however, a line will not
@@ -173,7 +173,7 @@ Learn more about OGR.</a>
 
 When we import the `HarClip_UTMZ18` shapefile layer into `R` (as our
 `aoiBoundary_HARV` object), the `readOGR()` function automatically stores
-informatation about and associated with the data. We are particularly interested
+information about and associated with the data. We are particularly interested
 in the geospatial *metadata* that describes the format, `CRS`, `extent`, and
 other components of the dataset, as well as, 
 *attributes* which contains properties associated with each individual item
