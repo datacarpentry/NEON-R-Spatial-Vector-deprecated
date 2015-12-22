@@ -110,7 +110,7 @@ library (raster)   #for metadata/attributes- vectors or rasters
 #setwd("pathToDirHere")
 
 #Read the .csv file
-plot.locations_HARV <- read.csv("boundaryFiles/HARV/HARV_PlotLocations.csv")
+plot.locations_HARV <- read.csv("NEON-DS-Site-Layout-Files-HARV/HARV/HARV_PlotLocations.csv")
 
 #look at the data structure
 str(plot.locations_HARV)
@@ -249,13 +249,13 @@ lesson you already have these `R` objects).
 ```{r read-shp }
 #note: readOGR is preferred as it maintains the projection infomation
 #Import Field site boundary
-aoiBoundary_HARV <- readOGR("boundaryFiles/HARV", "HarClip_UTMZ18")
+aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV", "HarClip_UTMZ18")
 
 #Import a roads/trails
-lines_HARV <- readOGR( "boundaryFiles/HARV/", "HARV_roads")
+lines_HARV <- readOGR( "NEON-DS-Site-Layout-Files-HARV/HARV/", "HARV_roads")
 
 #Import a tower point
-point_HARV <- readOGR("boundaryFiles/HARV/", "HARVtower_UTM18N")
+point_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV/", "HARVtower_UTM18N")
 
 ```
 
@@ -348,7 +348,8 @@ location (shapefile: "newPlot_latLon").
 
 ```{r project-vectors }
 #note: readOGR is preferred as it maintains prj info
-newPlots_HARV <- readOGR("boundaryFiles/HARV", "newPlots_latLon")
+newPlots_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV",
+                         "newPlots_latLon")
 
 #add these points to our existing plot  "Map of Study Area"
 plot(newPlots_HARV, add=TRUE, col=115, pch=19)
@@ -446,7 +447,7 @@ layer for a map of our study locations.
 
 ```{r Plot vector-raster overlay }
 
-chm_HARV <- raster("NEON_RemoteSensing/HARV/CHM/HARV_chmCrop.tif")
+chm_HARV <- raster("NEON-DS-Airborne-RemoteSensing-HARV-SJER/HARV/CHM/HARV_chmCrop.tif")
 
 plot(chm_HARV,
      main="Map of Study Plots\n w/ Canopy Height Model\nNEON Harvard Forest")
@@ -461,7 +462,8 @@ plot(point_HARV, pch=17, add=TRUE)
 
 <div id="challenge" markdown="1">
 ##Challenge: Useful Study Area Maps
-Using a Digital Terrain Model ("NEON_RemoteSensing/HARV/DTM/HARV_dtmCrop.tif") 
+Using a Digital Terrain Model
+("NEON-DS-Airborne-RemoteSensing-HARV-SJER/HARV/DTM/HARV_dtmCrop.tif") 
 create a usable map to the study area.  
 Include the following: 
 
@@ -481,7 +483,7 @@ lessons.
 
 ```{r challenge-code-plotting-pretty-map, echo=FALSE}
 
-DTM_HARV <- raster("NEON_RemoteSensing/HARV/DTM/HARV_dtmCrop.tif")
+DTM_HARV <- raster("NEON-DS-Airborne-RemoteSensing-HARV-SJER/HARV/DTM/HARV_dtmCrop.tif")
 
 
 

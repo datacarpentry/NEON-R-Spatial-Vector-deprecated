@@ -146,7 +146,7 @@ use the `R` function `readOGR()`.
 
 #Import a polygon shapefile: readOGR("path","fileName")
 #no extension needed as readOGR only imports shapefiles
-aoiBoundary_HARV <- readOGR("boundaryFiles/HARV", "HarClip_UTMZ18")
+aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV", "HarClip_UTMZ18")
 
 ```
 
@@ -251,8 +251,6 @@ to use one or the other?
 
 ```
 
-
-
 #Plot a Shapefile
 Next, let's visualize a shapefile. Using `plot`, we can produce a box
 representing the boundaries specified in this shapefile.
@@ -283,9 +281,9 @@ Answer the following questions:
 
 ```{r import-point-line, echo=FALSE, results="hide" }
 #import line shapefile
-lines_HARV <- readOGR("boundaryFiles/HARV",layer = "HARV_roads")
+lines_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV",layer = "HARV_roads")
 #import point shapefile
-point_HARV <- readOGR("boundaryFiles/HARV", layer="HARVtower_UTM18N")
+point_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV", layer="HARVtower_UTM18N")
 
 #1
 class (lines_HARV)
@@ -310,7 +308,6 @@ lines_HARV
 attributes(lines_HARV)
 
 ```
-
 
 
 #Plot Multiple Shapefiles

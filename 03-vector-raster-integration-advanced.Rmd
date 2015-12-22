@@ -84,7 +84,7 @@ the tower (black triangle).
 
 ```{r Plot vector-raster overlay, echo=FALSE}
 
-chm_HARV <- raster("NEON_RemoteSensing/HARV/CHM/HARV_chmCrop.tif")
+chm_HARV <- raster("NEON-DS-Airborne-RemoteSensing-HARV-SJER/HARV/CHM/HARV_chmCrop.tif")
 
 plot(chm_HARV,
      main="Map of Study Plots\n w/ Canopy Height Model\nNEON Harvard Forest")
@@ -126,15 +126,15 @@ library (raster)   #for metadata/attributes- vectors or rasters
 
 #Imported in L00: Vector Data in R - Open & Plot Data
 # shapefile 
-aoiBoundary_HARV <- readOGR("boundaryFiles/HARV/", "HarClip_UTMZ18")
+aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV/", "HarClip_UTMZ18")
 #Import a line shapefile
-lines_HARV <- readOGR( "boundaryFiles/HARV/",layer = "HARV_roads")
+lines_HARV <- readOGR( "NEON-DS-Site-Layout-Files-HARV/HARV/",layer = "HARV_roads")
 #Import a point shapefile 
-point_HARV <- readOGR("boundaryFiles/HARV/", "HARVtower_UTM18N")
+point_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV/", "HARVtower_UTM18N")
 
 #Imported in L02: .csv to Shapefile in R
 #import raster Canopy Height Model (CHM)
-chm_HARV <- raster("NEON_RemoteSensing/HARV/CHM/HARV_chmCrop.tif")
+chm_HARV <- raster("NEON-DS-Airborne-RemoteSensing-HARV-SJER/HARV/CHM/HARV_chmCrop.tif")
 
 ```
 
@@ -175,7 +175,7 @@ is the extent for the cropping of the raster determined?
 ```{r challenge-code-crop-raster-points, include=TRUE, results="hide", echo=FALSE}
 
 #Created/imported in L02: .csv to Shapefile in R
-plot.locationSp_HARV <- readOGR("boundaryFiles/HARV/", "PlotLocations_HARV")
+plot.locationSp_HARV <- readOGR("NEON-DS-Airborne-RemoteSensing-HARV-SJER/HARV/", "PlotLocations_HARV")
 
 #crop the chm 
 CHM_plots_HARVcrop <- crop(x = chm_HARV, y = plot.locationsSp_HARV)
@@ -271,7 +271,6 @@ summary(tree_height$HARV_chmCrop)
 (`help.search("extract", package = "raster")`).
 
 #Summarize Extracted Raster Values 
-
 The `extract` function returns a `LIST` of values as default. You can tell `R` 
 to summarize the data in some way or to return a `data.frame` (`df=TRUE`). 
 
@@ -287,7 +286,6 @@ av_tree_height_AOI <- extract(x = chm_HARV, y = aoiBoundary_HARV,
 av_tree_height_AOI
 
 ```
-
 
 #Extract Data using x,y Locations
 We can also extract data from a raster using point locations. We can specify the
