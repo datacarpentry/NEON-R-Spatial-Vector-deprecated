@@ -322,7 +322,7 @@ know our `CRS`.
 We can write an `R` spatial object to a shapefile using the `writeOGR` function 
 in `rgdal`. To do this we need the following arguments:
 
-* the name of the spatial object (`plot.locationSp_HARV`)
+* the name of the spatial object (`plot.locationsSp_HARV`)
 * the directory where we want to save our shapefile
            (to use current = getwd() or you can specify a different path)
 * the name of the new shapefile  ("PlotLocations_HARV")
@@ -332,7 +332,7 @@ We can now write the shapefile.
 
 ``` {r write-shapefile}
 #write a shapefile
-writeOGR(plot.locationSp_HARV, getwd(),
+writeOGR(plot.locationsSp_HARV, getwd(),
          "PlotLocations_HARV", driver="ESRI Shapefile")
 
 ```
@@ -388,11 +388,11 @@ We can use the `spTransform` function to reproject a vector.
 
 ```{r project-data }
 #double check the CRS of our plots layer
-crs(plot.locationSp_HARV)
+crs(plot.locationsSp_HARV)
 
 #reproject our vector layer to the projection of our other plot data.
 newPlots_HARV_UTM<- spTransform(newPlots_HARV,
-                               crs(plot.locationSp_HARV))
+                               crs(plot.locationsSp_HARV))
 
 #check crs
 crs(newPlots_HARV_UTM)
@@ -423,7 +423,7 @@ plot(lines_HARV, main="Study Area")
 
 #add the study plot locations 
 plot(newPlots_HARV_UTM,add=T, col=116)
-plot(plot.locationSp_HARV, add=T)
+plot(plot.locationsSp_HARV, add=T)
 
 #add the boundary layer 
 plot(aoiBoundary_HARV, col="red", add=TRUE)
@@ -454,7 +454,7 @@ plot(chm_HARV,
 
 plot(lines_HARV, add = TRUE)
 plot(aoiBoundary_HARV, border="forestgreen", add = TRUE)
-plot(plot.locationSp_HARV, add = TRUE)
+plot(plot.locationsSp_HARV, add = TRUE)
 plot(newPlots_HARV_UTM, col="blue", add=TRUE)
 plot(point_HARV, pch=17, add=TRUE)
 
@@ -464,8 +464,7 @@ plot(point_HARV, pch=17, add=TRUE)
 ##Challenge: Useful Study Area Maps
 Using a Digital Terrain Model
 ("NEON-DS-Airborne-RemoteSensing-HARV-SJER/HARV/DTM/HARV_dtmCrop.tif") 
-create a usable map to the study area.  
-Include the following: 
+create a usable map to the study area.  Include the following: 
 
 1. Useful title, figure legends, and axes labels. 
 2. Any or all vector layers that we have created. 
@@ -481,10 +480,35 @@ or the
 lessons. 
 </div>
 
-```{r challenge-code-plotting-pretty-map, echo=FALSE}
-
+```{r challenge-code-plotting-pretty-map,  include=TRUE, results="hide", echo=FALSE}
+#load DTM
 DTM_HARV <- raster("NEON-DS-Airborne-RemoteSensing-HARV-SJER/HARV/DTM/HARV_dtmCrop.tif")
 
+#create basic plot
+plot(DTM_HARV,
+     main="Map of Study Plots\n w/ Digital Terrain Model\nNEON Harvard Forest")
 
+plot(aoiBoundary_HARV, border="forestgreen", add = TRUE)
+plot(plot.locationsSp_HARV, pch=20, add = TRUE)
+plot(newPlots_HARV_UTM, pch=20, col="blue", add=TRUE)
+plot(point_HARV, pch=17, add=TRUE)
 
+#legend
+labels= c("footpath", "boardwalk", "tower")
+labCols=c("red", "darkblue", "black")
+
+#add lines w/ legend & different colors
+#remind self what levels there are 
+levels(lines_HARV@data$TYPE)
+
+#create linetype 
+lineType <- lines_HARV@data$TYPE
+
+#set color for all lines not later specified
+col <- rep(x= "black", length = length(lineType))
+
+# color the boardwalks
+col[lineType == "boardwalk"] <- "darkblue"
+plot(lines_HARV, add=TRUE,
+     legend("bottom", NULL, labels, fill=labCols, bty="n", cex=.8))
 ```
