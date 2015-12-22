@@ -14,7 +14,7 @@ tags: [vector-data]
 description: "This lesson explains how to modify (crop) a raster extent based on
 the extent of a vector shapefile. The skills to be able to extract values from a
 raster that correspond to the geometry of a vector overlay are also taught."
-code1: 
+code1: 03-vector-raster-integration-advanced.R
 image:
   feature: NEONCarpentryHeader_2.png
   credit: A collaboration between the National Ecological Observatory Network (NEON) and Data Carpentry

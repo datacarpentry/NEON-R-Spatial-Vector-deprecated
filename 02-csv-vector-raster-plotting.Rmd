@@ -12,7 +12,7 @@ mainTag: spatial-vector-series
 tags: [vector-data]
 description: "This lesson walks through how to convert a .csv file that contains
 coordinate information into a spatial object in R."
-code1: 
+code1: 02-csv-vector-raster-plotting.R
 image:
   feature: NEONCarpentryHeader_2.png
   credit: A collaboration between the National Ecological Observatory Network (NEON) and Data Carpentry

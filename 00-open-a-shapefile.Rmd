@@ -12,7 +12,7 @@ mainTag: spatial-vector-series
 tags: [vector-data]
 description: "This lesson explains the how to open and plot point, line and
 polygon shapefiles in R."
-code1: 
+code1: 00-open-a-shapefile.R
 image:
   feature: NEONCarpentryHeader_2.png
   credit: A collaboration between the National Ecological Observatory Network  (NEON) and Data Carpentry
