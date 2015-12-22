@@ -31,7 +31,7 @@ point, line and polygon data, stored in shapefile format.
 
 <div id="objectives" markdown="1">
 
-###Goals / Objectives
+##Goals / Objectives
 After completing this activity, you will:
 
  * Know the difference between point, line, and polygon vector elements.
@@ -39,46 +39,32 @@ After completing this activity, you will:
     in `R`.
  * Understand the components of a spatial object in `R`.
 
-###Things You'll Need To Complete This Lesson
+##Things You'll Need To Complete This Lesson
 
 You will need the most current version of `R` and, preferably, RStudio loaded on
 your computer to complete this lesson.
 
-####R Libraries to Install:
+##R Libraries to Install:
 
 * **raster:** `install.packages("raster")`
 * **rgdal:** `install.packages("rgdal")`
 * **sp:** `install.packages("sp")`
 
-
 * <a href="http://neondataskills.org/R/Packages-In-R/" target="_blank">More on Packages in R - Adapted from Software Carpentry.</a>
 
 ##Data to Download
+{% include/dataSubsets/_data_Site-Layout-Files-HARV.html %}
 
-<a href="http://files.figshare.com/2387960/boundaryFiles.zip" class="btn btn-success"> 
-Download Harvard Forest Field Site Shapefiles</a>
+**Set Working Directory:** This lessons assumes that you have set your working 
+directory to the location of the downloaded and unzipped data subset. 
+[An overview of setting the working directory in `R` can be found here.]({{site.baseurl}}/R/Set-Working-Directory "R Working Directory Lesson") 
 
-The data used in this lesson were collected at the 
-<a href="http://www.neoninc.org/" target="_blank"> National Ecological Observatory Network's</a> 
-<a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank"> Harvard Forest field site </a> 
-These data are proxy data for what will be available for 30 years from the NEON
-flux towers from the 
-<a href="http://data.neoninc.org/" target="_blank"> NEON data portal</a>.
+**Challenge Code:** NEON Data Skills tutorials often contain challenges that
+reinforce learned skills. If available, the code for challenge solutions is
+found in adownloadable `R` script available on the footer of each lesson page.
 
-### Vector Data Lesson Series
-This lesson is a part of a series on vector and raster data in R.
-
-00. <a href="{{ site.baseurl }}/R/open-shapefiles-in-R/">
-Intro to shapefiles in R</a>
-01. <a href="{{ site.baseurl }}/R/shapefile-attributes-in-R/">
-Working With Shapefile Attributes in R </a>
-02. <a href="{{ site.baseurl }}/R/csv-to-shapefile-R/">
-CSV to Shapefile in R</a>
-03. <a href="{{ site.baseurl }}/R/crop-extract-raster-data-R/">
-Crop and extract raster values in R</a>
-
-###Additional Resources
-
+**Vector Lesson Series: ** This lesson is a part of a lesson series on vector 
+data in `R`.
 </div>
 
 #About Vector Data
@@ -282,7 +268,7 @@ plot(aoiBoundary_HARV, col="cyan1", border="black", lwd=3)
 
 <div id="challenge" markdown="1">
 
-#Challenge: Import Line and Point Shapefiles
+##Challenge: Import Line and Point Shapefiles
 Using the steps above, import the HARV_roads and HARVtower_UTM18N layers into
 `R`. Call the Harv_roads object `lines_HARV` and the HARVtower_UTM18N
 `point_HARV`.
@@ -293,6 +279,7 @@ Answer the following questions:
 2. What is the `CRS` and `extent`for each object?
 3. Do the files contain, points, lines or polygons?
 4. How many spatial objects are in each file?
+</div>
 
 ```{r import-point-line, echo=FALSE, results="hide" }
 #import line shapefile
@@ -324,7 +311,7 @@ attributes(lines_HARV)
 
 ```
 
-</div>
+
 
 #Plot Multiple Shapefiles
 The `plot()` function can be used for basic plotting of spatial objects. 

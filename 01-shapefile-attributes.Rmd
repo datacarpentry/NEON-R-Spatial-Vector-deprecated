@@ -35,51 +35,39 @@ values.
 
 <div id="objectives" markdown="1">
 
-###Goals / Objectives
+##Goals / Objectives
 After completing this activity, you will:
 
  * Be able to query shapefile attributes.
  * Be able to subset shapefiles using specific attribute values..
  * Know how to plot a shapefile, colored by unique attribute values.
  
-###Things You'll Need To Complete This Lesson
+##Things You'll Need To Complete This Lesson
 You will need the most current version of `R` and, preferably, RStudio loaded on
 your computer to complete this lesson.
 
-####R Libraries to Install:
+##R Libraries to Install:
 
+* **raster:** `install.packages("raster")`
 * **rgdal:** `install.packages("rgdal")`
 * **sp:** `install.packages("sp")`
 
 <a href="{{ site.baseurl }}/R/Packages-In-R/" target="_blank"> 
 More on Packages in R - Adapted from Software Carpentry.</a>
 
-####Data to Download
+##Data to Download
+{% include/dataSubsets/_data_Site-Layout-Files-HARV.html %}
 
-<a href="http://files.figshare.com/2387960/boundaryFiles.zip" class="btn btn-success"> 
-Download Harvard Forest Field Site Shapefiles</a>
+**Set Working Directory:** This lessons assumes that you have set your working 
+directory to the location of the downloaded and unzipped data subset. 
+[An overview of setting the working directory in `R` can be found here.]({{site.baseurl}}/R/Set-Working-Directory "R Working Directory Lesson") 
 
-The data used in this lesson were collected at the 
-<a href="http://www.neoninc.org/" target="_blank"> National Ecological Observatory Network's</a> 
-<a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank"> Harvard Forest field site </a> 
-These data are proxy data for what will be available for 30 years from the NEON
-flux towers from the 
-<a href="http://data.neoninc.org/" target="_blank"> NEON data portal</a>.
+**Challenge Code:** NEON Data Skills tutorials often contain challenges that
+reinforce learned skills. If available, the code for challenge solutions is
+found in adownloadable `R` script available on the footer of each lesson page.
 
-###Lesson Series
-
-This lesson is a part of a series on vector and raster data in R.
-
-1. <a href="{{ site.baseurl }}/R/open-shapefiles-in-R/">
-Intro to shapefiles in R</a>
-2. <a href="{{ site.baseurl }}/R/shapefile-attributes-in-R/">
-Working With Shapefile Attributes in R </a>
-3. <a href="{{ site.baseurl }}/R/csv-to-shapefile-R/">
-CSV to Shapefile in R</a>
-4. <a href="{{ site.baseurl }}/R/crop-extract-raster-data-R/">
-Crop and extract raster values in R</a>
-
-###Additional Resources
+**Vector Lesson Series: ** This lesson is a part of a lesson series on vector 
+data in `R`.
 
 </div>
 
@@ -145,12 +133,12 @@ point_HARV
 ```
 
 <div id="challenge" markdown="1">
-#Challenge: Metadata for Different Spatial Classes
+##Challenge: Metadata for Different Spatial Classes
 Determine the `extent`, `CRS`, `length`, and `class` for the `lines_HARV` and 
 `aoiBoundary_HARV` objects.  
 Will all three objects (`lines_HARV`, `aoiBoundary_HARV`, & `point_HARV`) be
 able to be mapped together? 
-
+</div>
 ```{r challenge-code-metadata, results="hide", echo=FALSE}
 #view class
 class(lines_HARV)
@@ -171,8 +159,6 @@ extent(aoiBoundary_HARV)
 # All three objects have the same CRS and the extents overlap or at least are
 # close so they should be able to appear on the same map. 
 ```
-
-</div>
 
 #Query Shapefile Attributes
 Shapefiles often contain an associated database or spreadsheet of values called
@@ -232,14 +218,14 @@ attributes(lines_HARV)
 ```
 
 <div id="challenge" markdown="1">
-#Challenge: Attributes for Different Spatial Classes
+##Challenge: Attributes for Different Spatial Classes
 Explore the attributes associated with the `point_HARV` and `aoiBoundary_HARV` spatial objects. 
 
 1. How many attributes do each have?
 2. Who owns the site in the `point_HARV` data object?
 3. Which of the following are NOT attributes of the `point` data object?
     A) Lat B) County C) Country
-
+</div>
 ```{r challenge-code-attributes-classes, results="hide", echo=FALSE}
 #1
 names(point_HARV@data)  #14 attributes
@@ -251,8 +237,6 @@ head(point_HARV@data)  #Harvard University, LTER
 #3
 point_HARV@data  # C Country
 ```
-
-</div>
 
 #Explore Values in One Attribute
 We can also explore individual values stored within a particular attribute.
@@ -356,14 +340,14 @@ plot(lines_HARV, add=TRUE,
 ```
 
 <div id="challenge" markdown="1">
-#Challenge: Specify Color By Attribute When Plotting
+##Challenge: Specify Color By Attribute When Plotting
 
 1. If it isn't a footpath, determine what TYPE the other two lines on the plot
 are. 
 2. Create a map to differentiate and determine what the other two paths are. 
 3. Why might there be line types that appear in our shapefile but aren't
 appearing on the plot? 
-
+</div>
 ``` {r challenge-code-plot-other, results="hide", echo=FALSE}
 #1 & 2 remind self what levels there are, then trial and error.  
 levels(lines_HARV@data$TYPE)
@@ -390,4 +374,3 @@ plot(lines_HARV, add=TRUE,
 extent(aoiBoundary_HARV)
 extent(lines_HARV)
 ```
-</div>
