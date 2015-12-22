@@ -27,7 +27,7 @@ comments: false
 
 This lesson will review how to import spatial points stored in a .csv file into
 `R` as a spatial object - a `SpatialPointsDataFrame`. We will also learn how to
-reproject data in a shapefile format into another projection, create a 
+reproject data imported in a shapefile format into another projection, create a 
 shapefile from a spatial object in `R`, and plot raster and vector data as
 layers in the same plot. 
 

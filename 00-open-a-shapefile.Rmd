@@ -253,6 +253,7 @@ summary(aoiBoundary_HARV)
 What is the difference between the information on the dataset you get from
 entering the object name, `summary()` and `attributes()`. When might you prefer
 to use one or the other?
+</div>
 
 ``` {r challenge-code-attributes, echo=FALSE}
 # Entering just the name provides the most commonly needed information: CRS,
@@ -264,7 +265,7 @@ to use one or the other?
 
 ```
 
-</div>
+
 
 #Plot a Shapefile
 Next, let's visualize a shapefile. Using `plot`, we can produce a box
