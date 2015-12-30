@@ -2,8 +2,8 @@
 layout: post
 title: "Lesson 00: Vector Data in R - Open and Plot Shapefiles"
 date:   2015-10-26
-authors: [Joseph Stachelek, Leah Wasser]
-contributors: [Megan A. Jones, Sarah Newman]
+authors: [Joseph Stachelek, Leah Wasser, Megan A. Jones]
+contributors: [Sarah Newman]
 dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 packagesLibraries: [rgdal, raster]
@@ -61,10 +61,10 @@ directory to the location of the downloaded and unzipped data subset.
 
 **Challenge Code:** NEON Data Skills tutorials often contain challenges that
 reinforce learned skills. If available, the code for challenge solutions is
-found in adownloadable `R` script available on the footer of each lesson page.
+found in a downloadable `R` script available on the footer of each lesson page.
 
-**Vector Lesson Series: ** This lesson is a part of a lesson series on vector 
-data in `R`.
+**Vector Lesson Series:** This lesson is a part of a lesson series on 
+[spatial vector data in `R`]({{site.baseurl}}/R/spatial-vector-lessons).
 </div>
 
 #About Vector Data
@@ -81,7 +81,7 @@ the type of vector that we are working with (point, line or polygon).
 </figure>
 
 * **Points:** Each individual point is represented by a single x,y coordinate.
-There can be many points in a vector point file. Examples: sampling
+There can be many points in a vector point file. Examples include sampling
 locations or the location of individual trees.
 * **Lines:** Lines are composed of many (at least 2) vertices, or points, that
 are connected. For instance, a road or a stream is a series of straight line
@@ -93,8 +93,8 @@ countries are often represented by polygons. Occasionally, a polygon can have a
 hole in the middle of it (like a doughnut), this is something to be aware of but
 not an issue we will deal with further.
 
- <i class="fa fa-star"></i> **Data Tip:** a line can represent a boundary as well - however, a line will not
-create a closed object.  
+ <i class="fa fa-star"></i> **Data Tip:** a line can represent a boundary as
+ well. However, a line will not create a closed object.  
 {: .notice}
 
 
@@ -146,11 +146,12 @@ use the `R` function `readOGR()`.
 
 #Import a polygon shapefile: readOGR("path","fileName")
 #no extension needed as readOGR only imports shapefiles
-aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV", "HarClip_UTMZ18")
+aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV",
+                            "HarClip_UTMZ18")
 
 ```
 
-<i class="fa fa-star"></i> **Data Tip:** The acronym, `OGR` refers to the
+<i class="fa fa-star"></i> **Data Tip:** The acronym, OGR refers to the
 OpenGIS Simple Features Reference Implementation. 
 <a href="https://trac.osgeo.org/gdal/wiki/FAQGeneral" target="_blank"> 
 Learn more about OGR.</a> 
@@ -252,7 +253,7 @@ to use one or the other?
 ```
 
 #Plot a Shapefile
-Next, let's visualize a shapefile. Using `plot`, we can produce a box
+Next, let's visualize a shapefile. Using `plot()`, we can produce a box
 representing the boundaries specified in this shapefile.
 
 ``` {r plot-shapefile}
@@ -265,7 +266,6 @@ plot(aoiBoundary_HARV, col="cyan1", border="black", lwd=3)
 ```
 
 <div id="challenge" markdown="1">
-
 ##Challenge: Import Line and Point Shapefiles
 Using the steps above, import the HARV_roads and HARVtower_UTM18N layers into
 `R`. Call the Harv_roads object `lines_HARV` and the HARVtower_UTM18N
@@ -315,7 +315,7 @@ The `plot()` function can be used for basic plotting of spatial objects.
 We use the `add = TRUE` argument to overlay shapefiles on top of each other, as
 we would when creating a map in a typical GIS application like QGIS.
 
-We can use the `main=""` to give our plot a title. If you want the title to 
+We can use `main=""` to give our plot a title. If you want the title to 
 span 2 lines, use `\n` where you'd like the line break.
 
 ```{r plot-multiple-shapefiles }
@@ -329,7 +329,7 @@ plot(point_HARV, add  = TRUE, pch = 19, col = "purple")
 ```
 
 
-For more on parameter options in base `R` `plot()`, check out these
+For more on parameter options in the base `R` `plot()` function, check out these
 resources:
 
 * <a href="http://www.statmethods.net/advgraphs/parameters.html" target="_blank">Parameter methods in `R`.</a>

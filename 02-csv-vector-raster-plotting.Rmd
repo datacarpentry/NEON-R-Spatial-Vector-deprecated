@@ -2,8 +2,8 @@
 layout: post
 title: "Lesson 02: Converting from .csv to Shapefile in R"
 date:   2015-10-24
-authors: [Joseph Stachelek, Leah Wasser]
-contributors: [Megan A. Jones, Sarah Newman]
+authors: [Joseph Stachelek, Leah Wasser, Megan A. Jones]
+contributors: [Sarah Newman]
 dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 packagesLibraries: [rgdal, raster]
@@ -67,10 +67,10 @@ directory to the location of the downloaded and unzipped data subset.
 
 **Challenge Code:** NEON Data Skills tutorials often contain challenges that
 reinforce learned skills. If available, the code for challenge solutions is
-found in adownloadable `R` script available on the footer of each lesson page.
+found in a downloadable `R` script available on the footer of each lesson page.
 
-**Vector Lesson Series: ** This lesson is a part of a lesson series on vector 
-data in `R`.
+**Vector Lesson Series:** This lesson is a part of a lesson series on 
+[spatial vector data in `R`]({{site.baseurl}}/R/spatial-vector-lessons).
 </div>
 
 #Create a Map
@@ -110,7 +110,8 @@ library (raster)   #for metadata/attributes- vectors or rasters
 #setwd("pathToDirHere")
 
 #Read the .csv file
-plot.locations_HARV <- read.csv("NEON-DS-Site-Layout-Files-HARV/HARV/HARV_PlotLocations.csv")
+plot.locations_HARV <- 
+  read.csv("NEON-DS-Site-Layout-Files-HARV/HARV/HARV_PlotLocations.csv")
 
 #look at the data structure
 str(plot.locations_HARV)
@@ -132,7 +133,6 @@ crs(plot.locations_HARV)
 attributes(plot.locations_HARV)
 
 ```
-</div>
 
 #Determine a Coordinate Reference System
 When we create a spatial points `data.frame` from a .csv, there is no inherent
@@ -236,6 +236,8 @@ We now have a spatial `R` object. We can plot our data!
 ```{r plot-data-points }
 plot(plot.locationsSp_HARV, main="Map of Plot Locations")
 
+# Save plot 
+Harv_plotLocMap<- recordPlot()
 ```
 
 While our points do plot the map isn't very informative.  We can bring in other
@@ -249,13 +251,15 @@ lesson you already have these `R` objects).
 ```{r read-shp }
 #note: readOGR is preferred as it maintains the projection infomation
 #Import Field site boundary
-aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV", "HarClip_UTMZ18")
+aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV",
+                            "HarClip_UTMZ18")
 
 #Import a roads/trails
 lines_HARV <- readOGR( "NEON-DS-Site-Layout-Files-HARV/HARV/", "HARV_roads")
 
 #Import a tower point
-point_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV/", "HARVtower_UTM18N")
+point_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV/",
+                      "HARVtower_UTM18N")
 
 ```
 
@@ -274,12 +278,16 @@ crs(point_HARV)
 Yep, they are all the same.  We can now plot the shapefiles together.  
 
 ``` {r plot-data-maps}
+#recall the original plot location map; optional
+Harv_plotLocMap
 
 #Add Field Site Boundary polygon & tower point layer to our "Map of Study Area"
 plot(aoiBoundary_HARV, add=TRUE)
 plot (point_HARV, col="red", add=TRUE)
 plot(lines_HARV, add=TRUE)
 
+# save this newer map
+Harv_plotLocMap2<- recordPlot()
 ```
 
 What happened to the tower?
@@ -306,7 +314,7 @@ conversion.
 
 plot.locations_HARV_matchCRS <-
                SpatialPointsDataFrame(plot.locations_HARV[,23:24],
-                                      plot.locations,    # object to convert
+                                      plot.locations_HARV,    # object to convert
                                       proj4string = crs(aoiBoundary_HARV))
                                     #assign CRS to match `aoiBoundary_HARV CRS
 #check to make sure it worked
@@ -352,8 +360,11 @@ newPlots_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV",
                          "newPlots_latLon")
 
 #add these points to our existing plot  "Map of Study Area"
+Harv_plotLocMap2
 plot(newPlots_HARV, add=TRUE, col=115, pch=19)
 
+#save new plot
+Harv_plotLocMap3<- recordPlot()
 ```
 
 We added the new plot locations to our existing plot and nothing happened.  Why?
@@ -403,11 +414,12 @@ Now that the `CRSs` match we can add our new plot points to our existing map.
 ```{r plot-reprojected-points}
 #plot new plot location -- reprojected
 #col & pch parameters to make it stand out!
+Harv_plotLocMap3
 plot(newPlots_HARV_UTM, add=TRUE, col=116, pch=19) 
 
 ```
 
-Yes!  A nice blue points showed up for our new plot... but wait only one.  We 
+Yes!  A nice blue point showed up for our new plot... but wait only one.  We 
 have two new plots.  Why did only one appear?  
 
 #Plotting - Order of Operations
@@ -447,7 +459,8 @@ layer for a map of our study locations.
 
 ```{r Plot vector-raster overlay }
 
-chm_HARV <- raster("NEON-DS-Airborne-RemoteSensing-HARV-SJER/HARV/CHM/HARV_chmCrop.tif")
+chm_HARV <- 
+  raster("NEON-DS-Airborne-RemoteSensing-HARV-SJER/HARV/CHM/HARV_chmCrop.tif")
 
 plot(chm_HARV,
      main="Map of Study Plots\n w/ Canopy Height Model\nNEON Harvard Forest")

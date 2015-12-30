@@ -3,8 +3,8 @@ layout: post
 title: "Lesson 03: Raster-Vector Integration: Crop Rasters and Extract Values in
 R"
 date:   2015-10-23
-authors: [Joseph Stachelek, Leah Wasser]
-contributors: [Megan A. Jones, Sarah Newman]
+authors: [Joseph Stachelek, Leah Wasser, Megan A. Jones]
+contributors: [Sarah Newman]
 dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 packagesLibraries: [rgdal, raster]
@@ -65,10 +65,10 @@ directory to the location of the downloaded and unzipped data subset.
 
 **Challenge Code:** NEON Data Skills tutorials often contain challenges that
 reinforce learned skills. If available, the code for challenge solutions is
-found in adownloadable `R` script available on the footer of each lesson page.
+found in a downloadable `R` script available on the footer of each lesson page.
 
-**Vector Lesson Series: ** This lesson is a part of a lesson series on vector 
-data in `R`.
+**Vector Lesson Series:** This lesson is a part of a lesson series on 
+[spatial vector data in `R`]({{site.baseurl}}/R/spatial-vector-lessons).
 </div> 
  
 ##Crop a Raster to Vector Extent
@@ -91,7 +91,7 @@ plot(chm_HARV,
 
 plot(lines_HARV, add = TRUE)
 plot(aoiBoundary_HARV, border="forestgreen", add = TRUE)
-plot(plot.locationSp_HARV, add = TRUE)
+plot(plot.locationsSp_HARV, add = TRUE)
 plot(newPlots_HARV_UTM, col="blue", add=TRUE)
 plot(point_HARV, pch=17, add=TRUE)
 
@@ -126,15 +126,19 @@ library (raster)   #for metadata/attributes- vectors or rasters
 
 #Imported in L00: Vector Data in R - Open & Plot Data
 # shapefile 
-aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV/", "HarClip_UTMZ18")
+aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV/",
+                            "HarClip_UTMZ18")
 #Import a line shapefile
-lines_HARV <- readOGR( "NEON-DS-Site-Layout-Files-HARV/HARV/",layer = "HARV_roads")
+lines_HARV <- readOGR( "NEON-DS-Site-Layout-Files-HARV/HARV/",
+                       "HARV_roads")
 #Import a point shapefile 
-point_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV/", "HARVtower_UTM18N")
+point_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV/",
+                      "HARVtower_UTM18N")
 
 #Imported in L02: .csv to Shapefile in R
 #import raster Canopy Height Model (CHM)
-chm_HARV <- raster("NEON-DS-Airborne-RemoteSensing-HARV-SJER/HARV/CHM/HARV_chmCrop.tif")
+chm_HARV <- 
+  raster("NEON-DS-Airborne-RemoteSensing-HARV-SJER/HARV/CHM/HARV_chmCrop.tif")
 
 ```
 
@@ -165,7 +169,7 @@ plot both layers together.
 
 If you completed
 [.csv to Shapefile in R]({{site.baseurl}}/R/csv-to-shapefile-in-R/)
-you have these locations a the spatial `R` Spatial object
+you have these locations as a the spatial `R` Spatial object
 `plot.locationsSp_HARV`.  Otherwise, import the locations from the
 `PlotLocations_HARV` shapefile in the downloaded data. 
 
@@ -175,7 +179,8 @@ is the extent for the cropping of the raster determined?
 ```{r challenge-code-crop-raster-points, include=TRUE, results="hide", echo=FALSE}
 
 #Created/imported in L02: .csv to Shapefile in R
-plot.locationSp_HARV <- readOGR("NEON-DS-Airborne-RemoteSensing-HARV-SJER/HARV/", "PlotLocations_HARV")
+plot.locationSp_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV/",
+                                "PlotLocations_HARV")
 
 #crop the chm 
 CHM_plots_HARVcrop <- crop(x = chm_HARV, y = plot.locationsSp_HARV)
@@ -185,7 +190,7 @@ plot(CHM_plots_HARVcrop,
 plot(plot.locationSp_HARV, add=TRUE)
 
 ```
-</div>
+
 
 #Draw an Extent
 We can also use an `extent` object as input to the `y` argument to `crop()`. 
@@ -228,7 +233,8 @@ See the documentation for the `extent()` function for more ways
 to create an `extent` object. 
 * `help.search("extent", package = "raster"))
 * More on the 
-<a href="http://www.inside-r.org/packages/cran/raster/docs/extent" target="_blank"> extent class in R</a>.
+<a href="http://www.inside-r.org/packages/cran/raster/docs/extent" target="_blank">
+extent class in `R`</a>.
 
 ##Extract Raster Value Based on Vector Layer
 Often we want to extract values from a raster layer for particular locations - 
@@ -305,6 +311,7 @@ Harvard Forest tower location.
 
 #extract the average tree height (calculated using the raster pixels)
 #located within the AOI polygon
+#use a buffer of 20 meters and mean function (fun) 
 av_tree_height_tower <- extract(x = chm_HARV, 
                                y = point_HARV, 
                                buffer=20,
