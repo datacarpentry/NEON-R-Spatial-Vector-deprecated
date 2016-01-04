@@ -50,7 +50,7 @@ your computer to complete this lesson.
 * **rgdal:** `install.packages("rgdal")`
 * **sp:** `install.packages("sp")`
 
-* <a href="http://neondataskills.org/R/Packages-In-R/" target="_blank">More on Packages in R - Adapted from Software Carpentry.</a>
+* <a href="http://neondataskills.org/R/Packages-In-R/" target="_blank"> More on Packages in R - Adapted from Software Carpentry.</a>
 
 ##Data to Download
 {% include/dataSubsets/_data_Site-Layout-Files-HARV.html %}
