@@ -78,7 +78,7 @@ the type of vector that we are working with (point, line or polygon).
     <a href="{{ site.baseurl }}/images/pnt_line_poly.png">
     <img src="{{ site.baseurl }}/images/pnt_line_poly.png"></a>
     <figcaption> Vector data can be a point, line or polygon. 
-    Image Source: National Ecological Observatory Network (NEON).  
+    Source: National Ecological Observatory Network (NEON).  
     </figcaption>
 </figure>
 
