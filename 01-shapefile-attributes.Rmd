@@ -35,39 +35,40 @@ values.
 
 <div id="objectives" markdown="1">
 
-##Goals / Objectives
+#Goals / Objectives
 After completing this activity, you will:
 
  * Be able to query shapefile attributes.
  * Be able to subset shapefiles using specific attribute values..
  * Know how to plot a shapefile, colored by unique attribute values.
  
-##Things You'll Need To Complete This Lesson
-You will need the most current version of `R` and, preferably, RStudio loaded on
-your computer to complete this lesson.
+##Things You’ll Need To Complete This Lesson
+To complete this lesson: you will need the most current version of R, and 
+preferably RStudio, loaded on your computer.
 
-##R Libraries to Install:
+###Install R Packages
 
 * **raster:** `install.packages("raster")`
 * **rgdal:** `install.packages("rgdal")`
 * **sp:** `install.packages("sp")`
 
-<a href="{{ site.baseurl }}/R/Packages-In-R/" target="_blank"> 
-More on Packages in R - Adapted from Software Carpentry.</a>
+* [More on Packages in R - Adapted from Software Carpentry.]({{site.baseurl}}R/Packages-In-R/)
 
 ##Data to Download
-{% include/dataSubsets/_data_Site-Layout-Files-HARV.html %}
+{% include/dataSubsets/_data_Site-Layout-Files.html %}
 
-**Set Working Directory:** This lessons assumes that you have set your working 
-directory to the location of the downloaded and unzipped data subset. 
-[An overview of setting the working directory in `R` can be found here.]({{site.baseurl}}/R/Set-Working-Directory "R Working Directory Lesson") 
+****
 
-**Challenge Code:** NEON Data Skills tutorials often contain challenges that
-reinforce learned skills. If available, the code for challenge solutions is
-found in a downloadable `R` script available on the footer of each lesson page.
+{% include/_greyBox-wd-rscript.html %}
 
-**Vector Lesson Series:** This lesson is a part of a lesson series on 
-[spatial vector data in `R`]({{site.baseurl}}/R/spatial-vector-lessons).
+**Vector Lesson Series:** This lesson is part of a lesson series on 
+[vector data in R ]({{ site.baseurl }}self-paced-tutorials/spatial-vector-series). It is also
+part of a larger 
+[spatio-temporal Data Carpentry Workshop ]({{ site.baseurl }}self-paced-tutorials/spatio-temporal-workshop)
+that includes working with
+[raster data in R ]({{ site.baseurl }}self-paced-tutorials/spatial-raster-series) 
+and  
+[tabular time series in R ]({{ site.baseurl }}self-paced-tutorials/tabular-time-series).
 
 </div>
 
@@ -95,14 +96,14 @@ library (raster)
 #setwd("pathToDirHere")
 
 #Import a polygon shapefile 
-aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV/",
+aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
                             "HarClip_UTMZ18")
 
 #Import a line shapefile
-lines_HARV <- readOGR( "NEON-DS-Site-Layout-Files-HARV/HARV/", "HARV_roads")
+lines_HARV <- readOGR( "NEON-DS-Site-Layout-Files/HARV/", "HARV_roads")
 
 #Import a point shapefile 
-point_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV/",
+point_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
                       "HARVtower_UTM18N")
 
 ```
