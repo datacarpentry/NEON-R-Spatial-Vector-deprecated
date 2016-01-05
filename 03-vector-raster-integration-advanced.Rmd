@@ -252,7 +252,7 @@ surrounds the tower located at the NEON Harvard Forest field site.
     <a href="http://neondataskills.org/images/spatialData/BufferSquare.png">
     <img src="http://neondataskills.org/images/spatialData/BufferSquare.png"></a>
     <figcaption> Extract raster information using a polygon boundary. 
-    Image Source: National Ecological Observatory Network (NEON).  
+    Source: National Ecological Observatory Network (NEON).  
     </figcaption>
 </figure>
 
@@ -307,7 +307,7 @@ Harvard Forest tower location.
     <a href="http://neondataskills.org/images/spatialData/BufferCircular.png">
     <img src="http://neondataskills.org/images/spatialData/BufferCircular.png"></a>
     <figcaption> Extract raster information using a buffer region. 
-    Image Source: National Ecological Observatory Network (NEON).  
+    Source: National Ecological Observatory Network (NEON).  
     </figcaption>
 </figure>
 
