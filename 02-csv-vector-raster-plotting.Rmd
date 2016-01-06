@@ -35,7 +35,7 @@ layers in the same plot.
 
 <div id="objectives" markdown="1">
 
-##Goals / Objectives
+#Goals / Objectives
 After completing this activity, you will:
 
 * Be able to import .csv files containing x,y coordinate locations into `R`.
@@ -44,33 +44,36 @@ After completing this activity, you will:
 Coordinate System (Latitude, Longitude) to a projected coordinate system (UTM).
 * Be able to plot raster and vector data in the same plot to create a map.
 
-##Things You'll Need To Complete This Lesson
-You will need the most current version of `R` and, preferably, RStudio loaded on
-your computer to complete this lesson.
+##Things You’ll Need To Complete This Lesson
+To complete this lesson: you will need the most current version of R, and 
+preferably RStudio, loaded on your computer.
 
-##R Libraries to Install:
+###Install R Packages
 
 * **raster:** `install.packages("raster")`
 * **rgdal:** `install.packages("rgdal")`
+* **sp:** `install.packages("sp")`
 
-<a href="{{ site.baseurl }}/R/Packages-In-R/" target="_blank"> 
-More on Packages in R - Adapted from Software Carpentry.</a>
+* [More on Packages in R - Adapted from Software Carpentry.]({{site.baseurl}}R/Packages-In-R/)
 
 ##Data to Download
 {% include/dataSubsets/_data_Site-Layout-Files.html %}
 
 {% include/dataSubsets/_data_Airborne-Remote-Sensing.html %}
 
-**Set Working Directory:** This lessons assumes that you have set your working 
-directory to the location of the downloaded and unzipped data subset. 
-[An overview of setting the working directory in `R` can be found here.]({{site.baseurl}}/R/Set-Working-Directory "R Working Directory Lesson") 
+****
 
-**Challenge Code:** NEON Data Skills tutorials often contain challenges that
-reinforce learned skills. If available, the code for challenge solutions is
-found in a downloadable `R` script available on the footer of each lesson page.
+{% include/_greyBox-wd-rscript.html %}
 
-**Vector Lesson Series:** This lesson is a part of a lesson series on 
-[spatial vector data in `R`]({{site.baseurl}}/R/spatial-vector-lessons).
+**Vector Lesson Series:** This lesson is part of a lesson series on 
+[vector data in R ]({{ site.baseurl }}self-paced-tutorials/spatial-vector-series). It is also
+part of a larger 
+[spatio-temporal Data Carpentry Workshop ]({{ site.baseurl }}self-paced-tutorials/spatio-temporal-workshop)
+that includes working with
+[raster data in R ]({{ site.baseurl }}self-paced-tutorials/spatial-raster-series) 
+and  
+[tabular time series in R ]({{ site.baseurl }}self-paced-tutorials/tabular-time-series).
+
 </div>
 
 #Create a Map
@@ -356,7 +359,7 @@ location (shapefile: "newPlot_latLon").
 
 ```{r project-vectors }
 #note: readOGR is preferred as it maintains prj info
-newPlots_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV",
+newPlots_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV",
                          "newPlots_latLon")
 
 #add these points to our existing plot  "Map of Study Area"
@@ -459,8 +462,7 @@ layer for a map of our study locations.
 
 ```{r Plot vector-raster overlay }
 
-chm_HARV <- 
-  raster("NEON-DS-Airborne-RemoteSensing/HARV/CHM/HARV_chmCrop.tif")
+chm_HARV <- raster("NEON-DS-Airborne-RemoteSensing/HARV/CHM/HARV_chmCrop.tif")
 
 plot(chm_HARV,
      main="Map of Study Plots\n w/ Canopy Height Model\nNEON Harvard Forest")
@@ -476,7 +478,7 @@ plot(point_HARV, pch=17, add=TRUE)
 <div id="challenge" markdown="1">
 ##Challenge: Useful Study Area Maps
 Using a Digital Terrain Model
-("NEON-DS-Airborne-RemoteSensing-HARV-SJER/HARV/DTM/HARV_dtmCrop.tif") 
+("NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop.tif") 
 create a usable map to the study area.  Include the following: 
 
 1. Useful title, figure legends, and axes labels. 
@@ -494,6 +496,7 @@ lessons.
 </div>
 
 ```{r challenge-code-plotting-pretty-map,  include=TRUE, results="hide", echo=FALSE}
+
 #load DTM
 DTM_HARV <- raster("NEON-DS-Airborne-RemoteSensing/HARV/DTM/HARV_dtmCrop.tif")
 
