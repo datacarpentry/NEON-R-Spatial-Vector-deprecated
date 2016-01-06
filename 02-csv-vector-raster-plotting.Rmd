@@ -8,8 +8,8 @@ dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 packagesLibraries: [rgdal, raster]
 category: 
-mainTag: spatial-vector-series
-tags: [vector-data]
+mainTag: vector-data-workshop
+tags: [vector-data, vector-data-workshop]
 description: "This lesson walks through how to convert a .csv file that contains
 coordinate information into a spatial object in R."
 code1: 02-csv-vector-raster-plotting.R
@@ -57,9 +57,9 @@ your computer to complete this lesson.
 More on Packages in R - Adapted from Software Carpentry.</a>
 
 ##Data to Download
-{% include/dataSubsets/_data_Site-Layout-Files-HARV.html %}
+{% include/dataSubsets/_data_Site-Layout-Files.html %}
 
-{% include/dataSubsets/_data_Airborne-RemoteSensing-HARV-SJER.html %}
+{% include/dataSubsets/_data_Airborne-Remote-Sensing.html %}
 
 **Set Working Directory:** This lessons assumes that you have set your working 
 directory to the location of the downloaded and unzipped data subset. 
@@ -111,7 +111,7 @@ library (raster)   #for metadata/attributes- vectors or rasters
 
 #Read the .csv file
 plot.locations_HARV <- 
-  read.csv("NEON-DS-Site-Layout-Files-HARV/HARV/HARV_PlotLocations.csv")
+  read.csv("NEON-DS-Site-Layout-Files/HARV/HARV_PlotLocations.csv")
 
 #look at the data structure
 str(plot.locations_HARV)
@@ -251,14 +251,14 @@ lesson you already have these `R` objects).
 ```{r read-shp }
 #note: readOGR is preferred as it maintains the projection infomation
 #Import Field site boundary
-aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV",
+aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV",
                             "HarClip_UTMZ18")
 
 #Import a roads/trails
-lines_HARV <- readOGR( "NEON-DS-Site-Layout-Files-HARV/HARV/", "HARV_roads")
+lines_HARV <- readOGR( "NEON-DS-Site-Layout-Files/HARV/", "HARV_roads")
 
 #Import a tower point
-point_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV/",
+point_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
                       "HARVtower_UTM18N")
 
 ```
@@ -460,7 +460,7 @@ layer for a map of our study locations.
 ```{r Plot vector-raster overlay }
 
 chm_HARV <- 
-  raster("NEON-DS-Airborne-RemoteSensing-HARV-SJER/HARV/CHM/HARV_chmCrop.tif")
+  raster("NEON-DS-Airborne-RemoteSensing/HARV/CHM/HARV_chmCrop.tif")
 
 plot(chm_HARV,
      main="Map of Study Plots\n w/ Canopy Height Model\nNEON Harvard Forest")
@@ -495,7 +495,7 @@ lessons.
 
 ```{r challenge-code-plotting-pretty-map,  include=TRUE, results="hide", echo=FALSE}
 #load DTM
-DTM_HARV <- raster("NEON-DS-Airborne-RemoteSensing-HARV-SJER/HARV/DTM/HARV_dtmCrop.tif")
+DTM_HARV <- raster("NEON-DS-Airborne-RemoteSensing/HARV/DTM/HARV_dtmCrop.tif")
 
 #create basic plot
 plot(DTM_HARV,

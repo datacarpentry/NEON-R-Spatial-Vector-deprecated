@@ -8,8 +8,8 @@ dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 packagesLibraries: [rgdal, raster]
 category: 
-mainTag: spatial-vector-series
-tags: [vector-data]
+mainTag: vector-data-workshop
+tags: [vector-data, vector-data-workshop]
 description: "This lesson provides an overview of how to locate and query
 shapefile attributes as well as subset shapefiles by specific attribute values
 in R."
@@ -56,7 +56,7 @@ your computer to complete this lesson.
 More on Packages in R - Adapted from Software Carpentry.</a>
 
 ##Data to Download
-{% include/dataSubsets/_data_Site-Layout-Files-HARV.html %}
+{% include/dataSubsets/_data_Site-Layout-Files.html %}
 
 **Set Working Directory:** This lessons assumes that you have set your working 
 directory to the location of the downloaded and unzipped data subset. 
@@ -95,14 +95,14 @@ library (raster)
 #setwd("pathToDirHere")
 
 #Import a polygon shapefile 
-aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV/",
+aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
                             "HarClip_UTMZ18")
 
 #Import a line shapefile
-lines_HARV <- readOGR( "NEON-DS-Site-Layout-Files-HARV/HARV/", "HARV_roads")
+lines_HARV <- readOGR( "NEON-DS-Site-Layout-Files/HARV/", "HARV_roads")
 
 #Import a point shapefile 
-point_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV/",
+point_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
                       "HARVtower_UTM18N")
 
 ```

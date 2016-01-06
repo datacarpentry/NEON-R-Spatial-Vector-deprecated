@@ -9,8 +9,8 @@ dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 packagesLibraries: [rgdal, raster]
 category: 
-mainTag: spatial-vector-series
-tags: [vector-data]
+mainTag: vector-data-workshop
+tags: [vector-data, vector-data-workshop]
 description: "This lesson explains how to modify (crop) a raster extent based on
 the extent of a vector shapefile. The skills to be able to extract values from a
 raster that correspond to the geometry of a vector overlay are also taught."
@@ -55,9 +55,9 @@ your computer to complete this lesson.
 More on Packages in R - Adapted from Software Carpentry.</a>
 
 ##Data to Download
-{% include/dataSubsets/_data_Site-Layout-Files-HARV.html %}
+{% include/dataSubsets/_data_Site-Layout-Files.html %}
 
-{% include/dataSubsets/_data_Airborne-RemoteSensing-HARV-SJER.html %}
+{% include/dataSubsets/_data_Airborne-Remote-Sensing.html %}
 
 **Set Working Directory:** This lessons assumes that you have set your working 
 directory to the location of the downloaded and unzipped data subset. 
@@ -84,7 +84,7 @@ the tower (black triangle).
 
 ```{r Plot vector-raster overlay, echo=FALSE}
 
-chm_HARV <- raster("NEON-DS-Airborne-RemoteSensing-HARV-SJER/HARV/CHM/HARV_chmCrop.tif")
+chm_HARV <- raster("NEON-DS-Airborne-RemoteSensing/HARV/CHM/HARV_chmCrop.tif")
 
 plot(chm_HARV,
      main="Map of Study Plots\n w/ Canopy Height Model\nNEON Harvard Forest")
@@ -126,19 +126,19 @@ library (raster)   #for metadata/attributes- vectors or rasters
 
 #Imported in L00: Vector Data in R - Open & Plot Data
 # shapefile 
-aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV/",
+aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
                             "HarClip_UTMZ18")
 #Import a line shapefile
-lines_HARV <- readOGR( "NEON-DS-Site-Layout-Files-HARV/HARV/",
+lines_HARV <- readOGR( "NEON-DS-Site-Layout-Files/HARV/",
                        "HARV_roads")
 #Import a point shapefile 
-point_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV/",
+point_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
                       "HARVtower_UTM18N")
 
 #Imported in L02: .csv to Shapefile in R
 #import raster Canopy Height Model (CHM)
 chm_HARV <- 
-  raster("NEON-DS-Airborne-RemoteSensing-HARV-SJER/HARV/CHM/HARV_chmCrop.tif")
+  raster("NEON-DS-Airborne-RemoteSensing/HARV/CHM/HARV_chmCrop.tif")
 
 ```
 
@@ -179,7 +179,7 @@ is the extent for the cropping of the raster determined?
 ```{r challenge-code-crop-raster-points, include=TRUE, results="hide", echo=FALSE}
 
 #Created/imported in L02: .csv to Shapefile in R
-plot.locationSp_HARV <- readOGR("NEON-DS-Site-Layout-Files-HARV/HARV/",
+plot.locationSp_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
                                 "PlotLocations_HARV")
 
 #crop the chm 
