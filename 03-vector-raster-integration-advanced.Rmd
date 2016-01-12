@@ -9,8 +9,8 @@ dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 packagesLibraries: [rgdal, raster, ggplot2]
 category: 
-mainTag: spatial-vector-series
-tags: [vector-data]
+mainTag: vector-data-workshop
+tags: [vector-data, vector-data-workshop]
 description: "This lesson explains how to modify (crop) a raster extent based on
 the extent of a vector shapefile. The skills to be able to extract values from a
 raster that correspond to the geometry of a vector overlay are also taught."
@@ -54,9 +54,9 @@ preferably RStudio, loaded on your computer.
 
 * [More on Packages in R - Adapted from Software Carpentry.]({{site.baseurl}}R/Packages-In-R/)
 
-###Data to Download
-{% include/dataSubsets/_data_Site-Layout-Files.html %}
 
+###Download Data
+{% include/dataSubsets/_data_Site-Layout-Files.html %}
 {% include/dataSubsets/_data_Airborne-Remote-Sensing.html %}
 
 ****
@@ -88,7 +88,7 @@ the tower (black triangle).
 library(rgdal)  #for vector work; sp package should always load with rgdal. 
 library (raster)
 
-chm_HARV <- raster("NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif")
+chm_HARV <- raster("NEON-DS-Airborne-RemoteSensing/HARV/CHM/HARV_chmCrop.tif")
 
 plot(chm_HARV,
      main="Map of Study Plots\n w/ Canopy Height Model\nNEON Harvard Forest")

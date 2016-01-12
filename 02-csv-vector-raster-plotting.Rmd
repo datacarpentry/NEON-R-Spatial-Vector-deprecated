@@ -8,8 +8,8 @@ dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 packagesLibraries: [rgdal, raster]
 category: 
-mainTag: spatial-vector-series
-tags: [vector-data]
+mainTag: vector-data-workshop
+tags: [vector-data, vector-data-workshop]
 description: "This lesson walks through how to convert a .csv file that contains
 coordinate information into a spatial object in R."
 code1: 02-csv-vector-raster-plotting.R
@@ -462,8 +462,7 @@ layer for a map of our study locations.
 
 ```{r Plot vector-raster overlay }
 
-chm_HARV <- 
-  raster("NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif")
+chm_HARV <- raster("NEON-DS-Airborne-RemoteSensing/HARV/CHM/HARV_chmCrop.tif")
 
 plot(chm_HARV,
      main="Map of Study Plots\n w/ Canopy Height Model\nNEON Harvard Forest")
@@ -497,8 +496,9 @@ lessons.
 </div>
 
 ```{r challenge-code-plotting-pretty-map,  include=TRUE, results="hide", echo=FALSE}
+
 #load DTM
-DTM_HARV <- raster("NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop.tif")
+DTM_HARV <- raster("NEON-DS-Airborne-RemoteSensing/HARV/DTM/HARV_dtmCrop.tif")
 
 #create basic plot
 plot(DTM_HARV,
