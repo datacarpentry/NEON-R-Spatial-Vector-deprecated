@@ -157,7 +157,7 @@ you may already have these `R` spatial objects.
     chm_HARV <- 
       raster("NEON_RemoteSensing/HARV/CHM/HARV_chmCrop.tif")
 
-#Crop a Raster Using Vector Extent
+##Crop a Raster Using Vector Extent
 We can use the `crop` function to crop a raster to the extent of another spatial 
 object. To do this, we need to specify the raster to be cropped and the spatial
 object that will be used to crop the raster. `R` will use the `extent` of the spatial

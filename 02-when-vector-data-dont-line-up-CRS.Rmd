@@ -348,7 +348,7 @@ into the `R` console.
 ***
 
 
-#Reproject Vector Data
+##Reproject Vector Data
 
 Now we know our data are in different `CRS`. To address this, we have to modify or
 `reproject` the data so they are all in the *same* `CRS`. We can use `spTransform`

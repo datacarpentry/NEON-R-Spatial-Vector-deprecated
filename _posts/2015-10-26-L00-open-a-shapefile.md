@@ -178,7 +178,7 @@ OpenGIS Simple Features Reference Implementation.
 Learn more about OGR.</a> 
 {: .notice}  
 
-#Shapefile Metadata & Attributes
+##Shapefile Metadata & Attributes
 
 When we import the `HarClip_UTMZ18` shapefile layer into `R` (as our
 `aoiBoundary_HARV` object), the `readOGR()` function automatically stores
@@ -266,6 +266,18 @@ information that describe objects stored within a shapefile. Thus, our road, may
 have a name, length, number of lanes, speed limit, type of
 road and other attributes stored with it. 
 
+<figure>
+    <a href="{{ site.baseurl }}/images/spatialVector/Attribute_Table.png">
+    <img src="{{ site.baseurl }}/images/spatialVector/Attribute_Table.png"></a>
+    <figcaption>Each spatial feature in an R spatial object has the same set of 
+    associated ATTRIBUTES that describe or characterize the feature. Attribute data
+    are stored in a separate *.dbf file. Attribute data can be compared to a spreadsheet.
+    Each row in a spreadsheet represents one feature in the spatial object.
+    Image Source: National Ecological Observatory Network (NEON) 
+    </figcaption>
+</figure>
+
+
 We view the attributes of a `SpatialPolygonsDataFrame` using: 
 `aoiBoundary_HARV@data`. 
 
@@ -338,7 +350,7 @@ Answer the following questions:
 
 
 
-#Plot Multiple Shapefiles
+##Plot Multiple Shapefiles
 The `plot()` function can be used for basic plotting of spatial objects. 
 We use the `add = TRUE` argument to overlay shapefiles on top of each other, as
 we would when creating a map in a typical GIS application like QGIS.

@@ -74,7 +74,7 @@ and
 
 </div>
 
-#Shapefile Metadata & Attributes
+##Shapefile Metadata & Attributes
 When we import a shapefile into `R`, the `readOGR()` function automatically
 stores metadata and attributes associated with the file.
 
@@ -117,7 +117,7 @@ point_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
 
 ```
 
-#Query Shapefile Metadata 
+##Query Shapefile Metadata 
 Remember, as covered in Lesson 00, we can view metadata associated with 
 an `R` using:
 

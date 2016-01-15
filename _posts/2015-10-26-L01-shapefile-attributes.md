@@ -74,7 +74,7 @@ and
 
 </div>
 
-#Shapefile Metadata & Attributes
+##Shapefile Metadata & Attributes
 When we import a shapefile into `R`, the `readOGR()` function automatically
 stores metadata and attributes associated with the file.
 
@@ -130,7 +130,7 @@ lesson, you can skip this code chunk.
     ## with 1 features
     ## It has 14 fields
 
-#Query Shapefile Metadata 
+##Query Shapefile Metadata 
 Remember, as covered in Lesson 00, we can view metadata associated with 
 an `R` using:
 
