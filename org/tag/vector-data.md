@@ -1,11 +1,12 @@
 ---
 layout: post_by_tag
-title: 'NEON Vector Data in R Lessons'
+title: 'Tutorials About Vector Data'
 tag: vector-data
-permalink: vector-data-R/
+permalink: vector-data/
 image:
-  feature: NEONCarpentryHeader_2.png
-  credit: National Ecological Observatory Network (NEON)
-  creditlink: http://www.neoninc.org
+  feature: coding_R.jpg
+  credit:
+  creditlink: 
 ---
 
+Tutorials that cover vector data are listed below.

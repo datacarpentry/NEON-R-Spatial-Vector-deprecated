@@ -1,14 +1,42 @@
-- slug: spatial-vector-series
-  name: Spatial Vector Lesson Series
-  color: '#1abc9c'
+- slug: data-viz
+  name: Data Visualization 
 
+- slug: lidar
+  name: LiDAR
+  
+- slug: spatial-data-gis
+  name: Spatial Data & GIS
+
+- slug: HDF5
+  name: Hierarchical Data Formats (HDF5)
+  
+- slug: hyperspectral-remote-sensing
+  name: Hyperspectral Remote Sensing  
+  
+- slug: R
+  name: R programming
+
+- slug: raster
+  name: Raster Data  
+      
+- slug: raster-ts-wrksp
+  name: Raster Time Series Workshop
+  
+- slug: remote-sensing
+  name: Remote Sensing  
+
+- slug: time-series
+  name: Time Series
+  
+- slug: metadata-eml
+  name: Metadata (EML)
+  
+- slug: informatics
+  name: Informatics       
+  
+- slug: Data-Workshops
+  name: Data Workshops  
+  
 - slug: vector-data
-  name: Vector Data
-  color: '#1abc9c'
-
-- slug: vector-data-workshop
-  name: Vector Data Workshop
-  color: '#1abc9c'
-  
-  
+  name: Vector Data  
   
