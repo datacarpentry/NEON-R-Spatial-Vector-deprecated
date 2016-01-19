@@ -332,7 +332,7 @@ Next, let's visualize the data in our `R spatialpolygonsdataframe` object using
     plot(aoiBoundary_HARV, col="cyan1", border="black", lwd=3,
          main="AOI Boundary Plot")
 
-![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/plot-shapefile-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/Plot-shapefile-1.png) 
 
 <div id="challenge" markdown="1">
 ##Challenge: Import Line and Point Shapefiles
