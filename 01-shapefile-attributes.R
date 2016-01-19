@@ -261,7 +261,7 @@ palette(topo.colors((2)))
 palette()
 
 #plot the locations 
-plot_locations<-plot(plotLocations,
+plot(plotLocations,
      col=plotLocations$soilTypeOr, pch=18,
      main="NEON Field Sites by Soil Type")
 
