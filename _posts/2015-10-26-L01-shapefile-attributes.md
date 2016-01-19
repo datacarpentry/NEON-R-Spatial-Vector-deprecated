@@ -1,18 +1,20 @@
 ---
 layout: post
-title: "Lesson 01: Explore Attributes & Plot Shapefile Objects by Attributes in R"
-date:   2015-10-25
+title: "Lesson 01: Explore Shapefile Attributes & Plot Shapefile Objects by Attribute Value in R"
+date:   2015-10-26
 authors: [Joseph Stachelek, Leah Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: 2016-01-07
+lastModified: 2016-01-15
 packagesLibraries: [rgdal, raster]
 category: 
 mainTag: vector-data-workshop
-tags: [vector-data, vector-data-workshop]
+tags: [vector-data, vector-data-workshop, R, spatial-data-gis]
+workshopSeries: [vector-data-series]
 description: "This lesson provides an overview of how to locate and query
 shapefile attributes as well as subset shapefiles by specific attribute values
-in R."
+in R. It also covers plotting multiple shapefiles by attribute and building a 
+custom plot legend. "
 code1: 01-shapefile-attributes.R
 image:
   feature: NEONCarpentryHeader_2.png
@@ -72,7 +74,7 @@ and
 
 </div>
 
-#Shapefile Metadata & Attributes
+##Shapefile Metadata & Attributes
 When we import a shapefile into `R`, the `readOGR()` function automatically
 stores metadata and attributes associated with the file.
 
@@ -128,7 +130,7 @@ lesson, you can skip this code chunk.
     ## with 1 features
     ## It has 14 fields
 
-#Query Shapefile Metadata 
+##Query Shapefile Metadata 
 Remember, as covered in Lesson 00, we can view metadata associated with 
 an `R` using:
 
@@ -463,7 +465,7 @@ modify this list of colors to create a prettier looking plot!
     #view default colors
     palette()
 
-    ## [1] "magenta" "gray"    "gray"
+    ## [1] "#4C00FF" "#00E5FF"
 
     #manually set the colors for the plot!
     palette(c("springgreen", "blue", "magenta", "red") )
@@ -611,6 +613,23 @@ to instead use a line.
 <div id="challenge" markdown="1">
 ##Challenge
 
+1. Create a map of the State boundaries in the United States - using the data located
+in your downloaded data folder: `NEON-DS-Site-Layout-Files/US-Boundary-Layers\US-State-Boundaries-Census-2014`. Each state should 
+be a different color / shade of color. HINT: you can use 
+`palette(terrain.colors((50))` to create a palette of 50 colors using the terrain.colors
+R palette. 
+
+2. Using the `NEON-DS-Site-Layout-Files/HARV/PlotLocations_HARV.shp` shapefile, 
+create a map of field site locations, with each point colored
+by the soil type (`soilTypeOr`). How many different soil types are there at this
+particular field site? Experiment with using one of the other 
+<a href="https://stat.ethz.ch/R-manual/R-devel/library/grDevices/html/palettes.html" target="_blank">R Color Palettes</a>.
+
+
 </div>
 
 
+    ## Warning in readOGR("NEON-DS-Site-Layout-Files/US-Boundary-Layers", "US-
+    ## State-Boundaries-Census-2014"): Z-dimension discarded
+
+![ ]({{ site.baseurl }}/images/rfigs/01-shapefile-attributes/challenge-code-plot-other-1.png) ![ ]({{ site.baseurl }}/images/rfigs/01-shapefile-attributes/challenge-code-plot-other-2.png) 

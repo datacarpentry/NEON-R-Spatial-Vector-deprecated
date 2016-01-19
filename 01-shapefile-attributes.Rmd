@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Lesson 01: Shapefile Metadata & Attributes in R"
-date:   2015-10-25
+title: "Lesson 01: Explore Shapefile Attributes & Plot Shapefile Objects by Attribute Value in R"
+date:   2015-10-26
 authors: [Joseph Stachelek, Leah Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
@@ -9,10 +9,12 @@ lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 packagesLibraries: [rgdal, raster]
 category: 
 mainTag: vector-data-workshop
-tags: [vector-data, vector-data-workshop]
+tags: [vector-data, vector-data-workshop, R, spatial-data-gis]
+workshopSeries: [vector-data-series]
 description: "This lesson provides an overview of how to locate and query
 shapefile attributes as well as subset shapefiles by specific attribute values
-in R."
+in R. It also covers plotting multiple shapefiles by attribute and building a 
+custom plot legend. "
 code1: 01-shapefile-attributes.R
 image:
   feature: NEONCarpentryHeader_2.png
@@ -39,7 +41,7 @@ values.
 After completing this activity, you will:
 
  * Be able to query shapefile attributes.
- * Be able to subset shapefiles using specific attribute values..
+ * Be able to subset shapefiles using specific attribute values.
  * Know how to plot a shapefile, colored by unique attribute values.
  
 ##Things You’ll Need To Complete This Lesson
@@ -72,7 +74,7 @@ and
 
 </div>
 
-#Shapefile Metadata & Attributes
+##Shapefile Metadata & Attributes
 When we import a shapefile into `R`, the `readOGR()` function automatically
 stores metadata and attributes associated with the file.
 
@@ -81,11 +83,11 @@ To work with vector data in `R`, we can use the `rgdal` library. The `raster`
 package also allows us to explore metadata using similar commands for both
 rasters and vectors. 
 
-We will first, importing three shapefiles. The first is our `AOI` or area of interest
+We will first, import three shapefiles. The first is our `AOI` or area of interest
 boundary polygon that we worked with in 
 [Lesson 00 - Vector Data in R - Open and Plot Shapefiles]({{site.baseurl}}R/open-shapefiles-in-R/ ). 
 The second is a shapefile containing
-the location of roads within the field site. Finally we will inport a file containing
+the location of roads within the field site. Finally we will import a file containing
 the Fisher tower location.
 
 If you completed the
@@ -115,11 +117,18 @@ point_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
 
 ```
 
-#Query Shapefile Metadata 
-Shapefile metadata, as imported into an `R` spatial object can be accessed using 
-the `class()`, feature count (`length()`), object `extent()`, and object 
-coordinate reference system (`CRS`) methods. Let's explore the metadata for our
-`point_HARV` object. 
+##Query Shapefile Metadata 
+Remember, as covered in Lesson 00, we can view metadata associated with 
+an `R` using:
+
+* `class()` - Determine the type of vector data stored in the object
+* `length()` - How many features are in this spatial object?
+* object `extent()` - the spatial extent (geographic area covered by) features 
+in the object
+* coordinate reference system (`CRS`) - The spatial projection that the data are
+in. 
+
+Let's explore the metadata for our `point_HARV` object. 
 
 ```{r view-shapefile-metadata }
 #view class
@@ -135,50 +144,12 @@ crs(point_HARV)
 #view extent- note - this only works with the raster package loaded
 extent(point_HARV)
 
-```
-
-When we type in the full object name, we see the same three types of metadata
-with some additional attribute information.  
-
-```{r view-shapefile-metadata2 }
+#view metadata summary
 point_HARV
 ```
 
-<div id="challenge" markdown="1">
 
-##Challenge: Metadata for Different Spatial Classes
-
-1. Determine the `extent`, `CRS`, number of objects and `class` for the `lines_HARV` and 
-`aoiBoundary_HARV` objects.
-2. Is the `CRS` the same for `lines_HARV`, `aoiBoundary_HARV`, & `point_HARV`?
-3. What are the NAMES of the attributes associated with the `point_HARV` object?
-</div>
-
-```{r challenge-code-metadata, results="hide", echo=FALSE}
-#view class
-class(lines_HARV)
-class(aoiBoundary_HARV)
-
-#view features count
-length(lines_HARV)
-length(aoiBoundary_HARV)
-
-#view crs
-crs(lines_HARV)
-crs(aoiBoundary_HARV)
-
-#view extent
-extent(lines_HARV)
-extent(aoiBoundary_HARV)
-
-# All three objects have the same CRS and the extents overlap or at least are
-# close so they should be able to appear on the same map. 
-
-#Find attribute names
-point_HARV@data
-```
-
-#Query Shapefile Attributes
+##About Shapefile Attributes
 Shapefiles often contain an associated database or spreadsheet of values called
 `attributes` that describe the vector features in the shapefile. You can think
 of this like a spreadsheet with rows and columns. Each column in the spreadsheet
@@ -195,11 +166,12 @@ the `data` slot with `@data`. We can use the base `R` `length` function to count
 the number of attributes associated with a spatial object too.
 
 ```{r shapefile-attributes}
-#just view the attributes & attribute values of the data
-lines_HARV@data
+#just view the attributes & first 6attribute values of the data
+head(lines_HARV@data)
 
 #how many attributes are in our data?
 length(lines_HARV@data)
+
 ```
 
 
@@ -213,16 +185,13 @@ Let's give it a try.
 #view just the attribute names for the lines spatial object
 names(lines_HARV@data)
 
-#view just the first 6 attribute values for each attribute in the the lines 
-#spatial object
-head(lines_HARV@data)
-
 ```
 
 
 <div id="challenge" markdown="1">
 ##Challenge: Attributes for Different Spatial Classes
-Explore the attributes associated with the `point_HARV` and `aoiBoundary_HARV` spatial objects. 
+Explore the attributes associated with the `point_HARV` and `aoiBoundary_HARV` 
+spatial objects. 
 
 1. How many attributes do each have?
 2. Who owns the site in the `point_HARV` data object?
@@ -243,8 +212,8 @@ head(point_HARV@data)  #Harvard University, LTER
 point_HARV@data  # C Country
 ```
 
-#Explore Values within One Attribute
-We can also explore individual values stored within a particular attribute.
+##Explore Values within One Attribute
+We can explore individual values stored within a particular attribute.
 Again, comparing attributes to a spreadsheet or a `data.frame`, this is similar
 to exploring values in a column. We can do this using the `$` and the name of
 the attribute. 
@@ -257,7 +226,7 @@ lines_HARV$TYPE
 
 
 
-##Subset Shapefiles
+###Subset Shapefiles
 Using the `$` symbol, we can access the values associated with a 
 particular `attribute` in a shapefile. We can use this syntax to select 
 a subset of features from a spatial object in `R`. 
@@ -279,11 +248,12 @@ length(footpath_HARV)
 
 #plot just footpaths
 plot(footpath_HARV,
+     lwd=6,
      main="Footpaths at NEON Harvard Forest Field Site")
 ```
 
 Our subsetting operation reduces the `features` count from 13 to 2. This means
-that only two lines have the attribute "TYPE=footpath"
+that only two lines have the attribute "TYPE=footpath".
 
 ##Plot Lines by Attribute Value
 
@@ -294,7 +264,7 @@ you can group all lines of `TYPE=footpath`. However in `R`, a factor
 can also have an ORDER. 
 
 If we convert the `lines_HARV$TYPE` column to a factor using `as.factor()`, then
-it will be much easier to plot! Let's give it a go!
+it will be much easier to plot features by attribute value.
 
 
 ```{r convert-to-factor }
@@ -316,17 +286,43 @@ summary(lines_HARV$TYPE)
 
 #plot the lines data, apply a diff color to each category
 plot(lines_HARV, col=lines_HARV$TYPE,
+     lwd=3,
      main="Roads at the NEON Harvard Forest Field Site")
 ```
 
-Great - We now have a plot of roads at Harvard Forest by `TYPE` which is an `R`
-`factor. We can add a legend to our plot too. When we add a legend, we can use
+
+###Adjust Line Width
+We can adjust the width of our plot lines too using `lwd`. We can set all lines
+to be thicker or thinner using `lwd=`. Or given we have a factor with 4 levels, 
+we can provide an vector of numbers, each of which represents the thickness of
+one of our four levels or categories as follows:
+
+
+     
+```{r adjust-line-width}
+#make all lines thicker
+plot(lines_HARV, col=lines_HARV$TYPE,
+     main="Roads at the NEON Harvard Forest Field Site",
+     lwd=6)
+
+levels(lines_HARV$TYPE)
+#adjust width of each level
+#in this case, boardwalk (the first level) is the widest.
+plot(lines_HARV, col=lines_HARV$TYPE,
+     main="Roads at the NEON Harvard Forest Field Site \n Boardwalk Line Width Wider",
+     lwd=c(10,2,3,4))
+
+```     
+
+##Add Plot Legend
+
+We can add a legend to our plot too. When we add a legend, we can use
 the following elements to specify labels and colors:
 
 * `levels(lines_HARV$TYPE)` - Label the legend elements using the categories of 
 `levels` in our `TYPE` attribute (boardwalk, footpath, etc).
-* we can use `fill=palette()` to color the boxes in our legend. `palette()` is the 
-default set of colors that `R` applies to all plots. 
+* `fill=palette()` - apply unique colors to the boxes in our legend. 
+`palette()` is the default set of colors that `R` applies to all plots. 
 * We can specify the **location** of our legend too. Let's use `bottomright` for 
 this plot. We could also use `top`, `topright`, etc.
 
@@ -380,7 +376,43 @@ your palette too. For example `palette(rainbow(6))`, `palette(terrain.colors(6))
 You can reset the palette colors using `palette("default")` if need be!
 {: .notice} 
 
-#Plot Multiple Vector Layers
+<div id="challenge" markdown="1">
+##Challenge
+
+Create a plot that emphasizes only roads where Bicycles and Horses are Allowed. 
+NOTE: this attribute information is located in the `lines_HARV$BicyclesHo` attribute.
+Be sure to add a title and legend to your map! HINT: You might consider a color
+palette that has all bike-friendly roads displayed in a bright color.  
+All other lines might be grey.
+
+</div>
+
+```{r bicycle-map, echo=FALSE }
+#view levels 
+levels(lines_HARV$BicyclesHo)
+
+#convert to factor if necessary
+lines_HARV$BicyclesHo <- as.factor(lines_HARV$BicyclesHo)
+levels(lines_HARV$BicyclesHo)
+#remove NA values
+lines_removeNA <- lines_HARV[na.omit(lines_HARV$BicyclesHo),]
+#set colors so only the allowed roads are magenta
+palette(c("magenta","grey","grey"))
+palette()
+#plot using new colors
+plot(lines_HARV, col=lines_HARV$BicyclesHo,
+     lwd=4,
+     main="Roads Where Bikes and Horses Are allowed  \n NEON Harvard Forest Field Site")
+#add a legend to our map
+legend("bottomright", 
+       levels(lines_HARV$BicyclesHo), 
+       fill=palette(), 
+       bty="n", cex=.8)
+
+```
+
+
+##Plot Multiple Vector Layers
 Now, let's create a plot that combines our tower location (`point_HARV`), 
 site boundary (`aoiBoundary_HARV`) and roads (`lines_HARV`) spatial objects. We
 will need to BUILD a custom legend as well.
@@ -483,9 +515,57 @@ legend("bottomright",
 <div id="challenge" markdown="1">
 ##Challenge
 
+1. Create a map of the State boundaries in the United States - using the data located
+in your downloaded data folder: `NEON-DS-Site-Layout-Files/US-Boundary-Layers\US-State-Boundaries-Census-2014`. Each state should 
+be a different color / shade of color. HINT: you can use 
+`palette(terrain.colors((50))` to create a palette of 50 colors using the terrain.colors
+R palette. 
+
+2. Using the `NEON-DS-Site-Layout-Files/HARV/PlotLocations_HARV.shp` shapefile, 
+create a map of field site locations, with each point colored
+by the soil type (`soilTypeOr`). How many different soil types are there at this
+particular field site? Experiment with using one of the other 
+<a href="https://stat.ethz.ch/R-manual/R-devel/library/grDevices/html/palettes.html" target="_blank">R Color Palettes</a>.
+
+
 </div>
 
 ``` {r challenge-code-plot-other, results="hide", echo=FALSE}
 
+#Read the .csv file
+State.Boundary.US <- readOGR("NEON-DS-Site-Layout-Files/US-Boundary-Layers",
+          "US-State-Boundaries-Census-2014")
+
+palette(terrain.colors((50)))
+palette()
+
+plot(State.Boundary.US,
+     col=State.Boundary.US$NAME,
+     main="Roads at the NEON Harvard Forest Field Site \n 50 Colors")
+
+### part 2
+#open plot locations
+
+plotLocations <- readOGR("NEON-DS-Site-Layout-Files/HARV",
+          "PlotLocations_HARV")
+
+#how many unique soils?
+unique(plotLocations$soilTypeOr)
+
+#create new color palette
+palette(topo.colors((2)))
+palette()
+
+
+plot(plotLocations,
+     col=plotLocations$soilTypeOr, pch=18,
+     main="NEON Field Sites by Soil Type")
+#create legend 
+legend("bottomright", 
+       legend=c("Intceptisols","Histosols"),
+       pch=18, 
+       col=palette(),
+       bty="n", 
+       cex=1)
 
 ```

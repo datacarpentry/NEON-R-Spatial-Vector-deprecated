@@ -2,15 +2,16 @@
 layout: post
 title: "Lesson 00: Open and Plot Shapefiles in R - Getting Started with Point,
 Line and Polygon Vector Data"
-date:   2015-10-26
+date:   2015-10-27
 authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: 2016-01-07
+lastModified: 2016-01-15
 packagesLibraries: [rgdal, raster]
-category: 
+category: [self-paced-tutorial]
 mainTag: vector-data-workshop
-tags: [vector-data, vector-data-workshop]
+tags: [vector-data, R, spatial-data-gis]
+workshopSeries: [vector-data-series]
 description: "This spatial data lesson explains the how to open and plot 
 Shapefiles containing point, line and polygon vector data in R."
 code1: 00-open-a-shapefile.R
@@ -156,7 +157,7 @@ shapefiles we use the `R` function `readOGR()`.
 `readOGR` requires 2 components:
 
 1. The directory where our shapefile lives: `NEON-DS-Site-Layout-Files/HARV`
-2. The name of the shapefile (without the extention): `HarClip_UTMZ18`
+2. The name of the shapefile (without the extension): `HarClip_UTMZ18`
 
 Let's import our AOI.
 
@@ -177,7 +178,7 @@ OpenGIS Simple Features Reference Implementation.
 Learn more about OGR.</a> 
 {: .notice}  
 
-#Shapefile Metadata & Attributes
+##Shapefile Metadata & Attributes
 
 When we import the `HarClip_UTMZ18` shapefile layer into `R` (as our
 `aoiBoundary_HARV` object), the `readOGR()` function automatically stores
@@ -265,8 +266,20 @@ information that describe objects stored within a shapefile. Thus, our road, may
 have a name, length, number of lanes, speed limit, type of
 road and other attributes stored with it. 
 
-We view the attributes of a `SpatialPolygonsDataFrame` by using the
-` aoiBoundary_HARV@data`. 
+<figure>
+    <a href="{{ site.baseurl }}/images/spatialVector/Attribute_Table.png">
+    <img src="{{ site.baseurl }}/images/spatialVector/Attribute_Table.png"></a>
+    <figcaption>Each spatial feature in an R spatial object has the same set of 
+    associated ATTRIBUTES that describe or characterize the feature. Attribute data
+    are stored in a separate *.dbf file. Attribute data can be compared to a spreadsheet.
+    Each row in a spreadsheet represents one feature in the spatial object.
+    Image Source: National Ecological Observatory Network (NEON) 
+    </figcaption>
+</figure>
+
+
+We view the attributes of a `SpatialPolygonsDataFrame` using: 
+`aoiBoundary_HARV@data`. 
 
 
     #alternate way to view attributes 
@@ -337,7 +350,7 @@ Answer the following questions:
 
 
 
-#Plot Multiple Shapefiles
+##Plot Multiple Shapefiles
 The `plot()` function can be used for basic plotting of spatial objects. 
 We use the `add = TRUE` argument to overlay shapefiles on top of each other, as
 we would when creating a map in a typical GIS application like QGIS.
@@ -356,7 +369,32 @@ span 2 lines, use `\n` where you'd like the line break.
 
 ![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/plot-multiple-shapefiles-1.png) 
 
-***
+
+<div id="challenge" markdown="1">
+##Challenge: Plot Raster & Vector Data Together
+
+
+You can plot vector data layered on top of raster data using the `add=TRUE`
+plot attribute. Create a plot that uses the NEON AOP Canopy Height Model `NEON_RemoteSensing/HARV/CHM/HARV_chmCrop.tif` as a base layer. On top of the
+CHM, please add:
+
+* The study site AOI.
+* Roads.
+* The tower location.
+
+Be sure to give your plot a meaningful title. 
+
+For assistance consider using the 
+[Shapefile Metadata & Attributes in R]({{site.baseurl}}/R/shapefile-attributes-in-R/),   
+the [Plot Raster Data in R]({{site.baseurl}}/R/Plot-Rasters-In-R/ )   
+lessons. 
+</div>
+
+
+![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/challenge-vector-raster-overlay-1.png) 
+
+
+
 
 ##Additional Resources
 For more on parameter options in the base `R` `plot()` function, check out these

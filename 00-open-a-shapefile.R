@@ -1,81 +1,108 @@
 ## ----load-libraries------------------------------------------------------
 
 #load required libraries
-library(rgdal)
-library(raster)
+#for vector work; sp package will load with rgdal.
+library(rgdal)  
+#for metadata/attributes- vectors or rasters
+library(raster) 
 
+#set working directory to the directory location on your computer where
+#you downloaded and unzipped the data files for the lesson
+#setwd("pathToDirHere")
 
 ## ----Import-Shapefile----------------------------------------------------
-#set working directory to where the data files were saved.  
-setwd("~/Documents/data/Spatio_TemporalWorkshop/1_WorkshopData")
 
-#Import a polygon shapefile 
-aoiBoundary <- readOGR("boundaryFiles/HARV", "HarClip_UTMZ18")
-
-
-
-## ----Shapefile-attributes------------------------------------------------
-#view attributes of the layer
-aoiBoundary
-
-## ----Shapefile-attributes-2----------------------------------------------
-#just view the attributes of the data
-(aoiBoundary@data)
-
-## ----Plot-shapefile------------------------------------------------------
-#create a quick plot of the shapefile
-#note: lwd sets the line width!
-plot(aoiBoundary,col="cyan1", border="black", lwd=3)
+#Import a polygon shapefile: readOGR("path","fileName")
+#no extension needed as readOGR only imports shapefiles
+aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV",
+                            "HarClip_UTMZ18")
 
 
-## ----view-crs-extent-----------------------------------------------------
+## ----view-metadata-------------------------------------------------------
+#view just the class for the shapefile
+class(aoiBoundary_HARV)
+
 #view just the crs for the shapefile
-crs(aoiBoundary)
+crs(aoiBoundary_HARV)
 
 #view just the extent for the shapefile
-extent(aoiBoundary)
+extent(aoiBoundary_HARV)
+
+#view all metadata at same time
+aoiBoundary_HARV
+
+## ----Shapefile-attributes-2----------------------------------------------
+#alternate way to view attributes 
+aoiBoundary_HARV@data
+
+
+## ----shapefile-summary---------------------------------------------------
+#view a summary of metadata & attributes associated with the spatial object
+summary(aoiBoundary_HARV)
+
+
+## ----plot-shapefile------------------------------------------------------
+#create a plot of the shapefile
+# 'lwd' sets the line width
+# 'col' sets internal color
+# 'border' sets line color
+plot(aoiBoundary_HARV, col="cyan1", border="black", lwd=3,
+     main="AOI Boundary Plot")
 
 
 ## ----import-point-line, echo=FALSE, results="hide"-----------------------
+#import line shapefile
+lines_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV",layer = "HARV_roads")
+#import point shapefile
+point_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV", layer="HARVtower_UTM18N")
 
-#Import a line shapefile
-lines <- readOGR("boundaryFiles/HARV",layer = "HARV_roads")
-#import a point shapefile
-point <- readOGR("boundaryFiles/HARV", layer="HARVtower_UTM18N")
-  
+#1
+class (lines_HARV)
+class (point_HARV)
 
-#view attributes
-lines
-point
+#2
+crs(lines_HARV)
+extent(lines_HARV)
+crs(point_HARV)
+extent(point_HARV)
 
+#3 
+#lines_HARV contains only lines and point_HARV contains only 1 point
 
-## ----View-Attribute-Summary----------------------------------------------
-#View all attributes 
-aoiBoundary
-lines
-point
+#4 -> numerous ways to find this; lines_HARV=13,
+length(lines_HARV)  #easiest, but not previously taught
+lines_HARV  #look at 'features'
+attributes(lines_HARV)  #found in the $data section as above
 
-#view a summary of each attribute associated with the spatial object
-summary(aoiBoundary)
-
-
-## ----view-crs-extent2----------------------------------------------------
-#view just the crs for the shapefile
-crs(aoiBoundary)
-
-#view just the extent for the shapefile
-extent(aoiBoundary)
-
-#view just the class for the shapefile
-class(aoiBoundary)
+#Alternative code for 1-4: view metadata/attributes all at once
+lines_HARV
+attributes(lines_HARV)
 
 
 ## ----plot-multiple-shapefiles--------------------------------------------
 #Plot multiple shapefiles
-
-plot(aoiBoundary, col = "purple", main="Harvard Forest\nStudy Area")
-plot(lines, add = TRUE)
+plot(aoiBoundary_HARV, col = "lightgreen", 
+     main="NEON Harvard Forest\nField Site")
+plot(lines_HARV, add = TRUE)
 
 #use the pch element to adjust the symbology of the points
-plot(point, add  = TRUE, pch = 19, col = "red")
+plot(point_HARV, add  = TRUE, pch = 19, col = "purple")
+
+## ----challenge-vector-raster-overlay, echo=FALSE-------------------------
+
+#import CHM
+chm_HARV <- raster("NEON_RemoteSensing/HARV/CHM/HARV_chmCrop.tif")
+
+plot(chm_HARV,
+     main="Map of Study Area\n w/ Canopy Height Model\nNEON Harvard Forest Field Site")
+
+plot(lines_HARV, 
+     add = TRUE,
+     col="black")
+plot(aoiBoundary_HARV, border="grey20", 
+     add = TRUE,
+     lwd=4)
+plot(point_HARV, pch=8, 
+     add=TRUE)
+
 
