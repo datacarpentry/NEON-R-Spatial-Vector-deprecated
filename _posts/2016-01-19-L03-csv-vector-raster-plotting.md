@@ -5,7 +5,7 @@ date:   2015-10-24
 authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: `r format(Sys.time(), "%Y-%m-%d")`
+lastModified: 2016-01-19
 packagesLibraries: [rgdal, raster]
 category: 
 mainTag: vector-data-workshop
@@ -105,16 +105,13 @@ attributes.
 
 We will use the `rgdal` and `raster` libraries in this tutorial. 
 
-```{r load-libraries}
 
-#load packages
-library(rgdal)  #for vector work; sp package should always load with rgdal. 
-library (raster)   #for metadata/attributes- vectors or rasters
-
-#set working directory to data folder
-#setwd("pathToDirHere")
-
-```
+    #load packages
+    library(rgdal)  #for vector work; sp package should always load with rgdal. 
+    library (raster)   #for metadata/attributes- vectors or rasters
+    
+    #set working directory to data folder
+    #setwd("pathToDirHere")
 
 
 ##Import .csv 
@@ -123,17 +120,31 @@ locations at the NEON Harvard Forest Field Site (`HARV_PlotLocations.csv`) in
 `R`. Note we set `stringsAsFactors=FALSE` so our data import as a `character`
 rather than a `factor` class.
 
-```{r read-csv }
 
-#Read the .csv file
-plot.locations_HARV <- 
-  read.csv("NEON-DS-Site-Layout-Files/HARV/HARV_PlotLocations.csv",
-           stringsAsFactors = FALSE)
+    #Read the .csv file
+    plot.locations_HARV <- 
+      read.csv("NEON-DS-Site-Layout-Files/HARV/HARV_PlotLocations.csv",
+               stringsAsFactors = FALSE)
+    
+    #look at the data structure
+    str(plot.locations_HARV)
 
-#look at the data structure
-str(plot.locations_HARV)
-
-```
+    ## 'data.frame':	21 obs. of  15 variables:
+    ##  $ easting   : num  731405 731934 731754 731724 732125 ...
+    ##  $ northing  : num  4713456 4713415 4713115 4713595 4713846 ...
+    ##  $ geodeticDa: chr  "WGS84" "WGS84" "WGS84" "WGS84" ...
+    ##  $ utmZone   : chr  "18N" "18N" "18N" "18N" ...
+    ##  $ plotID    : chr  "HARV_015" "HARV_033" "HARV_034" "HARV_035" ...
+    ##  $ stateProvi: chr  "MA" "MA" "MA" "MA" ...
+    ##  $ county    : chr  "Worcester" "Worcester" "Worcester" "Worcester" ...
+    ##  $ domainName: chr  "Northeast" "Northeast" "Northeast" "Northeast" ...
+    ##  $ domainID  : chr  "D01" "D01" "D01" "D01" ...
+    ##  $ siteID    : chr  "HARV" "HARV" "HARV" "HARV" ...
+    ##  $ plotType  : chr  "distributed" "tower" "tower" "tower" ...
+    ##  $ plotSize  : int  1600 1600 1600 1600 1600 1600 1600 1600 1600 1600 ...
+    ##  $ elevation : num  332 342 348 334 353 ...
+    ##  $ soilTypeOr: chr  "Inceptisols" "Inceptisols" "Inceptisols" "Histosols" ...
+    ##  $ plotdim_m : int  40 40 40 40 40 40 40 40 40 40 ...
 
 Also note that `plot.locations_HARV` is a `data.frame` that contains 21 
 locations (rows) and 15 variables (attributes). 
@@ -147,12 +158,13 @@ columns with coordinate values. If we are lucky, our `.csv` will contain either:
 
 Let's check out the column `names` of our file.
 
-```{r find-coordinates }
 
-#view column names
-names(plot.locations_HARV)
+    #view column names
+    names(plot.locations_HARV)
 
-```
+    ##  [1] "easting"    "northing"   "geodeticDa" "utmZone"    "plotID"    
+    ##  [6] "stateProvi" "county"     "domainName" "domainID"   "siteID"    
+    ## [11] "plotType"   "plotSize"   "elevation"  "soilTypeOr" "plotdim_m"
 
 ##Identify X,Y Location Columns
 
@@ -160,17 +172,25 @@ View the column names, we can see that our `data.frame`  that contains several
 fields that might contain spatial information. The `plot.locations_HARV$easting` 
 and `plot.locations_HARV$northing` columns contain coordinate values. 
 
-```{r check-out-coordinates }
-#view first 6 rows of the X and Y columns
-head(plot.locations_HARV$easting)
-head(plot.locations_HARV$northing)
 
-#Note that  you can also call the same two columns using their COLUMN NUMBER
-#view first 6 rows of the X and Y columns
-head(plot.locations_HARV[,1])
-head(plot.locations_HARV[,2])
+    #view first 6 rows of the X and Y columns
+    head(plot.locations_HARV$easting)
 
-```
+    ## [1] 731405.3 731934.3 731754.3 731724.3 732125.3 731634.3
+
+    head(plot.locations_HARV$northing)
+
+    ## [1] 4713456 4713415 4713115 4713595 4713846 4713295
+
+    #Note that  you can also call the same two columns using their COLUMN NUMBER
+    #view first 6 rows of the X and Y columns
+    head(plot.locations_HARV[,1])
+
+    ## [1] 731405.3 731934.3 731754.3 731724.3 732125.3 731634.3
+
+    head(plot.locations_HARV[,2])
+
+    ## [1] 4713456 4713415 4713115 4713595 4713846 4713295
 
 So, we have coordinate values in our `data.frame` but in order to convert our
 `data.frame` to a `SpatialPointsDataFrame`, we also need to know
@@ -190,12 +210,15 @@ Following the `easting` and `northing` columns, there is a `geodeticDa` and a
 (`datum` and `projection`). Let's view those next. 
 
 
-```{r view-CRS-info }
-#view first 6 rows of the X and Y columns
-head(plot.locations_HARV$geodeticDa)
-head(plot.locations_HARV$utmZone)
 
-```
+    #view first 6 rows of the X and Y columns
+    head(plot.locations_HARV$geodeticDa)
+
+    ## [1] "WGS84" "WGS84" "WGS84" "WGS84" "WGS84" "WGS84"
+
+    head(plot.locations_HARV$utmZone)
+
+    ## [1] "18N" "18N" "18N" "18N" "18N" "18N"
 
 It is not typical to store `CRS` information in a column. But this particular
 file contains `CRS` information this way. The `geodeticDa` and `utmZone` columns 
@@ -216,18 +239,30 @@ However, if we have other data in the `UTM Zone 18N` projection, it's much easie
 to simply assign the `CRS` in `proj4` format from that object to our new spatial
 object. Let's import the roads layer from Harvard forest and check out its `CRS`.
 
-```{r explore-units}
 
-#Import the line shapefile
-lines_HARV <- readOGR( "NEON-DS-Site-Layout-Files/HARV/", "HARV_roads")
+    #Import the line shapefile
+    lines_HARV <- readOGR( "NEON-DS-Site-Layout-Files/HARV/", "HARV_roads")
 
-#view CRS
-crs(lines_HARV)
+    ## OGR data source with driver: ESRI Shapefile 
+    ## Source: "NEON-DS-Site-Layout-Files/HARV/", layer: "HARV_roads"
+    ## with 13 features
+    ## It has 15 fields
 
-#view extent
-extent(lines_HARV)
+    #view CRS
+    crs(lines_HARV)
 
-```
+    ## CRS arguments:
+    ##  +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84
+    ## +towgs84=0,0,0
+
+    #view extent
+    extent(lines_HARV)
+
+    ## class       : Extent 
+    ## xmin        : 730741.2 
+    ## xmax        : 733295.5 
+    ## ymin        : 4711942 
+    ## ymax        : 4714260
 
 Exploring the data above, we can see that the lines shapefile is in
 `UTM zone 18N`. We can thus use the CRS from that spatial object to convert our
@@ -236,13 +271,20 @@ non-spatial `data.frame` into a `spatialPointsDataFrame`.
 Next, let's create a `crs` object that we can use to define the `CRS` of our 
 `SpatialPointsDataFrame` when we create it
 
-```{r crs-object } 
-#create crs object
-utm18nCRS <- crs(lines_HARV)
-utm18nCRS
 
-class(utm18nCRS)
-```
+    #create crs object
+    utm18nCRS <- crs(lines_HARV)
+    utm18nCRS
+
+    ## CRS arguments:
+    ##  +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84
+    ## +towgs84=0,0,0
+
+    class(utm18nCRS)
+
+    ## [1] "CRS"
+    ## attr(,"package")
+    ## [1] "sp"
 
 ##.csv to R SpatialPointsDataFrame
 Next, let's convert our `data.frame` into a `SpatialPointsDataFrame`. To do this,
@@ -256,25 +298,27 @@ as attributes to your spatial object
 
 We will use the `SpatialPointsDataFrame()` function to perform the conversion.
 
-```{r convert-csv-shapefile}
-#note that the easting and northing columns are in columns 1 and 2
-plot.locationsSp_HARV <- SpatialPointsDataFrame(plot.locations_HARV[,1:2],
-                    plot.locations_HARV,    #the R object to convert
-                    proj4string = utm18nCRS)   # assign a CRS 
-                                          
-#look at CRS
-crs(plot.locationsSp_HARV)
 
-```
+    #note that the easting and northing columns are in columns 1 and 2
+    plot.locationsSp_HARV <- SpatialPointsDataFrame(plot.locations_HARV[,1:2],
+                        plot.locations_HARV,    #the R object to convert
+                        proj4string = utm18nCRS)   # assign a CRS 
+                                              
+    #look at CRS
+    crs(plot.locationsSp_HARV)
+
+    ## CRS arguments:
+    ##  +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84
+    ## +towgs84=0,0,0
 
 ## Plot Spatial Object 
 We now have a spatial `R` object, we can plot our newly created spatial object.
 
-```{r plot-data-points }
-plot(plot.locationsSp_HARV, 
-     main="Map of Plot Locations")
 
-```
+    plot(plot.locationsSp_HARV, 
+         main="Map of Plot Locations")
+
+![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/plot-data-points-1.png) 
 
 ##Define Plot Extent
 
@@ -289,55 +333,80 @@ a plot using `xlims` and `ylims`.
 Let's create a boundary for our area of interest (AOI) for the Harvard field
 site.  (If you have completed Lesson 00 or 01 in this series you can skip this
 chunk as you have already created this object.)
-``` {r create-aoi-boundary}
-#Create boundary object 
-aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
-                            "HarClip_UTMZ18")
-```
+
+    #Create boundary object 
+    aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
+                                "HarClip_UTMZ18")
+
+    ## OGR data source with driver: ESRI Shapefile 
+    ## Source: "NEON-DS-Site-Layout-Files/HARV/", layer: "HarClip_UTMZ18"
+    ## with 1 features
+    ## It has 1 fields
 
 To begin, let's plot our `aoiBoundary` object with our vegetation plots.
 
-```{r plot-data }
 
-plot(aoiBoundary_HARV,
-     main="Boundary\nNEON Harvard Forest Field Site")
+    plot(aoiBoundary_HARV,
+         main="Boundary\nNEON Harvard Forest Field Site")
+    
+    plot(plot.locationsSp_HARV, 
+         pch=8, add=TRUE)
 
-plot(plot.locationsSp_HARV, 
-     pch=8, add=TRUE)
+![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/plot-data-1.png) 
 
-crs(aoiBoundary_HARV)
-crs(plot.locationsSp_HARV)
+    crs(aoiBoundary_HARV)
 
-```
+    ## CRS arguments:
+    ##  +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84
+    ## +towgs84=0,0,0
+
+    crs(plot.locationsSp_HARV)
+
+    ## CRS arguments:
+    ##  +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84
+    ## +towgs84=0,0,0
 
 When we attempt to plot the two layers together, we can see that the plot
 locations are not rendered. We can see that our data are in the same projection
 - so what is going on?
 
-```{r compare-extents}
-extent(aoiBoundary_HARV)
-extent(plot.locationsSp_HARV)
 
-plot(extent(plot.locationsSp_HARV),
-     col="purple", 
-     xlab="easting",
-     ylab="northing", lwd=8,
-     main="Extent Boundary of Plot Locations \nCompared to the AOI Spatial Object")
+    extent(aoiBoundary_HARV)
 
-plot(extent(aoiBoundary_HARV), 
-     add=TRUE,
-     lwd=6,
-     col="springgreen")
+    ## class       : Extent 
+    ## xmin        : 732128 
+    ## xmax        : 732251.1 
+    ## ymin        : 4713209 
+    ## ymax        : 4713359
 
-legend("bottom",
-       legend=c("Layer One Extent", "Layer Two Extent"),
-       bty="n", 
-       col=c("purple","springgreen"),
-       cex=.8,
-       lty=c(1,1),
-       lwd=6)
+    extent(plot.locationsSp_HARV)
 
-```
+    ## class       : Extent 
+    ## xmin        : 731405.3 
+    ## xmax        : 732275.3 
+    ## ymin        : 4712845 
+    ## ymax        : 4713846
+
+    plot(extent(plot.locationsSp_HARV),
+         col="purple", 
+         xlab="easting",
+         ylab="northing", lwd=8,
+         main="Extent Boundary of Plot Locations \nCompared to the AOI Spatial Object")
+    
+    plot(extent(aoiBoundary_HARV), 
+         add=TRUE,
+         lwd=6,
+         col="springgreen")
+    
+    legend("bottom",
+           legend=c("Layer One Extent", "Layer Two Extent"),
+           bty="n", 
+           col=c("purple","springgreen"),
+           cex=.8,
+           lty=c(1,1),
+           lwd=6)
+
+![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/compare-extents-1.png) 
 
 The *extents* of our two objects are *different*. `plot.locationsSp_HARV` is
 much larger than `aoiBoundary_HARV`. When we plot `aoiBoundary_HARV` first, `R`
@@ -357,36 +426,42 @@ values from the spatial object that has a larger extent. Let's try it.
     </figcaption>
 </figure>
 
-```{r set-plot-extent }
 
-plotLoc.extent <- extent(plot.locationsSp_HARV)
-plotLoc.extent
-#grab the x and y min and max values from the spatial plot locations layer
-xmin <- plotLoc.extent@xmin
-xmax <- plotLoc.extent@xmax
-ymin <- plotLoc.extent@ymin
-ymax <- plotLoc.extent@ymax
+    plotLoc.extent <- extent(plot.locationsSp_HARV)
+    plotLoc.extent
 
-#adjust the plot extent using x and ylim
-plot(aoiBoundary_HARV,
-     main="NEON Harvard Forest Field Site\nModified Extent",
-     border="darkgreen",
-     xlim=c(xmin,xmax),
-     ylim=c(ymin,ymax))
+    ## class       : Extent 
+    ## xmin        : 731405.3 
+    ## xmax        : 732275.3 
+    ## ymin        : 4712845 
+    ## ymax        : 4713846
 
-plot(plot.locationsSp_HARV, 
-     pch=8, add=TRUE)
+    #grab the x and y min and max values from the spatial plot locations layer
+    xmin <- plotLoc.extent@xmin
+    xmax <- plotLoc.extent@xmax
+    ymin <- plotLoc.extent@ymin
+    ymax <- plotLoc.extent@ymax
+    
+    #adjust the plot extent using x and ylim
+    plot(aoiBoundary_HARV,
+         main="NEON Harvard Forest Field Site\nModified Extent",
+         border="darkgreen",
+         xlim=c(xmin,xmax),
+         ylim=c(ymin,ymax))
+    
+    plot(plot.locationsSp_HARV, 
+         pch=8, add=TRUE)
+    
+    #add a legend
+    legend("bottomright", 
+           legend=c("Plots", "AOI Boundary"),
+           pch=c(8,NA),
+           lty=c(NA,1),
+           bty="n", 
+           col=c("purple","darkgreen"),
+           cex=.8)
 
-#add a legend
-legend("bottomright", 
-       legend=c("Plots", "AOI Boundary"),
-       pch=c(8,NA),
-       lty=c(NA,1),
-       bty="n", 
-       col=c("purple","darkgreen"),
-       cex=.8)
-
-```
+![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/set-plot-extent-1.png) 
 
 <div id="challenge" markdown="1">
 ##Challenge - Import & Plot Additional Points
@@ -410,106 +485,7 @@ for more on working with geographic coordinate systems. You may want to "borrow"
 the projection from the objects used in that lesson!
 </div>
 
-```{r challenge-code-phen-plots, echo=FALSE, results="hide", warning=FALSE }
-##1
-#Read the .csv file
-newPlot.locations_HARV <- 
-  read.csv("NEON-DS-Site-Layout-Files/HARV/HARV_2NewPhenPlots.csv",
-           stringsAsFactors = FALSE)
-
-#look at the data structure -> locations in lat/long
-str(newPlot.locations_HARV)
-
-##2
-##Find/ establish a CRS for new points
-#Import the US boundary which is in a geographic WGS84 coordinate system
-Country.Boundary.US <- readOGR("NEON-DS-Site-Layout-Files/US-Boundary-Layers",
-          "US-Boundary-Dissolved-States")
-
-#grab the geographic CRS
-geogCRS <- crs(Country.Boundary.US)
-geogCRS
-
-##Convert to spatial data frame
-#note that the easting and northing columns are in columns 1 and 2
-newPlot.Sp.HARV <- SpatialPointsDataFrame(newPlot.locations_HARV[,2:1],
-                    newPlot.locations_HARV,    #the R object to convert
-                    proj4string = geogCRS)   # assign a CRS 
-                                         
-#look at CRS
-crs(newPlot.Sp.HARV)
-
-## We now have the data imported and in WGS84 Lat/Long.  We want to map with plot locations in 
-##UTM so we'll have to reproject. 
-
-#remember we have a UTM z18n crs object from previous code
-utm18nCRS
-
-#reproject the new points into UTM using `utm18nCRS`
-newPlot.Sp.HARV.UTM <- spTransform(newPlot.Sp.HARV,
-                                  utm18nCRS)
-#check new plot CRS
-crs(newPlot.Sp.HARV.UTM)
-
-
-###3
-#create plot
-plot(plot.locationsSp_HARV, 
-     main="NEON Harvard Forest Field Site \nPlot Locations" )
-
-plot(newPlot.Sp.HARV.UTM, 
-     add=TRUE, pch=20, col="darkgreen")
-
-#oops - looks like we are missing a point on our new plot. let's compare
-#the spatial extents of both objects!
-extent(plot.locationsSp_HARV)
-extent(newPlot.Sp.HARV.UTM)
-
-#when you plot in base plot, if the extent isn't specified, then the data that
-#is added FIRST will define the extent of the plot
-plot(extent(plot.locationsSp_HARV),
-     main="Comparison of Spatial Object Extents\nPlot Locations vs New Plot Locations")
-plot(extent(newPlot.Sp.HARV.UTM),
-     col="darkgreen",
-     add=TRUE)
-
-#looks like the green box showing the newPlot extent extends
-#beyond the plot.locations extent.
-
-#We need to grab the x min and max and y min from our original plots
-#but then the ymax from our new plots
-
-originalPlotExtent <- extent(plot.locationsSp_HARV)
-newPlotExtent <- extent(newPlot.Sp.HARV.UTM)
-
-#set xmin and max
-xmin <- originalPlotExtent@xmin
-xmax <- originalPlotExtent@xmax
-ymin <- originalPlotExtent@ymin
-ymax <- newPlotExtent@ymax
-
-#3 again... re-plot
-#try again but this time specify the x and ylims
-#note: we could also write a function that would harvest the smallest and largest
-#x and y values from an extent object. This is beyond the scope of this lesson.
-plot(plot.locationsSp_HARV, 
-     main="NEON Harvard Forest Field Site\nVegetation & Phenology Plots",
-     pch=8,
-     col="purple",
-     xlim=c(xmin,xmax),
-     ylim=c(ymin,ymax))
-
-plot(newPlot.Sp.HARV.UTM, 
-     add=TRUE, pch=20, col="darkgreen")
-
-#to create a custom legend, we need specify the text as it isn't in the data
-legend("bottomright", 
-       legend=c("Vegetation Plots", "Phenology Plots"),
-       pch=c(8,20), 
-       bty="n", 
-       col=c("purple","darkgreen"),
-       cex=1.5)
-```
+![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/challenge-code-phen-plots-1.png) ![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/challenge-code-phen-plots-2.png) ![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/challenge-code-phen-plots-3.png) 
 
 ##Export a Shapefile
 
@@ -524,10 +500,8 @@ in `rgdal`. To do this we need the following arguments:
 
 We can now export the spatial object as a shapefile. 
 
-``` {r write-shapefile, warnings="hide", eval=FALSE}
-#write a shapefile
-writeOGR(plot.locationsSp_HARV, getwd(),
-         "PlotLocations_HARV", driver="ESRI Shapefile")
 
-```
+    #write a shapefile
+    writeOGR(plot.locationsSp_HARV, getwd(),
+             "PlotLocations_HARV", driver="ESRI Shapefile")
 

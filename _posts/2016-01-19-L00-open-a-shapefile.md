@@ -6,7 +6,7 @@ date:   2015-10-27
 authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: `r format(Sys.time(), "%Y-%m-%d")`
+lastModified: 2016-01-19
 packagesLibraries: [rgdal, raster]
 category: 
 mainTag: vector-data-workshop
@@ -130,18 +130,16 @@ We will use the `rgdal` package to work with vector data in `R`. Notice that the
 `sp` package automatically loads when `rgdal` is loaded. We will also load the
 `raster` package so we can explore raster and vector spatial metadata using similar commands.  
 
-```{r load-libraries }
 
-#load required libraries
-#for vector work; sp package will load with rgdal.
-library(rgdal)  
-#for metadata/attributes- vectors or rasters
-library(raster) 
-
-#set working directory to the directory location on your computer where
-#you downloaded and unzipped the data files for the lesson
-#setwd("pathToDirHere")
-```
+    #load required libraries
+    #for vector work; sp package will load with rgdal.
+    library(rgdal)  
+    #for metadata/attributes- vectors or rasters
+    library(raster) 
+    
+    #set working directory to the directory location on your computer where
+    #you downloaded and unzipped the data files for the lesson
+    #setwd("pathToDirHere")
 
 The shapefiles that we will import are:
 
@@ -163,14 +161,16 @@ shapefiles we use the `R` function `readOGR()`.
 
 Let's import our AOI.
 
-```{r Import-Shapefile}
 
-#Import a polygon shapefile: readOGR("path","fileName")
-#no extension needed as readOGR only imports shapefiles
-aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV",
-                            "HarClip_UTMZ18")
+    #Import a polygon shapefile: readOGR("path","fileName")
+    #no extension needed as readOGR only imports shapefiles
+    aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV",
+                                "HarClip_UTMZ18")
 
-```
+    ## OGR data source with driver: ESRI Shapefile 
+    ## Source: "NEON-DS-Site-Layout-Files/HARV", layer: "HarClip_UTMZ18"
+    ## with 1 features
+    ## It has 1 fields
 
 <i class="fa fa-star"></i> **Data Tip:** The acronym, OGR refers to the
 OpenGIS Simple Features Reference Implementation. 
@@ -205,19 +205,41 @@ extent for ALL spatial objects in the shapefile.
 
 We can view shapefile metadata using the `class`, `crs` and `extent` methods:
 
-```{r view-metadata }
-#view just the class for the shapefile
-class(aoiBoundary_HARV)
 
-#view just the crs for the shapefile
-crs(aoiBoundary_HARV)
+    #view just the class for the shapefile
+    class(aoiBoundary_HARV)
 
-#view just the extent for the shapefile
-extent(aoiBoundary_HARV)
+    ## [1] "SpatialPolygonsDataFrame"
+    ## attr(,"package")
+    ## [1] "sp"
 
-#view all metadata at same time
-aoiBoundary_HARV
-```
+    #view just the crs for the shapefile
+    crs(aoiBoundary_HARV)
+
+    ## CRS arguments:
+    ##  +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84
+    ## +towgs84=0,0,0
+
+    #view just the extent for the shapefile
+    extent(aoiBoundary_HARV)
+
+    ## class       : Extent 
+    ## xmin        : 732128 
+    ## xmax        : 732251.1 
+    ## ymin        : 4713209 
+    ## ymax        : 4713359
+
+    #view all metadata at same time
+    aoiBoundary_HARV
+
+    ## class       : SpatialPolygonsDataFrame 
+    ## features    : 1 
+    ## extent      : 732128, 732251.1, 4713209, 4713359  (xmin, xmax, ymin, ymax)
+    ## coord. ref. : +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
+    ## variables   : 1
+    ## names       : id 
+    ## min values  :  1 
+    ## max values  :  1
 
 Our `aoiBoundary_HARV` object is a polygon of class `SpatialPolygonsDataFrame`, 
 in the `CRS` **UTM zone 18N**. The `CRS` is critical to interpreting the
@@ -259,11 +281,12 @@ road and other attributes stored with it.
 We view the attributes of a `SpatialPolygonsDataFrame` using: 
 `aoiBoundary_HARV@data`. 
 
-``` {r Shapefile-attributes-2}
-#alternate way to view attributes 
-aoiBoundary_HARV@data
 
-```
+    #alternate way to view attributes 
+    aoiBoundary_HARV@data
+
+    ##   id
+    ## 0  1
 
 In this case, our polygon object only has one attribute: `ID`.
 
@@ -274,26 +297,42 @@ includes the _class_, the number of _features_, the _extent_, and the coordinate
 reference system (`CRS`) of the `R` object. The last two lines of summary show a
 preview of the `R` object _attributes_.
 
-```{r shapefile-summary}
-#view a summary of metadata & attributes associated with the spatial object
-summary(aoiBoundary_HARV)
 
-```
+    #view a summary of metadata & attributes associated with the spatial object
+    summary(aoiBoundary_HARV)
+
+    ## Object of class SpatialPolygonsDataFrame
+    ## Coordinates:
+    ##       min       max
+    ## x  732128  732251.1
+    ## y 4713209 4713359.2
+    ## Is projected: TRUE 
+    ## proj4string :
+    ## [+proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84
+    ## +towgs84=0,0,0]
+    ## Data attributes:
+    ##        id   
+    ##  Min.   :1  
+    ##  1st Qu.:1  
+    ##  Median :1  
+    ##  Mean   :1  
+    ##  3rd Qu.:1  
+    ##  Max.   :1
 
 
 #Plot a Shapefile
 Next, let's visualize the data in our `R spatialpolygonsdataframe` object using
 `plot()`.
 
-``` {r plot-shapefile}
-#create a plot of the shapefile
-# 'lwd' sets the line width
-# 'col' sets internal color
-# 'border' sets line color
-plot(aoiBoundary_HARV, col="cyan1", border="black", lwd=3,
-     main="AOI Boundary Plot")
 
-```
+    #create a plot of the shapefile
+    # 'lwd' sets the line width
+    # 'col' sets internal color
+    # 'border' sets line color
+    plot(aoiBoundary_HARV, col="cyan1", border="black", lwd=3,
+         main="AOI Boundary Plot")
+
+![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/plot-shapefile-1.png) 
 
 <div id="challenge" markdown="1">
 ##Challenge: Import Line and Point Shapefiles
@@ -309,35 +348,7 @@ Answer the following questions:
 4. How many spatial objects are in each file?
 </div>
 
-```{r import-point-line, echo=FALSE, results="hide" }
-#import line shapefile
-lines_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV",layer = "HARV_roads")
-#import point shapefile
-point_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV", layer="HARVtower_UTM18N")
 
-#1
-class (lines_HARV)
-class (point_HARV)
-
-#2
-crs(lines_HARV)
-extent(lines_HARV)
-crs(point_HARV)
-extent(point_HARV)
-
-#3 
-#lines_HARV contains only lines and point_HARV contains only 1 point
-
-#4 -> numerous ways to find this; lines_HARV=13,
-length(lines_HARV)  #easiest, but not previously taught
-lines_HARV  #look at 'features'
-attributes(lines_HARV)  #found in the $data section as above
-
-#Alternative code for 1-4: view metadata/attributes all at once
-lines_HARV
-attributes(lines_HARV)
-
-```
 
 ##Plot Multiple Shapefiles
 The `plot()` function can be used for basic plotting of spatial objects. 
@@ -347,15 +358,16 @@ we would when creating a map in a typical GIS application like QGIS.
 We can use `main=""` to give our plot a title. If you want the title to 
 span 2 lines, use `\n` where you'd like the line break.
 
-```{r plot-multiple-shapefiles }
-#Plot multiple shapefiles
-plot(aoiBoundary_HARV, col = "lightgreen", 
-     main="NEON Harvard Forest\nField Site")
-plot(lines_HARV, add = TRUE)
 
-#use the pch element to adjust the symbology of the points
-plot(point_HARV, add  = TRUE, pch = 19, col = "purple")
-```
+    #Plot multiple shapefiles
+    plot(aoiBoundary_HARV, col = "lightgreen", 
+         main="NEON Harvard Forest\nField Site")
+    plot(lines_HARV, add = TRUE)
+    
+    #use the pch element to adjust the symbology of the points
+    plot(point_HARV, add  = TRUE, pch = 19, col = "purple")
+
+![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/plot-multiple-shapefiles-1.png) 
 
 
 <div id="challenge" markdown="1">
@@ -379,24 +391,7 @@ lessons.
 </div>
 
 
-```{r challenge-vector-raster-overlay, echo=FALSE }
-
-#import CHM
-chm_HARV <- raster("NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif")
-
-plot(chm_HARV,
-     main="Map of Study Area\n w/ Canopy Height Model\nNEON Harvard Forest Field Site")
-
-plot(lines_HARV, 
-     add = TRUE,
-     col="black")
-plot(aoiBoundary_HARV, border="grey20", 
-     add = TRUE,
-     lwd=4)
-plot(point_HARV, pch=8, 
-     add=TRUE)
-
-```
+![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/challenge-vector-raster-overlay-1.png) 
 
 ***
 

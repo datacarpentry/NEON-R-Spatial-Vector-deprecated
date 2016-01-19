@@ -61,7 +61,7 @@ plot(point_HARV,
 ## ----layer-point-on-states-----------------------------------------------
 #plot state boundaries  
 plot(State.Boundary.US, 
-     main="Map of Continental US State Boundaries",
+     main="Map of Continental US State Boundaries \n with Tower Location",
      border="gray40")
 
 #Add US border outline 
@@ -146,7 +146,7 @@ NE.States.Boundary.US.UTM
 
 #plot state boundaries  
 plot(NE.States.Boundary.US.UTM , 
-     main="Map of North Eastern US\n With Fisher Tower Location - UTM Zone 18n",
+     main="Map of Northeastern US\n With Fisher Tower Location - UTM Zone 18 N",
      border="gray18",
      lwd=2)
 

@@ -6,7 +6,7 @@ date:   2015-10-23
 authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: `r format(Sys.time(), "%Y-%m-%d")`
+lastModified: 2016-01-19
 packagesLibraries: [rgdal, raster, ggplot2]
 category: 
 mainTag: vector-data-workshop
@@ -87,73 +87,9 @@ We often work with spatial layers that have different spatial extents.
     </figcaption>
 </figure>
 
-```{r view-extents, echo=FALSE, results='hide'}
-##Load Packages
-library(rgdal)  #for vector work; sp package should always load with rgdal. 
-library (raster)
-
-#Import a polygon shapefile 
-aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
-                            "HarClip_UTMZ18")
-
-#Import a line shapefile
-lines_HARV <- readOGR( "NEON-DS-Site-Layout-Files/HARV/", 
-                       "HARV_roads")
-
-#Import a point shapefile 
-point_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
-                      "HARVtower_UTM18N")
-
-chm_HARV <- raster("NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif")
-
-utm18nCRS <- crs(point_HARV)
-
-#Read the .csv file
-plot.locations_HARV <- 
-  read.csv("NEON-DS-Site-Layout-Files/HARV/HARV_PlotLocations.csv",
-           stringsAsFactors = FALSE)
-
-#note that the easting and northing columns are in columns 1 and 2
-plot.locationsSp_HARV <- SpatialPointsDataFrame(plot.locations_HARV[,1:2],
-                    plot.locations_HARV,    #the R object to convert
-                    proj4string = utm18nCRS)   # assign a CRS 
-
-plot(extent(lines_HARV),
-     col="purple", lwd="3",
-     xlab="Easting", ylab="Northing",
-    main="Extent Boundary of Several Spatial Files")
-
-plot(extent(plot.locationsSp_HARV),
-     col="black",
-     add=TRUE)
-
-plot(extent(aoiBoundary_HARV),
-     add=TRUE,
-     col="blue", 
-     lwd=4)
-
-plot(extent(chm_HARV),
-     add=TRUE, 
-     lwd=5,
-     col="springgreen")
-
-legend("top", 
-        legend=c("Roads","Plot Locations","Tower AOI", "CHM"),
-       lwd=3,
-       col=c("purple","black","blue","springgreen"),
-       xpd = TRUE, 
-       horiz = TRUE, 
-       inset = c(0, 0), 
-       bty = "n",  
-       cex = .8)
+![ ]({{ site.baseurl }}/images/rfigs/04-vector-raster-integration-advanced/view-extents-1.png) 
 
 
-```
-
-```{r reset-par, results="hide", echo=FALSE }
-#reset par
-dev.off()
-```
 
 The graphic above illustrates the extent of several of the spatial layers that 
 we have worked with in this vector data lesson series:
@@ -183,31 +119,46 @@ and
 [Convert from .csv to a Shapefile in R]({{site.baseurl}}/R/csv-to-shapefile-R/)
 you may already have these `R` spatial objects. 
 
-```{r load-libraries-data }
-#load necessary packages
-library(rgdal)  #for vector work; sp package should always load with rgdal. 
-library (raster)
 
-#set working directory to data folder
-#setwd("pathToDirHere")
+    #load necessary packages
+    library(rgdal)  #for vector work; sp package should always load with rgdal. 
+    library (raster)
+    
+    #set working directory to data folder
+    #setwd("pathToDirHere")
+    
+    #Imported in L00: Vector Data in R - Open & Plot Data
+    # shapefile 
+    aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
+                                "HarClip_UTMZ18")
 
-#Imported in L00: Vector Data in R - Open & Plot Data
-# shapefile 
-aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
-                            "HarClip_UTMZ18")
-#Import a line shapefile
-lines_HARV <- readOGR( "NEON-DS-Site-Layout-Files/HARV/",
-                       "HARV_roads")
-#Import a point shapefile 
-point_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
-                      "HARVtower_UTM18N")
+    ## OGR data source with driver: ESRI Shapefile 
+    ## Source: "NEON-DS-Site-Layout-Files/HARV/", layer: "HarClip_UTMZ18"
+    ## with 1 features
+    ## It has 1 fields
 
-#Imported in L02: .csv to Shapefile in R
-#import raster Canopy Height Model (CHM)
-chm_HARV <- 
-  raster("NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif")
+    #Import a line shapefile
+    lines_HARV <- readOGR( "NEON-DS-Site-Layout-Files/HARV/",
+                           "HARV_roads")
 
-```
+    ## OGR data source with driver: ESRI Shapefile 
+    ## Source: "NEON-DS-Site-Layout-Files/HARV/", layer: "HARV_roads"
+    ## with 13 features
+    ## It has 15 fields
+
+    #Import a point shapefile 
+    point_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
+                          "HARVtower_UTM18N")
+
+    ## OGR data source with driver: ESRI Shapefile 
+    ## Source: "NEON-DS-Site-Layout-Files/HARV/", layer: "HARVtower_UTM18N"
+    ## with 1 features
+    ## It has 14 fields
+
+    #Imported in L02: .csv to Shapefile in R
+    #import raster Canopy Height Model (CHM)
+    chm_HARV <- 
+      raster("NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif")
 
 ##Crop a Raster Using Vector Extent
 We can use the `crop` function to crop a raster to the extent of another spatial 
@@ -215,47 +166,61 @@ object. To do this, we need to specify the raster to be cropped and the spatial
 object that will be used to crop the raster. `R` will use the `extent` of the
 spatial object as the cropping boundary.
 
-```{r Crop-by-vector-extent}
-#plot full CHM
-plot(chm_HARV,
-     main="LiDAR CHM - Not Cropped\nNEON Harvard Forest Field Site")
 
-#crop the chm
-chm_HARV_Crop <- crop(x = chm_HARV, y = aoiBoundary_HARV)
+    #plot full CHM
+    plot(chm_HARV,
+         main="LiDAR CHM - Not Cropped\nNEON Harvard Forest Field Site")
 
-#plot full CHM
-plot(extent(chm_HARV),
-     lwd=4,col="springgreen",
-     main="LiDAR CHM - Cropped\nNEON Harvard Forest Field Site",
-     xlab="easting", ylab="northing")
+![ ]({{ site.baseurl }}/images/rfigs/04-vector-raster-integration-advanced/Crop-by-vector-extent-1.png) 
 
-plot(chm_HARV_Crop,
-     add=TRUE)
+    #crop the chm
+    chm_HARV_Crop <- crop(x = chm_HARV, y = aoiBoundary_HARV)
+    
+    #plot full CHM
+    plot(extent(chm_HARV),
+         lwd=4,col="springgreen",
+         main="LiDAR CHM - Cropped\nNEON Harvard Forest Field Site",
+         xlab="easting", ylab="northing")
+    
+    plot(chm_HARV_Crop,
+         add=TRUE)
 
-```
+![ ]({{ site.baseurl }}/images/rfigs/04-vector-raster-integration-advanced/Crop-by-vector-extent-2.png) 
 
 We can see from the plot above that the full CHM extent (plotted in green) is
 much larger than the resulting cropped raster. Our new cropped CHM now has the 
 same extent as the `aoiBoundary_HARV` object that was used as a crop extent 
 (blue boarder below).
 
-```{r view-crop-extent, echo=FALSE}
-#view the data in a plot
-plot(aoiBoundary_HARV, lwd=8, border="blue",
-     main = "Cropped Canopy Height Model \n NEON Harvard Forest Field Site")
-
-plot(chm_HARV_Crop, add = TRUE)
-```
+![ ]({{ site.baseurl }}/images/rfigs/04-vector-raster-integration-advanced/view-crop-extent-1.png) 
 
 We can look at the extent of all the other objects. 
 
-``` {r view-extent}
-#lets look at the extent of all of our objects
-extent(chm_HARV)
-extent(chm_HARV_Crop)
-extent(aoiBoundary_HARV)
 
-```
+    #lets look at the extent of all of our objects
+    extent(chm_HARV)
+
+    ## class       : Extent 
+    ## xmin        : 731453 
+    ## xmax        : 733150 
+    ## ymin        : 4712471 
+    ## ymax        : 4713838
+
+    extent(chm_HARV_Crop)
+
+    ## class       : Extent 
+    ## xmin        : 732128 
+    ## xmax        : 732251 
+    ## ymin        : 4713209 
+    ## ymax        : 4713359
+
+    extent(aoiBoundary_HARV)
+
+    ## class       : Extent 
+    ## xmin        : 732128 
+    ## xmax        : 732251.1 
+    ## ymin        : 4713209 
+    ## ymax        : 4713359
 
 Which object has the largest extent?  Our plot location extent is not the 
 largest but is larger than the AOI Boundary.  It would be nice to see our
@@ -275,23 +240,7 @@ you have these plot locations as the spatial `R` spatial object
 
 </div>
 
-```{r challenge-code-crop-raster-points, include=TRUE, results="hide", echo=FALSE}
-
-#Created/imported in L02: .csv to Shapefile in R
-plot.locationSp_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
-                                "PlotLocations_HARV")
-
-#crop the chm 
-CHM_plots_HARVcrop <- crop(x = chm_HARV, y = plot.locationsSp_HARV)
-
-plot(CHM_plots_HARVcrop,
-     main="Study Plot Locations\n NEON Harvard Forest")
-plot(plot.locationSp_HARV, 
-     add=TRUE,
-     pch=19,
-     col="blue")
-
-```
+![ ]({{ site.baseurl }}/images/rfigs/04-vector-raster-integration-advanced/challenge-code-crop-raster-points-1.png) 
 
 Looking at the plot we created in the challenge we see all the vegetation plot
 locations (blue) on the Canopy Height Model raster except for one.  Why? Refer
@@ -305,27 +254,29 @@ as white.
 We can also use an `extent()` method to define an extent to be used as a cropping
 boundary. This creates an object of class `extent`.
 
-```{r hidden-extent-chunk}
-#extent format (xmin,xmax,ymin,ymax)
-new.extent <- extent(732161.2, 732238.7, 4713249, 4713333)
-class(new.extent)
-```
+
+    #extent format (xmin,xmax,ymin,ymax)
+    new.extent <- extent(732161.2, 732238.7, 4713249, 4713333)
+    class(new.extent)
+
+    ## [1] "Extent"
+    ## attr(,"package")
+    ## [1] "raster"
 
 Once we have defined the extent, we can use the `crop` function to crop our
 raster. 
 
-```{r crop-using-drawn-extent}
 
-#crop raster
-CHM_HARV_manualCrop <- crop(x = chm_HARV, y = new.extent)
+    #crop raster
+    CHM_HARV_manualCrop <- crop(x = chm_HARV, y = new.extent)
+    
+    #plot extent boundary and newly cropped raster
+    plot(aoiBoundary_HARV, 
+         main = "Manually Cropped Raster\n NEON Harvard Forest Field Site")
+    plot(new.extent, col="red", lwd=4,add = TRUE)
+    plot(CHM_HARV_manualCrop, add = TRUE)
 
-#plot extent boundary and newly cropped raster
-plot(aoiBoundary_HARV, 
-     main = "Manually Cropped Raster\n NEON Harvard Forest Field Site")
-plot(new.extent, col="red", lwd=4,add = TRUE)
-plot(CHM_HARV_manualCrop, add = TRUE)
-
-```
+![ ]({{ site.baseurl }}/images/rfigs/04-vector-raster-integration-advanced/crop-using-drawn-extent-1.png) 
 
 Notice that our manual `new.extent` (in red) is smaller than the
 `aoiBoundary_HARV` and that the raster is now the same as the `new.extent`
@@ -365,19 +316,27 @@ boundaries,
 * we can tell it to store the output values in a `data.frame` using
 `df=TRUE` (optional, default is to NOT return a `data.frame`) .
 
-```{r extract-from-raster}
 
-#extract tree height for AOI
-#set df=TRUE to return a data.frame rather than a list of values
-tree_height <- extract(x = chm_HARV, 
-                       y = aoiBoundary_HARV, 
-                       df=TRUE)
+    #extract tree height for AOI
+    #set df=TRUE to return a data.frame rather than a list of values
+    tree_height <- extract(x = chm_HARV, 
+                           y = aoiBoundary_HARV, 
+                           df=TRUE)
+    
+    #view the object
+    head(tree_height)
 
-#view the object
-head(tree_height)
+    ##   ID HARV_chmCrop
+    ## 1  1        21.20
+    ## 2  1        23.85
+    ## 3  1        23.83
+    ## 4  1        22.36
+    ## 5  1        23.95
+    ## 6  1        23.89
 
-nrow(tree_height)
-```
+    nrow(tree_height)
+
+    ## [1] 18450
 
 When we use the extract command, `R` extracts the value for each pixel located 
 within the boundary of the polygon being used to perform the extraction - in
@@ -394,17 +353,20 @@ understand the structure or height distribution of trees. We can also use the
 height values. These values help us better understand vegetation at our field
 site.
 
-```{r view-extract-histogram}
-#view histogram of tree heights in study area
-hist(tree_height$HARV_chmCrop, 
-     main="Histogram of CHM Height Values (m) \nNEON Harvard Forest Field Site",
-     col="springgreen",
-     xlab="Tree Height", ylab="Frequency of Pixels")
 
-#view summary of values
-summary(tree_height$HARV_chmCrop)
+    #view histogram of tree heights in study area
+    hist(tree_height$HARV_chmCrop, 
+         main="Histogram of CHM Height Values (m) \nNEON Harvard Forest Field Site",
+         col="springgreen",
+         xlab="Tree Height", ylab="Frequency of Pixels")
 
-```
+![ ]({{ site.baseurl }}/images/rfigs/04-vector-raster-integration-advanced/view-extract-histogram-1.png) 
+
+    #view summary of values
+    summary(tree_height$HARV_chmCrop)
+
+    ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    ##    2.03   21.36   22.81   22.43   23.97   38.17
 
 * Check out the documentation for the `extract()` function for more details 
 (`help.search("extract", package = "raster")`).
@@ -415,18 +377,19 @@ We often want to extract summary values from a raster. We can tell `R` the type
 of summary statistic we are interested in using the `fun=` method. Let's extract
 a mean height value for our AOI. 
 
-```{r summarize-extract }
-#extract the average tree height (calculated using the raster pixels)
-#located within the AOI polygon
-av_tree_height_AOI <- extract(x = chm_HARV, 
-                              y = aoiBoundary_HARV,
-                              fun=mean, 
-                              df=TRUE)
 
-#view output
-av_tree_height_AOI
+    #extract the average tree height (calculated using the raster pixels)
+    #located within the AOI polygon
+    av_tree_height_AOI <- extract(x = chm_HARV, 
+                                  y = aoiBoundary_HARV,
+                                  fun=mean, 
+                                  df=TRUE)
+    
+    #view output
+    av_tree_height_AOI
 
-```
+    ##   ID HARV_chmCrop
+    ## 1  1     22.43018
 
 It appears that the mean height value, extracted from our LiDAR data derived
 canopy height model is 22.43 meters.
@@ -451,26 +414,33 @@ The units of the buffer are the same units of the data `CRS`.
 Let's put this into practice by figuring out the average tree height in the 
 20m around the tower location. 
 
-```{r extract-point-to-buffer }
-#what are the units of our buffer
-crs(point_HARV)
 
-#extract the average tree height (calculated using the raster pixels)
-#at the tower location
-#use a buffer of 20 meters and mean function (fun) 
-av_tree_height_tower <- extract(x = chm_HARV, 
-                                y = point_HARV, 
-                                buffer=20,
-                                fun=mean, 
-                                df=TRUE)
+    #what are the units of our buffer
+    crs(point_HARV)
 
-#view data
-head(av_tree_height_tower)
+    ## CRS arguments:
+    ##  +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84
+    ## +towgs84=0,0,0
 
-#how many pixels were extracted
-nrow(av_tree_height_tower)
+    #extract the average tree height (calculated using the raster pixels)
+    #at the tower location
+    #use a buffer of 20 meters and mean function (fun) 
+    av_tree_height_tower <- extract(x = chm_HARV, 
+                                    y = point_HARV, 
+                                    buffer=20,
+                                    fun=mean, 
+                                    df=TRUE)
+    
+    #view data
+    head(av_tree_height_tower)
 
-```
+    ##   ID HARV_chmCrop
+    ## 1  1     22.38812
+
+    #how many pixels were extracted
+    nrow(av_tree_height_tower)
+
+    ## [1] 1
 
 Notice that the command above extracted 1259 pixels from our LiDAR derived canopy
 height model. Does this number make sense?
@@ -489,26 +459,4 @@ Create a simple plot showing the mean tree height of each plot.
 </div>
 
 
-```{r challenge-code-extract-plot-tHeight, include=TRUE, results="hide", echo=FALSE}
-
-#first import the plot location file.
-plot.locationsSp_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
-                            "PlotLocations_HARV")
-
-#extract data at each plot location
-meanTreeHt_plots_HARV <- extract(x = chm_HARV, 
-                               y = plot.locationsSp_HARV, 
-                               buffer=20,
-                               fun=mean, 
-                               df=TRUE)
-
-#view data
-meanTreeHt_plots_HARV
-
-#plot data
-plot(meanTreeHt_plots_HARV,
-     main="MeanTree Height at each Plot\nNEON Harvard Forest Field Site",
-     xlab="Plot ID", ylab="Tree Height (m)",
-     pch=16)
-
-```
+![ ]({{ site.baseurl }}/images/rfigs/04-vector-raster-integration-advanced/challenge-code-extract-plot-tHeight-1.png) 

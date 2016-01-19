@@ -54,7 +54,6 @@ crs(lines_HARV)
 extent(lines_HARV)
 
 
-
 ## ----crs-object----------------------------------------------------------
 #create crs object
 utm18nCRS <- crs(lines_HARV)
@@ -77,10 +76,15 @@ plot(plot.locationsSp_HARV,
      main="Map of Plot Locations")
 
 
+## ----create-aoi-boundary-------------------------------------------------
+#Create boundary object 
+aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
+                            "HarClip_UTMZ18")
+
 ## ----plot-data-----------------------------------------------------------
 
 plot(aoiBoundary_HARV,
-     main="NEON Harvard Forest Field Site")
+     main="Boundary\nNEON Harvard Forest Field Site")
 
 plot(plot.locationsSp_HARV, 
      pch=8, add=TRUE)
@@ -104,15 +108,13 @@ plot(extent(aoiBoundary_HARV),
      lwd=6,
      col="springgreen")
 
-legend("left",
+legend("bottom",
        legend=c("Layer One Extent", "Layer Two Extent"),
        bty="n", 
        col=c("purple","springgreen"),
        cex=.8,
        lty=c(1,1),
        lwd=6)
-
-
 
 
 ## ----set-plot-extent-----------------------------------------------------
@@ -128,6 +130,7 @@ ymax <- plotLoc.extent@ymax
 #adjust the plot extent using x and ylim
 plot(aoiBoundary_HARV,
      main="NEON Harvard Forest Field Site\nModified Extent",
+     border="darkgreen",
      xlim=c(xmin,xmax),
      ylim=c(ymin,ymax))
 
@@ -144,16 +147,18 @@ legend("bottomright",
        cex=.8)
 
 
-## ----challenge-answers, echo=FALSE, results="hide"-----------------------
-
+## ----challenge-code-phen-plots, echo=FALSE, results="hide", warning=FALSE----
+##1
 #Read the .csv file
 newPlot.locations_HARV <- 
   read.csv("NEON-DS-Site-Layout-Files/HARV/HARV_2NewPhenPlots.csv",
            stringsAsFactors = FALSE)
 
-#look at the data structure
+#look at the data structure -> locations in lat/long
 str(newPlot.locations_HARV)
 
+##2
+##Find/ establish a CRS for new points
 #Import the US boundary which is in a geographic WGS84 coordinate system
 Country.Boundary.US <- readOGR("NEON-DS-Site-Layout-Files/US-Boundary-Layers",
           "US-Boundary-Dissolved-States")
@@ -162,25 +167,30 @@ Country.Boundary.US <- readOGR("NEON-DS-Site-Layout-Files/US-Boundary-Layers",
 geogCRS <- crs(Country.Boundary.US)
 geogCRS
 
+##Convert to spatial data frame
 #note that the easting and northing columns are in columns 1 and 2
 newPlot.Sp.HARV <- SpatialPointsDataFrame(newPlot.locations_HARV[,2:1],
                     newPlot.locations_HARV,    #the R object to convert
                     proj4string = geogCRS)   # assign a CRS 
-                                          
+                                         
 #look at CRS
 crs(newPlot.Sp.HARV)
-#remember we have a UTM z18n crs objet from above
-#we can use that to reproject
+
+## We now have the data imported and in WGS84 Lat/Long.  We want to map with plot locations in 
+##UTM so we'll have to reproject. 
+
+#remember we have a UTM z18n crs object from previous code
 utm18nCRS
 
-#reproject the new points into UTM
+#reproject the new points into UTM using `utm18nCRS`
 newPlot.Sp.HARV.UTM <- spTransform(newPlot.Sp.HARV,
-                                            utm18nCRS)
+                                  utm18nCRS)
+#check new plot CRS
 crs(newPlot.Sp.HARV.UTM)
 
 
-#when you plot in base plot, if the extent isn't specified, then the data that
-#is added FIRST will define the extent of the plot
+###3
+#create plot
 plot(plot.locationsSp_HARV, 
      main="NEON Harvard Forest Field Site \nPlot Locations" )
 
@@ -192,11 +202,18 @@ plot(newPlot.Sp.HARV.UTM,
 extent(plot.locationsSp_HARV)
 extent(newPlot.Sp.HARV.UTM)
 
+#when you plot in base plot, if the extent isn't specified, then the data that
+#is added FIRST will define the extent of the plot
 plot(extent(plot.locationsSp_HARV),
      main="Comparison of Spatial Object Extents\nPlot Locations vs New Plot Locations")
 plot(extent(newPlot.Sp.HARV.UTM),
+     col="darkgreen",
      add=TRUE)
-#looks like we need to grab the x min and max and y min from our original plots
+
+#looks like the green box showing the newPlot extent extends
+#beyond the plot.locations extent.
+
+#We need to grab the x min and max and y min from our original plots
 #but then the ymax from our new plots
 
 originalPlotExtent <- extent(plot.locationsSp_HARV)
@@ -208,23 +225,21 @@ xmax <- originalPlotExtent@xmax
 ymin <- originalPlotExtent@ymin
 ymax <- newPlotExtent@ymax
 
-
-
-## ----challenge-plot, echo=FALSE------------------------------------------
-
+#3 again... re-plot
 #try again but this time specify the x and ylims
 #note: we could also write a function that would harvest the smallest and largest
 #x and y values from an extent object. This is beyond the scope of this lesson.
 plot(plot.locationsSp_HARV, 
      main="NEON Harvard Forest Field Site\nVegetation & Phenology Plots",
      pch=8,
+     col="purple",
      xlim=c(xmin,xmax),
      ylim=c(ymin,ymax))
 
 plot(newPlot.Sp.HARV.UTM, 
      add=TRUE, pch=20, col="darkgreen")
 
-#to create a custom legend, we need to fake it
+#to create a custom legend, we need specify the text as it isn't in the data
 legend("bottomright", 
        legend=c("Vegetation Plots", "Phenology Plots"),
        pch=c(8,20), 
