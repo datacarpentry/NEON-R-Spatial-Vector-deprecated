@@ -159,7 +159,19 @@ geometry of the shapefile features.
 
 For example, the Roads shapefile (`lines_HARV` object) contains an attribute
 called `TYPE`. Each line in the shapefile has an associated `TYPE` which 
-describes the type of road (road, footpath, boardwalk, etc).  
+describes the type of road (road, footpath, boardwalk, etc). 
+
+<figure>
+    <a href="{{ site.baseurl }}/images/spatialVector/Attribute_Table.png">
+    <img src="{{ site.baseurl }}/images/spatialVector/Attribute_Table.png"></a>
+    <figcaption>The shapefile format allows us to store attributes for each feature
+    (vector object) stored in the shapefile. The attribute table, is similar to 
+    a spreadsheet. There is a row for each feature. The first column contains the 
+    unique ID of the feature. We can add additional columns that describe the 
+    feature. 
+    Image Source: National Ecological Observatory Network (NEON) 
+    </figcaption>
+</figure>
 
 We can look at all of the associated data attributes by printing the contents of
 the `data` slot with `@data`. We can use the base `R` `length` function to count
