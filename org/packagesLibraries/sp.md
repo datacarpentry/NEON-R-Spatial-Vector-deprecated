@@ -4,7 +4,7 @@ title: 'Data Tutorials Using the sp R Package'
 packagesLibraries: sp
 permalink: R-package/sp/
 image:
-  feature: RBanner.png
+  feature: coding_R.jpg
   credit: 
   creditlink: 
 ---

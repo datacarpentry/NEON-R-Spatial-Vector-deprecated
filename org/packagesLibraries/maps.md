@@ -4,7 +4,7 @@ title: 'Data Tutorials Using the maps R Package'
 packagesLibraries: maps
 permalink: R-package/maps/
 image:
-  feature: RBanner.png
+  feature: coding_R.jpg
   credit: 
   creditlink: 
 ---

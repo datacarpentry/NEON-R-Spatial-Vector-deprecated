@@ -4,7 +4,7 @@ title: 'Data Tutorials Using the rhdf5 R Package'
 packagesLibraries: rhdf5
 permalink: R-package/rhdf5/
 image:
-  feature: RBanner.png
+  feature: coding_R.jpg
   credit: 
   creditlink: 
 ---

@@ -4,7 +4,7 @@ title: 'Data Tutorials Using the h5py R Package'
 packagesLibraries: h5py
 permalink: R-package/h5py/
 image:
-  feature: RBanner.png
+  feature: coding_R.jpg
   credit: 
   creditlink: 
 ---
