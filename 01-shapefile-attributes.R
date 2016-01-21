@@ -151,7 +151,7 @@ plot(lines_HARV, col=lines_HARV$TYPE,
 legend("bottomright", levels(lines_HARV$TYPE), fill=palette(), bty="n", cex=.8)
 
 
-## ----bicycle-map, echo=FALSE---------------------------------------------
+## ----bicycle-map, include=TRUE, results="hide", echo=FALSE---------------
 #view levels 
 levels(lines_HARV$BicyclesHo)
 
@@ -166,7 +166,7 @@ palette()
 #plot using new colors
 plot(lines_HARV, col=lines_HARV$BicyclesHo,
      lwd=4,
-     main="Roads Where Bikes and Horses Are allowed  \n NEON Harvard Forest Field Site")
+     main="Roads Where Bikes and Horses Are Allowed \n NEON Harvard Forest Field Site")
 #add a legend to our map
 legend("bottomright", 
        levels(lines_HARV$BicyclesHo), 
@@ -235,8 +235,8 @@ legend("bottomright",
        cex=.9)
 
 
-## ----challenge-code-plot-other, results="hide", echo=FALSE---------------
-
+## ----challenge-code-plot-color, results="hide", warning= FALSE, echo=FALSE----
+##1
 #Read the .csv file
 State.Boundary.US <- readOGR("NEON-DS-Site-Layout-Files/US-Boundary-Layers",
           "US-State-Boundaries-Census-2014")
@@ -246,25 +246,25 @@ palette()
 
 plot(State.Boundary.US,
      col=State.Boundary.US$NAME,
-     main="Roads at the NEON Harvard Forest Field Site \n 50 Colors")
+     main="Contiguious US States \n in 50 Colors")
 
-### part 2
+##2
 #open plot locations
-
 plotLocations <- readOGR("NEON-DS-Site-Layout-Files/HARV",
           "PlotLocations_HARV")
 
-#how many unique soils?
+#how many unique soils?  Two
 unique(plotLocations$soilTypeOr)
 
-#create new color palette
+#create new color palette -- topo.colors palate
 palette(topo.colors((2)))
 palette()
 
-
+#plot the locations 
 plot(plotLocations,
      col=plotLocations$soilTypeOr, pch=18,
      main="NEON Field Sites by Soil Type")
+
 #create legend 
 legend("bottomright", 
        legend=c("Intceptisols","Histosols"),

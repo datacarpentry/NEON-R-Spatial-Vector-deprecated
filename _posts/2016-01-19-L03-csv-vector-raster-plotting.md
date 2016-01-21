@@ -5,16 +5,16 @@ date:   2015-10-24
 authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: 2016-01-15
+lastModified: 2016-01-19
 packagesLibraries: [rgdal, raster]
 category: 
 mainTag: vector-data-workshop
 tags: [vector-data, vector-data-workshop, R, spatial-data-gis]
 workshopSeries: [vector-data-series]
-description: "This tutorial covers how to convert a .csv file that contains spatial
-coordinate information into a spatial object in R. We will then export the Spatial
-object as a Shapefile for efficient import into R and other GUI GIS applications
-including QGIS and ArcGIS"
+description: "This tutorial covers how to convert a .csv file that contains
+spatial coordinate information into a spatial object in R. We will then export
+the spatial object as a Shapefile for efficient import into R and other GUI GIS
+applications including QGIS and ArcGIS"
 code1: 03-csv-vector-raster-plotting.R
 image:
   feature: NEONCarpentryHeader_2.png
@@ -70,21 +70,19 @@ preferably RStudio, loaded on your computer.
 {% include/_greyBox-wd-rscript.html %}
 
 **Vector Lesson Series:** This lesson is part of a lesson series on 
-[vector data in R ]({{ site.baseurl }}self-paced-tutorials/spatial-vector-series). It is also
-part of a larger 
+[vector data in R ]({{ site.baseurl }}self-paced-tutorials/spatial-vector-series).
+It is also part of a larger 
 [spatio-temporal Data Carpentry Workshop ]({{ site.baseurl }}self-paced-tutorials/spatio-temporal-workshop)
 that includes working with
 [raster data in R ]({{ site.baseurl }}self-paced-tutorials/spatial-raster-series) 
-and  
-[tabular time series in R ]({{ site.baseurl }}self-paced-tutorials/tabular-time-series).
+and [tabular time series in R ]({{ site.baseurl }}self-paced-tutorials/tabular-time-series).
 
 </div>
 
 ##Spatial Data in Text Format
 
 The `HARV_PlotLocations.csv` file contains `x, y` (point) locations for plot locations 
-<a href="http://www.neoninc.org/science-design/collection-methods/terrestrial-organismal-sampling" target="_blank">  
-where NEON </a>
+<a href="http://www.neoninc.org/science-design/collection-methods/terrestrial-organismal-sampling" target="_blank"> where NEON </a>
 samples vegetation and other ecological metrics. We would like to:
 
 * Create a map of these plot locations. 
@@ -118,9 +116,9 @@ We will use the `rgdal` and `raster` libraries in this tutorial.
 
 ##Import .csv 
 To begin let's import `.csv` file that contains plot coordinate `x, y`
- locations at the NEON Harvard Forest Field Site (`HARV_PlotLocations.csv`) in `R`.
-Note we set `stringsAsFactors=FALSE` so our data import as a `character` rather 
-than a `factor` class.
+locations at the NEON Harvard Forest Field Site (`HARV_PlotLocations.csv`) in
+`R`. Note we set `stringsAsFactors=FALSE` so our data import as a `character`
+rather than a `factor` class.
 
 
     #Read the .csv file
@@ -151,8 +149,8 @@ than a `factor` class.
 Also note that `plot.locations_HARV` is a `data.frame` that contains 21 
 locations (rows) and 15 variables (attributes). 
 
-Next, let's identify explore  `data.frame` to determine whether it contains columns 
-with coordinate values. If we are lucky, our `.csv` will contain either:
+Next, let's identify explore  `data.frame` to determine whether it contains
+columns with coordinate values. If we are lucky, our `.csv` will contain either:
 
 * columns labeled "X" and "Y" OR
 * Latitude and Longitude OR
@@ -200,16 +198,16 @@ the `CRS` associated with those coordinate values.
 
 There are several ways to figure out the `CRS` of spatial data in text format.  
 
-1. We can check the file `metadata` in hopes that the `CRS` was recorded in the data.
-For more information on metadata, check out the
+1. We can check the file `metadata` in hopes that the `CRS` was recorded in the
+data. For more information on metadata, check out the
 [Understanding Time Series Metadata]({{site.baseurl}}/R/Time-Series-Metadata) 
 lesson. 
 2. We can explore the file itself to see if `CRS` information is embedded in the 
 file header or somewhere in the data columns.
 
 Following the `easting` and `northing` columns, there is a `geodeticDa` and a 
-`utmZone` column. These appear to contain `CRS` information (`datum` and `projection`).
-Let's view those next. 
+`utmZone` column. These appear to contain `CRS` information
+(`datum` and `projection`). Let's view those next. 
 
 
 
@@ -222,13 +220,12 @@ Let's view those next.
 
     ## [1] "18N" "18N" "18N" "18N" "18N" "18N"
 
-It is not typical to store `CRS` information in a column. But this particular file
-contains `CRS` information this way. The `geodeticDa` and `utmZone` columns 
+It is not typical to store `CRS` information in a column. But this particular
+file contains `CRS` information this way. The `geodeticDa` and `utmZone` columns 
 contain the information that helps us determine the `CRS`: 
 
 * `geodeticDa`: WGS84  -- this is geodetic datum WGS84
-* `utmZone`: 18N
-
+* `utmZone`: 18
 
 In 
 [Lesson 02 - When vector data don't line up - CRS]({{site.baseurl}}/R/vector-data-reproject-crs-R/)
@@ -267,9 +264,9 @@ object. Let's import the roads layer from Harvard forest and check out its `CRS`
     ## ymin        : 4711942 
     ## ymax        : 4714260
 
-Exploring the data above, we can see that the lines shapefile is in `UTM zone 18N`.
-We can thus use the CRS from that spatial object to convert our non-spatial
-`data.frame` into a `spatialPointsDataFrame`. 
+Exploring the data above, we can see that the lines shapefile is in
+`UTM zone 18N`. We can thus use the CRS from that spatial object to convert our
+non-spatial `data.frame` into a `spatialPointsDataFrame`. 
 
 Next, let's create a `crs` object that we can use to define the `CRS` of our 
 `SpatialPointsDataFrame` when we create it
@@ -289,9 +286,7 @@ Next, let's create a `crs` object that we can use to define the `CRS` of our
     ## attr(,"package")
     ## [1] "sp"
 
-
 ##.csv to R SpatialPointsDataFrame
-
 Next, let's convert our `data.frame` into a `SpatialPointsDataFrame`. To do this,
 we need to specify:
 
@@ -327,17 +322,32 @@ We now have a spatial `R` object, we can plot our newly created spatial object.
 
 ##Define Plot Extent
 
-In lesson XXX <link here> we learned about spatial object `extent`. When we plot
-several spatial layers in `R`, the first layer that is plotted, becomes the extent
-of the plot. If we add additional layers that are outside of that extent, then
-the data will not be visible in our plot. It is thus useful to know how to set the 
-spatial extent of a plot using `xlims` and `ylims.
+In 
+[Lesson 00: Open and Plot Shapefiles in R]({{site.baseurl}}/R/open-shapefiles-in-R/)
+we learned about spatial object `extent`. When we plot several spatial layers in
+`R`, the first layer that is plotted, becomes the extent of the plot. If we add
+additional layers that are outside of that extent, then the data will not be
+visible in our plot. It is thus useful to know how to set the spatial extent of
+a plot using `xlims` and `ylims`.
+
+Let's create a boundary for our area of interest (AOI) for the Harvard field
+site.  (If you have completed Lesson 00 or 01 in this series you can skip this
+chunk as you have already created this object.)
+
+    #Create boundary object 
+    aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
+                                "HarClip_UTMZ18")
+
+    ## OGR data source with driver: ESRI Shapefile 
+    ## Source: "NEON-DS-Site-Layout-Files/HARV/", layer: "HarClip_UTMZ18"
+    ## with 1 features
+    ## It has 1 fields
 
 To begin, let's plot our `aoiBoundary` object with our vegetation plots.
 
 
     plot(aoiBoundary_HARV,
-         main="NEON Harvard Forest Field Site")
+         main="Boundary\nNEON Harvard Forest Field Site")
     
     plot(plot.locationsSp_HARV, 
          pch=8, add=TRUE)
@@ -356,10 +366,9 @@ To begin, let's plot our `aoiBoundary` object with our vegetation plots.
     ##  +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84
     ## +towgs84=0,0,0
 
-
-When we attempt to plot the two layers together, we can see that the plot locations
-are not rendered. We can see that our data are in the same projection - so what
-is going on?
+When we attempt to plot the two layers together, we can see that the plot
+locations are not rendered. We can see that our data are in the same projection
+- so what is going on?
 
 
     extent(aoiBoundary_HARV)
@@ -389,7 +398,7 @@ is going on?
          lwd=6,
          col="springgreen")
     
-    legend("left",
+    legend("bottom",
            legend=c("Layer One Extent", "Layer Two Extent"),
            bty="n", 
            col=c("purple","springgreen"),
@@ -399,9 +408,9 @@ is going on?
 
 ![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/compare-extents-1.png) 
 
-The extents of our two objects are DIFFERENT. `plot.locationsSp_HARV` is much
-larger than `aoiBoundary_HARV`. When we plot `aoiBoundary_HARV` first, `R` uses
-the extent of that object to as the plot extent. Thus the points in the 
+The *extents* of our two objects are *different*. `plot.locationsSp_HARV` is
+much larger than `aoiBoundary_HARV`. When we plot `aoiBoundary_HARV` first, `R`
+uses the extent of that object to as the plot extent. Thus the points in the 
 `plot.locationsSp_HARV` object are not rendered. To fix this, we can manually
 assign the plot extent using `xlims` and `ylims`. We can grab the extent
 values from the spatial object that has a larger extent. Let's try it.
@@ -409,9 +418,10 @@ values from the spatial object that has a larger extent. Let's try it.
 <figure>
     <a href="{{ site.baseurl }}/images/spatialVector/spatial_extent.png">
     <img src="{{ site.baseurl }}/images/spatialVector/spatial_extent.png"></a>
-    <figcaption>The spatial extent of a shapefile or R spatial object represents
-    the geographic "edge" or location that is the furthest north, south east and 
-    west. Thus is represents the overall geographic coverage of the spatial object. 
+    <figcaption>The spatial extent of a shapefile or `R` spatial object
+    represents the geographic *edge* or location that is the furthest north,
+    south, east and west. Thus is represents the overall geographic coverage of
+    the spatial object. 
     Image Source: National Ecological Observatory Network (NEON) 
     </figcaption>
 </figure>
@@ -435,6 +445,7 @@ values from the spatial object that has a larger extent. Let's try it.
     #adjust the plot extent using x and ylim
     plot(aoiBoundary_HARV,
          main="NEON Harvard Forest Field Site\nModified Extent",
+         border="darkgreen",
          xlim=c(xmin,xmax),
          ylim=c(ymin,ymax))
     
@@ -452,37 +463,29 @@ values from the spatial object that has a larger extent. Let's try it.
 
 ![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/set-plot-extent-1.png) 
 
-
-
-
 <div id="challenge" markdown="1">
-##Challenge - Import & Plot 2 More Points
+##Challenge - Import & Plot Additional Points
+We want to add two phenology plots to our existing map of vegetation plot
+locations. 
 
-Import the .csv: `HARV/HARV_2NewPhenPlots.csv` into R and do the following
+Import the .csv: `HARV/HARV_2NewPhenPlots.csv` into `R` and do the following:
 
 1. Find the X and Y coordinate locations. Which value is X and which value is Y?
 2. These data were collected in a geographic coordinate system (WGS84). Convert
-the `data.frame` into an R, `spatialPointsDataFrame`.
-3. Plot the new points with the points that you imported above. Be sure to add
-a legend. Use different symbols for the 2 new points!
-4. You may need to adjust the X and Y LIMITS of your plot to ensure that both
-points are rendered by R!
+the `data.frame` into an `R` `spatialPointsDataFrame`.
+3. Plot the new points with the plot location points from above. Be sure to add
+a legend. Use a different symbol for the 2 new points!  You may need to adjust
+the X and Y limits of your plot to ensure that both points are rendered by `R`!
 
 If you have extra time, feel free to add roads and other layers to your map!
 
-HINT: Refer to (Lesson 01 - When Vector Data Don't Line Up For more on working with geographic coordinate systems)[{{site.baseurl}}/R/vector-data-reproject-crs-R/]
-You can "borrow" the projection from the objects used in that lesson!
+HINT: Refer to
+[Lesson 02: When Vector Data Don't Line Up]({{site.baseurl}}/R/vector-data-reproject-crs-R/)
+for more on working with geographic coordinate systems. You may want to "borrow"
+the projection from the objects used in that lesson!
 </div>
 
-
-
-
-    ## Warning in readOGR("NEON-DS-Site-Layout-Files/US-Boundary-Layers", "US-
-    ## Boundary-Dissolved-States"): Z-dimension discarded
-
-![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/challenge-answers-1.png) ![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/challenge-answers-2.png) 
-
-![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/challenge-plot-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/challenge-code-phen-plots-1.png) ![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/challenge-code-phen-plots-2.png) ![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/challenge-code-phen-plots-3.png) 
 
 ##Export a Shapefile
 
@@ -501,7 +504,4 @@ We can now export the spatial object as a shapefile.
     #write a shapefile
     writeOGR(plot.locationsSp_HARV, getwd(),
              "PlotLocations_HARV", driver="ESRI Shapefile")
-
-
-
 

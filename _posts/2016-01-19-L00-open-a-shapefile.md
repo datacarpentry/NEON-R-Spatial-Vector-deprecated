@@ -6,11 +6,11 @@ date:   2015-10-27
 authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: 2016-01-15
+lastModified: 2016-01-19
 packagesLibraries: [rgdal, raster]
-category: [self-paced-tutorial]
+category: 
 mainTag: vector-data-workshop
-tags: [vector-data, R, spatial-data-gis]
+tags: [vector-data, vector-data-workshop, R, spatial-data-gis]
 workshopSeries: [vector-data-series]
 description: "This spatial data lesson explains the how to open and plot 
 Shapefiles containing point, line and polygon vector data in R."
@@ -65,8 +65,8 @@ on your computer to complete this lesson.
 
 
 **Vector Lesson Series:** This lesson is part of a lesson series on 
-[vector data in R ]({{ site.baseurl }}self-paced-tutorials/spatial-vector-series). It is also
-part of a larger 
+[vector data in R ]({{ site.baseurl }}self-paced-tutorials/spatial-vector-series).
+It is also part of a larger 
 [spatio-temporal Data Carpentry Workshop ]({{ site.baseurl }}self-paced-tutorials/spatio-temporal-workshop)
 that includes working with
 [raster data in R ]({{ site.baseurl }}self-paced-tutorials/spatial-raster-series) 
@@ -332,7 +332,7 @@ Next, let's visualize the data in our `R spatialpolygonsdataframe` object using
     plot(aoiBoundary_HARV, col="cyan1", border="black", lwd=3,
          main="AOI Boundary Plot")
 
-![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/plot-shapefile-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/Plot-shapefile-1.png) 
 
 <div id="challenge" markdown="1">
 ##Challenge: Import Line and Point Shapefiles
@@ -393,10 +393,9 @@ lessons.
 
 ![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/challenge-vector-raster-overlay-1.png) 
 
+***
 
-
-
-##Additional Resources
+##Additional Resources: Plot Parameter
 For more on parameter options in the base `R` `plot()` function, check out these
 resources:
 

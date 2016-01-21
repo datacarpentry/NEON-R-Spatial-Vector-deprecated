@@ -91,7 +91,7 @@ plot(point_HARV, add  = TRUE, pch = 19, col = "purple")
 ## ----challenge-vector-raster-overlay, echo=FALSE-------------------------
 
 #import CHM
-chm_HARV <- raster("NEON_RemoteSensing/HARV/CHM/HARV_chmCrop.tif")
+chm_HARV <- raster("NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif")
 
 plot(chm_HARV,
      main="Map of Study Area\n w/ Canopy Height Model\nNEON Harvard Forest Field Site")

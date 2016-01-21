@@ -8,9 +8,9 @@ contributors: [Sarah Newman]
 dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 packagesLibraries: [rgdal, raster]
-category: [self-paced-tutorial]
+category: 
 mainTag: vector-data-workshop
-tags: [vector-data, R, spatial-data-gis]
+tags: [vector-data, vector-data-workshop, R, spatial-data-gis]
 workshopSeries: [vector-data-series]
 description: "This spatial data lesson explains the how to open and plot 
 Shapefiles containing point, line and polygon vector data in R."
@@ -65,8 +65,8 @@ on your computer to complete this lesson.
 
 
 **Vector Lesson Series:** This lesson is part of a lesson series on 
-[vector data in R ]({{ site.baseurl }}self-paced-tutorials/spatial-vector-series). It is also
-part of a larger 
+[vector data in R ]({{ site.baseurl }}self-paced-tutorials/spatial-vector-series).
+It is also part of a larger 
 [spatio-temporal Data Carpentry Workshop ]({{ site.baseurl }}self-paced-tutorials/spatio-temporal-workshop)
 that includes working with
 [raster data in R ]({{ site.baseurl }}self-paced-tutorials/spatial-raster-series) 
@@ -382,7 +382,7 @@ lessons.
 ```{r challenge-vector-raster-overlay, echo=FALSE }
 
 #import CHM
-chm_HARV <- raster("NEON_RemoteSensing/HARV/CHM/HARV_chmCrop.tif")
+chm_HARV <- raster("NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif")
 
 plot(chm_HARV,
      main="Map of Study Area\n w/ Canopy Height Model\nNEON Harvard Forest Field Site")
@@ -398,10 +398,9 @@ plot(point_HARV, pch=8,
 
 ```
 
+***
 
-
-
-##Additional Resources
+##Additional Resources: Plot Parameter
 For more on parameter options in the base `R` `plot()` function, check out these
 resources:
 

@@ -1,11 +1,12 @@
 ---
 layout: post
-title: "Lesson 01: Explore Shapefile Attributes & Plot Shapefile Objects by Attribute Value in R"
+title: "Lesson 01: Explore Shapefile Attributes & Plot Shapefile Objects by
+Attribute Value in R"
 date:   2015-10-26
 authors: [Joseph Stachelek, Leah Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: 2016-01-15
+lastModified: 2016-01-19
 packagesLibraries: [rgdal, raster]
 category: 
 mainTag: vector-data-workshop
@@ -64,13 +65,12 @@ preferably RStudio, loaded on your computer.
 {% include/_greyBox-wd-rscript.html %}
 
 **Vector Lesson Series:** This lesson is part of a lesson series on 
-[vector data in R ]({{ site.baseurl }}self-paced-tutorials/spatial-vector-series). It is also
-part of a larger 
+[vector data in R ]({{ site.baseurl }}self-paced-tutorials/spatial-vector-series).
+It is also part of a larger 
 [spatio-temporal Data Carpentry Workshop ]({{ site.baseurl }}self-paced-tutorials/spatio-temporal-workshop)
 that includes working with
 [raster data in R ]({{ site.baseurl }}self-paced-tutorials/spatial-raster-series) 
-and  
-[tabular time series in R ]({{ site.baseurl }}self-paced-tutorials/tabular-time-series).
+and [tabular time series in R ]({{ site.baseurl }}self-paced-tutorials/tabular-time-series).
 
 </div>
 
@@ -83,12 +83,11 @@ To work with vector data in `R`, we can use the `rgdal` library. The `raster`
 package also allows us to explore metadata using similar commands for both
 rasters and vectors. 
 
-We will first, import three shapefiles. The first is our `AOI` or area of interest
-boundary polygon that we worked with in 
-[Lesson 00 - Vector Data in R - Open and Plot Shapefiles]({{site.baseurl}}R/open-shapefiles-in-R/ ). 
-The second is a shapefile containing
-the location of roads within the field site. Finally we will import a file containing
-the Fisher tower location.
+We will first, import three shapefiles. The first is our `AOI` or area of
+interest boundary polygon that we worked with in 
+[Lesson 00 - Vector Data in R - Open and Plot Shapefiles]({{site.baseurl}}R/open-shapefiles-in-R/). 
+The second is a shapefile containing the location of roads within the field
+site. Finally we will import a file containing the Fisher tower location.
 
 If you completed the
 [Vector Data in R - Open and Plot Shapefiles]({{site.baseurl}}R/open-shapefiles-in-R/ ) 
@@ -241,9 +240,9 @@ the number of attributes associated with a spatial object too.
     ## [1] 15
 
 
-We can view the individual NAMES of each attribute using the `names(lines_HARV@data)` 
-method in `R`. We can also view just the first 6 rows of attribute values using 
-`head(lines_HARV@data)`. 
+We can view the individual NAMES of each attribute using the
+`names(lines_HARV@data)` method in `R`. We can also view just the first 6 rows
+of attribute values using  `head(lines_HARV@data)`. 
 
 Let's give it a try.
 
@@ -285,12 +284,10 @@ the attribute.
     ## [13] woods road
     ## Levels: boardwalk footpath stone wall woods road
 
-
-
 ###Subset Shapefiles
-Using the `$` symbol, we can access the values associated with a 
-particular `attribute` in a shapefile. We can use this syntax to select 
-a subset of features from a spatial object in `R`. 
+Using the `$` symbol, we can access the values associated with a particular
+`attribute` in a shapefile. We can use this syntax to select a subset of
+features from a spatial object in `R`. 
 
 
     #view all attributes in the TYPE column
@@ -345,11 +342,11 @@ that only two lines have the attribute "TYPE=footpath".
 
 ##Plot Lines by Attribute Value
 
-To plot vector data, colored by a set of attribute values, we can convert an attribute
-that has categorical data to class= `factor`. A factor is similar to a category - 
-you can group vector objects by a particular category value - for example 
-you can group all lines of `TYPE=footpath`. However in `R`, a factor
-can also have an ORDER. 
+To plot vector data, colored by a set of attribute values, we can convert an
+attribute that has categorical data to class= `factor`. A factor is similar to a
+category - you can group vector objects by a particular category value - for
+example you can group all lines of `TYPE=footpath`. However in `R`, a factor
+can also have an *order*. 
 
 If we convert the `lines_HARV$TYPE` column to a factor using `as.factor()`, then
 it will be much easier to plot features by attribute value.
@@ -398,8 +395,6 @@ We can adjust the width of our plot lines too using `lwd`. We can set all lines
 to be thicker or thinner using `lwd=`. Or given we have a factor with 4 levels, 
 we can provide an vector of numbers, each of which represents the thickness of
 one of our four levels or categories as follows:
-
-
      
 
     #make all lines thicker
@@ -481,34 +476,25 @@ modify this list of colors to create a prettier looking plot!
 
 ![ ]({{ site.baseurl }}/images/rfigs/01-shapefile-attributes/adjust-palette-colors-1.png) 
 
-
 <i class="fa fa-star"></i> **Data Tip:** You can apply built in colors ramps to 
-your palette too. For example `palette(rainbow(6))`, `palette(terrain.colors(6))`. 
+your palette too. For example `palette(rainbow(6))` or
+`palette(terrain.colors(6))`. 
 You can reset the palette colors using `palette("default")` if need be!
 {: .notice} 
 
 <div id="challenge" markdown="1">
-##Challenge
+##Challenge: Plot Lines by Attribute
+Create a plot that emphasizes only roads where bicycles and horses are allowed. 
+NOTE: this attribute information is located in the `lines_HARV$BicyclesHo` 
+attribute.  
 
-Create a plot that emphasizes only roads where Bicycles and Horses are Allowed. 
-NOTE: this attribute information is located in the `lines_HARV$BicyclesHo` attribute.
-Be sure to add a title and legend to your map! HINT: You might consider a color
-palette that has all bike-friendly roads displayed in a bright color.  
-All other lines might be grey.
+Be sure to add a title and legend to your map! You might consider a color
+palette that has all bike/horse-friendly roads displayed in a bright color.  All
+other lines might be grey.
 
 </div>
 
-
-    ## [1] "Bicycles and Horses Allowed"     "Bicycles and Horses NOT ALLOWED"
-    ## [3] "DO NOT SHOW ON REC MAP"
-
-    ## [1] "Bicycles and Horses Allowed"     "Bicycles and Horses NOT ALLOWED"
-    ## [3] "DO NOT SHOW ON REC MAP"
-
-    ## [1] "magenta" "gray"    "gray"
-
 ![ ]({{ site.baseurl }}/images/rfigs/01-shapefile-attributes/bicycle-map-1.png) 
-
 
 ##Plot Multiple Vector Layers
 Now, let's create a plot that combines our tower location (`point_HARV`), 
@@ -516,7 +502,7 @@ site boundary (`aoiBoundary_HARV`) and roads (`lines_HARV`) spatial objects. We
 will need to BUILD a custom legend as well.
 
 To begin, create a plot with the site boundary as the first layer. Then layer 
-the tower location and road data on top using `add=TRUE`.
+the tower location and road data on top using `add=TRUE`.  
 
 ![ ]({{ site.baseurl }}/images/rfigs/01-shapefile-attributes/challenge-answer-1.png) 
 
@@ -527,7 +513,8 @@ the AOI polygon, we will need to build three things
 2. a list of colors as they appear in our plot
 3. a list of symbols to use in the plot
 
-Let's create objects for the labels, colors and symbols so we can easily reuse them.
+Let's create objects for the labels, colors and symbols so we can easily reuse
+them.
 
 
     #create a list of all labels
@@ -569,18 +556,18 @@ We are almost there! It might be more useful to use line symbols in our legend
 rather than squares to better represent our data. We can create a line symbol
 using `lty = ()`. We have a total of 6 elements in our legend:
 
-1. Tower Location
-2. AOI
-3-6 - road levels (categories)
+1.   Tower Location
+2.   AOI
+3-6. Road levels (categories)
 
-The `lty` list designates, in order, which of those elements should be designated
-as a line (`1`) and which should be designated as a symbol (`NA`). Our object will
-thus look like `lty = c(NA,NA,1,1,1,1)`. This tells R to use a line element for
-the 3-6 elements in our legend only. 
+The `lty` list designates, in order, which of those elements should be
+designated as a line (`1`) and which should be designated as a symbol (`NA`).
+Our object will thus look like `lty = c(NA,NA,1,1,1,1)`. This tells `R` to use a
+line element for`the 3-6 elements in our legend only. 
 
-Once we do this, we need to MODIFY our pch element. Each LINE element (3-6) 
-should be represented by a `NA` value - this tells R to not use a symbol, but 
-to instead use a line.
+Once we do this, we need to *modify* our `pch` element. Each *line* element
+(3-6) should be represented by a `NA` value - this tells `R` to not use a
+symbol, but to instead use a line.
 
 
 
@@ -611,25 +598,22 @@ to instead use a line.
 
 
 <div id="challenge" markdown="1">
-##Challenge
+##Challenge: Plot Color by Attribute
 
-1. Create a map of the State boundaries in the United States - using the data located
-in your downloaded data folder: `NEON-DS-Site-Layout-Files/US-Boundary-Layers\US-State-Boundaries-Census-2014`. Each state should 
-be a different color / shade of color. HINT: you can use 
-`palette(terrain.colors((50))` to create a palette of 50 colors using the terrain.colors
-R palette. 
+1. Create a map of the State boundaries in the United States - using the data
+located in your downloaded data folder: `NEON-DS-Site-Layout-Files/US-Boundary-Layers\US-State-Boundaries-Census-2014`. 
+Each state should be a different color or shade of color. 
+HINT: you can use `palette(terrain.colors((50))` to create a palette of 50
+colors using the `terrain.colors` `R` palette. 
 
 2. Using the `NEON-DS-Site-Layout-Files/HARV/PlotLocations_HARV.shp` shapefile, 
-create a map of field site locations, with each point colored
-by the soil type (`soilTypeOr`). How many different soil types are there at this
-particular field site? Experiment with using one of the other 
+create a map of field site locations, with each point colored by the soil type
+(`soilTypeOr`). 
+Experiment with using one of the other 
 <a href="https://stat.ethz.ch/R-manual/R-devel/library/grDevices/html/palettes.html" target="_blank">R Color Palettes</a>.
 
+How many different soil types are there at this particular field site? 
 
 </div>
 
-
-    ## Warning in readOGR("NEON-DS-Site-Layout-Files/US-Boundary-Layers", "US-
-    ## State-Boundaries-Census-2014"): Z-dimension discarded
-
-![ ]({{ site.baseurl }}/images/rfigs/01-shapefile-attributes/challenge-code-plot-other-1.png) ![ ]({{ site.baseurl }}/images/rfigs/01-shapefile-attributes/challenge-code-plot-other-2.png) 
+![ ]({{ site.baseurl }}/images/rfigs/01-shapefile-attributes/challenge-code-plot-color-1.png) ![ ]({{ site.baseurl }}/images/rfigs/01-shapefile-attributes/challenge-code-plot-color-2.png) 
