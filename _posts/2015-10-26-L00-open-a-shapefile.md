@@ -134,16 +134,6 @@ We will use the `rgdal` package to work with vector data in `R`. Notice that the
     #load required libraries
     #for vector work; sp package will load with rgdal.
     library(rgdal)  
-
-    ## Loading required package: sp
-    ## rgdal: version: 1.1-1, (SVN revision 572)
-    ##  Geospatial Data Abstraction Library extensions to R successfully loaded
-    ##  Loaded GDAL runtime: GDAL 1.11.3, released 2015/09/16
-    ##  Path to GDAL shared files: /usr/local/Cellar/gdal/1.11.3/share/gdal
-    ##  Loaded PROJ.4 runtime: Rel. 4.9.2, 08 September 2015, [PJ_VERSION: 492]
-    ##  Path to PROJ.4 shared files: (autodetected)
-    ##  Linking to sp version: 1.2-1
-
     #for metadata/attributes- vectors or rasters
     library(raster) 
     

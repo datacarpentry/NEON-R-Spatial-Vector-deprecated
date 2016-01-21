@@ -472,8 +472,7 @@ modify this list of colors to create a prettier looking plot!
     #view default colors
     palette()
 
-    ## [1] "black"   "red"     "green3"  "blue"    "cyan"    "magenta" "yellow" 
-    ## [8] "gray"
+    ## [1] "#4C00FF" "#00E5FF"
 
     #manually set the colors for the plot!
     palette(c("springgreen", "blue", "magenta", "red") )
