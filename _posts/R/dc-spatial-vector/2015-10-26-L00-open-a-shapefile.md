@@ -10,7 +10,7 @@ lastModified: 2016-01-21
 packagesLibraries: [rgdal, raster]
 category: self-paced-tutorial
 mainTag: vector-data-series
-tags: [vector-data, vector-data-workshop, R, spatial-data-gis]
+tags: [vector-data, R, spatial-data-gis]
 workshopSeries: [vector-data-series]
 description: "This spatial data lesson explains the how to open and plot 
 Shapefiles containing point, line and polygon vector data in R."
