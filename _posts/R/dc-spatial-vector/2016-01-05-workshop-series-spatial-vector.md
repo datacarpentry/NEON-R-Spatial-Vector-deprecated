@@ -30,7 +30,7 @@ comments: false
 {% include _toc.html %}
 
 ##Workshop: Vector Data - Shapefiles in R
-This tutorials that comprise this workshop cover how to 
+This **tutorials that comprise this workshop ** cover how to 
 open, work with and plot with spatial data, in vector format (points, lines and polygons) in R. 
 Topics covered include working with spatial metadata: extent and coordinate reference system,
 working with spatial attributes and plotting data by attributes. Data used
@@ -43,7 +43,7 @@ spatial data in `R` before.
 <div id="objectives" markdown="1">
 
 #Goals / Objectives
-After completing the lessons in this series you will:
+After completing the lessons in this WORKSHOP SERIES you will know how to:
 
  * B
  
@@ -77,6 +77,6 @@ and
 [tabular time series in R ]({{ site.baseurl }}self-paced-tutorials/tabular-time-series).
 </div> 
 
-List lessons here automatically.
+##List lessons associated with this workshop series BELOW.
 
 
