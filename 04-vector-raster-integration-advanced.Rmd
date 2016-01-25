@@ -7,10 +7,10 @@ authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
-packagesLibraries: [rgdal, raster, ggplot2]
-category: 
-mainTag: vector-data-workshop
-tags: [vector-data, vector-data-workshop, R, spatial-data-gis]
+packagesLibraries: [rgdal, raster]
+category: self-paced-tutorial
+mainTag: vector-data-series
+tags: [vector-data, R, spatial-data-gis]
 workshopSeries: [vector-data-series]
 description: "This tutorial covers how to modify (crop) a raster extent using
 the extent of a vector shapefile. It also covers extracting pixel values from 
@@ -204,8 +204,7 @@ point_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
 
 #Imported in L02: .csv to Shapefile in R
 #import raster Canopy Height Model (CHM)
-chm_HARV <- 
-  raster("NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif")
+chm_HARV <- raster("NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif")
 
 ```
 

@@ -4,7 +4,7 @@ title: 'Data Tutorials Using the dplyr R Package'
 packagesLibraries: dplyr
 permalink: R-package/dplyr/
 image:
-  feature: RBanner.png
+  feature: coding_R.jpg
   credit: 
   creditlink: 
 ---

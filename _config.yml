@@ -38,8 +38,11 @@ google_analytics:
 # Links to include in top navigation
 # For external links add external: true
 links:  
-  - title: Data Tutorials
+  - title: Self Paced Data Tutorials
     url: /activities/
+    
+  - title: Data Workshops
+    url: /data-workshop/    
     
   - title: NEON Website
     url: http://neoninc.org

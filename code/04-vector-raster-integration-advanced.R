@@ -85,8 +85,7 @@ point_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
 
 #Imported in L02: .csv to Shapefile in R
 #import raster Canopy Height Model (CHM)
-chm_HARV <- 
-  raster("NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif")
+chm_HARV <- raster("NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif")
 
 
 ## ----Crop-by-vector-extent-----------------------------------------------

@@ -4,7 +4,7 @@ title: '#WorkWithData Workshop Series'
 category: data-workshop
 permalink: data-workshop/
 image:
-  feature: codingInformatics.png
+  feature: workshop.png
   credit: 
 ---
 

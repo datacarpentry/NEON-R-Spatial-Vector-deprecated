@@ -4,7 +4,7 @@ title: 'Data Tutorials Using the plyr R Package'
 packagesLibraries: plyr
 permalink: R-package/plyr/
 image:
-  feature: RBanner.png
+  feature: coding_R.jpg
   credit: 
   creditlink: 
 ---

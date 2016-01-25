@@ -4,7 +4,7 @@ title: 'Data Tutorials Using the rgeos R Package'
 packagesLibraries: rgeos
 permalink: R-package/rgeos/
 image:
-  feature: RBanner.png
+  feature: coding_R.jpg
   credit: 
   creditlink: 
 ---

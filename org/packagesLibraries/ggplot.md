@@ -4,7 +4,7 @@ title: 'Data Tutorials Using the ggplot R Package'
 packagesLibraries: ggplot
 permalink: R-package/ggplot/
 image:
-  feature: RBanner.png
+  feature: coding_R.jpg
   credit: 
   creditlink: 
 ---

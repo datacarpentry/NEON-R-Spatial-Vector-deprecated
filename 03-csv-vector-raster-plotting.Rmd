@@ -7,9 +7,9 @@ contributors: [Sarah Newman]
 dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 packagesLibraries: [rgdal, raster]
-category: 
-mainTag: vector-data-workshop
-tags: [vector-data, vector-data-workshop, R, spatial-data-gis]
+category: self-paced-tutorial
+mainTag: vector-data-series
+tags: [vector-data, R, spatial-data-gis]
 workshopSeries: [vector-data-series]
 description: "This tutorial covers how to convert a .csv file that contains
 spatial coordinate information into a spatial object in R. We will then export
