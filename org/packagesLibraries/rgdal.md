@@ -4,7 +4,7 @@ title: 'Data Tutorials Using the rgdal R Package'
 packagesLibraries: rgdal
 permalink: R-package/rgdal/
 image:
-  feature: coding_R.jpg
+  feature: RBanner.png
   credit: 
   creditlink: 
 ---

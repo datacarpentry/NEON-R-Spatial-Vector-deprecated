@@ -4,7 +4,7 @@ title: 'Data Tutorials Using the raster R Package'
 packagesLibraries: raster 
 permalink: R-package/raster/
 image:
-  feature: coding_R.jpg
+  feature: RBanner.png
   credit: 
   creditlink: 
 ---
