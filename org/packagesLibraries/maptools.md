@@ -4,7 +4,7 @@ title: 'Data Tutorials Using the maptools R Package'
 packagesLibraries: maptools
 permalink: R-package/maptools/
 image:
-  feature: coding_R.jpg
+  feature: RBanner.png
   credit: 
   creditlink: 
 ---

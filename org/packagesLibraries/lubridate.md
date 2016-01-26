@@ -4,7 +4,7 @@ title: 'Data Tutorials Using the lubridate R Package'
 packagesLibraries: lubridate
 permalink: R-package/lubridate/
 image:
-  feature: coding_R.jpg
+  feature: RBanner.png
   credit: 
   creditlink: 
 ---

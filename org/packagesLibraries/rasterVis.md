@@ -4,7 +4,7 @@ title: 'Data Tutorials Using the rasterVis R Package'
 packagesLibraries: rasterVis
 permalink: R-package/rasterVis/
 image:
-  feature: coding_R.jpg
+  feature: RBanner.png
   credit: 
   creditlink: 
 ---
