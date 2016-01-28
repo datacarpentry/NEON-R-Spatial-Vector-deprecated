@@ -23,10 +23,8 @@ wd <- "~/Documents/data/1_DataPortal_Workshop/1_WorkshopData"
 #set data working dir
 setwd(wd)
 
-#all .md files must be in the _posts dir as required by jekyll
-#jan 21 - added sub dir to group all lessons together
-#please change the directory name ONLY (after _posts/ if needed 
-postsDir <- ("_posts/R/dc-spatial-vector/")
+#don't change - this is the posts dir location required by jekyll
+postsDir <- ("_posts/")
 
 #images path
 imagePath <- "images/rfigs/"
@@ -94,9 +92,9 @@ for (files in rmd.files) {
   
   ## OUTPUT STUFF TO R ##
   #output code in R format
-  rCodeOutput <- paste0(gitRepoPath, "code/", sub(".Rmd$", "", basename(files)), ".R")
+  rCodeOutput <- paste0(gitRepoPath, sub(".Rmd$", "", basename(files)), ".R")
 
-  #purl the code to R - place it in the "code" directory
+  #purl the code to R
   purl(files, output = rCodeOutput)
   
   #clean up
