@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Lesson 02: When Vector Data Don't Line Up -- Handling Spatial
+title: "Lesson 02: When Vector Data Don't Line Up - Handling Spatial
 Projection & CRS in R"
 date:   2015-10-25
 authors: [Joseph Stachelek, Leah Wasser, Megan A. Jones]
@@ -8,9 +8,9 @@ contributors: [Sarah Newman]
 dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 packagesLibraries: [rgdal, raster]
-category: 
-mainTag: vector-data-workshop
-tags: [vector-data, vector-data-workshop, R, spatial-data-gis]
+categories: [self-paced-tutorial]
+mainTag: vector-data-series
+tags: [vector-data, R, spatial-data-gis]
 workshopSeries: [vector-data-series]
 description: "This tutorial will cover how to identify the CRS of a spatial
 vector object in R. It will also explore differences in units associated with
@@ -91,7 +91,7 @@ Some reasons for data being in different `CRS` include:
 
 1. The data are stored in a particular `CRS` convention used by the data
 provider which might be a federal agency, or a state planning office.
-2. The data are stored in a particular `CRS` that is customized to a region.  
+2. The data are stored in a particular `CRS` that is customized to a region.
 For instance, many states prefer to use a `state plane` projection customized
 for that state.
 
@@ -104,7 +104,7 @@ for that state.
     Notice the differences in shape associated with each different projection.
     These differences are a direct result of the calculations used to "flatten" 
     the data onto a 2-dimensional map. Often data are stored purposefully in a
-    particular projection that optimizes the relative *shape* and size of
+    particular projection that optimizes the relative shape and size of
     surrounding geographic boundaries (states, counties, countries, etc). 
     Source: opennews.org</figcaption>
 </figure>
@@ -113,6 +113,7 @@ Check out this short video highlighting how map projections can make continents
 seems proportionally larger or smaller than they actually are!
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/KUF_Ckv8HbE" frameborder="0" allowfullscreen></iframe>
+
 
 
 In this tutorial we will learn how to identify and manage spatial data 
@@ -268,7 +269,7 @@ crs(State.Boundary.US)
 crs(Country.Boundary.US)
 ```
 
-It looks like our data are in different `CRS`. We can tell this but looking at
+It looks like our data are in different `CRS`. We can tell this by looking at
 the `CRS` strings in `proj4` format.
 
 ##Understanding CRS in Proj4 Format
@@ -354,7 +355,7 @@ into the `R` console.
 ##Reproject Vector Data
 
 Now we know our data are in different `CRS`. To address this, we have to modify
-or `reproject` the data so they are all in the *same* `CRS`. We can use
+or `reproject` the data so they are all in the **same** `CRS`. We can use
 `spTransform` function to reproject our data. When we reproject the data, we
 specify the `CRS` that we wish to transform our data to. This `CRS` contains
 the `datum`, units and other information that `R` needs to `reproject` our data.
@@ -420,11 +421,11 @@ on our data.
 Create a map of the North Eastern United States as follows:
 
 1. Import and plot `Boundary-US-State-NEast.shp`. Adjust line width as necessary.
-2. *Reproject* the layer into UTM zone 18 north.
+2. **Reproject** the layer into UTM zone 18 north.
 3. Layer the Fisher Tower point location `point_HARV` on top of the above plot.
-4. Add a title to your plot.
-5. Add a legend to your plot that shows both the state boundary (line) and the 
-Tower location point.  
+4. Add a **title** to your plot.
+5. Add a **legend** to your plot that shows both the state boundary (line) and
+the Tower location point.
 
 </div>
 
@@ -447,7 +448,7 @@ NE.States.Boundary.US.UTM
 
 #plot state boundaries  
 plot(NE.States.Boundary.US.UTM , 
-     main="Map of Northeastern US\n With Fisher Tower Location - UTM Zone 18 N",
+     main="Map of Northeastern US\n With Fisher Tower Location - UTM Zone 18N",
      border="gray18",
      lwd=2)
 
