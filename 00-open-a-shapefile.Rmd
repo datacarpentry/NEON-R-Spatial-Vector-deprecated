@@ -26,7 +26,7 @@ comments: false
 {% include _toc.html %}
 
 ##About
-In this lesson we will open and plot point, line and polygon vector data, 
+In this lesson, we will open and plot point, line and polygon vector data 
 stored in shapefile format in `R`.
 
 **R Skill Level:** Introduction - you are just getting started with spatial data
@@ -76,7 +76,7 @@ and [tabular time series in R ]({{ site.baseurl }}self-paced-tutorials/tabular-t
 
 ##About Vector Data
 Vector data are composed of discrete geometric locations (x,y values) known as
-`vertices` that define the "shape" of the spatial object. The organization 
+**vertices** that define the "shape" of the spatial object. The organization 
 of the vertices, determines the type of vector that we are working 
 with: point, line or polygon.
 
@@ -105,9 +105,8 @@ not an issue we will deal with in this lesson.
  <i class="fa fa-star"></i> **Data Tip:** Sometimes, boundary layers such as 
  states and countries, are stored as lines rather than polygons. However, these
  boundaries, when represented as a line, will not create a closed object that we
- can apply a "fill" to OR that we can calculate the area of.
+ can apply a "fill" to or calculate the area of.
 {: .notice}
-
 
 ##Shapefiles: Points, Lines, and Polygons
 Geospatial data in vector format are often stored in a `shapefile` format. 
@@ -182,11 +181,10 @@ Learn more about OGR.</a>
 
 When we import the `HarClip_UTMZ18` shapefile layer into `R` (as our
 `aoiBoundary_HARV` object), the `readOGR()` function automatically stores
-information about the data. We are particularly interested
-in the geospatial **metadata** that describe the format, `CRS`, `extent`, and
-other components of the vector data, as well as, 
-**attributes** which describe properties associated with each individual vector 
-object.
+information about the data. We are particularly interested in the geospatial
+**metadata**, describing the format, `CRS`, `extent`, and other components of
+the vector data, and the **attributes** which describe properties associated
+with each individual vector object. 
 
  <i class="fa fa-star"></i> **Data Tip:** The 
  [Shapefile Metadata & Attributes in R]({{site.baseurl}}R/shapefile-attributes-in-R/) 
@@ -238,11 +236,11 @@ Each object in a shapefile has one or more attributes associated with it.
 Shapefile attributes are similar to fields or columns in a spreadsheet. Each row
 in the spreadsheet has a set of columns associated with it that describe the row
 element. In the case of a shapefile, each row represents a spatial object - for
-example a road, represented as a line in a line shapefile will have one "row" of
-attributes associated with it. These attributes can include different types of
-information that describe objects stored within a shapefile. Thus, our road, may
-have a name, length, number of lanes, speed limit, type of
-road and other attributes stored with it. 
+example, a road, represented as a line in a line shapefile, will have one "row" 
+of attributes associated with it. These attributes can include different types 
+of information that describe objects stored within a shapefile. Thus, our road,
+may have a name, length, number of lanes, speed limit, type of road and other
+attributes stored with it. 
 
 <figure>
     <a href="{{ site.baseurl }}/images/spatialVector/Attribute_Table.png">
@@ -257,8 +255,8 @@ road and other attributes stored with it.
 </figure>
 
 
-We view the attributes of a `SpatialPolygonsDataFrame` using: 
-`aoiBoundary_HARV@data`. 
+We view the attributes of a `SpatialPolygonsDataFrame` using `objectName@data`
+(e.g., `aoiBoundary_HARV@data`). 
 
 ``` {r Shapefile-attributes-2}
 #alternate way to view attributes 
@@ -272,7 +270,7 @@ In this case, our polygon object only has one attribute: `ID`.
 We can view a metadata & attribute summary of each shapefile by entering 
 the name of the `R` object in the console. Note that the metadata output
 includes the **class**, the number of **features**, the **extent**, and the
-coordinate reference system (`CRS`) of the `R` object. The last two lines of
+**coordinate reference system** (`CRS`) of the `R` object. The last two lines of
 `summary` show a preview of the `R` object **attributes**.
 
 ```{r shapefile-summary}
@@ -283,7 +281,7 @@ summary(aoiBoundary_HARV)
 
 
 #Plot a Shapefile
-Next, let's visualize the data in our `R spatialpolygonsdataframe` object using
+Next, let's visualize the data in our `R` `spatialpolygonsdataframe` object using
 `plot()`.
 
 ``` {r plot-shapefile}
@@ -345,8 +343,8 @@ The `plot()` function can be used for basic plotting of spatial objects.
 We use the `add = TRUE` argument to overlay shapefiles on top of each other, as
 we would when creating a map in a typical GIS application like QGIS.
 
-We can use `main=""` to give our plot a title. If you want the title to 
-span 2 lines, use `\n` where you'd like the line break.
+We can use `main=""` to give our plot a title. If we want the title to span two
+lines, we use `\n` where the line should break.
 
 ```{r plot-multiple-shapefiles }
 #Plot multiple shapefiles
@@ -374,11 +372,10 @@ CHM, please add:
 Be sure to give your plot a meaningful title. 
 
 For assistance consider using the 
-[Shapefile Metadata & Attributes in R]({{site.baseurl}}/R/shapefile-attributes-in-R/),   
-the [Plot Raster Data in R]({{site.baseurl}}/R/Plot-Rasters-In-R/ )   
+[Shapefile Metadata & Attributes in R]({{site.baseurl}}/R/shapefile-attributes-in-R/),
+the [Plot Raster Data in R]({{site.baseurl}}/R/Plot-Rasters-In-R/ )
 lessons. 
 </div>
-
 
 ```{r challenge-vector-raster-overlay, echo=FALSE }
 
