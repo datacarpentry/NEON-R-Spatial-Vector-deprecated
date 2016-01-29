@@ -8,7 +8,7 @@ contributors: [Sarah Newman]
 dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 packagesLibraries: [rgdal, raster]
-category: self-paced-tutorial
+categories: [self-paced-tutorial]
 mainTag: vector-data-series
 tags: [vector-data, R, spatial-data-gis]
 workshopSeries: [vector-data-series]
@@ -158,19 +158,7 @@ geometry of the shapefile features.
 
 For example, the Roads shapefile (`lines_HARV` object) contains an attribute
 called `TYPE`. Each line in the shapefile has an associated `TYPE` which 
-describes the type of road (road, footpath, boardwalk, etc). 
-
-<figure>
-    <a href="{{ site.baseurl }}/images/spatialVector/Attribute_Table.png">
-    <img src="{{ site.baseurl }}/images/spatialVector/Attribute_Table.png"></a>
-    <figcaption>The shapefile format allows us to store attributes for each feature
-    (vector object) stored in the shapefile. The attribute table, is similar to 
-    a spreadsheet. There is a row for each feature. The first column contains the 
-    unique ID of the feature. We can add additional columns that describe the 
-    feature. 
-    Image Source: National Ecological Observatory Network (NEON) 
-    </figcaption>
-</figure>
+describes the type of road (road, footpath, boardwalk, etc).
 
 We can look at all of the associated data attributes by printing the contents of
 the `data` slot with `@data`. We can use the base `R` `length` function to count
@@ -387,10 +375,10 @@ You can reset the palette colors using `palette("default")` if need be!
 ##Challenge: Plot Lines by Attribute
 Create a plot that emphasizes only roads where bicycles and horses are allowed. 
 NOTE: this attribute information is located in the `lines_HARV$BicyclesHo` 
-attribute.  
+attribute.
 
 Be sure to add a title and legend to your map! You might consider a color
-palette that has all bike/horse-friendly roads displayed in a bright color.  All
+palette that has all bike/horse-friendly roads displayed in a bright color. All
 other lines might be grey.
 
 </div>
@@ -425,7 +413,7 @@ site boundary (`aoiBoundary_HARV`) and roads (`lines_HARV`) spatial objects. We
 will need to BUILD a custom legend as well.
 
 To begin, create a plot with the site boundary as the first layer. Then layer 
-the tower location and road data on top using `add=TRUE`.  
+the tower location and road data on top using `add=TRUE`.
 
 ```{r challenge-answer, echo=FALSE}
 
@@ -493,7 +481,7 @@ designated as a line (`1`) and which should be designated as a symbol (`NA`).
 Our object will thus look like `lty = c(NA,NA,1,1,1,1)`. This tells `R` to use a
 line element for`the 3-6 elements in our legend only. 
 
-Once we do this, we need to *modify* our `pch` element. Each *line* element
+Once we do this, we need to *modify* our `pch` element. Each **line** element
 (3-6) should be represented by a `NA` value - this tells `R` to not use a
 symbol, but to instead use a line.
 
@@ -521,7 +509,7 @@ legend("bottomright",
 
 
 <div id="challenge" markdown="1">
-##Challenge: Plot Color by Attribute
+##Challenge: Plot Polygon by Attribute
 
 1. Create a map of the State boundaries in the United States - using the data
 located in your downloaded data folder: `NEON-DS-Site-Layout-Files/US-Boundary-Layers\US-State-Boundaries-Census-2014`. 
@@ -550,7 +538,7 @@ palette()
 
 plot(State.Boundary.US,
      col=State.Boundary.US$NAME,
-     main="Contiguious US States \n in 50 Colors")
+     main="Contiguous U.S. State Boundaries \n 50 Colors")
 
 ##2
 #open plot locations
@@ -560,7 +548,7 @@ plotLocations <- readOGR("NEON-DS-Site-Layout-Files/HARV",
 #how many unique soils?  Two
 unique(plotLocations$soilTypeOr)
 
-#create new color palette -- topo.colors palate
+#create new color palette -- topo.colors palette
 palette(topo.colors((2)))
 palette()
 

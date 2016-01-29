@@ -8,7 +8,7 @@ contributors: [Sarah Newman]
 dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 packagesLibraries: [rgdal, raster]
-category: self-paced-tutorial
+categories: [self-paced-tutorial]
 mainTag: vector-data-series
 tags: [vector-data, R, spatial-data-gis]
 workshopSeries: [vector-data-series]
@@ -105,7 +105,7 @@ not an issue we will deal with in this lesson.
  <i class="fa fa-star"></i> **Data Tip:** Sometimes, boundary layers such as 
  states and countries, are stored as lines rather than polygons. However, these
  boundaries, when represented as a line, will not create a closed object that we
- can apply a "fill" to OR that we can calculate the area of.  
+ can apply a "fill" to OR that we can calculate the area of.
 {: .notice}
 
 
@@ -122,13 +122,13 @@ streams, might contain the associated stream name, stream "order" and other
 information about each stream line object.
 
 * More about shapefiles can found on
-<a href="https://en.wikipedia.org/wiki/Shapefile" target="_blank">Wikipedia</a>
+<a href="https://en.wikipedia.org/wiki/Shapefile" target="_blank">Wikipedia</a>.
 
 ##Import Shapefiles
 
 We will use the `rgdal` package to work with vector data in `R`. Notice that the
 `sp` package automatically loads when `rgdal` is loaded. We will also load the
-`raster` package so we can explore raster and vector spatial metadata using similar commands.  
+`raster` package so we can explore raster and vector spatial metadata using similar commands.
 
 ```{r load-libraries }
 
@@ -156,7 +156,7 @@ The first shapefile that we will open contains the boundary of our study area
 (or our Area Of Interest or AOI, hence the name `aoiBoundary`). To import 
 shapefiles we use the `R` function `readOGR()`.
 
-`readOGR` requires 2 components:
+`readOGR` requires two components:
 
 1. The directory where our shapefile lives: `NEON-DS-Site-Layout-Files/HARV`
 2. The name of the shapefile (without the extension): `HarClip_UTMZ18`
@@ -172,7 +172,7 @@ aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV",
 
 ```
 
-<i class="fa fa-star"></i> **Data Tip:** The acronym, OGR refers to the
+<i class="fa fa-star"></i> **Data Tip:** The acronym, OGR, refers to the
 OpenGIS Simple Features Reference Implementation. 
 <a href="https://trac.osgeo.org/gdal/wiki/FAQGeneral" target="_blank"> 
 Learn more about OGR.</a> 
@@ -183,9 +183,9 @@ Learn more about OGR.</a>
 When we import the `HarClip_UTMZ18` shapefile layer into `R` (as our
 `aoiBoundary_HARV` object), the `readOGR()` function automatically stores
 information about the data. We are particularly interested
-in the geospatial *metadata* that describe the format, `CRS`, `extent`, and
+in the geospatial **metadata** that describe the format, `CRS`, `extent`, and
 other components of the vector data, as well as, 
-*attributes* which describe properties associated with each individual vector 
+**attributes** which describe properties associated with each individual vector 
 object.
 
  <i class="fa fa-star"></i> **Data Tip:** The 
@@ -248,9 +248,10 @@ road and other attributes stored with it.
     <a href="{{ site.baseurl }}/images/spatialVector/Attribute_Table.png">
     <img src="{{ site.baseurl }}/images/spatialVector/Attribute_Table.png"></a>
     <figcaption>Each spatial feature in an R spatial object has the same set of 
-    associated ATTRIBUTES that describe or characterize the feature. Attribute data
-    are stored in a separate *.dbf file. Attribute data can be compared to a spreadsheet.
-    Each row in a spreadsheet represents one feature in the spatial object.
+    associated attributes that describe or characterize the feature.
+    Attribute data are stored in a separate *.dbf file. Attribute data can be
+    compared to a spreadsheet. Each row in a spreadsheet represents one feature
+    in the spatial object.
     Image Source: National Ecological Observatory Network (NEON) 
     </figcaption>
 </figure>
@@ -270,9 +271,9 @@ In this case, our polygon object only has one attribute: `ID`.
 ## Metadata & Attribute Summary
 We can view a metadata & attribute summary of each shapefile by entering 
 the name of the `R` object in the console. Note that the metadata output
-includes the _class_, the number of _features_, the _extent_, and the coordinate
-reference system (`CRS`) of the `R` object. The last two lines of summary show a
-preview of the `R` object _attributes_.
+includes the **class**, the number of **features**, the **extent**, and the
+coordinate reference system (`CRS`) of the `R` object. The last two lines of
+`summary` show a preview of the `R` object **attributes**.
 
 ```{r shapefile-summary}
 #view a summary of metadata & attributes associated with the spatial object
@@ -400,7 +401,7 @@ plot(point_HARV, pch=8,
 
 ***
 
-##Additional Resources: Plot Parameter
+##Additional Resources: Plot Parameter Options
 For more on parameter options in the base `R` `plot()` function, check out these
 resources:
 
