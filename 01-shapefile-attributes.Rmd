@@ -152,13 +152,25 @@ point_HARV
 Shapefiles often contain an associated database or spreadsheet of values called
 **attributes** that describe the vector features in the shapefile. You can think
 of this like a spreadsheet with rows and columns. Each column in the spreadsheet
-is an individual **attribute** that describes an object (sometimes called a
-variable). Shapefile attributes include measurements that correspond to the
-geometry of the shapefile features.
+is an individual **attribute** that describes an object. Shapefile attributes
+include measurements that correspond to the geometry of the shapefile features.
 
 For example, the `HARV_Roads` shapefile (`lines_HARV` object) contains an
 attribute called `TYPE`. Each line in the shapefile has an associated `TYPE` 
-which describes the type of road (woods road, footpath, boardwalk, or stonewall).
+which describes the type of road (woods road, footpath, boardwalk, or 
+stone wall).
+
+<figure>
+    <a href="{{ site.baseurl }}/images/spatialVector/Attribute_Table.png">
+    <img src="{{ site.baseurl }}/images/spatialVector/Attribute_Table.png"></a>
+    <figcaption>The shapefile format allows us to store attributes for each
+    feature (vector object) stored in the shapefile. The attribute table, is 
+    similar to a spreadsheet. There is a row for each feature. The first column
+    contains the unique ID of the feature. We can add additional columns that
+    describe the feature. Image Source: National Ecological Observatory Network
+    (NEON) 
+    </figcaption>
+</figure>
 
 We can look at all of the associated data attributes by printing the contents of
 the `data` slot with `objectName@data`. We can use the base `R` `length` 
@@ -221,8 +233,9 @@ lines_HARV$TYPE
 
 ```
 
-Notice that two of our attributes have space in them: stone wall and woods road.
-There are really four TYPEs, not six TYPEs.  
+Notice that two of our TYPE attribute values consist of two separate words: 
+stone wall and woods road. There are really four unique TYPE values, not six 
+TYPE values.  
 
 ###Subset Shapefiles
 We can use the `objectName$attributeName` syntax to select a subset of features
@@ -282,6 +295,17 @@ levels(lines_HARV$TYPE)
 
 #how many features are in each category or level?
 summary(lines_HARV$TYPE)
+```
+
+When we use `plot()`, the colors we want to use can be specified with `col=` or
+set using the `palette`.  
+
+``` {r palette-and-plot}
+#check current palette
+palette()
+
+#use the default palette()
+palette ("default")
 
 #plot the lines data, apply a diff color to each category
 plot(lines_HARV, 
@@ -426,6 +450,8 @@ To begin, create a plot with the site boundary as the first layer. Then layer
 the tower location and road data on top using `add=TRUE`.
 
 ```{r challenge-answer, echo=FALSE}
+# reset palette
+palette ("default")
 
 #Plot multiple shapefiles
 plot(aoiBoundary_HARV, 

@@ -284,13 +284,14 @@ you have these plot locations as the spatial `R` spatial object
 
 #Created/imported in L02: .csv to Shapefile in R
 plot.locationSp_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
-                                "PlotLocations_HARV")
+																"PlotLocations_HARV")
 
 #crop the chm 
 CHM_plots_HARVcrop <- crop(x = chm_HARV, y = plot.locationsSp_HARV)
 
 plot(CHM_plots_HARVcrop,
      main="Study Plot Locations\n NEON Harvard Forest")
+
 plot(plot.locationSp_HARV, 
      add=TRUE,
      pch=19,
@@ -302,12 +303,34 @@ In the plot above, created in the challenge, all the vegetation plot locations
 (blue) appear on the Canopy Height Model raster layer except for one. One is
 situated on the white space. Why? 
 
-Look back at the first figure in this lesson showing the relative extents of
-all the spatial objects. Notice that the veg. plot extent (black) extends
-slightly farther west than the CHM raster (green) extent. We cropped the raster
-to the vector extent, but there isn't any raster data in that western region of
-our plot area so the vegetation plot in that area appears outside the extent of
-the raster data.
+Look back at the first figure in this lesson showing the relative extents of all
+the spatial objects. Notice that the extent for our vegetation plot layer
+(black) extends further west than the extent of our CHM raster (green). The crop
+function will make a raster extent smaller, it will not expand the extent in
+areas where there are no data. Thus, extent of our vegetation plot layer will
+still extend further west than the extent of our (cropped) raster data.
+
+``` {r raster-extents-cropped, echo=FALSE}
+plot(extent(lines_HARV),
+     col="purple", lwd="3",
+     xlab="Easting", ylab="Northing",
+    main="Extent Boundary of Several Spatial Files")
+
+plot(extent(plot.locationsSp_HARV),
+     col="black",
+     add=TRUE)
+
+plot(extent(chm_HARV),
+     add=TRUE, 
+     lwd=5,
+     col="springgreen")
+
+plot(extent(CHM_plots_HARVcrop),
+     add=TRUE, 
+     lwd=5,
+     col="darkgreen")
+
+```
 
 ##Define an Extent
 We can also use an `extent()` method to define an extent to be used as a cropping
