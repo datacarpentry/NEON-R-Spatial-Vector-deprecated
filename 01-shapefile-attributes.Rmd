@@ -177,7 +177,7 @@ the `data` slot with `objectName@data`. We can use the base `R` `length`
 function to count the number of attributes associated with a spatial object too.
 
 ```{r shapefile-attributes}
-#just view the attributes & first 6attribute values of the data
+#just view the attributes & first 6 attribute values of the data
 head(lines_HARV@data)
 
 #how many attributes are in our data?
@@ -257,7 +257,7 @@ length(footpath_HARV)
 Our subsetting operation reduces the `features` count from 13 to 2. This means
 that only two lines have the attribute "TYPE=footpath".
 
-We can also plot our subsetted shapefiles.
+We can plot our subsetted shapefiles.
 ```{r plot-subset-shapefile}
 #plot just footpaths
 plot(footpath_HARV,
@@ -266,15 +266,18 @@ plot(footpath_HARV,
      main="Footpaths at NEON Harvard Forest Field Site")
 ```
 
-##Plot Lines by Attribute Value
-To plot vector data with the color determined by a set of attribute values,
-we must convert an attribute that is `categorical` data to class=
-`factor`. A **factor** is similar to a category - you can group vector objects
-by a particular category value - for example you can group all lines of
-`TYPE=footpath`. However, in `R`, a factor can also have a determined *order*. 
+Note: We'll cover how to choose the color in the next section.
 
-If we convert the `lines_HARV$TYPE` column to a factor using `as.factor()`, then
-it will be much easier to plot features by attribute value.
+##Plot Lines by Attribute Value
+To plot vector data with the color determined by a set of attribute values, the 
+attribute values must be class = `factor`. A **factor** is similar to a category
+- you can group vector objects by a particular category value - for example you 
+can group all lines of `TYPE=footpath`. However, in `R`, a factor can also have 
+a determined *order*. 
+
+If our data is read in not as a factor, we can convert the categorical 
+attribute values using `as.factor()`. Note: If your data is already a factor, 
+you don't have to convert it.
 
 ```{r convert-to-factor }
 #view the original class of the TYPE column
@@ -297,8 +300,9 @@ levels(lines_HARV$TYPE)
 summary(lines_HARV$TYPE)
 ```
 
-When we use `plot()`, the colors we want to use can be specified with `col=` or
-set using the `palette`.  
+When we use `plot()`, we can specify the colors to use with `col=` or
+set using the `palette`. The return to a default palette at any time we can use
+`palette ("default")`.
 
 ``` {r palette-and-plot}
 #check current palette
@@ -306,6 +310,9 @@ palette()
 
 #use the default palette()
 palette ("default")
+
+#what is the default palette?
+palette()
 
 #plot the lines data, apply a diff color to each category
 plot(lines_HARV, 
@@ -383,8 +390,6 @@ The default color palette in `R` is accessed by the `palette()` command. We can
 modify this list of colors to create a prettier looking plot!
 
 ```{r adjust-palette-colors}
-#view default colors
-palette()
 
 #manually set the colors for the plot!
 palette(c("springgreen", "blue", "magenta", "orange") )
@@ -512,14 +517,14 @@ using `lty = ()`. We have a total of 6 elements in our legend:
 
 1.   Tower Location
 2.   AOI
-3-6. Road levels (categories)
+3. -6. Road levels (categories)
 
 The `lty` list designates, in order, which of those elements should be
 designated as a line (`1`) and which should be designated as a symbol (`NA`).
 Our object will thus look like `lty = c(NA,NA,1,1,1,1)`. This tells `R` to use a
 line element for`the 3-6 elements in our legend only. 
 
-Once we do this, we need to *modify* our `pch` element. Each **line** element
+Once we do this, we need to **modify** our `pch` element. Each **line** element
 (3-6) should be represented by a `NA` value - this tells `R` to not use a
 symbol, but to instead use a line.
 
