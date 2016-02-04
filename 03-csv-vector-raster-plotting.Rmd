@@ -7,7 +7,7 @@ contributors: [Sarah Newman]
 dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 packagesLibraries: [rgdal, raster]
-category: self-paced-tutorial
+categories: [self-paced-tutorial]
 mainTag: vector-data-series
 tags: [vector-data, R, spatial-data-gis]
 workshopSeries: [vector-data-series]
@@ -96,7 +96,7 @@ convert it into an `R` spatial object which in the case of point data,
 will be a `SpatialPointsDataFrame`. The `SpatialPointsDataFrame` 
 allows us to store both the `x,y` values that represent the coordinate location
 of each point and the associated attribute data - or columns describing each
-feature in the spatial object.  
+feature in the spatial object.
 
 <i class="fa fa-star"></i> **Data Tip:** There is a `SpatialPoints` object (not
 `SpatialPointsDataFrame`) in `R` that does not allow you to store associated
@@ -176,7 +176,7 @@ So, we have coordinate values in our `data.frame` but in order to convert our
 `data.frame` to a `SpatialPointsDataFrame`, we also need to know
 the `CRS` associated with those coordinate values. 
 
-There are several ways to figure out the `CRS` of spatial data in text format.  
+There are several ways to figure out the `CRS` of spatial data in text format.
 
 1. We can check the file `metadata` in hopes that the `CRS` was recorded in the
 data. For more information on metadata, check out the
@@ -205,7 +205,7 @@ contain the information that helps us determine the `CRS`:
 * `utmZone`: 18
 
 In 
-[Lesson 02 - When vector data don't line up - CRS]({{site.baseurl}}/R/vector-data-reproject-crs-R/)
+[Lesson 02: When Vector Data Don't Line Up - Handling Spatial Projection & CRS in R ]({{site.baseurl}}/R/vector-data-reproject-crs-R/)
 we learned about the components of a `proj4` string. We have everything we need 
 to now assign a `CRS` to our data.frame.
 
@@ -286,9 +286,10 @@ additional layers that are outside of that extent, then the data will not be
 visible in our plot. It is thus useful to know how to set the spatial extent of
 a plot using `xlims` and `ylims`.
 
-Let's create a boundary for our area of interest (AOI) for the Harvard field
-site.  (If you have completed Lesson 00 or 01 in this series you can skip this
-chunk as you have already created this object.)
+Let's first create a SpatialPolygon object from the
+`NEON-DS-Site-Layout-Files/HarClip_UTMZ18` shapefile. (If you have completed
+Lesson 00 or 01 in this series you can skip this code as you have already
+created this object.)
 ``` {r create-aoi-boundary}
 #Create boundary object 
 aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
@@ -300,7 +301,7 @@ To begin, let's plot our `aoiBoundary` object with our vegetation plots.
 ```{r plot-data }
 
 plot(aoiBoundary_HARV,
-     main="Boundary\nNEON Harvard Forest Field Site")
+     main="AOI Boundary\nNEON Harvard Forest Field Site")
 
 plot(plot.locationsSp_HARV, 
      pch=8, add=TRUE)
@@ -329,7 +330,7 @@ plot(extent(aoiBoundary_HARV),
      lwd=6,
      col="springgreen")
 
-legend("bottom",
+legend("left",
        legend=c("Layer One Extent", "Layer Two Extent"),
        bty="n", 
        col=c("purple","springgreen"),
@@ -339,7 +340,7 @@ legend("bottom",
 
 ```
 
-The *extents* of our two objects are *different*. `plot.locationsSp_HARV` is
+The **extents** of our two objects are **different**. `plot.locationsSp_HARV` is
 much larger than `aoiBoundary_HARV`. When we plot `aoiBoundary_HARV` first, `R`
 uses the extent of that object to as the plot extent. Thus the points in the 
 `plot.locationsSp_HARV` object are not rendered. To fix this, we can manually
@@ -405,7 +406,7 @@ the X and Y limits of your plot to ensure that both points are rendered by `R`!
 If you have extra time, feel free to add roads and other layers to your map!
 
 HINT: Refer to
-[Lesson 02: When Vector Data Don't Line Up]({{site.baseurl}}/R/vector-data-reproject-crs-R/)
+[Lesson 02: When Vector Data Don't Line Up - Handling Spatial Projection & CRS in R]({{site.baseurl}}/R/vector-data-reproject-crs-R/)
 for more on working with geographic coordinate systems. You may want to "borrow"
 the projection from the objects used in that lesson!
 </div>
@@ -439,10 +440,10 @@ newPlot.Sp.HARV <- SpatialPointsDataFrame(newPlot.locations_HARV[,2:1],
 #look at CRS
 crs(newPlot.Sp.HARV)
 
-## We now have the data imported and in WGS84 Lat/Long.  We want to map with plot locations in 
+## We now have the data imported and in WGS84 Lat/Long. We want to map with plot locations in 
 ##UTM so we'll have to reproject. 
 
-#remember we have a UTM z18n crs object from previous code
+#remember we have a UTM Zone 18N crs object from previous code
 utm18nCRS
 
 #reproject the new points into UTM using `utm18nCRS`
@@ -502,7 +503,8 @@ plot(plot.locationsSp_HARV,
 plot(newPlot.Sp.HARV.UTM, 
      add=TRUE, pch=20, col="darkgreen")
 
-#to create a custom legend, we need specify the text as it isn't in the data
+# when we create a legend in R, we need to specify the text for each item 
+# listed in the legend.
 legend("bottomright", 
        legend=c("Vegetation Plots", "Phenology Plots"),
        pch=c(8,20), 
