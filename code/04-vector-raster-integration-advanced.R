@@ -29,10 +29,14 @@ plot.locationsSp_HARV <- SpatialPointsDataFrame(plot.locations_HARV[,1:2],
                     plot.locations_HARV,    #the R object to convert
                     proj4string = utm18nCRS)   # assign a CRS 
 
+
 plot(extent(lines_HARV),
      col="purple", lwd="3",
      xlab="Easting", ylab="Northing",
-    main="Extent Boundary of Several Spatial Files")
+    main="Extent Boundary of Several Spatial Files",
+    xlim=c(730741.2,735000),
+    col.lab = 'grey', #set axis label color
+    col.axis = 'grey') #set axis tick label color
 
 plot(extent(plot.locationsSp_HARV),
      col="black",
@@ -48,13 +52,10 @@ plot(extent(chm_HARV),
      lwd=5,
      col="springgreen")
 
-legend("top", 
+legend("topright", 
         legend=c("Roads","Plot Locations","Tower AOI", "CHM"),
        lwd=3,
        col=c("purple","black","blue","springgreen"),
-       xpd = TRUE, 
-       horiz = TRUE, 
-       inset = c(0, 0), 
        bty = "n",  
        cex = .8)
 
@@ -85,7 +86,8 @@ point_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
 
 #Imported in L02: .csv to Shapefile in R
 #import raster Canopy Height Model (CHM)
-chm_HARV <- raster("NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif")
+chm_HARV <- 
+  raster("NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif")
 
 
 ## ----Crop-by-vector-extent-----------------------------------------------
@@ -109,7 +111,7 @@ plot(chm_HARV_Crop,
 ## ----view-crop-extent, echo=FALSE----------------------------------------
 #view the data in a plot
 plot(aoiBoundary_HARV, lwd=8, border="blue",
-     main = "Cropped Canopy Height Model \n NEON Harvard Forest Field Site")
+     main = "Cropped LiDAR Canopy Height Model \n NEON Harvard Forest Field Site")
 
 plot(chm_HARV_Crop, add = TRUE)
 
@@ -124,17 +126,39 @@ extent(aoiBoundary_HARV)
 
 #Created/imported in L02: .csv to Shapefile in R
 plot.locationSp_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
-                                "PlotLocations_HARV")
+																"PlotLocations_HARV")
 
 #crop the chm 
 CHM_plots_HARVcrop <- crop(x = chm_HARV, y = plot.locationsSp_HARV)
 
 plot(CHM_plots_HARVcrop,
      main="Study Plot Locations\n NEON Harvard Forest")
+
 plot(plot.locationSp_HARV, 
      add=TRUE,
      pch=19,
      col="blue")
+
+
+## ----raster-extents-cropped, echo=FALSE----------------------------------
+plot(extent(lines_HARV),
+     col="purple", lwd="3",
+     xlab="Easting", ylab="Northing",
+    main="Extent Boundary of Several Spatial Files")
+
+plot(extent(plot.locationsSp_HARV),
+     col="black",
+     add=TRUE)
+
+plot(extent(chm_HARV),
+     add=TRUE, 
+     lwd=5,
+     col="springgreen")
+
+plot(extent(CHM_plots_HARVcrop),
+     add=TRUE, 
+     lwd=5,
+     col="darkgreen")
 
 
 ## ----hidden-extent-chunk-------------------------------------------------
@@ -150,7 +174,7 @@ CHM_HARV_manualCrop <- crop(x = chm_HARV, y = new.extent)
 #plot extent boundary and newly cropped raster
 plot(aoiBoundary_HARV, 
      main = "Manually Cropped Raster\n NEON Harvard Forest Field Site")
-plot(new.extent, col="red", lwd=4,add = TRUE)
+plot(new.extent, col="brown", lwd=4,add = TRUE)
 plot(CHM_HARV_manualCrop, add = TRUE)
 
 
@@ -194,7 +218,7 @@ av_tree_height_AOI
 #what are the units of our buffer
 crs(point_HARV)
 
-#extract the average tree height (calculated using the raster pixels)
+#extract the average tree height (height is given by the raster pixel value)
 #at the tower location
 #use a buffer of 20 meters and mean function (fun) 
 av_tree_height_tower <- extract(x = chm_HARV, 

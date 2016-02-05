@@ -84,7 +84,7 @@ aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
 ## ----plot-data-----------------------------------------------------------
 
 plot(aoiBoundary_HARV,
-     main="Boundary\nNEON Harvard Forest Field Site")
+     main="AOI Boundary\nNEON Harvard Forest Field Site")
 
 plot(plot.locationsSp_HARV, 
      pch=8, add=TRUE)
@@ -97,18 +97,23 @@ crs(plot.locationsSp_HARV)
 extent(aoiBoundary_HARV)
 extent(plot.locationsSp_HARV)
 
+# Add extra space to right of plot area; 
+#par(mar=c(5.1, 4.1, 4.1, 8.1), xpd=TRUE)
+
 plot(extent(plot.locationsSp_HARV),
      col="purple", 
      xlab="easting",
      ylab="northing", lwd=8,
-     main="Extent Boundary of Plot Locations \nCompared to the AOI Spatial Object")
+     main="Extent Boundary of Plot Locations \nCompared to the AOI Spatial Object",
+     ylim=c(4712400,4714000)) #extent the y axis to make room for the legend
 
 plot(extent(aoiBoundary_HARV), 
      add=TRUE,
      lwd=6,
      col="springgreen")
 
-legend("bottom",
+legend("bottomright",
+       #inset=c(-0.5,0),
        legend=c("Layer One Extent", "Layer Two Extent"),
        bty="n", 
        col=c("purple","springgreen"),
@@ -176,10 +181,10 @@ newPlot.Sp.HARV <- SpatialPointsDataFrame(newPlot.locations_HARV[,2:1],
 #look at CRS
 crs(newPlot.Sp.HARV)
 
-## We now have the data imported and in WGS84 Lat/Long.  We want to map with plot locations in 
+## We now have the data imported and in WGS84 Lat/Long. We want to map with plot locations in 
 ##UTM so we'll have to reproject. 
 
-#remember we have a UTM z18n crs object from previous code
+#remember we have a UTM Zone 18N crs object from previous code
 utm18nCRS
 
 #reproject the new points into UTM using `utm18nCRS`
@@ -239,13 +244,14 @@ plot(plot.locationsSp_HARV,
 plot(newPlot.Sp.HARV.UTM, 
      add=TRUE, pch=20, col="darkgreen")
 
-#to create a custom legend, we need specify the text as it isn't in the data
+# when we create a legend in R, we need to specify the text for each item 
+# listed in the legend.
 legend("bottomright", 
        legend=c("Vegetation Plots", "Phenology Plots"),
        pch=c(8,20), 
        bty="n", 
        col=c("purple","darkgreen"),
-       cex=1.5)
+       cex=1.3)
 
 ## ----write-shapefile, warnings="hide", eval=FALSE------------------------
 ## #write a shapefile

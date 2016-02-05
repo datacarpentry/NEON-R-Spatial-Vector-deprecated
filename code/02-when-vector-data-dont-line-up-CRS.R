@@ -146,7 +146,7 @@ NE.States.Boundary.US.UTM
 
 #plot state boundaries  
 plot(NE.States.Boundary.US.UTM , 
-     main="Map of Northeastern US\n With Fisher Tower Location - UTM Zone 18 N",
+     main="Map of Northeastern US\n With Fisher Tower Location - UTM Zone 18N",
      border="gray18",
      lwd=2)
 
