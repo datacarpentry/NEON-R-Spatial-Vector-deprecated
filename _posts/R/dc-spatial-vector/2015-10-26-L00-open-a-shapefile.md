@@ -6,9 +6,9 @@ date:   2015-10-27
 authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: 2016-01-21
+lastModified: 2016-02-05
 packagesLibraries: [rgdal, raster]
-category: self-paced-tutorial
+categories: [self-paced-tutorial]
 mainTag: vector-data-series
 tags: [vector-data, R, spatial-data-gis]
 workshopSeries: [vector-data-series]
@@ -25,8 +25,8 @@ comments: false
 
 {% include _toc.html %}
 
-##About
-In this lesson we will open and plot point, line and polygon vector data, 
+## About
+In this lesson, we will open and plot point, line and polygon vector data 
 stored in shapefile format in `R`.
 
 **R Skill Level:** Introduction - you are just getting started with spatial data
@@ -34,7 +34,7 @@ in `R`, but have some of the other `R` basics down.
 
 <div id="objectives" markdown="1">
 
-#Goals / Objectives
+# Goals / Objectives
 After completing this activity, you will:
 
  * Know the difference between point, line, and polygon vector elements.
@@ -42,12 +42,12 @@ After completing this activity, you will:
     in `R`.
  * Understand the components of a spatial object in `R`.
 
-##Things You’ll Need To Complete This Lesson
+## Things You’ll Need To Complete This Lesson
 
 You will need the most current version of `R` and, preferably, `RStudio` loaded 
 on your computer to complete this lesson.
 
-###Install R Packages
+### Install R Packages
 
 * **raster:** `install.packages("raster")`
 * **rgdal:** `install.packages("rgdal")`
@@ -56,7 +56,7 @@ on your computer to complete this lesson.
 [More on Packages in R - Adapted from Software Carpentry.]({{site.baseurl}}R/Packages-In-R/)
 
 
-##Download Data
+## Download Data
 {% include/dataSubsets/_data_Site-Layout-Files.html %}
 
 ****
@@ -74,9 +74,9 @@ and [tabular time series in R ]({{ site.baseurl }}self-paced-tutorials/tabular-t
 
 </div>
 
-##About Vector Data
+## About Vector Data
 Vector data are composed of discrete geometric locations (x,y values) known as
-`vertices` that define the "shape" of the spatial object. The organization 
+**vertices** that define the "shape" of the spatial object. The organization 
 of the vertices, determines the type of vector that we are working 
 with: point, line or polygon.
 
@@ -105,11 +105,10 @@ not an issue we will deal with in this lesson.
  <i class="fa fa-star"></i> **Data Tip:** Sometimes, boundary layers such as 
  states and countries, are stored as lines rather than polygons. However, these
  boundaries, when represented as a line, will not create a closed object that we
- can apply a "fill" to OR that we can calculate the area of.  
+ can apply a "fill" to or calculate the area of.
 {: .notice}
 
-
-##Shapefiles: Points, Lines, and Polygons
+## Shapefiles: Points, Lines, and Polygons
 Geospatial data in vector format are often stored in a `shapefile` format. 
 Because the structure of points, lines, and polygons are different, each
 individual shapefile can only contain one vector type (all points, all lines
@@ -122,13 +121,13 @@ streams, might contain the associated stream name, stream "order" and other
 information about each stream line object.
 
 * More about shapefiles can found on
-<a href="https://en.wikipedia.org/wiki/Shapefile" target="_blank">Wikipedia</a>
+<a href="https://en.wikipedia.org/wiki/Shapefile" target="_blank">Wikipedia</a>.
 
-##Import Shapefiles
+## Import Shapefiles
 
 We will use the `rgdal` package to work with vector data in `R`. Notice that the
 `sp` package automatically loads when `rgdal` is loaded. We will also load the
-`raster` package so we can explore raster and vector spatial metadata using similar commands.  
+`raster` package so we can explore raster and vector spatial metadata using similar commands.
 
 
     #load required libraries
@@ -154,7 +153,7 @@ The first shapefile that we will open contains the boundary of our study area
 (or our Area Of Interest or AOI, hence the name `aoiBoundary`). To import 
 shapefiles we use the `R` function `readOGR()`.
 
-`readOGR` requires 2 components:
+`readOGR` requires two components:
 
 1. The directory where our shapefile lives: `NEON-DS-Site-Layout-Files/HARV`
 2. The name of the shapefile (without the extension): `HarClip_UTMZ18`
@@ -172,21 +171,20 @@ Let's import our AOI.
     ## with 1 features
     ## It has 1 fields
 
-<i class="fa fa-star"></i> **Data Tip:** The acronym, OGR refers to the
+<i class="fa fa-star"></i> **Data Tip:** The acronym, OGR, refers to the
 OpenGIS Simple Features Reference Implementation. 
 <a href="https://trac.osgeo.org/gdal/wiki/FAQGeneral" target="_blank"> 
 Learn more about OGR.</a> 
 {: .notice}  
 
-##Shapefile Metadata & Attributes
+## Shapefile Metadata & Attributes
 
 When we import the `HarClip_UTMZ18` shapefile layer into `R` (as our
 `aoiBoundary_HARV` object), the `readOGR()` function automatically stores
-information about the data. We are particularly interested
-in the geospatial *metadata* that describe the format, `CRS`, `extent`, and
-other components of the vector data, as well as, 
-*attributes* which describe properties associated with each individual vector 
-object.
+information about the data. We are particularly interested in the geospatial
+**metadata**, describing the format, `CRS`, `extent`, and other components of
+the vector data, and the **attributes** which describe properties associated
+with each individual vector object. 
 
  <i class="fa fa-star"></i> **Data Tip:** The 
  [Shapefile Metadata & Attributes in R]({{site.baseurl}}R/shapefile-attributes-in-R/) 
@@ -194,7 +192,7 @@ lesson provides more information on both metadata and attributes
 and using attributes to subset and plot data. 
 {: .notice}
 
-##Spatial Metadata
+## Spatial Metadata
 Key metadata for all shapefiles include:
 
 1. **Object Type:** the class of the imported object. 
@@ -255,31 +253,32 @@ object `extent` values as it specifies units.
     </figcaption>
 </figure>
 
-##Spatial Data Attributes
+## Spatial Data Attributes
 Each object in a shapefile has one or more attributes associated with it.
 Shapefile attributes are similar to fields or columns in a spreadsheet. Each row
 in the spreadsheet has a set of columns associated with it that describe the row
 element. In the case of a shapefile, each row represents a spatial object - for
-example a road, represented as a line in a line shapefile will have one "row" of
-attributes associated with it. These attributes can include different types of
-information that describe objects stored within a shapefile. Thus, our road, may
-have a name, length, number of lanes, speed limit, type of
-road and other attributes stored with it. 
+example, a road, represented as a line in a line shapefile, will have one "row" 
+of attributes associated with it. These attributes can include different types 
+of information that describe objects stored within a shapefile. Thus, our road,
+may have a name, length, number of lanes, speed limit, type of road and other
+attributes stored with it. 
 
 <figure>
     <a href="{{ site.baseurl }}/images/spatialVector/Attribute_Table.png">
     <img src="{{ site.baseurl }}/images/spatialVector/Attribute_Table.png"></a>
     <figcaption>Each spatial feature in an R spatial object has the same set of 
-    associated ATTRIBUTES that describe or characterize the feature. Attribute data
-    are stored in a separate *.dbf file. Attribute data can be compared to a spreadsheet.
-    Each row in a spreadsheet represents one feature in the spatial object.
+    associated attributes that describe or characterize the feature.
+    Attribute data are stored in a separate *.dbf file. Attribute data can be
+    compared to a spreadsheet. Each row in a spreadsheet represents one feature
+    in the spatial object.
     Image Source: National Ecological Observatory Network (NEON) 
     </figcaption>
 </figure>
 
 
-We view the attributes of a `SpatialPolygonsDataFrame` using: 
-`aoiBoundary_HARV@data`. 
+We view the attributes of a `SpatialPolygonsDataFrame` using `objectName@data`
+(e.g., `aoiBoundary_HARV@data`). 
 
 
     #alternate way to view attributes 
@@ -293,9 +292,9 @@ In this case, our polygon object only has one attribute: `ID`.
 ## Metadata & Attribute Summary
 We can view a metadata & attribute summary of each shapefile by entering 
 the name of the `R` object in the console. Note that the metadata output
-includes the _class_, the number of _features_, the _extent_, and the coordinate
-reference system (`CRS`) of the `R` object. The last two lines of summary show a
-preview of the `R` object _attributes_.
+includes the **class**, the number of **features**, the **extent**, and the
+**coordinate reference system** (`CRS`) of the `R` object. The last two lines of
+`summary` show a preview of the `R` object **attributes**.
 
 
     #view a summary of metadata & attributes associated with the spatial object
@@ -320,8 +319,8 @@ preview of the `R` object _attributes_.
     ##  Max.   :1
 
 
-#Plot a Shapefile
-Next, let's visualize the data in our `R spatialpolygonsdataframe` object using
+# Plot a Shapefile
+Next, let's visualize the data in our `R` `spatialpolygonsdataframe` object using
 `plot()`.
 
 
@@ -350,13 +349,13 @@ Answer the following questions:
 
 
 
-##Plot Multiple Shapefiles
+## Plot Multiple Shapefiles
 The `plot()` function can be used for basic plotting of spatial objects. 
 We use the `add = TRUE` argument to overlay shapefiles on top of each other, as
 we would when creating a map in a typical GIS application like QGIS.
 
-We can use `main=""` to give our plot a title. If you want the title to 
-span 2 lines, use `\n` where you'd like the line break.
+We can use `main=""` to give our plot a title. If we want the title to span two
+lines, we use `\n` where the line should break.
 
 
     #Plot multiple shapefiles
@@ -385,17 +384,16 @@ CHM, please add:
 Be sure to give your plot a meaningful title. 
 
 For assistance consider using the 
-[Shapefile Metadata & Attributes in R]({{site.baseurl}}/R/shapefile-attributes-in-R/),   
-the [Plot Raster Data in R]({{site.baseurl}}/R/Plot-Rasters-In-R/ )   
+[Shapefile Metadata & Attributes in R]({{site.baseurl}}/R/shapefile-attributes-in-R/),
+the [Plot Raster Data in R]({{site.baseurl}}/R/Plot-Rasters-In-R/ )
 lessons. 
 </div>
-
 
 ![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/challenge-vector-raster-overlay-1.png) 
 
 ***
 
-##Additional Resources: Plot Parameter
+## Additional Resources: Plot Parameter Options
 For more on parameter options in the base `R` `plot()` function, check out these
 resources:
 
