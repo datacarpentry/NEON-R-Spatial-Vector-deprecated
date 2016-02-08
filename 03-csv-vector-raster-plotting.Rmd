@@ -26,7 +26,7 @@ comments: false
 
 {% include _toc.html %}
 
-##About
+## About
 
 This lesson will review how to import spatial points stored in `.csv` (Comma
 Separated Value) format into
@@ -39,7 +39,7 @@ layers in the same plot.
 
 <div id="objectives" markdown="1">
 
-#Goals / Objectives
+# Goals / Objectives
 After completing this activity, you will:
 
 * Be able to import .csv files containing x,y coordinate locations into `R`.
@@ -48,11 +48,11 @@ After completing this activity, you will:
 Coordinate System (Latitude, Longitude) to a projected coordinate system (UTM).
 * Be able to plot raster and vector data in the same plot to create a map.
 
-##Things You’ll Need To Complete This Lesson
+## Things You’ll Need To Complete This Lesson
 To complete this lesson: you will need the most current version of R, and 
 preferably RStudio, loaded on your computer.
 
-###Install R Packages
+### Install R Packages
 
 * **raster:** `install.packages("raster")`
 * **rgdal:** `install.packages("rgdal")`
@@ -79,7 +79,7 @@ and [tabular time series in R ]({{ site.baseurl }}self-paced-tutorials/tabular-t
 
 </div>
 
-##Spatial Data in Text Format
+## Spatial Data in Text Format
 
 The `HARV_PlotLocations.csv` file contains `x, y` (point) locations for plot locations 
 <a href="http://www.neoninc.org/science-design/collection-methods/terrestrial-organismal-sampling" target="_blank"> where NEON </a>
@@ -117,7 +117,7 @@ library (raster)   #for metadata/attributes- vectors or rasters
 ```
 
 
-##Import .csv 
+## Import .csv 
 To begin let's import `.csv` file that contains plot coordinate `x, y`
 locations at the NEON Harvard Forest Field Site (`HARV_PlotLocations.csv`) in
 `R`. Note we set `stringsAsFactors=FALSE` so our data import as a `character`
@@ -154,7 +154,7 @@ names(plot.locations_HARV)
 
 ```
 
-##Identify X,Y Location Columns
+## Identify X,Y Location Columns
 
 View the column names, we can see that our `data.frame`  that contains several 
 fields that might contain spatial information. The `plot.locations_HARV$easting` 
@@ -244,7 +244,7 @@ utm18nCRS
 class(utm18nCRS)
 ```
 
-##.csv to R SpatialPointsDataFrame
+## .csv to R SpatialPointsDataFrame
 Next, let's convert our `data.frame` into a `SpatialPointsDataFrame`. To do this,
 we need to specify:
 
@@ -276,7 +276,7 @@ plot(plot.locationsSp_HARV,
 
 ```
 
-##Define Plot Extent
+## Define Plot Extent
 
 In 
 [Lesson 00: Open and Plot Shapefiles in R]({{site.baseurl}}/R/open-shapefiles-in-R/)
@@ -319,18 +319,23 @@ locations are not rendered. We can see that our data are in the same projection
 extent(aoiBoundary_HARV)
 extent(plot.locationsSp_HARV)
 
+# Add extra space to right of plot area; 
+#par(mar=c(5.1, 4.1, 4.1, 8.1), xpd=TRUE)
+
 plot(extent(plot.locationsSp_HARV),
      col="purple", 
      xlab="easting",
      ylab="northing", lwd=8,
-     main="Extent Boundary of Plot Locations \nCompared to the AOI Spatial Object")
+     main="Extent Boundary of Plot Locations \nCompared to the AOI Spatial Object",
+     ylim=c(4712400,4714000)) #extent the y axis to make room for the legend
 
 plot(extent(aoiBoundary_HARV), 
      add=TRUE,
      lwd=6,
      col="springgreen")
 
-legend("left",
+legend("bottomright",
+       #inset=c(-0.5,0),
        legend=c("Layer One Extent", "Layer Two Extent"),
        bty="n", 
        col=c("purple","springgreen"),
@@ -390,7 +395,7 @@ legend("bottomright",
 ```
 
 <div id="challenge" markdown="1">
-##Challenge - Import & Plot Additional Points
+## Challenge - Import & Plot Additional Points
 We want to add two phenology plots to our existing map of vegetation plot
 locations. 
 
@@ -510,10 +515,10 @@ legend("bottomright",
        pch=c(8,20), 
        bty="n", 
        col=c("purple","darkgreen"),
-       cex=1.5)
+       cex=1.3)
 ```
 
-##Export a Shapefile
+## Export a Shapefile
 
 We can write an `R` spatial object to a shapefile using the `writeOGR` function 
 in `rgdal`. To do this we need the following arguments:

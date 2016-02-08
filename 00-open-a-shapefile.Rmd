@@ -25,7 +25,7 @@ comments: false
 
 {% include _toc.html %}
 
-##About
+## About
 In this lesson, we will open and plot point, line and polygon vector data 
 stored in shapefile format in `R`.
 
@@ -34,7 +34,7 @@ in `R`, but have some of the other `R` basics down.
 
 <div id="objectives" markdown="1">
 
-#Goals / Objectives
+# Goals / Objectives
 After completing this activity, you will:
 
  * Know the difference between point, line, and polygon vector elements.
@@ -42,12 +42,12 @@ After completing this activity, you will:
     in `R`.
  * Understand the components of a spatial object in `R`.
 
-##Things You’ll Need To Complete This Lesson
+## Things You’ll Need To Complete This Lesson
 
 You will need the most current version of `R` and, preferably, `RStudio` loaded 
 on your computer to complete this lesson.
 
-###Install R Packages
+### Install R Packages
 
 * **raster:** `install.packages("raster")`
 * **rgdal:** `install.packages("rgdal")`
@@ -56,7 +56,7 @@ on your computer to complete this lesson.
 [More on Packages in R - Adapted from Software Carpentry.]({{site.baseurl}}R/Packages-In-R/)
 
 
-##Download Data
+## Download Data
 {% include/dataSubsets/_data_Site-Layout-Files.html %}
 
 ****
@@ -74,7 +74,7 @@ and [tabular time series in R ]({{ site.baseurl }}self-paced-tutorials/tabular-t
 
 </div>
 
-##About Vector Data
+## About Vector Data
 Vector data are composed of discrete geometric locations (x,y values) known as
 **vertices** that define the "shape" of the spatial object. The organization 
 of the vertices, determines the type of vector that we are working 
@@ -108,7 +108,7 @@ not an issue we will deal with in this lesson.
  can apply a "fill" to or calculate the area of.
 {: .notice}
 
-##Shapefiles: Points, Lines, and Polygons
+## Shapefiles: Points, Lines, and Polygons
 Geospatial data in vector format are often stored in a `shapefile` format. 
 Because the structure of points, lines, and polygons are different, each
 individual shapefile can only contain one vector type (all points, all lines
@@ -123,7 +123,7 @@ information about each stream line object.
 * More about shapefiles can found on
 <a href="https://en.wikipedia.org/wiki/Shapefile" target="_blank">Wikipedia</a>.
 
-##Import Shapefiles
+## Import Shapefiles
 
 We will use the `rgdal` package to work with vector data in `R`. Notice that the
 `sp` package automatically loads when `rgdal` is loaded. We will also load the
@@ -177,7 +177,7 @@ OpenGIS Simple Features Reference Implementation.
 Learn more about OGR.</a> 
 {: .notice}  
 
-##Shapefile Metadata & Attributes
+## Shapefile Metadata & Attributes
 
 When we import the `HarClip_UTMZ18` shapefile layer into `R` (as our
 `aoiBoundary_HARV` object), the `readOGR()` function automatically stores
@@ -192,7 +192,7 @@ lesson provides more information on both metadata and attributes
 and using attributes to subset and plot data. 
 {: .notice}
 
-##Spatial Metadata
+## Spatial Metadata
 Key metadata for all shapefiles include:
 
 1. **Object Type:** the class of the imported object. 
@@ -231,7 +231,7 @@ object `extent` values as it specifies units.
     </figcaption>
 </figure>
 
-##Spatial Data Attributes
+## Spatial Data Attributes
 Each object in a shapefile has one or more attributes associated with it.
 Shapefile attributes are similar to fields or columns in a spreadsheet. Each row
 in the spreadsheet has a set of columns associated with it that describe the row
@@ -280,7 +280,7 @@ summary(aoiBoundary_HARV)
 ```
 
 
-#Plot a Shapefile
+# Plot a Shapefile
 Next, let's visualize the data in our `R` `spatialpolygonsdataframe` object using
 `plot()`.
 
@@ -338,7 +338,7 @@ attributes(lines_HARV)
 
 ```
 
-##Plot Multiple Shapefiles
+## Plot Multiple Shapefiles
 The `plot()` function can be used for basic plotting of spatial objects. 
 We use the `add = TRUE` argument to overlay shapefiles on top of each other, as
 we would when creating a map in a typical GIS application like QGIS.
@@ -398,7 +398,7 @@ plot(point_HARV, pch=8,
 
 ***
 
-##Additional Resources: Plot Parameter Options
+## Additional Resources: Plot Parameter Options
 For more on parameter options in the base `R` `plot()` function, check out these
 resources:
 

@@ -5,9 +5,9 @@ date:   2015-10-24
 authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: 2016-01-21
+lastModified: 2016-02-05
 packagesLibraries: [rgdal, raster]
-category: self-paced-tutorial
+categories: [self-paced-tutorial]
 mainTag: vector-data-series
 tags: [vector-data, R, spatial-data-gis]
 workshopSeries: [vector-data-series]
@@ -26,7 +26,7 @@ comments: false
 
 {% include _toc.html %}
 
-##About
+## About
 
 This lesson will review how to import spatial points stored in `.csv` (Comma
 Separated Value) format into
@@ -39,7 +39,7 @@ layers in the same plot.
 
 <div id="objectives" markdown="1">
 
-#Goals / Objectives
+# Goals / Objectives
 After completing this activity, you will:
 
 * Be able to import .csv files containing x,y coordinate locations into `R`.
@@ -48,11 +48,11 @@ After completing this activity, you will:
 Coordinate System (Latitude, Longitude) to a projected coordinate system (UTM).
 * Be able to plot raster and vector data in the same plot to create a map.
 
-##Things You’ll Need To Complete This Lesson
+## Things You’ll Need To Complete This Lesson
 To complete this lesson: you will need the most current version of R, and 
 preferably RStudio, loaded on your computer.
 
-###Install R Packages
+### Install R Packages
 
 * **raster:** `install.packages("raster")`
 * **rgdal:** `install.packages("rgdal")`
@@ -79,7 +79,7 @@ and [tabular time series in R ]({{ site.baseurl }}self-paced-tutorials/tabular-t
 
 </div>
 
-##Spatial Data in Text Format
+## Spatial Data in Text Format
 
 The `HARV_PlotLocations.csv` file contains `x, y` (point) locations for plot locations 
 <a href="http://www.neoninc.org/science-design/collection-methods/terrestrial-organismal-sampling" target="_blank"> where NEON </a>
@@ -96,7 +96,7 @@ convert it into an `R` spatial object which in the case of point data,
 will be a `SpatialPointsDataFrame`. The `SpatialPointsDataFrame` 
 allows us to store both the `x,y` values that represent the coordinate location
 of each point and the associated attribute data - or columns describing each
-feature in the spatial object.  
+feature in the spatial object.
 
 <i class="fa fa-star"></i> **Data Tip:** There is a `SpatialPoints` object (not
 `SpatialPointsDataFrame`) in `R` that does not allow you to store associated
@@ -114,7 +114,7 @@ We will use the `rgdal` and `raster` libraries in this tutorial.
     #setwd("pathToDirHere")
 
 
-##Import .csv 
+## Import .csv 
 To begin let's import `.csv` file that contains plot coordinate `x, y`
 locations at the NEON Harvard Forest Field Site (`HARV_PlotLocations.csv`) in
 `R`. Note we set `stringsAsFactors=FALSE` so our data import as a `character`
@@ -166,7 +166,7 @@ Let's check out the column `names` of our file.
     ##  [6] "stateProvi" "county"     "domainName" "domainID"   "siteID"    
     ## [11] "plotType"   "plotSize"   "elevation"  "soilTypeOr" "plotdim_m"
 
-##Identify X,Y Location Columns
+## Identify X,Y Location Columns
 
 View the column names, we can see that our `data.frame`  that contains several 
 fields that might contain spatial information. The `plot.locations_HARV$easting` 
@@ -196,7 +196,7 @@ So, we have coordinate values in our `data.frame` but in order to convert our
 `data.frame` to a `SpatialPointsDataFrame`, we also need to know
 the `CRS` associated with those coordinate values. 
 
-There are several ways to figure out the `CRS` of spatial data in text format.  
+There are several ways to figure out the `CRS` of spatial data in text format.
 
 1. We can check the file `metadata` in hopes that the `CRS` was recorded in the
 data. For more information on metadata, check out the
@@ -228,7 +228,7 @@ contain the information that helps us determine the `CRS`:
 * `utmZone`: 18
 
 In 
-[Lesson 02 - When vector data don't line up - CRS]({{site.baseurl}}/R/vector-data-reproject-crs-R/)
+[Lesson 02: When Vector Data Don't Line Up - Handling Spatial Projection & CRS in R ]({{site.baseurl}}/R/vector-data-reproject-crs-R/)
 we learned about the components of a `proj4` string. We have everything we need 
 to now assign a `CRS` to our data.frame.
 
@@ -286,7 +286,7 @@ Next, let's create a `crs` object that we can use to define the `CRS` of our
     ## attr(,"package")
     ## [1] "sp"
 
-##.csv to R SpatialPointsDataFrame
+## .csv to R SpatialPointsDataFrame
 Next, let's convert our `data.frame` into a `SpatialPointsDataFrame`. To do this,
 we need to specify:
 
@@ -320,7 +320,7 @@ We now have a spatial `R` object, we can plot our newly created spatial object.
 
 ![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/plot-data-points-1.png) 
 
-##Define Plot Extent
+## Define Plot Extent
 
 In 
 [Lesson 00: Open and Plot Shapefiles in R]({{site.baseurl}}/R/open-shapefiles-in-R/)
@@ -330,9 +330,10 @@ additional layers that are outside of that extent, then the data will not be
 visible in our plot. It is thus useful to know how to set the spatial extent of
 a plot using `xlims` and `ylims`.
 
-Let's create a boundary for our area of interest (AOI) for the Harvard field
-site.  (If you have completed Lesson 00 or 01 in this series you can skip this
-chunk as you have already created this object.)
+Let's first create a SpatialPolygon object from the
+`NEON-DS-Site-Layout-Files/HarClip_UTMZ18` shapefile. (If you have completed
+Lesson 00 or 01 in this series you can skip this code as you have already
+created this object.)
 
     #Create boundary object 
     aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
@@ -347,7 +348,7 @@ To begin, let's plot our `aoiBoundary` object with our vegetation plots.
 
 
     plot(aoiBoundary_HARV,
-         main="Boundary\nNEON Harvard Forest Field Site")
+         main="AOI Boundary\nNEON Harvard Forest Field Site")
     
     plot(plot.locationsSp_HARV, 
          pch=8, add=TRUE)
@@ -387,18 +388,23 @@ locations are not rendered. We can see that our data are in the same projection
     ## ymin        : 4712845 
     ## ymax        : 4713846
 
+    # Add extra space to right of plot area; 
+    #par(mar=c(5.1, 4.1, 4.1, 8.1), xpd=TRUE)
+    
     plot(extent(plot.locationsSp_HARV),
          col="purple", 
          xlab="easting",
          ylab="northing", lwd=8,
-         main="Extent Boundary of Plot Locations \nCompared to the AOI Spatial Object")
+         main="Extent Boundary of Plot Locations \nCompared to the AOI Spatial Object",
+         ylim=c(4712400,4714000)) #extent the y axis to make room for the legend
     
     plot(extent(aoiBoundary_HARV), 
          add=TRUE,
          lwd=6,
          col="springgreen")
     
-    legend("bottom",
+    legend("bottomright",
+           #inset=c(-0.5,0),
            legend=c("Layer One Extent", "Layer Two Extent"),
            bty="n", 
            col=c("purple","springgreen"),
@@ -408,7 +414,7 @@ locations are not rendered. We can see that our data are in the same projection
 
 ![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/compare-extents-1.png) 
 
-The *extents* of our two objects are *different*. `plot.locationsSp_HARV` is
+The **extents** of our two objects are **different**. `plot.locationsSp_HARV` is
 much larger than `aoiBoundary_HARV`. When we plot `aoiBoundary_HARV` first, `R`
 uses the extent of that object to as the plot extent. Thus the points in the 
 `plot.locationsSp_HARV` object are not rendered. To fix this, we can manually
@@ -464,7 +470,7 @@ values from the spatial object that has a larger extent. Let's try it.
 ![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/set-plot-extent-1.png) 
 
 <div id="challenge" markdown="1">
-##Challenge - Import & Plot Additional Points
+## Challenge - Import & Plot Additional Points
 We want to add two phenology plots to our existing map of vegetation plot
 locations. 
 
@@ -480,14 +486,14 @@ the X and Y limits of your plot to ensure that both points are rendered by `R`!
 If you have extra time, feel free to add roads and other layers to your map!
 
 HINT: Refer to
-[Lesson 02: When Vector Data Don't Line Up]({{site.baseurl}}/R/vector-data-reproject-crs-R/)
+[Lesson 02: When Vector Data Don't Line Up - Handling Spatial Projection & CRS in R]({{site.baseurl}}/R/vector-data-reproject-crs-R/)
 for more on working with geographic coordinate systems. You may want to "borrow"
 the projection from the objects used in that lesson!
 </div>
 
 ![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/challenge-code-phen-plots-1.png) ![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/challenge-code-phen-plots-2.png) ![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/challenge-code-phen-plots-3.png) 
 
-##Export a Shapefile
+## Export a Shapefile
 
 We can write an `R` spatial object to a shapefile using the `writeOGR` function 
 in `rgdal`. To do this we need the following arguments:

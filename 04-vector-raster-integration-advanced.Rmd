@@ -26,7 +26,7 @@ comments: false
 
 {% include _toc.html %}
 
-##About
+## About
 This lesson explains how to crop a raster using the extent of a vector
 shapefile. We will also cover how to extract values from a raster that occur
 within a set of polygons, or in a buffer (surrounding) region around a set of
@@ -35,18 +35,18 @@ points.
 **R Skill Level:** Intermediate - you've got the basics of `R` down.
 
 <div id="objectives" markdown="1">
-#Goals / Objectives
+# Goals / Objectives
 After completing this activity, you will:
 
  * Be able to crop a raster to the extent of a vector layer.
  * Be able to extract values from raster that correspond to a vector file
  overlay.
  
-##Things You’ll Need To Complete This Lesson
+## Things You’ll Need To Complete This Lesson
 To complete this lesson: you will need the most current version of R, and 
 preferably RStudio, loaded on your computer.
 
-###Install R Packages
+### Install R Packages
 
 * **raster:** `install.packages("raster")`
 * **rgdal:** `install.packages("rgdal")`
@@ -56,7 +56,7 @@ preferably RStudio, loaded on your computer.
 * [More on Packages in R - Adapted from Software Carpentry.]({{site.baseurl}}R/Packages-In-R/)
 
 
-###Download Data
+### Download Data
 {% include/dataSubsets/_data_Site-Layout-Files.html %}
 {% include/dataSubsets/_data_Airborne-Remote-Sensing.html %}
 
@@ -74,7 +74,7 @@ and
 [tabular time series in R ]({{ site.baseurl }}self-paced-tutorials/tabular-time-series).
 </div> 
 
-##Crop a Raster to Vector Extent
+## Crop a Raster to Vector Extent
 We often work with spatial layers that have different spatial extents.
 
 <figure>
@@ -129,10 +129,14 @@ plot.locationsSp_HARV <- SpatialPointsDataFrame(plot.locations_HARV[,1:2],
                     plot.locations_HARV,    #the R object to convert
                     proj4string = utm18nCRS)   # assign a CRS 
 
+
 plot(extent(lines_HARV),
      col="purple", lwd="3",
      xlab="Easting", ylab="Northing",
-    main="Extent Boundary of Several Spatial Files")
+    main="Extent Boundary of Several Spatial Files",
+    xlim=c(730741.2,735000),
+    col.lab = 'grey', #set axis label color
+    col.axis = 'grey') #set axis tick label color
 
 plot(extent(plot.locationsSp_HARV),
      col="black",
@@ -148,13 +152,10 @@ plot(extent(chm_HARV),
      lwd=5,
      col="springgreen")
 
-legend("top", 
+legend("topright", 
         legend=c("Roads","Plot Locations","Tower AOI", "CHM"),
        lwd=3,
        col=c("purple","black","blue","springgreen"),
-       xpd = TRUE, 
-       horiz = TRUE, 
-       inset = c(0, 0), 
        bty = "n",  
        cex = .8)
 
@@ -214,7 +215,7 @@ chm_HARV <-
 
 ```
 
-##Crop a Raster Using Vector Extent
+## Crop a Raster Using Vector Extent
 We can use the `crop` function to crop a raster to the extent of another spatial 
 object. To do this, we need to specify the raster to be cropped and the spatial
 object that will be used to crop the raster. `R` will use the `extent` of the
@@ -267,7 +268,7 @@ largest but is larger than the AOI Boundary. It would be nice to see our
 vegetation plot locations with the Canopy Height Model information.
 
 <div id="challenge" markdown="1">
-##Challenge: Crop to Vector Points Extent
+## Challenge: Crop to Vector Points Extent
 
 1. Crop the Canopy Height Model to the extent of the study plot locations. 
 2. Plot the vegetation plot location points on top of the Canopy Height Model. 
@@ -332,7 +333,7 @@ plot(extent(CHM_plots_HARVcrop),
 
 ```
 
-##Define an Extent
+## Define an Extent
 We can also use an `extent()` method to define an extent to be used as a cropping
 boundary. This creates an object of class `extent`.
 
@@ -442,7 +443,7 @@ summary(tree_height$HARV_chmCrop)
 * Check out the documentation for the `extract()` function for more details 
 (`help.search("extract", package = "raster")`).
 
-##Summarize Extracted Raster Values 
+## Summarize Extracted Raster Values 
 
 We often want to extract summary values from a raster. We can tell `R` the type
 of summary statistic we are interested in using the `fun=` method. Let's extract
@@ -506,7 +507,7 @@ nrow(av_tree_height_tower)
 ```
 
 <div id="challenge" markdown="1">
-#Challenge: Extract Raster Height Values For Plot Locations
+## Challenge: Extract Raster Height Values For Plot Locations
 
 Use the plot location points shapefile `HARV/plot.locations_HARV.shp` or spatial
 object `plot.locationsSp_HARV` to extract an average tree height value for the

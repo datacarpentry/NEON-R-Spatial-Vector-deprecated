@@ -1,14 +1,14 @@
 ---
 layout: post
-title: "Lesson 02: When Vector Data Don't Line Up -- Handling Spatial
+title: "Lesson 02: When Vector Data Don't Line Up - Handling Spatial
 Projection & CRS in R"
 date:   2015-10-25
 authors: [Joseph Stachelek, Leah Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: 2016-01-21
+lastModified: 2016-02-05
 packagesLibraries: [rgdal, raster]
-category: self-paced-tutorial
+categories: [self-paced-tutorial]
 mainTag: vector-data-series
 tags: [vector-data, R, spatial-data-gis]
 workshopSeries: [vector-data-series]
@@ -28,7 +28,7 @@ comments: false
 
 {% include _toc.html %}
 
-##About
+## About
 
 In this tutorial, we will create a base map of our study site using a United States 
 state and country boundary accessed from the 
@@ -40,7 +40,7 @@ don't line up on a map.
 
 <div id="objectives" markdown="1">
 
-#Goals / Objectives
+# Goals / Objectives
 After completing this activity, you will:
 
 * Know how to identify the `CRS` of a spatial dataset.
@@ -48,11 +48,11 @@ After completing this activity, you will:
 * Be familiar with the `proj4` string format which is one format used used to 
 store / reference the `CRS` of a spatial object.
 
-##Things You’ll Need To Complete This Lesson
+## Things You’ll Need To Complete This Lesson
 To complete this lesson: you will need the most current version of R, and 
 preferably RStudio, loaded on your computer.
 
-###Install R Packages
+### Install R Packages
 
 * **raster:** `install.packages("raster")`
 * **rgdal:** `install.packages("rgdal")`
@@ -60,7 +60,7 @@ preferably RStudio, loaded on your computer.
 
 * [More on Packages in R - Adapted from Software Carpentry.]({{site.baseurl}}R/Packages-In-R/)
 
-##Data to Download
+## Data to Download
 {% include/dataSubsets/_data_Site-Layout-Files.html %}
 
 {% include/dataSubsets/_data_Airborne-Remote-Sensing.html %}
@@ -91,7 +91,7 @@ Some reasons for data being in different `CRS` include:
 
 1. The data are stored in a particular `CRS` convention used by the data
 provider which might be a federal agency, or a state planning office.
-2. The data are stored in a particular `CRS` that is customized to a region.  
+2. The data are stored in a particular `CRS` that is customized to a region.
 For instance, many states prefer to use a `state plane` projection customized
 for that state.
 
@@ -104,7 +104,7 @@ for that state.
     Notice the differences in shape associated with each different projection.
     These differences are a direct result of the calculations used to "flatten" 
     the data onto a 2-dimensional map. Often data are stored purposefully in a
-    particular projection that optimizes the relative *shape* and size of
+    particular projection that optimizes the relative shape and size of
     surrounding geographic boundaries (states, counties, countries, etc). 
     Source: opennews.org</figcaption>
 </figure>
@@ -113,6 +113,7 @@ Check out this short video highlighting how map projections can make continents
 seems proportionally larger or smaller than they actually are!
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/KUF_Ckv8HbE" frameborder="0" allowfullscreen></iframe>
+
 
 
 In this tutorial we will learn how to identify and manage spatial data 
@@ -131,7 +132,7 @@ We will use the `rgdal` and `raster` libraries in this tutorial.
     #set working directory to data folder
     #setwd("pathToDirHere")
 
-##Import US Boundaries - Census Data
+## Import US Boundaries - Census Data
 
 There are many good sources of boundary base layers that we can use to create a 
 basemap. Some `R` packages even have these base layers built in to support quick
@@ -142,7 +143,7 @@ United States, provided by the
 It is useful to have shapefiles to work with because we can add additional
 attributes to them if need be - for project specific mapping.
 
-##Read US Boundary File
+## Read US Boundary File
 
 We will use the `readOGR` function to import the
 `/US-Boundary-Layers/US-State-Boundaries-Census-2014` layer into `R`. This layer
@@ -185,7 +186,7 @@ Next, let's plot the U.S. states data.
 
 ![ ]({{ site.baseurl }}/images/rfigs/02-when-vector-data-dont-line-up-CRS/find-coordinates-1.png) 
 
-##US Boundary Layer  
+## U.S. Boundary Layer  
 
 We can add a boundary layer of the United States to our map - to make it look
 nicer. We will import 
@@ -304,10 +305,10 @@ U.S. boundary layers.
     ## CRS arguments:
     ##  +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0
 
-It looks like our data are in different `CRS`. We can tell this but looking at
+It looks like our data are in different `CRS`. We can tell this by looking at
 the `CRS` strings in `proj4` format.
 
-##Understanding CRS in Proj4 Format
+## Understanding CRS in Proj4 Format
 The `CRS` for our data are given to us by `R` in `proj4` format. Let's break
 down the pieces of `proj4` string. The string contains all of the individual
 `CRS` elements that `R` or another `GIS` might need. Each element is specified
@@ -315,7 +316,7 @@ with a `+` sign, similar to how a `.csv` file is delimited or broken up by
 a `,`. After each `+` we see the `CRS` element being defined. For example
 `+proj=` and `+datum=`.
 
-###UTM Proj4 String
+### UTM Proj4 String
 Our project string for `point_HARV` specifies the UTM projection as follows: 
 
 `+proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0` 
@@ -331,7 +332,7 @@ the data is WGS84
 Note that the `zone` is unique to the UTM projection. Not all `CRS` will have a 
 zone.
 
-###Geographic (lat / long) Proj4 String
+### Geographic (lat / long) Proj4 String
 
 Our project string for `State.boundary.US` and `Country.boundary.US` specifies
 the lat/long projection as follows: 
@@ -354,7 +355,7 @@ is `+towgs84=0,0,0 `. This is a conversion factor that is used if a `datum`
 conversion is required. We will not deal with datums in this particular series.
 {: .notice}
 
-##CRS Units - View Object Extent
+## CRS Units - View Object Extent
 
 Next, let's view the extent or spatial coverage for the `point_HARV` spatial
 object compared to the `State.Boundary.US` object.
@@ -385,7 +386,7 @@ represented in meters.
 
 ***
 
-##Proj4 & CRS Resources
+## Proj4 & CRS Resources
 
 * <a href="http://proj.maptools.org/faq.html" target="_blank">More information on the proj4 format.</a>
 * <a href="http://spatialreference.org" target="_blank">A fairly comprehensive list 
@@ -395,10 +396,10 @@ into the `R` console.
 
 ***
 
-##Reproject Vector Data
+## Reproject Vector Data
 
 Now we know our data are in different `CRS`. To address this, we have to modify
-or `reproject` the data so they are all in the *same* `CRS`. We can use
+or `reproject` the data so they are all in the **same** `CRS`. We can use
 `spTransform` function to reproject our data. When we reproject the data, we
 specify the `CRS` that we wish to transform our data to. This `CRS` contains
 the `datum`, units and other information that `R` needs to `reproject` our data.
@@ -466,16 +467,16 @@ allow us to perform any required geoprocessing
 on our data.
 
 <div id="challenge" markdown="1">
-##Challenge - Reproject Spatial Data
+## Challenge - Reproject Spatial Data
 
 Create a map of the North Eastern United States as follows:
 
 1. Import and plot `Boundary-US-State-NEast.shp`. Adjust line width as necessary.
-2. *Reproject* the layer into UTM zone 18 north.
+2. **Reproject** the layer into UTM zone 18 north.
 3. Layer the Fisher Tower point location `point_HARV` on top of the above plot.
-4. Add a title to your plot.
-5. Add a legend to your plot that shows both the state boundary (line) and the 
-Tower location point.  
+4. Add a **title** to your plot.
+5. Add a **legend** to your plot that shows both the state boundary (line) and
+the Tower location point.
 
 </div>
 
