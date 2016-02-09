@@ -18,9 +18,6 @@
 
 - slug: raster
   name: Raster Data  
-      
-- slug: raster-ts-wrksp
-  name: Raster Time Series Workshop
   
 - slug: remote-sensing
   name: Remote Sensing  
@@ -35,8 +32,8 @@
   name: Informatics       
   
 - slug: Data-Workshops
-  name: Data Workshops  
-  
+  name: Data Workshops
+   
 - slug: vector-data
-  name: Vector Data  
+  name: Vector Data 
   
