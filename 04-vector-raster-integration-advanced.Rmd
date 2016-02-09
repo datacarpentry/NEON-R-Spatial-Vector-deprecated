@@ -87,7 +87,7 @@ We often work with spatial layers that have different spatial extents.
     </figcaption>
 </figure>
 
-The graphic above illustrates the extent of several of the spatial layers that 
+The graphic below illustrates the extent of several of the spatial layers that 
 we have worked with in this vector data lesson series:
 
 * Area of interest (AOI) -- blue
