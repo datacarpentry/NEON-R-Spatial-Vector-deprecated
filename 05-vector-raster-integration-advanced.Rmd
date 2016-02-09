@@ -78,8 +78,8 @@ and
 We often work with spatial layers that have different spatial extents.
 
 <figure>
-    <a href="{{ site.baseurl }}/images/spatialVector/spatial_extent.png">
-    <img src="{{ site.baseurl }}/images/spatialVector/spatial_extent.png"></a>
+    <a href="{{ site.baseurl }}/images/dc-spatial-vector/spatial_extent.png">
+    <img src="{{ site.baseurl }}/images/dc-spatial-vector/spatial_extent.png"></a>
     <figcaption>The spatial extent of a shapefile or R spatial object represents
     the geographic "edge" or location that is the furthest north, south east and 
     west. Thus is represents the overall geographic coverage of the spatial object. 
