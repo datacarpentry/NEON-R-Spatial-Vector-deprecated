@@ -1,6 +1,6 @@
 ---
 layout: post_by_tag
-title: 'Tutorials by Tag: Time Series Data'
+title: 'Tutorials by Tag: Raster Data'
 tag: raster
 permalink: raster/
 image:
@@ -9,4 +9,4 @@ image:
   creditlink: 
 ---
 
-This will list all pages with a time series theme.
+This lists all pages tagged with Raster Data.
