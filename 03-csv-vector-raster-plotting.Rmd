@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Lesson 03: Convert from .csv to a Shapefile in R"
+title: "Vector 03: Convert from .csv to a Shapefile in R"
 date:   2015-10-24
 authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
@@ -10,7 +10,7 @@ packagesLibraries: [rgdal, raster]
 categories: [self-paced-tutorial]
 mainTag: vector-data-series
 tags: [vector-data, R, spatial-data-gis]
-workshopSeries: [vector-data-series]
+tutorialSeries: [vector-data-series]
 description: "This tutorial covers how to convert a .csv file that contains
 spatial coordinate information into a spatial object in R. We will then export
 the spatial object as a Shapefile for efficient import into R and other GUI GIS
@@ -19,9 +19,9 @@ code1: 03-csv-vector-raster-plotting.R
 image:
   feature: NEONCarpentryHeader_2.png
   credit: A collaboration between the National Ecological Observatory Network (NEON) and Data Carpentry
-  creditlink: http://www.neoninc.org
+  creditlink:
 permalink: /R/csv-to-shapefile-R/
-comments: false
+comments: true
 ---
 
 {% include _toc.html %}
