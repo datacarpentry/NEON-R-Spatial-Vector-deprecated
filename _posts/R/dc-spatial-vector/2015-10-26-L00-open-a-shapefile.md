@@ -1,26 +1,26 @@
 ---
 layout: post
-title: "Lesson 00: Open and Plot Shapefiles in R - Getting Started with Point,
+title: "Vector 00: Open and Plot Shapefiles in R - Getting Started with Point,
 Line and Polygon Vector Data"
 date:   2015-10-27
 authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: 2016-02-05
+lastModified: 2016-02-09
 packagesLibraries: [rgdal, raster]
 categories: [self-paced-tutorial]
 mainTag: vector-data-series
 tags: [vector-data, R, spatial-data-gis]
-workshopSeries: [vector-data-series]
+tutorialSeries: [vector-data-series]
 description: "This spatial data lesson explains the how to open and plot 
 Shapefiles containing point, line and polygon vector data in R."
 code1: 00-open-a-shapefile.R
 image:
   feature: NEONCarpentryHeader_2.png
   credit: A collaboration between the National Ecological Observatory Network  (NEON) and Data Carpentry
-  creditlink: http://www.neoninc.org
+  creditlink:
 permalink: /R/open-shapefiles-in-R/
-comments: false
+comments: true
 ---
 
 {% include _toc.html %}
@@ -331,10 +331,10 @@ Next, let's visualize the data in our `R` `spatialpolygonsdataframe` object usin
     plot(aoiBoundary_HARV, col="cyan1", border="black", lwd=3,
          main="AOI Boundary Plot")
 
-![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/plot-shapefile-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/00-open-a-shapefile/plot-shapefile-1.png) 
 
 <div id="challenge" markdown="1">
-##Challenge: Import Line and Point Shapefiles
+## Challenge: Import Line and Point Shapefiles
 Using the steps above, import the HARV_roads and HARVtower_UTM18N layers into
 `R`. Call the Harv_roads object `lines_HARV` and the HARVtower_UTM18N
 `point_HARV`.
@@ -366,11 +366,11 @@ lines, we use `\n` where the line should break.
     #use the pch element to adjust the symbology of the points
     plot(point_HARV, add  = TRUE, pch = 19, col = "purple")
 
-![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/plot-multiple-shapefiles-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/00-open-a-shapefile/plot-multiple-shapefiles-1.png) 
 
 
 <div id="challenge" markdown="1">
-##Challenge: Plot Raster & Vector Data Together
+## Challenge: Plot Raster & Vector Data Together
 
 
 You can plot vector data layered on top of raster data using the `add=TRUE`
@@ -389,7 +389,7 @@ the [Plot Raster Data in R]({{site.baseurl}}/R/Plot-Rasters-In-R/ )
 lessons. 
 </div>
 
-![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/challenge-vector-raster-overlay-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/00-open-a-shapefile/challenge-vector-raster-overlay-1.png) 
 
 ***
 

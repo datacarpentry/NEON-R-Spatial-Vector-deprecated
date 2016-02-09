@@ -75,15 +75,54 @@ lines_HARV[lines_HARV$TYPE == "footpath",]
 #save an object with only footpath lines
 footpath_HARV<-lines_HARV[lines_HARV$TYPE == "footpath",]
 footpath_HARV
-#how many features in our new object
+
+#how many features are in our new object
 length(footpath_HARV)
 
 ## ----plot-subset-shapefile-----------------------------------------------
 #plot just footpaths
 plot(footpath_HARV,
-     col=lines_HARV$OBJECTID, #color set by "OBJECTID" attribute
      lwd=6,
      main="Footpaths at NEON Harvard Forest Field Site")
+
+
+## ----plot-subset-shapefile-unique-colors---------------------------------
+#plot just footpaths
+plot(footpath_HARV,
+     col=c("green","blue"), #set color for each feature 
+     lwd=6,
+     main="Footpaths at NEON Harvard Forest Field Site\n Feature one = blue, Feature two= green")
+
+
+## ----challenge-code-feature-subset, results="hide", echo=FALSE-----------
+
+
+#save an object with only boardwalk lines
+boardwalk_HARV<-lines_HARV[lines_HARV$TYPE == "boardwalk",]
+boardwalk_HARV
+
+#how many features are in our new object
+length(boardwalk_HARV)
+
+#plot just footpaths
+plot(boardwalk_HARV,
+     col=c("green"), #set color for each feature 
+     lwd=6,
+     main="Boardwalks at NEON Harvard Forest Field Site\n Feature one = blue, Feature two= green")
+
+
+#save an object with only boardwalk lines
+stoneWall_HARV<-lines_HARV[lines_HARV$TYPE == "stone wall",]
+stoneWall_HARV
+
+#how many features are in our new object
+length(stoneWall_HARV)
+
+#plot just footpaths
+plot(stoneWall_HARV,
+     col=c("green", "blue", "orange", "brown", "springgreen"), #set color for each feature 
+     lwd=6,
+     main="Stone walls at NEON Harvard Forest Field Site\n Feature one = blue, Feature two= green")
 
 
 ## ----convert-to-factor---------------------------------------------------
@@ -104,95 +143,116 @@ levels(lines_HARV$TYPE)
 summary(lines_HARV$TYPE)
 
 ## ----palette-and-plot----------------------------------------------------
-#check current palette
-palette()
+#Check the class of the attribute - is it a factor?
+class(lines_HARV$TYPE)
 
-#use the default palette()
-palette ("default")
+#how many "levels" or unique values does hte factor have?
+#view factor values
+levels(lines_HARV$TYPE)
+#count the number of unique values or levels
+length(levels(lines_HARV$TYPE))
 
-#what is the default palette?
-palette()
+#create a color palette of 4 colors - one for each factor level
+roadPalette <- c("blue","green","grey","purple")
+roadPalette
+#create a vector of colors - one for each feature in our vector object
+#according to its attribute value
+roadColors <- c("blue","green","grey","purple")[lines_HARV$TYPE]
+roadColors
 
-#plot the lines data, apply a diff color to each category
+#plot the lines data, apply a diff color to each factor level)
 plot(lines_HARV, 
-     col=lines_HARV$TYPE,
+     col=roadColors,
      lwd=3,
      main="Roads at the NEON Harvard Forest Field Site")
+
 
 ## ----adjust-line-width---------------------------------------------------
 #make all lines thicker
 plot(lines_HARV, 
-     col=lines_HARV$TYPE,
+     col=roadColors,
      main="Roads at the NEON Harvard Forest Field Site \n All Lines Thickness=6",
      lwd=6)
 
+
+
+
+## ----line-width-unique---------------------------------------------------
+class(lines_HARV$TYPE)
 levels(lines_HARV$TYPE)
 #adjust line width by level
 #in this case, boardwalk (the first level) is the widest.
 plot(lines_HARV, 
-     col=lines_HARV$TYPE,
+     col=roadColors,
      main="Roads at the NEON Harvard Forest Field Site \n Line width varies by Type Attribute Value",
      lwd=lines_HARV$TYPE)
 
+## ----bicycle-map, include=TRUE, results="hide", echo=FALSE---------------
 
-## ----plot-width-by-attribute---------------------------------------------
 #view the factor levels
 levels(lines_HARV$TYPE)
 #create vector of line width values
-lineWidth <- c(6,4,1,2)[lines_HARV$TYPE]
+lineWidth <- c(2,4,3,8)[lines_HARV$TYPE]
 #view vector
 lineWidth
-#adjust width of each level
+
 #in this case, boardwalk (the first level) is the widest.
 plot(lines_HARV, 
-     col=lines_HARV$TYPE,
-     main="Roads at the NEON Harvard Forest Field Site \n Boardwalks & Footpath Lines Are Thick",
+     col=roadColors,
+     main="Roads at the NEON Harvard Forest Field Site \n Line width varies by Type Attribute Value",
      lwd=lineWidth)
 
 
 ## ----add-legend-to-plot--------------------------------------------------
 plot(lines_HARV, 
-     col=lines_HARV$TYPE,
+     col=roadColors,
      main="Roads at the NEON Harvard Forest Field Site\n Default Legend")
+
+#we can use the color object that we created above to color the legend objects
+roadPalette
 
 #add a legend to our map
 legend("bottomright",   #location of legend
       legend=levels(lines_HARV$TYPE), #categories or elements to render in the legend
-      fill=palette()) #color palette to use to fill objects in legend.
+      fill=roadPalette) #color palette to use to fill objects in legend.
 
 
 ## ----modify-legend-plot--------------------------------------------------
+
 plot(lines_HARV, 
-     col=lines_HARV$TYPE,
+     col=roadColors,
      main="Roads at the NEON Harvard Forest Field Site \n Modified Legend")
 #add a legend to our map
 legend("bottomright", 
        legend=levels(lines_HARV$TYPE), 
-       fill=palette(), 
+       fill=roadPalette, 
        bty="n", #turn off the legend border
        cex=.8) #decrease the font / legend size
 
 
-## ----adjust-palette-colors-----------------------------------------------
+## ----plot-different-colors-----------------------------------------------
 
 #manually set the colors for the plot!
-palette(c("springgreen", "blue", "magenta", "orange") )
-palette()
+newColors <- c("springgreen", "blue", "magenta", "orange")
+newColors
 
 #plot using new colors
 plot(lines_HARV, 
-     col=lines_HARV$TYPE,
+     col=(newColors)[lines_HARV$TYPE],
      main="Roads at the NEON Harvard Forest Field Site \n Pretty Colors")
 #add a legend to our map
 legend("bottomright", 
        levels(lines_HARV$TYPE), 
-       fill=palette(), 
+       fill=newColors, 
        bty="n", cex=.8)
 
 
-## ----bicycle-map, include=TRUE, results="hide", echo=FALSE---------------
+## ----bicycle-map-2, include=TRUE, results="hide", echo=FALSE-------------
 #view levels 
 levels(lines_HARV$BicyclesHo)
+#make sure the attribute is of class "Factor"
+
+class(lines_HARV$BicyclesHo)
 
 #convert to factor if necessary
 lines_HARV$BicyclesHo <- as.factor(lines_HARV$BicyclesHo)
@@ -200,108 +260,54 @@ levels(lines_HARV$BicyclesHo)
 
 #remove NA values
 lines_removeNA <- lines_HARV[na.omit(lines_HARV$BicyclesHo),]
-
+#count factor levels
+length(levels(lines_HARV$BicyclesHo))
 #set colors so only the allowed roads are magenta
-palette(c("magenta","grey","grey"))
-palette()
+#note there are 3 levels so we need 3 colors
+challengeColors <- c("magenta","grey","grey")
+challengeColors
+
+
+#set line width so the first factor level is thicker than the others
+lines_HARV$BicyclesHo
+c(4,1,1)[lines_HARV$BicyclesHo]
+
 #plot using new colors
-plot(lines_HARV, 
-     col=lines_HARV$BicyclesHo,
-     lwd=4,
+plot(lines_HARV,
+     col=(challengeColors)[lines_HARV$BicyclesHo],
+     lwd=c(4,1,1)[lines_HARV$BicyclesHo],
      main="Roads Where Bikes and Horses Are Allowed \n NEON Harvard Forest Field Site")
+
 #add a legend to our map
 legend("bottomright", 
        levels(lines_HARV$BicyclesHo), 
-       fill=palette(), 
+       fill=challengeColors, 
        bty="n", #turn off border
-       cex=.8) #adjust font size
-
-
-## ----challenge-answer, echo=FALSE, results="hide"------------------------
-# reset palette
-palette ("default")
-#view palette colors
-palette()
-
-#Plot multiple shapefiles
-plot(aoiBoundary_HARV, 
-     col = "grey93", 
-     border="grey",
-     main="NEON Harvard Forest\nField Site")
-
-plot(lines_HARV, 
-     col=lines_HARV$TYPE,
-     add = TRUE)
-
-plot(point_HARV, 
-     add  = TRUE, 
-     pch = 19, 
-     col = "purple")
-
-#assign plot to an object for easy modification!
-plot_HARV<- recordPlot()
-
-
-## ----customize-legend----------------------------------------------------
-
-#create a list of all labels
-labels <- c("Tower", "AOI", levels(lines_HARV$TYPE))
-labels
-
-#create a list of colors to use 
-plotColors <- c("purple", "grey", fill=palette())
-plotColors
-
-#create a list of pch values
-#these are the symbols that will be used for each legend value
-# ?pch will provide more information on values
-plotSym <- c(16,15,15,15,15,15)
-plotSym
-
-#Plot multiple shapefiles
-plot_HARV
-
-#to create a custom legend, we need to fake it
-legend("bottomright", 
-       legend=labels,
-       pch=plotSym, 
-       bty="n", 
-       col=plotColors,
-       cex=.8)
-
-
-## ----refine-legend-------------------------------------------------------
-#Create line object
-lineLegend = c(NA,NA,1,1,1,1)
-lineLegend
-plotSym <- c(16,15,NA,NA,NA,NA)
-plotSym
-
-#Plot multiple shapefiles
-plot_HARV
-
-#Build a custom legend
-legend("bottomright", 
-       legend=labels, 
-       lty = lineLegend,
-       pch=plotSym, 
-       bty="n", 
-       col=plotColors,
-       cex=.8)
+       cex=.7) #adjust font size
 
 
 ## ----challenge-code-plot-color, results="hide", warning= FALSE, echo=FALSE----
 ##1
-#Read the .csv file
+#Read the shapefile file
 State.Boundary.US <- readOGR("NEON-DS-Site-Layout-Files/US-Boundary-Layers",
           "US-State-Boundaries-Census-2014")
 
-palette(terrain.colors((50)))
-palette()
+
+
+#how many levels?
+levels(State.Boundary.US$region)
+colors <- c("purple","springgreen","yellow","brown","grey")
+colors
 
 plot(State.Boundary.US,
-     col=State.Boundary.US$NAME,
+     col=(colors)[State.Boundary.US$region],
      main="Contiguous U.S. State Boundaries \n 50 Colors")
+#add a legend to our map
+legend("bottomright", 
+       levels(State.Boundary.US$region), 
+       fill=colors, 
+       bty="n", #turn off border
+       cex=.7) #adjust font size
 
 ##2
 #open plot locations
@@ -312,19 +318,20 @@ plotLocations <- readOGR("NEON-DS-Site-Layout-Files/HARV",
 unique(plotLocations$soilTypeOr)
 
 #create new color palette -- topo.colors palette
-palette(topo.colors((2)))
-palette()
+blueGreen <- c("blue","springgreen")
+blueGreen
 
 #plot the locations 
 plot(plotLocations,
-     col=plotLocations$soilTypeOr, pch=18,
-     main="NEON Field Sites by Soil Type")
+     col=(blueGreen)[plotLocations$soilTypeOr], 
+     pch=18,
+     main="NEON Field Sites by Soil Type\n One Symbol for All Types")
 
 #create legend 
 legend("bottomright", 
        legend=c("Intceptisols","Histosols"),
        pch=18, 
-       col=palette(),
+       col=blueGreen,
        bty="n", 
        cex=1)
 
@@ -337,7 +344,7 @@ plSymbols
 plot(plotLocations,
      col=plotLocations$soilTypeOr, 
      pch=plSymbols,
-     main="NEON Field Sites by Soil Type")
+     main="NEON Field Sites by Soil Type\n Unique Symbol for Each Type")
 
 #create legend 
 legend("bottomright", 

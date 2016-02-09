@@ -29,7 +29,7 @@ setwd(wd)
 postsDir <- ("_posts/R/dc-spatial-vector/")
 
 #images path
-imagePath <- "images/rfigs/"
+imagePath <- "images/rfigs/dc-spatial-vector/"
 
 #set the base url for images and links in the md file
 base.url="{{ site.baseurl }}/"
@@ -45,12 +45,23 @@ if (file.exists(paste0(wd,"/","images"))){
   #create image directory structure
   dir.create(file.path(wd, "images/"))
   dir.create(file.path(wd, "images/rfigs"))
+  dir.create(file.path(wd, imagePath))
   dir.create(file.path(wd, figDir))
   print("image directories created!")
 }
 
 #NOTE -- delete the image directory at the end!
 
+#make sure image subdir exists
+#note this will fail if the sub dir doesn't exist
+if (file.exists(paste0(gitRepoPath, imagePath))){
+  print("image dir exists - all good")
+} else {
+  #create image directory structure
+  dir.create(file.path(gitRepoPath, "images/rfigs"))
+  dir.create(file.path(gitRepoPath, imagePath))
+  print("git image directories created!")
+}
 #################### Get List of RMD files to Render #############################
 
 
@@ -84,6 +95,7 @@ for (files in rmd.files) {
   
   #COPY image director, rmd file OVER to the GIT SITE###
   
+
   #copy image directory over
   file.copy(paste0(wd,"/",fig.path), paste0(gitRepoPath,imagePath), recursive=TRUE)
   

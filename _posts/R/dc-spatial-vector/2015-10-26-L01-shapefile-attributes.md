@@ -1,17 +1,17 @@
 ---
 layout: post
-title: "Lesson 01: Explore Shapefile Attributes & Plot Shapefile Objects by
+title: "Vector 01: Explore Shapefile Attributes & Plot Shapefile Objects by
 Attribute Value in R"
 date:   2015-10-26
 authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: 2016-02-05
+lastModified: 2016-02-09
 packagesLibraries: [rgdal, raster]
 categories: [self-paced-tutorial]
 mainTag: vector-data-series
 tags: [vector-data, R, spatial-data-gis]
-workshopSeries: [vector-data-series]
+tutorialSeries: [vector-data-series]
 description: "This lesson provides an overview of how to locate and query
 shapefile attributes as well as subset shapefiles by specific attribute values
 in R. It also covers plotting multiple shapefiles by attribute and building a 
@@ -20,9 +20,9 @@ code1: 01-shapefile-attributes.R
 image:
   feature: NEONCarpentryHeader_2.png
   credit: A collaboration between the National Ecological Observatory Network (NEON) and Data Carpentry
-  creditlink: http://www.neoninc.org
+  creditlink:
 permalink: /R/shapefile-attributes-in-R/
-comments: false
+comments: true
 ---
 
 {% include _toc.html %}
@@ -266,7 +266,7 @@ Let's give it a try.
     ## [11] "RESVEHICLE" "RECMAP"     "Shape_Le_1" "ResVehic_1" "BicyclesHo"
 
 <div id="challenge" markdown="1">
-##Challenge: Attributes for Different Spatial Classes
+## Challenge: Attributes for Different Spatial Classes
 Explore the attributes associated with the `point_HARV` and `aoiBoundary_HARV` 
 spatial objects. 
 
@@ -330,7 +330,7 @@ from a spatial object in `R`.
     ## min values  :         40,       91, footpath,    NA,        NA,      6,       NA,   146.2998,    NA,         Y,         R1,      Y,   146.2998,    R1 - All Research Vehicles Allowed, Bicycles and Horses Allowed 
     ## max values  :         41,      106, footpath,    NA,        NA,      6,       NA,   676.7180,    NA,         Y,         R2,      Y,   676.7181, R2 - 4WD/High Clearance Vehicles Only, Bicycles and Horses Allowed
 
-    #how many features in our new object
+    #how many features are in our new object
     length(footpath_HARV)
 
     ## [1] 2
@@ -340,16 +340,50 @@ that only two feature lines in our spatial object have the attribute "TYPE=footp
 
 We can plot our subsetted shapefiles.
 
+
     #plot just footpaths
     plot(footpath_HARV,
-         col=lines_HARV$OBJECTID, #color set by "OBJECTID" attribute
          lwd=6,
          main="Footpaths at NEON Harvard Forest Field Site")
 
-![ ]({{ site.baseurl }}/images/rfigs/01-shapefile-attributes/plot-subset-shapefile-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/plot-subset-shapefile-1.png) 
 
-Note: We'll cover how assign the color of features according to an attribute
-value in the next section.
+Interesting. Above, it appeared as if we had 2 features in our footpaths subset.
+Why does the plot look like there is only one feature?
+
+Let's adjust the colors used in our plot. If we have 2 features in our vector
+object, we can plot each using a unique color by assigning unique colors (`col=`)
+to our features. We use the syntax:
+
+`col="c("colorOne","colorTwo")`
+
+to do this.
+
+
+    #plot just footpaths
+    plot(footpath_HARV,
+         col=c("green","blue"), #set color for each feature 
+         lwd=6,
+         main="Footpaths at NEON Harvard Forest Field Site\n Feature one = blue, Feature two= green")
+
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/plot-subset-shapefile-unique-colors-1.png) 
+
+Now, we see that there are in fact two features in our plot! 
+
+
+<div id="challenge" markdown="1">
+## Challenge: Subset Spatial Line Objects Practice
+Subset out all:
+
+1. `Boardwalks` from the lines layer and plot it.
+2. `stone wall` features from the lines layer and plot it. 
+
+For each plot, color each feature using a unique color.
+</div>
+
+
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/challenge-code-feature-subset-1.png) ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/challenge-code-feature-subset-2.png) 
+
 
 ## Plot Lines by Attribute Value
 To plot vector data with the color determined by a set of attribute values, the 
@@ -390,32 +424,61 @@ attribute values using `as.factor()`.
     ##  boardwalk   footpath stone wall woods road 
     ##          1          2          6          4
 
-When we use `plot()`, we can specify the colors to use with `col=` or
-set using the `palette`. The return to a default palette at any time we can use
-`palette ("default")`.
+When we use `plot()`, we can specify the colors to use for each attribute using
+the `col=` element. To ensure that `R` renders each feature by it's associated 
+factor / attribute value, we need to create a `vector` or colors - one for each 
+feature, according to it's associated attribute value / `factor` value. 
+
+To create this vector we can use the following syntax:
+
+`c("colorOne", "colorTwo","colorThree")[object$factor]`
+
+Note in the above example we have 
+
+1. a vector of colors - one for each factor value (unique attribute value)
+2. the attribute itself (`[object$factor]`) of class `factor`.
+
+Let's give this a try.
 
 
-    #check current palette
-    palette()
 
-    ## [1] "#4C00FF" "#00E5FF"
+    #Check the class of the attribute - is it a factor?
+    class(lines_HARV$TYPE)
 
-    #use the default palette()
-    palette ("default")
-    
-    #what is the default palette?
-    palette()
+    ## [1] "factor"
 
-    ## [1] "black"   "red"     "green3"  "blue"    "cyan"    "magenta" "yellow" 
-    ## [8] "gray"
+    #how many "levels" or unique values does hte factor have?
+    #view factor values
+    levels(lines_HARV$TYPE)
 
-    #plot the lines data, apply a diff color to each category
+    ## [1] "boardwalk"  "footpath"   "stone wall" "woods road"
+
+    #count the number of unique values or levels
+    length(levels(lines_HARV$TYPE))
+
+    ## [1] 4
+
+    #create a color palette of 4 colors - one for each factor level
+    roadPalette <- c("blue","green","grey","purple")
+    roadPalette
+
+    ## [1] "blue"   "green"  "grey"   "purple"
+
+    #create a vector of colors - one for each feature in our vector object
+    #according to its attribute value
+    roadColors <- c("blue","green","grey","purple")[lines_HARV$TYPE]
+    roadColors
+
+    ##  [1] "purple" "green"  "green"  "grey"   "grey"   "grey"   "grey"  
+    ##  [8] "grey"   "grey"   "blue"   "purple" "purple" "purple"
+
+    #plot the lines data, apply a diff color to each factor level)
     plot(lines_HARV, 
-         col=lines_HARV$TYPE,
+         col=roadColors,
          lwd=3,
          main="Roads at the NEON Harvard Forest Field Site")
 
-![ ]({{ site.baseurl }}/images/rfigs/01-shapefile-attributes/palette-and-plot-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/palette-and-plot-1.png) 
 
 ### Adjust Line Width
 We can also adjust the width of our plot lines using `lwd`. We can set all lines
@@ -425,11 +488,28 @@ to be thicker or thinner using `lwd=`.
 
     #make all lines thicker
     plot(lines_HARV, 
-         col=lines_HARV$TYPE,
+         col=roadColors,
          main="Roads at the NEON Harvard Forest Field Site \n All Lines Thickness=6",
          lwd=6)
 
-![ ]({{ site.baseurl }}/images/rfigs/01-shapefile-attributes/adjust-line-width-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/adjust-line-width-1.png) 
+
+### Adjust Line Width by Attribute
+
+If we want a unique line width for each factor level or attribute category
+in our spatial object, we can set the line width in our plot - `lwd=` to the 
+spatial object attribute of interest like so:
+
+`lwd=lines_HARV$TYPE`
+
+Note that this requires the attribute to be of class `factor`. Let's give it a 
+try.
+
+
+
+    class(lines_HARV$TYPE)
+
+    ## [1] "factor"
 
     levels(lines_HARV$TYPE)
 
@@ -438,43 +518,35 @@ to be thicker or thinner using `lwd=`.
     #adjust line width by level
     #in this case, boardwalk (the first level) is the widest.
     plot(lines_HARV, 
-         col=lines_HARV$TYPE,
+         col=roadColors,
          main="Roads at the NEON Harvard Forest Field Site \n Line width varies by Type Attribute Value",
          lwd=lines_HARV$TYPE)
 
-![ ]({{ site.baseurl }}/images/rfigs/01-shapefile-attributes/adjust-line-width-2.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/line-width-unique-1.png) 
 
-## BONUS: Plot Line Width by Specific Attribute 
+<div id="challenge" markdown="1">
+## Challenge: Plot Line Width by Specific Attribute 
 We can customize the width of each line, according to specific attribute value,
 too. To do this, we create a vector of line width values, and map that vector
-to the factor levels. 
+to the factor levels - using the same syntax that we used above for colors.
+HINT: `lwd=(vector of line width thicknesses)[spatialObject$factorAttribute]`
+
+Create a plot of roads using the following line thicknesses:
+
+1. woods road lwd=8
+2. Boardwalks lwd = 2
+3. footpath lwd=4
+4. stone wall lwd=3
+ 
+</div>
+
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/bicycle-map-1.png) 
 
 <i class="fa fa-star"></i> **Data Tip:** Given we have a factor with 4 levels, 
 we can create an vector of numbers, each of which specifies the thickness of each
 feature in our `SpatialLinesDataFrame` by factor level (category): `c(6,4,1,2)[lines_HARV$TYPE]`
 {: .notice}
 
-
-    #view the factor levels
-    levels(lines_HARV$TYPE)
-
-    ## [1] "boardwalk"  "footpath"   "stone wall" "woods road"
-
-    #create vector of line width values
-    lineWidth <- c(6,4,1,2)[lines_HARV$TYPE]
-    #view vector
-    lineWidth
-
-    ##  [1] 2 4 4 1 1 1 1 1 1 6 2 2 2
-
-    #adjust width of each level
-    #in this case, boardwalk (the first level) is the widest.
-    plot(lines_HARV, 
-         col=lines_HARV$TYPE,
-         main="Roads at the NEON Harvard Forest Field Site \n Boardwalks & Footpath Lines Are Thick",
-         lwd=lineWidth)
-
-![ ]({{ site.baseurl }}/images/rfigs/01-shapefile-attributes/plot-width-by-attribute-1.png) 
 
 
 ## Add Plot Legend
@@ -493,15 +565,20 @@ Let's add a legend to our plot.
 
 
     plot(lines_HARV, 
-         col=lines_HARV$TYPE,
+         col=roadColors,
          main="Roads at the NEON Harvard Forest Field Site\n Default Legend")
     
+    #we can use the color object that we created above to color the legend objects
+    roadPalette
+
+    ## [1] "blue"   "green"  "grey"   "purple"
+
     #add a legend to our map
     legend("bottomright",   #location of legend
           legend=levels(lines_HARV$TYPE), #categories or elements to render in the legend
-          fill=palette()) #color palette to use to fill objects in legend.
+          fill=roadPalette) #color palette to use to fill objects in legend.
 
-![ ]({{ site.baseurl }}/images/rfigs/01-shapefile-attributes/add-legend-to-plot-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/add-legend-to-plot-1.png) 
 
 We can tweak the appearance of our legend too.
 
@@ -512,48 +589,54 @@ Let's try it out.
 
 
     plot(lines_HARV, 
-         col=lines_HARV$TYPE,
+         col=roadColors,
          main="Roads at the NEON Harvard Forest Field Site \n Modified Legend")
     #add a legend to our map
     legend("bottomright", 
            legend=levels(lines_HARV$TYPE), 
-           fill=palette(), 
+           fill=roadPalette, 
            bty="n", #turn off the legend border
            cex=.8) #decrease the font / legend size
 
-![ ]({{ site.baseurl }}/images/rfigs/01-shapefile-attributes/modify-legend-plot-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/modify-legend-plot-1.png) 
 
-The default color palette in `R` is accessed by the `palette()` command. We can 
-modify this list of colors to create a prettier plot!
+We can modify the colors used to plot our lines by creating a new color vector,
+directly in the plot code too rather than creating a separate object.
+
+`col=(newColors)[lines_HARV$TYPE]`
+
+Let's try it!
 
 
     #manually set the colors for the plot!
-    palette(c("springgreen", "blue", "magenta", "orange") )
-    palette()
+    newColors <- c("springgreen", "blue", "magenta", "orange")
+    newColors
 
     ## [1] "springgreen" "blue"        "magenta"     "orange"
 
     #plot using new colors
     plot(lines_HARV, 
-         col=lines_HARV$TYPE,
+         col=(newColors)[lines_HARV$TYPE],
          main="Roads at the NEON Harvard Forest Field Site \n Pretty Colors")
     #add a legend to our map
     legend("bottomright", 
            levels(lines_HARV$TYPE), 
-           fill=palette(), 
+           fill=newColors, 
            bty="n", cex=.8)
 
-![ ]({{ site.baseurl }}/images/rfigs/01-shapefile-attributes/adjust-palette-colors-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/plot-different-colors-1.png) 
 
-<i class="fa fa-star"></i> **Data Tip:** You can apply built in colors ramps to 
-your palette too. For example `palette(rainbow(6))` or
+<i class="fa fa-star"></i> **Data Tip:** You can modify the defaul R color palette 
+using the palette method. For example `palette(rainbow(6))` or
 `palette(terrain.colors(6))`. You can reset the palette colors using
-`palette("default")` if need be!
+`palette("default")`!
 {: .notice} 
 
 <div id="challenge" markdown="1">
 ## Challenge: Plot Lines by Attribute
-Create a plot that emphasizes only roads where bicycles and horses are allowed. 
+Create a plot that emphasizes only roads where bicycles and horses are allowed.
+To emphasize this, make the lines where bicycles are not allowed THINNER than
+the roads wher bicycles are allowed.
 NOTE: this attribute information is located in the `lines_HARV$BicyclesHo` 
 attribute.
 
@@ -563,125 +646,20 @@ other lines can be grey.
 
 </div>
 
-![ ]({{ site.baseurl }}/images/rfigs/01-shapefile-attributes/bicycle-map-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/bicycle-map-2-1.png) 
 
-## Plot Multiple Vector Layers
-Now, let's create a plot that combines our tower location (`point_HARV`), 
-site boundary (`aoiBoundary_HARV`) and roads (`lines_HARV`) spatial objects. We
-will need to build a **custom legend** as well.
-
-To begin, create a plot with the site boundary as the first layer. Then layer 
-the tower location and road data on top using `add=TRUE`.
-
-![ ]({{ site.baseurl }}/images/rfigs/01-shapefile-attributes/challenge-answer-1.png) 
-
-To create a legend that includes both the road elements, the tower location and 
-the AOI polygon, we will need to build three things:
-
-1. A list of all "labels" to use in the legend.
-2. A list of colors as they appear in our plot.
-3. A list of symbols to use in the plot.
-
-Let's create objects for the labels, colors and symbols so we can easily reuse
-them.
-
-
-    #create a list of all labels
-    labels <- c("Tower", "AOI", levels(lines_HARV$TYPE))
-    labels
-
-    ## [1] "Tower"      "AOI"        "boardwalk"  "footpath"   "stone wall"
-    ## [6] "woods road"
-
-    #create a list of colors to use 
-    plotColors <- c("purple", "grey", fill=palette())
-    plotColors
-
-    ##                         fill1     fill2     fill3     fill4     fill5 
-    ##  "purple"    "grey"   "black"     "red"  "green3"    "blue"    "cyan" 
-    ##     fill6     fill7     fill8 
-    ## "magenta"  "yellow"    "gray"
-
-    #create a list of pch values
-    #these are the symbols that will be used for each legend value
-    # ?pch will provide more information on values
-    plotSym <- c(16,15,15,15,15,15)
-    plotSym
-
-    ## [1] 16 15 15 15 15 15
-
-    #Plot multiple shapefiles
-    plot_HARV
-    
-    #to create a custom legend, we need to fake it
-    legend("bottomright", 
-           legend=labels,
-           pch=plotSym, 
-           bty="n", 
-           col=plotColors,
-           cex=.8)
-
-![ ]({{ site.baseurl }}/images/rfigs/01-shapefile-attributes/customize-legend-1.png) 
-
-We are almost there! It might be more useful to use line symbols in our legend
-rather than squares to better represent our data. We can create a line symbol
-using `lty = ()`. We have a total of 6 elements in our legend:
-
-1.   Tower Location
-2.   AOI
-3. -6. Road levels (categories)
-
-The `lty` list designates, in order, which of those elements should be
-designated as a line (`1`) and which should be designated as a symbol (`NA`).
-Our object will thus look like `lty = c(NA,NA,1,1,1,1)`. This tells `R` to use a
-line element for`the 3-6 elements in our legend only. 
-
-Once we do this, we need to **modify** our `pch` element. Each **line** element
-(3-6) should be represented by a `NA` value - this tells `R` to not use a
-symbol, but to instead use a line.
-
-
-
-    #Create line object
-    lineLegend = c(NA,NA,1,1,1,1)
-    lineLegend
-
-    ## [1] NA NA  1  1  1  1
-
-    plotSym <- c(16,15,NA,NA,NA,NA)
-    plotSym
-
-    ## [1] 16 15 NA NA NA NA
-
-    #Plot multiple shapefiles
-    plot_HARV
-    
-    #Build a custom legend
-    legend("bottomright", 
-           legend=labels, 
-           lty = lineLegend,
-           pch=plotSym, 
-           bty="n", 
-           col=plotColors,
-           cex=.8)
-
-![ ]({{ site.baseurl }}/images/rfigs/01-shapefile-attributes/refine-legend-1.png) 
 
 
 <div id="challenge" markdown="1">
-## Challenge: Plot Polygon by Attribute
+## Challenge 2: Plot Polygon by Attribute
 
 1. Create a map of the State boundaries in the United States - using the data
 located in your downloaded data folder: `NEON-DS-Site-Layout-Files/US-Boundary-Layers\US-State-Boundaries-Census-2014`. 
-Each state should be a different color or shade of color. 
-HINT: you can use `palette(terrain.colors((50))` to create a palette of 50
-colors using the `terrain.colors` `R` palette. 
+Each state should be colored by it's `region` value. Add a legend.
 
 2. Using the `NEON-DS-Site-Layout-Files/HARV/PlotLocations_HARV.shp` shapefile, 
 create a map of field site locations, with each point colored by the soil type
 (`soilTypeOr`). 
-Experiment with using one of the other 
-<a href="https://stat.ethz.ch/R-manual/R-devel/library/grDevices/html/palettes.html" target="_blank">R Color Palettes</a>.
 
 How many different soil types are there at this particular field site? 
 
@@ -692,4 +670,4 @@ factor level using the syntax described above for line width:
 
 </div>
 
-![ ]({{ site.baseurl }}/images/rfigs/01-shapefile-attributes/challenge-code-plot-color-1.png) ![ ]({{ site.baseurl }}/images/rfigs/01-shapefile-attributes/challenge-code-plot-color-2.png) ![ ]({{ site.baseurl }}/images/rfigs/01-shapefile-attributes/challenge-code-plot-color-3.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/challenge-code-plot-color-1.png) ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/challenge-code-plot-color-2.png) ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/challenge-code-plot-color-3.png) 
