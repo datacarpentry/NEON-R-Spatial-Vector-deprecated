@@ -1,17 +1,17 @@
 ---
 layout: post
-title: "Lesson 02: When Vector Data Don't Line Up - Handling Spatial
+title: "Vector 02: When Vector Data Don't Line Up - Handling Spatial
 Projection & CRS in R"
 date:   2015-10-25
 authors: [Joseph Stachelek, Leah Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: 2016-02-05
+lastModified: 2016-02-08
 packagesLibraries: [rgdal, raster]
 categories: [self-paced-tutorial]
 mainTag: vector-data-series
 tags: [vector-data, R, spatial-data-gis]
-workshopSeries: [vector-data-series]
+tutorialSeries: [vector-data-series]
 description: "This tutorial will cover how to identify the CRS of a spatial
 vector object in R. It will also explore differences in units associated with
 different projections and how to reproject data using spTransform in R. Spatial
@@ -21,9 +21,9 @@ code1: 02-csv-vector-raster-plotting.R
 image:
   feature: NEONCarpentryHeader_2.png
   credit: A collaboration between the National Ecological Observatory Network (NEON) and Data Carpentry
-  creditlink: http://www.neoninc.org
+  creditlink:
 permalink: /R/vector-data-reproject-crs-R/
-comments: false
+comments: true
 ---
 
 {% include _toc.html %}

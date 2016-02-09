@@ -1,17 +1,17 @@
 ---
 layout: post
-title: "Lesson 04: Crop Raster Data and Extract Summary Pixels Values From 
+title: "Vector 04: Crop Raster Data and Extract Summary Pixels Values From 
 Rasters in R"
 date:   2015-10-23
 authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: 2016-02-05
+lastModified: 2016-02-08
 packagesLibraries: [rgdal, raster, ggplot2]
 categories: [self-paced-tutorial]
 mainTag: vector-data-series
 tags: [vector-data, R, spatial-data-gis]
-workshopSeries: [vector-data-series]
+tutorialSeries: [vector-data-series]
 description: "This tutorial covers how to modify (crop) a raster extent using
 the extent of a vector shapefile. It also covers extracting pixel values from 
 defined locations stored in a spatial object."
@@ -19,9 +19,9 @@ code1: 04-vector-raster-integration-advanced.R
 image:
   feature: NEONCarpentryHeader_2.png
   credit: A collaboration between the National Ecological Observatory Network (NEON) and Data Carpentry
-  creditlink: http://www.neoninc.org
+  creditlink:
 permalink: /R/crop-extract-raster-data-R/
-comments: false
+comments: true
 ---
 
 {% include _toc.html %}
@@ -87,7 +87,7 @@ We often work with spatial layers that have different spatial extents.
     </figcaption>
 </figure>
 
-The graphic above illustrates the extent of several of the spatial layers that 
+The graphic below illustrates the extent of several of the spatial layers that 
 we have worked with in this vector data lesson series:
 
 * Area of interest (AOI) -- blue
