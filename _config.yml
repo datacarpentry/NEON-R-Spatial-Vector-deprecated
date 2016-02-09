@@ -38,14 +38,23 @@ google_analytics:
 # Links to include in top navigation
 # For external links add external: true
 links:  
-  - title: Self Paced Data Tutorials
-    url: /activities/
+  - title: Data Tutorials
+    url: /self-paced-tutorial/   
+
+  - title: Tutorial Series
+    url: /tutorial-series/
     
-  - title: Data Workshops
-    url: /data-workshop/    
+  - title: Events
+    url: /workshop-event/
+
+  - title: Science Videos
+    url: /science-video/ 
+        
+  - title: About
+    url: /about/ 
     
   - title: NEON Website
-    url: http://neoninc.org
+    url: http://neonscience.org
     external: true
 
 # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
