@@ -12,5 +12,3 @@ image:
 ## Vector Data & Shapefiles in R:  Data Lessons
 
 
-Lessons are listed below. They are DRAFT!
-
