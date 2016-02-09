@@ -45,7 +45,7 @@ if (file.exists(paste0(wd,"/","images"))){
   #create image directory structure
   dir.create(file.path(wd, "images/"))
   dir.create(file.path(wd, "images/rfigs"))
-  dir.create(file.path(wd, "images/rfigs/dc-spatial-vector/"))
+  dir.create(file.path(wd, imagePath))
   dir.create(file.path(wd, figDir))
   print("image directories created!")
 }
@@ -87,12 +87,12 @@ for (files in rmd.files) {
   
   #make sure image subdir exists
   #note this will fail if the sub dir doesn't exist
-  if (file.exists(paste0(gitRepoPath,"images/rfigs/dc-spatial-vector/"))){
+  if (file.exists(paste0(gitRepoPath, imagePath))){
     print("image dir exists - all good")
   } else {
     #create image directory structure
     dir.create(file.path(gitRepoPath, "images/rfigs"))
-    dir.create(file.path(gitRepoPath, "images/rfigs/dc-spatial-vector/"))
+    dir.create(file.path(gitRepoPath, imagePath))
     print("git image directories created!")
   }
   #copy image directory over
