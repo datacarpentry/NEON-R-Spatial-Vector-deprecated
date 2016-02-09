@@ -6,7 +6,7 @@ date:   2015-10-27
 authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: 2016-02-08
+lastModified: 2016-02-09
 packagesLibraries: [rgdal, raster]
 categories: [self-paced-tutorial]
 mainTag: vector-data-series
@@ -331,7 +331,7 @@ Next, let's visualize the data in our `R` `spatialpolygonsdataframe` object usin
     plot(aoiBoundary_HARV, col="cyan1", border="black", lwd=3,
          main="AOI Boundary Plot")
 
-![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/plot-shapefile-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/00-open-a-shapefile/plot-shapefile-1.png) 
 
 <div id="challenge" markdown="1">
 ## Challenge: Import Line and Point Shapefiles
@@ -366,7 +366,7 @@ lines, we use `\n` where the line should break.
     #use the pch element to adjust the symbology of the points
     plot(point_HARV, add  = TRUE, pch = 19, col = "purple")
 
-![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/plot-multiple-shapefiles-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/00-open-a-shapefile/plot-multiple-shapefiles-1.png) 
 
 
 <div id="challenge" markdown="1">
@@ -389,7 +389,7 @@ the [Plot Raster Data in R]({{site.baseurl}}/R/Plot-Rasters-In-R/ )
 lessons. 
 </div>
 
-![ ]({{ site.baseurl }}/images/rfigs/00-open-a-shapefile/challenge-vector-raster-overlay-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/00-open-a-shapefile/challenge-vector-raster-overlay-1.png) 
 
 ***
 

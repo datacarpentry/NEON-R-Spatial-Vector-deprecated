@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "Vector 02: When Vector Data Don't Line Up - Handling Spatial
+title: "Vector 03: When Vector Data Don't Line Up - Handling Spatial
 Projection & CRS in R"
-date:   2015-10-25
+date:   2015-10-24
 authors: [Joseph Stachelek, Leah Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: 2016-02-08
+lastModified: 2016-02-09
 packagesLibraries: [rgdal, raster]
 categories: [self-paced-tutorial]
 mainTag: vector-data-series
@@ -159,8 +159,8 @@ from the Census website to support learning goals of this tutorial.
 
     ## OGR data source with driver: ESRI Shapefile 
     ## Source: "NEON-DS-Site-Layout-Files/US-Boundary-Layers", layer: "US-State-Boundaries-Census-2014"
-    ## with 49 features
-    ## It has 9 fields
+    ## with 58 features
+    ## It has 10 fields
 
     ## Warning in readOGR("NEON-DS-Site-Layout-Files/US-Boundary-Layers", "US-
     ## State-Boundaries-Census-2014"): Z-dimension discarded
@@ -184,7 +184,7 @@ Next, let's plot the U.S. states data.
     plot(State.Boundary.US, 
          main="Map of Continental US State Boundaries\n US Census Bureau Data")
 
-![ ]({{ site.baseurl }}/images/rfigs/02-when-vector-data-dont-line-up-CRS/find-coordinates-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/03-when-vector-data-dont-line-up-CRS/find-coordinates-1.png) 
 
 ## U.S. Boundary Layer  
 
@@ -225,7 +225,7 @@ make our map pop!
          border="gray18",
          add=TRUE)
 
-![ ]({{ site.baseurl }}/images/rfigs/02-when-vector-data-dont-line-up-CRS/check-out-coordinates-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/03-when-vector-data-dont-line-up-CRS/check-out-coordinates-1.png) 
 
 Next, let's add the location of a flux tower where our study area is.
 As we are adding these layers, take note of the class of each object. 
@@ -253,7 +253,7 @@ As we are adding these layers, take note of the class of each object.
          col = "purple",
          main="Harvard Fisher Tower Location")
 
-![ ]({{ site.baseurl }}/images/rfigs/02-when-vector-data-dont-line-up-CRS/explore-units-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/03-when-vector-data-dont-line-up-CRS/explore-units-1.png) 
 
 The plot above demonstrates that the tower point location data is readable and 
 will plot! Let's next add it as a layer on top of the U.S. states and boundary
@@ -277,7 +277,7 @@ layers in our basemap plot.
          col = "purple",
          add=TRUE)
 
-![ ]({{ site.baseurl }}/images/rfigs/02-when-vector-data-dont-line-up-CRS/layer-point-on-states-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/03-when-vector-data-dont-line-up-CRS/layer-point-on-states-1.png) 
 
 What do you notice about the resultant plot? Do you see the tower location in 
 purple in the Massachusetts area? No! What went wrong?
@@ -459,7 +459,7 @@ Once our data are reprojected, we can try to plot again.
          col = "purple",
          add=TRUE)
 
-![ ]({{ site.baseurl }}/images/rfigs/02-when-vector-data-dont-line-up-CRS/plot-again-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/03-when-vector-data-dont-line-up-CRS/plot-again-1.png) 
 
 Reprojecting our data ensured that things line up on our map! It will also 
 allow us to perform any required geoprocessing
@@ -480,4 +480,4 @@ the Tower location point.
 
 </div>
 
-![ ]({{ site.baseurl }}/images/rfigs/02-when-vector-data-dont-line-up-CRS/challenge-code-MASS-Map-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/03-when-vector-data-dont-line-up-CRS/challenge-code-MASS-Map-1.png) 

@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "Vector 04: Crop Raster Data and Extract Summary Pixels Values From 
+title: "Vector 05: Crop Raster Data and Extract Summary Pixels Values From 
 Rasters in R"
-date:   2015-10-23
+date:   2015-10-22
 authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: 2016-02-08
+lastModified: 2016-02-09
 packagesLibraries: [rgdal, raster, ggplot2]
 categories: [self-paced-tutorial]
 mainTag: vector-data-series
@@ -98,7 +98,7 @@ and a raster file, that we will introduce this lesson:
 
 * A canopy height model (CHM) in GeoTIFF format -- green
 
-![ ]({{ site.baseurl }}/images/rfigs/04-vector-raster-integration-advanced/view-extents-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/05-vector-raster-integration-advanced/view-extents-1.png) 
 
 
 
@@ -176,7 +176,7 @@ spatial object as the cropping boundary.
     plot(chm_HARV,
          main="LiDAR CHM - Not Cropped\nNEON Harvard Forest Field Site")
 
-![ ]({{ site.baseurl }}/images/rfigs/04-vector-raster-integration-advanced/Crop-by-vector-extent-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/05-vector-raster-integration-advanced/Crop-by-vector-extent-1.png) 
 
     #crop the chm
     chm_HARV_Crop <- crop(x = chm_HARV, y = aoiBoundary_HARV)
@@ -190,14 +190,14 @@ spatial object as the cropping boundary.
     plot(chm_HARV_Crop,
          add=TRUE)
 
-![ ]({{ site.baseurl }}/images/rfigs/04-vector-raster-integration-advanced/Crop-by-vector-extent-2.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/05-vector-raster-integration-advanced/Crop-by-vector-extent-2.png) 
 
 We can see from the plot above that the full CHM extent (plotted in green) is
 much larger than the resulting cropped raster. Our new cropped CHM now has the 
 same extent as the `aoiBoundary_HARV` object that was used as a crop extent 
 (blue boarder below).
 
-![ ]({{ site.baseurl }}/images/rfigs/04-vector-raster-integration-advanced/view-crop-extent-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/05-vector-raster-integration-advanced/view-crop-extent-1.png) 
 
 We can look at the extent of all the other objects. 
 
@@ -245,7 +245,7 @@ you have these plot locations as the spatial `R` spatial object
 
 </div>
 
-![ ]({{ site.baseurl }}/images/rfigs/04-vector-raster-integration-advanced/challenge-code-crop-raster-points-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/05-vector-raster-integration-advanced/challenge-code-crop-raster-points-1.png) 
 
 In the plot above, created in the challenge, all the vegetation plot locations
 (blue) appear on the Canopy Height Model raster layer except for one. One is
@@ -258,7 +258,7 @@ function will make a raster extent smaller, it will not expand the extent in
 areas where there are no data. Thus, extent of our vegetation plot layer will
 still extend further west than the extent of our (cropped) raster data.
 
-![ ]({{ site.baseurl }}/images/rfigs/04-vector-raster-integration-advanced/raster-extents-cropped-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/05-vector-raster-integration-advanced/raster-extents-cropped-1.png) 
 
 ## Define an Extent
 We can also use an `extent()` method to define an extent to be used as a cropping
@@ -286,7 +286,7 @@ raster.
     plot(new.extent, col="brown", lwd=4,add = TRUE)
     plot(CHM_HARV_manualCrop, add = TRUE)
 
-![ ]({{ site.baseurl }}/images/rfigs/04-vector-raster-integration-advanced/crop-using-drawn-extent-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/05-vector-raster-integration-advanced/crop-using-drawn-extent-1.png) 
 
 Notice that our manual `new.extent` (in red) is smaller than the
 `aoiBoundary_HARV` and that the raster is now the same as the `new.extent`
@@ -372,7 +372,7 @@ site.
          col="springgreen",
          xlab="Tree Height", ylab="Frequency of Pixels")
 
-![ ]({{ site.baseurl }}/images/rfigs/04-vector-raster-integration-advanced/view-extract-histogram-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/05-vector-raster-integration-advanced/view-extract-histogram-1.png) 
 
     #view summary of values
     summary(tree_height$HARV_chmCrop)
@@ -465,4 +465,4 @@ Create a simple plot showing the mean tree height of each plot.
 </div>
 
 
-![ ]({{ site.baseurl }}/images/rfigs/04-vector-raster-integration-advanced/challenge-code-extract-plot-tHeight-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/05-vector-raster-integration-advanced/challenge-code-extract-plot-tHeight-1.png) 

@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Vector 03: Convert from .csv to a Shapefile in R"
-date:   2015-10-24
+title: "Vector 04: Convert from .csv to a Shapefile in R"
+date:   2015-10-23
 authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: 2016-02-08
+lastModified: 2016-02-09
 packagesLibraries: [rgdal, raster]
 categories: [self-paced-tutorial]
 mainTag: vector-data-series
@@ -318,7 +318,7 @@ We now have a spatial `R` object, we can plot our newly created spatial object.
     plot(plot.locationsSp_HARV, 
          main="Map of Plot Locations")
 
-![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/plot-data-points-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/04-csv-vector-raster-plotting/plot-data-points-1.png) 
 
 ## Define Plot Extent
 
@@ -353,7 +353,7 @@ To begin, let's plot our `aoiBoundary` object with our vegetation plots.
     plot(plot.locationsSp_HARV, 
          pch=8, add=TRUE)
 
-![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/plot-data-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/04-csv-vector-raster-plotting/plot-data-1.png) 
 
     crs(aoiBoundary_HARV)
 
@@ -412,7 +412,7 @@ locations are not rendered. We can see that our data are in the same projection
            lty=c(1,1),
            lwd=6)
 
-![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/compare-extents-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/04-csv-vector-raster-plotting/compare-extents-1.png) 
 
 The **extents** of our two objects are **different**. `plot.locationsSp_HARV` is
 much larger than `aoiBoundary_HARV`. When we plot `aoiBoundary_HARV` first, `R`
@@ -467,7 +467,7 @@ values from the spatial object that has a larger extent. Let's try it.
            col=c("purple","darkgreen"),
            cex=.8)
 
-![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/set-plot-extent-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/04-csv-vector-raster-plotting/set-plot-extent-1.png) 
 
 <div id="challenge" markdown="1">
 ## Challenge - Import & Plot Additional Points
@@ -491,7 +491,7 @@ for more on working with geographic coordinate systems. You may want to "borrow"
 the projection from the objects used in that lesson!
 </div>
 
-![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/challenge-code-phen-plots-1.png) ![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/challenge-code-phen-plots-2.png) ![ ]({{ site.baseurl }}/images/rfigs/03-csv-vector-raster-plotting/challenge-code-phen-plots-3.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/04-csv-vector-raster-plotting/challenge-code-phen-plots-1.png) ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/04-csv-vector-raster-plotting/challenge-code-phen-plots-2.png) ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/04-csv-vector-raster-plotting/challenge-code-phen-plots-3.png) 
 
 ## Export a Shapefile
 
