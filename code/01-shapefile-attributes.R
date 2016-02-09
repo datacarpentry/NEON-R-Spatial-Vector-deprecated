@@ -94,6 +94,37 @@ plot(footpath_HARV,
      main="Footpaths at NEON Harvard Forest Field Site\n Feature one = blue, Feature two= green")
 
 
+## ----challenge-code-feature-subset, results="hide", echo=FALSE-----------
+
+
+#save an object with only boardwalk lines
+boardwalk_HARV<-lines_HARV[lines_HARV$TYPE == "boardwalk",]
+boardwalk_HARV
+
+#how many features are in our new object
+length(boardwalk_HARV)
+
+#plot just footpaths
+plot(boardwalk_HARV,
+     col=c("green"), #set color for each feature 
+     lwd=6,
+     main="Boardwalks at NEON Harvard Forest Field Site\n Feature one = blue, Feature two= green")
+
+
+#save an object with only boardwalk lines
+stoneWall_HARV<-lines_HARV[lines_HARV$TYPE == "stone wall",]
+stoneWall_HARV
+
+#how many features are in our new object
+length(stoneWall_HARV)
+
+#plot just footpaths
+plot(stoneWall_HARV,
+     col=c("green", "blue", "orange", "brown", "springgreen"), #set color for each feature 
+     lwd=6,
+     main="Stone walls at NEON Harvard Forest Field Site\n Feature one = blue, Feature two= green")
+
+
 ## ----convert-to-factor---------------------------------------------------
 #view the original class of the TYPE column
 class(lines_HARV$TYPE)
@@ -143,6 +174,11 @@ plot(lines_HARV,
      main="Roads at the NEON Harvard Forest Field Site \n All Lines Thickness=6",
      lwd=6)
 
+
+
+
+## ----line-width-unique---------------------------------------------------
+class(lines_HARV$TYPE)
 levels(lines_HARV$TYPE)
 #adjust line width by level
 #in this case, boardwalk (the first level) is the widest.
@@ -150,7 +186,6 @@ plot(lines_HARV,
      col=roadColors,
      main="Roads at the NEON Harvard Forest Field Site \n Line width varies by Type Attribute Value",
      lwd=lines_HARV$TYPE)
-
 
 ## ----bicycle-map, include=TRUE, results="hide", echo=FALSE---------------
 
@@ -251,90 +286,28 @@ legend("bottomright",
        cex=.7) #adjust font size
 
 
-## ----challenge-answer, echo=FALSE, results="hide"------------------------
-
-#Plot multiple shapefiles
-plot(aoiBoundary_HARV, 
-     col = "grey93", 
-     border="grey",
-     main="NEON Harvard Forest\nField Site")
-
-plot(lines_HARV, 
-     col=roadColors,
-     add = TRUE)
-
-plot(point_HARV, 
-     add  = TRUE, 
-     pch = 19, 
-     col = "purple")
-
-#assign plot to an object for easy modification!
-plot_HARV<- recordPlot()
-
-
-## ----customize-legend----------------------------------------------------
-
-#create a list of all labels
-labels <- c("Tower", "AOI", levels(lines_HARV$TYPE))
-labels
-
-#we have a list of colors that we used above - we can use it in the legend
-roadPalette
-
-#create a list of colors to use 
-plotColors <- c("purple", "grey", roadPalette)
-plotColors
-
-#create a list of pch values
-#these are the symbols that will be used for each legend value
-# ?pch will provide more information on values
-plotSym <- c(16,15,15,15,15,15)
-plotSym
-
-#Plot multiple shapefiles
-plot_HARV
-
-#to create a custom legend, we need to fake it
-legend("bottomright", 
-       legend=labels,
-       pch=plotSym, 
-       bty="n", 
-       col=plotColors,
-       cex=.8)
-
-
-## ----refine-legend-------------------------------------------------------
-#Create line object
-lineLegend = c(NA,NA,1,1,1,1)
-lineLegend
-plotSym <- c(16,15,NA,NA,NA,NA)
-plotSym
-
-#Plot multiple shapefiles
-plot_HARV
-
-#Build a custom legend
-legend("bottomright", 
-       legend=labels, 
-       lty = lineLegend,
-       pch=plotSym, 
-       bty="n", 
-       col=plotColors,
-       cex=.8)
-
-
 ## ----challenge-code-plot-color, results="hide", warning= FALSE, echo=FALSE----
 ##1
-#Read the .csv file
+#Read the shapefile file
 State.Boundary.US <- readOGR("NEON-DS-Site-Layout-Files/US-Boundary-Layers",
           "US-State-Boundaries-Census-2014")
 
-palette(terrain.colors((50)))
-palette()
+
+
+#how many levels?
+levels(State.Boundary.US$region)
+colors <- c("purple","springgreen","yellow","brown","grey")
+colors
 
 plot(State.Boundary.US,
-     col=State.Boundary.US$NAME,
+     col=(colors)[State.Boundary.US$region],
      main="Contiguous U.S. State Boundaries \n 50 Colors")
+#add a legend to our map
+legend("bottomright", 
+       levels(State.Boundary.US$region), 
+       fill=colors, 
+       bty="n", #turn off border
+       cex=.7) #adjust font size
 
 ##2
 #open plot locations
@@ -352,7 +325,7 @@ blueGreen
 plot(plotLocations,
      col=(blueGreen)[plotLocations$soilTypeOr], 
      pch=18,
-     main="NEON Field Sites by Soil Type")
+     main="NEON Field Sites by Soil Type\n One Symbol for All Types")
 
 #create legend 
 legend("bottomright", 
@@ -371,7 +344,7 @@ plSymbols
 plot(plotLocations,
      col=plotLocations$soilTypeOr, 
      pch=plSymbols,
-     main="NEON Field Sites by Soil Type")
+     main="NEON Field Sites by Soil Type\n Unique Symbol for Each Type")
 
 #create legend 
 legend("bottomright", 
