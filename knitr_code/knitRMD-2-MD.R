@@ -52,6 +52,16 @@ if (file.exists(paste0(wd,"/","images"))){
 
 #NOTE -- delete the image directory at the end!
 
+#make sure image subdir exists
+#note this will fail if the sub dir doesn't exist
+if (file.exists(paste0(gitRepoPath, imagePath))){
+  print("image dir exists - all good")
+} else {
+  #create image directory structure
+  dir.create(file.path(gitRepoPath, "images/rfigs"))
+  dir.create(file.path(gitRepoPath, imagePath))
+  print("git image directories created!")
+}
 #################### Get List of RMD files to Render #############################
 
 
@@ -85,16 +95,7 @@ for (files in rmd.files) {
   
   #COPY image director, rmd file OVER to the GIT SITE###
   
-  #make sure image subdir exists
-  #note this will fail if the sub dir doesn't exist
-  if (file.exists(paste0(gitRepoPath, imagePath))){
-    print("image dir exists - all good")
-  } else {
-    #create image directory structure
-    dir.create(file.path(gitRepoPath, "images/rfigs"))
-    dir.create(file.path(gitRepoPath, imagePath))
-    print("git image directories created!")
-  }
+
   #copy image directory over
   file.copy(paste0(wd,"/",fig.path), paste0(gitRepoPath,imagePath), recursive=TRUE)
   
