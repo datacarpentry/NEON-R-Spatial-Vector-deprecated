@@ -198,8 +198,8 @@ which describes the type of road (woods road, footpath, boardwalk, or
 stone wall).
 
 <figure>
-    <a href="{{ site.baseurl }}/images/spatialVector/Attribute_Table.png">
-    <img src="{{ site.baseurl }}/images/spatialVector/Attribute_Table.png"></a>
+    <a href="{{ site.baseurl }}/images/dc-spatial-vector/Attribute_Table.png">
+    <img src="{{ site.baseurl }}/images/dc-spatial-vector/Attribute_Table.png"></a>
     <figcaption>The shapefile format allows us to store attributes for each
     feature (vector object) stored in the shapefile. The attribute table, is 
     similar to a spreadsheet. There is a row for each feature. The first column
