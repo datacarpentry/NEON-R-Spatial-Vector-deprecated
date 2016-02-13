@@ -27,9 +27,9 @@ comments: true
 {% include _toc.html %}
 
 ## About
-This tutorial explains builds upon [vector 01 -  to work with 
-shapefile attributes in `R`]({{ site.baseurl }}//R/shapefile-attributes-in-R/). 
-and explores how to plot multiple shapefiles using baseplot in R. It then covers
+This tutorial builds upon [vector 01 -  to work with 
+shapefile attributes in `R`]({{ site.baseurl }}//R/shapefile-attributes-in-R/) 
+and explores how to plot multiple shapefiles using base R graphics. It then covers
 how to create a custom legend with colors and symbols that match your plot.
 
 **R Skill Level:** Intermediate - you've got the basics of `R` down.
@@ -39,7 +39,7 @@ how to create a custom legend with colors and symbols that match your plot.
 # Goals / Objectives
 After completing this activity, you will:
 
- * Be able to plot multiple shapefiles using baseplot.
+ * Be able to plot multiple shapefiles using base R graphics.
  * Be able to apply custom symbology to spatial objects in a plot in R.
  * Be able to customize a baseplot legend in R.
  
@@ -151,7 +151,7 @@ plot(lines_HARV,
 ```
 
 <i class="fa fa-star"></i> **Data Tip:** Given we have a factor with 4 levels, 
-we can create an vector of numbers, each of which specifies the thickness of each
+we can create a vector of numbers, each of which specifies the thickness of each
 feature in our `SpatialLinesDataFrame` by factor level (category): `c(6,4,1,2)[lines_HARV$TYPE]`
 {: .notice}
 
