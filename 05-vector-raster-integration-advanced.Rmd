@@ -466,6 +466,7 @@ It appears that the mean height value, extracted from our LiDAR data derived
 canopy height model is 22.43 meters.
 
 ##Extract Data using x,y Locations
+
 We can also extract pixel values from a raster by defining a buffer or area 
 surrounding individual point locations using the `extract()` function. To do this
 we define the summary method (`fun=mean`) and the buffer distance (`buffer=20`)
