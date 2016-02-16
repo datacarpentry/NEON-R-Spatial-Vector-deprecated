@@ -7,7 +7,7 @@ authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
-packagesLibraries: [rgdal, raster, ggplot2]
+packagesLibraries: [rgdal, raster]
 categories: [self-paced-tutorial]
 mainTag: vector-data-series
 tags: [vector-data, R, spatial-data-gis]
@@ -51,7 +51,6 @@ preferably RStudio, loaded on your computer.
 * **raster:** `install.packages("raster")`
 * **rgdal:** `install.packages("rgdal")`
 * **sp:** `install.packages("sp")`
-* **ggplot2:** `install.packages("ggplot2")`
 
 * [More on Packages in R - Adapted from Software Carpentry.]({{site.baseurl}}R/Packages-In-R/)
 
