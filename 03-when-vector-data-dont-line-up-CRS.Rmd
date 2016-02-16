@@ -152,7 +152,7 @@ We will use the `readOGR` function to import the
 `/US-Boundary-Layers/US-State-Boundaries-Census-2014` layer into `R`. This layer
 contains the boundaries of all continental states in the U.S. Please note that
 these data have been modified and reprojected from the original data downloaded
-from the Census website to support learning goals of this tutorial.
+from the Census website to support the learning goals of this tutorial.
 
 
 ```{r read-csv }
