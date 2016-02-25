@@ -6,7 +6,7 @@ date:   2015-10-25
 authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2016-02-09
-lastModified: 2016-02-16
+lastModified: 2016-02-25
 packagesLibraries: [rgdal, raster]
 categories: [self-paced-tutorial]
 mainTag: vector-data-series
@@ -27,9 +27,9 @@ comments: true
 {% include _toc.html %}
 
 ## About
-This tutorial explains builds upon [vector 01 -  to work with 
-shapefile attributes in `R`]({{ site.baseurl }}//R/shapefile-attributes-in-R/). 
-and explores how to plot multiple shapefiles using baseplot in R. It then covers
+This tutorial builds upon [vector 01 -  to work with 
+shapefile attributes in `R`]({{ site.baseurl }}//R/shapefile-attributes-in-R/) 
+and explores how to plot multiple shapefiles using base R graphics. It then covers
 how to create a custom legend with colors and symbols that match your plot.
 
 **R Skill Level:** Intermediate - you've got the basics of `R` down.
@@ -39,7 +39,7 @@ how to create a custom legend with colors and symbols that match your plot.
 # Goals / Objectives
 After completing this activity, you will:
 
- * Be able to plot multiple shapefiles using baseplot.
+ * Be able to plot multiple shapefiles using base R graphics.
  * Be able to apply custom symbology to spatial objects in a plot in R.
  * Be able to customize a baseplot legend in R.
  
@@ -62,17 +62,7 @@ preferably RStudio, loaded on your computer.
 
 {% include/_greyBox-wd-rscript.html %}
 
-**Vector Lesson Series:** This lesson is part of a lesson series on 
-[vector data in R ]({{ site.baseurl }}self-paced-tutorials/spatial-vector-series).
-It is also part of a larger 
-[spatio-temporal Data Carpentry Workshop ]({{ site.baseurl }}self-paced-tutorials/spatio-temporal-workshop)
-that includes working with
-[raster data in R ]({{ site.baseurl }}self-paced-tutorials/spatial-raster-series) 
-and [tabular time series in R ]({{ site.baseurl }}self-paced-tutorials/tabular-time-series).
-
 </div>
-
-
 
 ## Load the Data
 To work with vector data in `R`, we can use the `rgdal` library. The `raster` 
@@ -87,16 +77,16 @@ field site. The third is a file containing the Harvard Forest Fisher tower locat
 
 
 
-    #load packages
-    #rgdal: for vector work; sp package should always load with rgdal. 
+    # load packages
+    # rgdal: for vector work; sp package should always load with rgdal. 
     library(rgdal)  
-    #raster: for metadata/attributes- vectors or rasters
+    # raster: for metadata/attributes- vectors or rasters
     library (raster)   
     
-    #set working directory to data folder
-    #setwd("pathToDirHere")
+    # set working directory to data folder
+    # setwd("pathToDirHere")
     
-    #Import a polygon shapefile 
+    # Import a polygon shapefile 
     aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
                                 "HarClip_UTMZ18")
 
@@ -105,7 +95,7 @@ field site. The third is a file containing the Harvard Forest Fisher tower locat
     ## with 1 features
     ## It has 1 fields
 
-    #Import a line shapefile
+    # Import a line shapefile
     lines_HARV <- readOGR( "NEON-DS-Site-Layout-Files/HARV/", "HARV_roads")
 
     ## OGR data source with driver: ESRI Shapefile 
@@ -113,7 +103,7 @@ field site. The third is a file containing the Harvard Forest Fisher tower locat
     ## with 13 features
     ## It has 15 fields
 
-    #Import a point shapefile 
+    # Import a point shapefile 
     point_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
                           "HARVtower_UTM18N")
 
@@ -128,59 +118,57 @@ field site. The third is a file containing the Harvard Forest Fisher tower locat
 In [vector 01 -  to work with 
 shapefile attributes in `R`]({{ site.baseurl }}//R/shapefile-attributes-in-R/) 
 we created a plot where we customized the width of each line in a spatial object
-according to a factor level or category. To do this, we create a vector of colors
-containing a color value for EACH feature in our spatial object grouped by factor 
-level or category.
+according to a factor level or category. To do this, we create a vector of
+colors containing a color value for EACH feature in our spatial object grouped
+by factor level or category.
 
 
-
-    #view the factor levels
+    # view the factor levels
     levels(lines_HARV$TYPE)
 
     ## [1] "boardwalk"  "footpath"   "stone wall" "woods road"
 
-    #create vector of line width values
+    # create vector of line width values
     lineWidth <- c(2,4,3,8)[lines_HARV$TYPE]
-    #view vector
+    # view vector
     lineWidth
 
     ##  [1] 8 4 4 3 3 3 3 3 3 2 8 8 8
 
-    #create a color palette of 4 colors - one for each factor level
+    # create a color palette of 4 colors - one for each factor level
     roadPalette <- c("blue","green","grey","purple")
     roadPalette
 
     ## [1] "blue"   "green"  "grey"   "purple"
 
-    #create a vector of colors - one for each feature in our vector object
-    #according to its attribute value
+    # create a vector of colors - one for each feature in our vector object
+    # according to its attribute value
     roadColors <- c("blue","green","grey","purple")[lines_HARV$TYPE]
     roadColors
 
     ##  [1] "purple" "green"  "green"  "grey"   "grey"   "grey"   "grey"  
     ##  [8] "grey"   "grey"   "blue"   "purple" "purple" "purple"
 
-    #create vector of line width values
+    # create vector of line width values
     lineWidth <- c(2,4,3,8)[lines_HARV$TYPE]
-    #view vector
+    # view vector
     lineWidth
 
     ##  [1] 8 4 4 3 3 3 3 3 3 2 8 8 8
 
-    #in this case, boardwalk (the first level) is the widest.
+    # in this case, boardwalk (the first level) is the widest.
     plot(lines_HARV, 
          col=roadColors,
-         main="Roads at the NEON Harvard Forest Field Site \n Line width varies by Type Attribute Value",
+         main="Roads at the NEON Harvard Forest Field Site \n
+    		 Line width varies by Type Attribute Value",
          lwd=lineWidth)
 
 ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/02-plot-multiple-shapefiles-custom-legend/plot-unique-lines-1.png) 
 
 <i class="fa fa-star"></i> **Data Tip:** Given we have a factor with 4 levels, 
-we can create an vector of numbers, each of which specifies the thickness of each
+we can create a vector of numbers, each of which specifies the thickness of each
 feature in our `SpatialLinesDataFrame` by factor level (category): `c(6,4,1,2)[lines_HARV$TYPE]`
 {: .notice}
-
-
 
 ## Add Plot Legend
 We also learned how to add a basic legend to our plot.
@@ -200,12 +188,12 @@ Let's add a legend to our plot.
          col=roadColors,
          main="Roads at the NEON Harvard Forest Field Site\n Default Legend")
     
-    #we can use the color object that we created above to color the legend objects
+    # we can use the color object that we created above to color the legend objects
     roadPalette
 
     ## [1] "blue"   "green"  "grey"   "purple"
 
-    #add a legend to our map
+    # add a legend to our map
     legend("bottomright", 
            legend=levels(lines_HARV$TYPE), 
            fill=roadPalette, 
@@ -226,7 +214,7 @@ To begin, create a plot with the site boundary as the first layer. Then layer
 the tower location and road data on top using `add=TRUE`.
 
 
-    #Plot multiple shapefiles
+    # Plot multiple shapefiles
     plot(aoiBoundary_HARV, 
          col = "grey93", 
          border="grey",
@@ -243,7 +231,7 @@ the tower location and road data on top using `add=TRUE`.
 
 ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/02-plot-multiple-shapefiles-custom-legend/plot-many-shapefiles-1.png) 
 
-    #assign plot to an object for easy modification!
+    # assign plot to an object for easy modification!
     plot_HARV<- recordPlot()
 
 
@@ -263,17 +251,17 @@ Let's create objects for the labels, colors and symbols so we can easily reuse
 them. We will start with the labels.
 
 
-    #create a list of all labels
+    # create a list of all labels
     labels <- c("Tower", "AOI", levels(lines_HARV$TYPE))
     labels
 
     ## [1] "Tower"      "AOI"        "boardwalk"  "footpath"   "stone wall"
     ## [6] "woods road"
 
-    #render plot
+    # render plot
     plot_HARV
     
-    #add a legend to our map
+    # add a legend to our map
     legend("bottomright", 
            legend=labels, 
            bty="n", #turn off the legend border
@@ -285,26 +273,26 @@ Now we have a legend with the labels identified. Let's add colors to each legend
 element next. We can use the vectors of colors that we created earlier to do this.
 
 
-    #we have a list of colors that we used above - we can use it in the legend
+    # we have a list of colors that we used above - we can use it in the legend
     roadPalette
 
     ## [1] "blue"   "green"  "grey"   "purple"
 
-    #create a list of colors to use 
+    # create a list of colors to use 
     plotColors <- c("purple", "grey", roadPalette)
     plotColors
 
     ## [1] "purple" "grey"   "blue"   "green"  "grey"   "purple"
 
-    #render plot
+    # render plot
     plot_HARV
     
-    #add a legend to our map
+    # add a legend to our map
     legend("bottomright", 
            legend=labels, 
            fill=plotColors,
-           bty="n", #turn off the legend border
-           cex=.8) #decrease the font / legend size
+           bty="n", # turn off the legend border
+           cex=.8) # decrease the font / legend size
 
 ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/02-plot-multiple-shapefiles-custom-legend/add-colors-1.png) 
 
@@ -321,18 +309,18 @@ type `?pch` into the `R` console.
 
 
 
-    #create a list of pch values
-    #these are the symbols that will be used for each legend value
+    # create a list of pch values
+    # these are the symbols that will be used for each legend value
     # ?pch will provide more information on values
     plotSym <- c(16,15,15,15,15,15)
     plotSym
 
     ## [1] 16 15 15 15 15 15
 
-    #Plot multiple shapefiles
+    # Plot multiple shapefiles
     plot_HARV
     
-    #to create a custom legend, we need to fake it
+    # to create a custom legend, we need to fake it
     legend("bottomright", 
            legend=labels,
            pch=plotSym, 
@@ -344,7 +332,7 @@ type `?pch` into the `R` console.
 
 Now we've added a point symbol to represent our point element in the plot. However
 it might be more useful to use line symbols in our legend
-rather than squares to represent the line data. We can create line symbols, using
+rather than squares to represent the line data. We can create line symbols, 
 using `lty = ()`. We have a total of 6 elements in our legend:
 
 1.   Tower Location
@@ -362,7 +350,7 @@ symbol, but to instead use a line.
 
 
 
-    #Create line object
+    # create line object
     lineLegend = c(NA,NA,1,1,1,1)
     lineLegend
 
@@ -373,10 +361,10 @@ symbol, but to instead use a line.
 
     ## [1] 16 15 NA NA NA NA
 
-    #Plot multiple shapefiles
+    # plot multiple shapefiles
     plot_HARV
     
-    #Build a custom legend
+    # build a custom legend
     legend("bottomright", 
            legend=labels, 
            lty = lineLegend,

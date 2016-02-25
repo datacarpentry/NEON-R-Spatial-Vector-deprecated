@@ -6,7 +6,7 @@ date:   2015-10-27
 authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: 2016-02-16
+lastModified: 2016-02-25
 packagesLibraries: [rgdal, raster]
 categories: [self-paced-tutorial]
 mainTag: vector-data-series
@@ -63,15 +63,6 @@ on your computer to complete this lesson.
 
 {% include/_greyBox-wd-rscript.html %}
 
-
-**Vector Lesson Series:** This lesson is part of a lesson series on 
-[vector data in R ]({{ site.baseurl }}self-paced-tutorials/spatial-vector-series).
-It is also part of a larger 
-[spatio-temporal Data Carpentry Workshop ]({{ site.baseurl }}self-paced-tutorials/spatio-temporal-workshop)
-that includes working with
-[raster data in R ]({{ site.baseurl }}self-paced-tutorials/spatial-raster-series) 
-and [tabular time series in R ]({{ site.baseurl }}self-paced-tutorials/tabular-time-series).
-
 </div>
 
 ## About Vector Data
@@ -89,7 +80,7 @@ with: point, line or polygon.
     </figcaption>
 </figure>
 
-* **Points:** Each individual point is define by a single x, y coordinate.
+* **Points:** Each individual point is defined by a single x, y coordinate.
 There can be many points in a vector point file. Examples of point data include:
 sampling locations, the location of individual trees or the location of plots.
 * **Lines:** Lines are composed of many (at least 2) vertices, or points, that
@@ -104,8 +95,7 @@ not an issue we will deal with in this lesson.
 
  <i class="fa fa-star"></i> **Data Tip:** Sometimes, boundary layers such as 
  states and countries, are stored as lines rather than polygons. However, these
- boundaries, when represented as a line, will not create a closed object that we
- can apply a "fill" to or calculate the area of.
+ boundaries, when represented as a line, will not create a closed object with a defined "area" that can be "filled".
 {: .notice}
 
 ## Shapefiles: Points, Lines, and Polygons
@@ -130,8 +120,8 @@ We will use the `rgdal` package to work with vector data in `R`. Notice that the
 `raster` package so we can explore raster and vector spatial metadata using similar commands.
 
 
-    #load required libraries
-    #for vector work; sp package will load with rgdal.
+    # load required libraries
+    # for vector work; sp package will load with rgdal.
     library(rgdal)  
 
     ## Loading required package: sp
@@ -143,12 +133,12 @@ We will use the `rgdal` package to work with vector data in `R`. Notice that the
     ##  Path to PROJ.4 shared files: (autodetected)
     ##  Linking to sp version: 1.2-1
 
-    #for metadata/attributes- vectors or rasters
+    # for metadata/attributes- vectors or rasters
     library(raster) 
     
-    #set working directory to the directory location on your computer where
-    #you downloaded and unzipped the data files for the lesson
-    #setwd("pathToDirHere")
+    # set working directory to the directory location on your computer where
+    # you downloaded and unzipped the data files for the lesson
+    # setwd("pathToDirHere")
 
 The shapefiles that we will import are:
 
@@ -171,8 +161,8 @@ shapefiles we use the `R` function `readOGR()`.
 Let's import our AOI.
 
 
-    #Import a polygon shapefile: readOGR("path","fileName")
-    #no extension needed as readOGR only imports shapefiles
+    # Import a polygon shapefile: readOGR("path","fileName")
+    # no extension needed as readOGR only imports shapefiles
     aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV",
                                 "HarClip_UTMZ18")
 
@@ -214,21 +204,21 @@ extent for ALL spatial objects in the shapefile.
 We can view shapefile metadata using the `class`, `crs` and `extent` methods:
 
 
-    #view just the class for the shapefile
+    # view just the class for the shapefile
     class(aoiBoundary_HARV)
 
     ## [1] "SpatialPolygonsDataFrame"
     ## attr(,"package")
     ## [1] "sp"
 
-    #view just the crs for the shapefile
+    # view just the crs for the shapefile
     crs(aoiBoundary_HARV)
 
     ## CRS arguments:
     ##  +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84
     ## +towgs84=0,0,0
 
-    #view just the extent for the shapefile
+    # view just the extent for the shapefile
     extent(aoiBoundary_HARV)
 
     ## class       : Extent 
@@ -237,7 +227,7 @@ We can view shapefile metadata using the `class`, `crs` and `extent` methods:
     ## ymin        : 4713209 
     ## ymax        : 4713359
 
-    #view all metadata at same time
+    # view all metadata at same time
     aoiBoundary_HARV
 
     ## class       : SpatialPolygonsDataFrame 
@@ -291,7 +281,7 @@ We view the attributes of a `SpatialPolygonsDataFrame` using `objectName@data`
 (e.g., `aoiBoundary_HARV@data`). 
 
 
-    #alternate way to view attributes 
+    # alternate way to view attributes 
     aoiBoundary_HARV@data
 
     ##   id
@@ -307,7 +297,7 @@ includes the **class**, the number of **features**, the **extent**, and the
 `summary` show a preview of the `R` object **attributes**.
 
 
-    #view a summary of metadata & attributes associated with the spatial object
+    # view a summary of metadata & attributes associated with the spatial object
     summary(aoiBoundary_HARV)
 
     ## Object of class SpatialPolygonsDataFrame
@@ -334,7 +324,7 @@ Next, let's visualize the data in our `R` `spatialpolygonsdataframe` object usin
 `plot()`.
 
 
-    #create a plot of the shapefile
+    # create a plot of the shapefile
     # 'lwd' sets the line width
     # 'col' sets internal color
     # 'border' sets line color
@@ -368,12 +358,12 @@ We can use `main=""` to give our plot a title. If we want the title to span two
 lines, we use `\n` where the line should break.
 
 
-    #Plot multiple shapefiles
+    # Plot multiple shapefiles
     plot(aoiBoundary_HARV, col = "lightgreen", 
          main="NEON Harvard Forest\nField Site")
     plot(lines_HARV, add = TRUE)
     
-    #use the pch element to adjust the symbology of the points
+    # use the pch element to adjust the symbology of the points
     plot(point_HARV, add  = TRUE, pch = 19, col = "purple")
 
 ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/00-open-a-shapefile/plot-multiple-shapefiles-1.png) 

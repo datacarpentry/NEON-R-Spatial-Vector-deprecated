@@ -6,7 +6,7 @@ date:   2015-10-25
 authors: [Joseph Stachelek, Leah Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: 2016-02-16
+lastModified: 2016-02-25
 packagesLibraries: [rgdal, raster]
 categories: [self-paced-tutorial]
 mainTag: vector-data-series
@@ -69,17 +69,8 @@ preferably RStudio, loaded on your computer.
 
 {% include/_greyBox-wd-rscript.html %}
 
-**Vector Lesson Series:** This lesson is part of a lesson series on 
-[vector data in R ]({{ site.baseurl }}self-paced-tutorials/spatial-vector-series).
-It is also part of a larger 
-[spatio-temporal Data Carpentry Workshop ]({{ site.baseurl }}self-paced-tutorials/spatio-temporal-workshop)
-that includes working with
-[raster data in R ]({{ site.baseurl }}self-paced-tutorials/spatial-raster-series) 
-and [tabular time series in R ]({{ site.baseurl }}self-paced-tutorials/tabular-time-series).
-
 </div>
 
- 
 ## Working With Spatial Data From Different Sources
 
 To support a project, we often need to gather spatial datasets for from 
@@ -114,8 +105,6 @@ seems proportionally larger or smaller than they actually are!
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/KUF_Ckv8HbE" frameborder="0" allowfullscreen></iframe>
 
-
-
 In this tutorial we will learn how to identify and manage spatial data 
 in different projections. We will learn how to `reproject` the data so that they
 are in the same projection to support plotting / mapping. Note that these skills
@@ -125,12 +114,12 @@ the same `CRS` to ensure accurate results.
 We will use the `rgdal` and `raster` libraries in this tutorial. 
 
 
-    #load packages
-    library(rgdal)  #for vector work; sp package should always load with rgdal. 
-    library (raster)   #for metadata/attributes- vectors or rasters
+    # load packages
+    library(rgdal)  # for vector work; sp package should always load with rgdal. 
+    library (raster)   # for metadata/attributes- vectors or rasters
     
-    #set working directory to data folder
-    #setwd("pathToDirHere")
+    # set working directory to data folder
+    # setwd("pathToDirHere")
 
 ## Import US Boundaries - Census Data
 
@@ -149,11 +138,11 @@ We will use the `readOGR` function to import the
 `/US-Boundary-Layers/US-State-Boundaries-Census-2014` layer into `R`. This layer
 contains the boundaries of all continental states in the U.S. Please note that
 these data have been modified and reprojected from the original data downloaded
-from the Census website to support learning goals of this tutorial.
+from the Census website to support the learning goals of this tutorial.
 
 
 
-    #Read the .csv file
+    # Read the .csv file
     State.Boundary.US <- readOGR("NEON-DS-Site-Layout-Files/US-Boundary-Layers",
               "US-State-Boundaries-Census-2014")
 
@@ -165,7 +154,7 @@ from the Census website to support learning goals of this tutorial.
     ## Warning in readOGR("NEON-DS-Site-Layout-Files/US-Boundary-Layers", "US-
     ## State-Boundaries-Census-2014"): Z-dimension discarded
 
-    #look at the data structure
+    # look at the data structure
     class(State.Boundary.US)
 
     ## [1] "SpatialPolygonsDataFrame"
@@ -180,7 +169,7 @@ shapefiles contain z dimension data.
 Next, let's plot the U.S. states data.
 
 
-    #view column names
+    # view column names
     plot(State.Boundary.US, 
          main="Map of Continental US State Boundaries\n US Census Bureau Data")
 
@@ -195,7 +184,7 @@ If we specify a thicker line width using `lwd=4` for the border layer, it will
 make our map pop!
 
 
-    #Read the .csv file
+    # Read the .csv file
     Country.Boundary.US <- readOGR("NEON-DS-Site-Layout-Files/US-Boundary-Layers",
               "US-Boundary-Dissolved-States")
 
@@ -207,19 +196,19 @@ make our map pop!
     ## Warning in readOGR("NEON-DS-Site-Layout-Files/US-Boundary-Layers", "US-
     ## Boundary-Dissolved-States"): Z-dimension discarded
 
-    #look at the data structure
+    # look at the data structure
     class(Country.Boundary.US)
 
     ## [1] "SpatialPolygonsDataFrame"
     ## attr(,"package")
     ## [1] "sp"
 
-    #view column names
+    # view column names
     plot(State.Boundary.US, 
          main="Map of Continental US State Boundaries\n US Census Bureau Data",
          border="gray40")
     
-    #view column names
+    # view column names
     plot(Country.Boundary.US, 
          lwd=4, 
          border="gray18",
@@ -232,7 +221,7 @@ As we are adding these layers, take note of the class of each object.
 
 
 
-    #Import a point shapefile 
+    # Import a point shapefile 
     point_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
                           "HARVtower_UTM18N")
 
@@ -247,7 +236,7 @@ As we are adding these layers, take note of the class of each object.
     ## attr(,"package")
     ## [1] "sp"
 
-    #plot point - looks ok? 
+    # plot point - looks ok? 
     plot(point_HARV, 
          pch = 19, 
          col = "purple",
@@ -260,18 +249,18 @@ will plot! Let's next add it as a layer on top of the U.S. states and boundary
 layers in our basemap plot.
 
 
-    #plot state boundaries  
+    # plot state boundaries  
     plot(State.Boundary.US, 
          main="Map of Continental US State Boundaries \n with Tower Location",
          border="gray40")
     
-    #Add US border outline 
+    # add US border outline 
     plot(Country.Boundary.US, 
          lwd=4, 
          border="gray18",
          add=TRUE)
     
-    #add point tower location
+    # add point tower location
     plot(point_HARV, 
          pch = 19, 
          col = "purple",
@@ -287,14 +276,14 @@ that might cause the point location to not plot properly on top of our
 U.S. boundary layers.
 
 
-    #view CRS of our site data
+    # view CRS of our site data
     crs(point_HARV)
 
     ## CRS arguments:
     ##  +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84
     ## +towgs84=0,0,0
 
-    #view crs of census data
+    # view crs of census data
     crs(State.Boundary.US)
 
     ## CRS arguments:
@@ -361,7 +350,7 @@ Next, let's view the extent or spatial coverage for the `point_HARV` spatial
 object compared to the `State.Boundary.US` object.
 
 
-    #extent for HARV in UTM
+    # extent for HARV in UTM
     extent(point_HARV)
 
     ## class       : Extent 
@@ -370,7 +359,7 @@ object compared to the `State.Boundary.US` object.
     ## ymin        : 4713265 
     ## ymax        : 4713265
 
-    #extent for object in geographic
+    # extent for object in geographic
     extent(State.Boundary.US)
 
     ## class       : Extent 
@@ -420,17 +409,17 @@ Next, let's reproject our point layer into the geographic - latitude and
 longitude `WGS84` coordinate reference system (CRS).
 
 
-    #reproject data
+    # reproject data
     point_HARV_WGS84 <- spTransform(point_HARV,
                                     crs(State.Boundary.US))
     
-    #what is the CRS of the new object
+    # what is the CRS of the new object
     crs(point_HARV_WGS84)
 
     ## CRS arguments:
     ##  +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0
 
-    #does the extent look like decimal degrees?
+    # does the extent look like decimal degrees?
     extent(point_HARV_WGS84)
 
     ## class       : Extent 
@@ -442,18 +431,18 @@ longitude `WGS84` coordinate reference system (CRS).
 Once our data are reprojected, we can try to plot again.
 
 
-    #plot state boundaries  
+    # plot state boundaries  
     plot(State.Boundary.US, 
          main="Map of Continental US State Boundaries\n With Fisher Tower Location",
          border="gray40")
     
-    #Add US border outline 
+    # add US border outline 
     plot(Country.Boundary.US, 
          lwd=4, 
          border="gray18",
          add=TRUE)
     
-    #add point tower location
+    # add point tower location
     plot(point_HARV_WGS84, 
          pch = 19, 
          col = "purple",
