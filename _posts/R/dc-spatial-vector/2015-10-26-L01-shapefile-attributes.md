@@ -6,7 +6,7 @@ date:   2015-10-26
 authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: 2016-02-09
+lastModified: 2016-02-25
 packagesLibraries: [rgdal, raster]
 categories: [self-paced-tutorial]
 mainTag: vector-data-series
@@ -64,14 +64,6 @@ preferably RStudio, loaded on your computer.
 
 {% include/_greyBox-wd-rscript.html %}
 
-**Vector Lesson Series:** This lesson is part of a lesson series on 
-[vector data in R ]({{ site.baseurl }}self-paced-tutorials/spatial-vector-series).
-It is also part of a larger 
-[spatio-temporal Data Carpentry Workshop ]({{ site.baseurl }}self-paced-tutorials/spatio-temporal-workshop)
-that includes working with
-[raster data in R ]({{ site.baseurl }}self-paced-tutorials/spatial-raster-series) 
-and [tabular time series in R ]({{ site.baseurl }}self-paced-tutorials/tabular-time-series).
-
 </div>
 
 ## Shapefile Metadata & Attributes
@@ -94,16 +86,16 @@ If you completed the
 lesson, you can skip this code.
 
 
-    #load packages
-    #rgdal: for vector work; sp package should always load with rgdal. 
+    # load packages
+    # rgdal: for vector work; sp package should always load with rgdal. 
     library(rgdal)  
-    #raster: for metadata/attributes- vectors or rasters
+    # raster: for metadata/attributes- vectors or rasters
     library (raster)   
     
-    #set working directory to data folder
-    #setwd("pathToDirHere")
+    # set working directory to data folder
+    # setwd("pathToDirHere")
     
-    #Import a polygon shapefile 
+    # Import a polygon shapefile 
     aoiBoundary_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
                                 "HarClip_UTMZ18")
 
@@ -112,7 +104,7 @@ lesson, you can skip this code.
     ## with 1 features
     ## It has 1 fields
 
-    #Import a line shapefile
+    # Import a line shapefile
     lines_HARV <- readOGR( "NEON-DS-Site-Layout-Files/HARV/", "HARV_roads")
 
     ## OGR data source with driver: ESRI Shapefile 
@@ -120,7 +112,7 @@ lesson, you can skip this code.
     ## with 13 features
     ## It has 15 fields
 
-    #Import a point shapefile 
+    # Import a point shapefile 
     point_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
                           "HARVtower_UTM18N")
 
@@ -144,7 +136,7 @@ in.
 Let's explore the metadata for our `point_HARV` object. 
 
 
-    #view class
+    # view class
     class(x = point_HARV)
 
     ## [1] "SpatialPointsDataFrame"
@@ -152,19 +144,19 @@ Let's explore the metadata for our `point_HARV` object.
     ## [1] "sp"
 
     # x= isn't actually needed; it just specifies which object
-    #view features count
+    # view features count
     length(point_HARV)
 
     ## [1] 1
 
-    #view crs - note - this only works with the raster package loaded
+    # view crs - note - this only works with the raster package loaded
     crs(point_HARV)
 
     ## CRS arguments:
     ##  +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs +ellps=WGS84
     ## +towgs84=0,0,0
 
-    #view extent- note - this only works with the raster package loaded
+    # view extent- note - this only works with the raster package loaded
     extent(point_HARV)
 
     ## class       : Extent 
@@ -173,7 +165,7 @@ Let's explore the metadata for our `point_HARV` object.
     ## ymin        : 4713265 
     ## ymax        : 4713265
 
-    #view metadata summary
+    # view metadata summary
     point_HARV
 
     ## class       : SpatialPointsDataFrame 
@@ -214,7 +206,7 @@ the `data` slot with `objectName@data`. We can use the base `R` `length`
 function to count the number of attributes associated with a spatial object too.
 
 
-    #just view the attributes & first 6 attribute values of the data
+    # just view the attributes & first 6 attribute values of the data
     head(lines_HARV@data)
 
     ##   OBJECTID_1 OBJECTID       TYPE             NOTES MISCNOTES RULEID
@@ -246,7 +238,7 @@ function to count the number of attributes associated with a spatial object too.
     ## 4                        <NA>
     ## 5                        <NA>
 
-    #how many attributes are in our vector data object?
+    # how many attributes are in our vector data object?
     length(lines_HARV@data)
 
     ## [1] 15
@@ -258,7 +250,7 @@ of attribute values using  `head(lines_HARV@data)`.
 Let's give it a try.
 
 
-    #view just the attribute names for the lines_HARV spatial object
+    # view just the attribute names for the lines_HARV spatial object
     names(lines_HARV@data)
 
     ##  [1] "OBJECTID_1" "OBJECTID"   "TYPE"       "NOTES"      "MISCNOTES" 
@@ -286,7 +278,7 @@ to exploring values in a column. We can do this using the `$` and the name of
 the attribute: `objectName$attributeName`. 
 
 
-    #view all attributes in the lines shapefile within the TYPE field
+    # view all attributes in the lines shapefile within the TYPE field
     lines_HARV$TYPE
 
     ##  [1] woods road footpath   footpath   stone wall stone wall stone wall
@@ -317,7 +309,7 @@ from a spatial object in `R`.
     ## min values  :         40,       91, footpath,    NA,        NA,      6,       NA,   146.2998,    NA,         Y,         R1,      Y,   146.2998,    R1 - All Research Vehicles Allowed, Bicycles and Horses Allowed 
     ## max values  :         41,      106, footpath,    NA,        NA,      6,       NA,   676.7180,    NA,         Y,         R2,      Y,   676.7181, R2 - 4WD/High Clearance Vehicles Only, Bicycles and Horses Allowed
 
-    #save an object with only footpath lines
+    # save an object with only footpath lines
     footpath_HARV<-lines_HARV[lines_HARV$TYPE == "footpath",]
     footpath_HARV
 
@@ -330,7 +322,7 @@ from a spatial object in `R`.
     ## min values  :         40,       91, footpath,    NA,        NA,      6,       NA,   146.2998,    NA,         Y,         R1,      Y,   146.2998,    R1 - All Research Vehicles Allowed, Bicycles and Horses Allowed 
     ## max values  :         41,      106, footpath,    NA,        NA,      6,       NA,   676.7180,    NA,         Y,         R2,      Y,   676.7181, R2 - 4WD/High Clearance Vehicles Only, Bicycles and Horses Allowed
 
-    #how many features are in our new object
+    # how many features are in our new object
     length(footpath_HARV)
 
     ## [1] 2
@@ -341,7 +333,7 @@ that only two feature lines in our spatial object have the attribute "TYPE=footp
 We can plot our subsetted shapefiles.
 
 
-    #plot just footpaths
+    # plot just footpaths
     plot(footpath_HARV,
          lwd=6,
          main="Footpaths at NEON Harvard Forest Field Site")
@@ -360,7 +352,7 @@ to our features. We use the syntax:
 to do this.
 
 
-    #plot just footpaths
+    # plot just footpaths
     plot(footpath_HARV,
          col=c("green","blue"), #set color for each feature 
          lwd=6,
@@ -381,9 +373,7 @@ Subset out all:
 For each plot, color each feature using a unique color.
 </div>
 
-
 ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/challenge-code-feature-subset-1.png) ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/challenge-code-feature-subset-2.png) 
-
 
 ## Plot Lines by Attribute Value
 To plot vector data with the color determined by a set of attribute values, the 
@@ -394,31 +384,30 @@ a determined *order*.
 
 By default, `R` will import spatial object attributes as `factors`.
 
-
 <i class="fa fa-star"></i> **Data Tip:** If our data attribute values are not 
 read in as factors, we can convert the categorical 
 attribute values using `as.factor()`.
 {: .notice}
 
 
-    #view the original class of the TYPE column
+    # view the original class of the TYPE column
     class(lines_HARV$TYPE)
 
     ## [1] "factor"
 
-    #view levels or categories - note that there are no categories yet in our data!
-    #the attributes are just read as a list of character elements.
+    # view levels or categories - note that there are no categories yet in our data!
+    # the attributes are just read as a list of character elements.
     levels(lines_HARV$TYPE)
 
     ## [1] "boardwalk"  "footpath"   "stone wall" "woods road"
 
-    #Convert the TYPE attribute into a factor
-    #Only do this IF the data do not import as a factor!
-    #lines_HARV$TYPE <- as.factor(lines_HARV$TYPE)
-    #class(lines_HARV$TYPE)
-    #levels(lines_HARV$TYPE)
+    # Convert the TYPE attribute into a factor
+    # Only do this IF the data do not import as a factor!
+    # lines_HARV$TYPE <- as.factor(lines_HARV$TYPE)
+    # class(lines_HARV$TYPE)
+    # levels(lines_HARV$TYPE)
     
-    #how many features are in each category or level?
+    # how many features are in each category or level?
     summary(lines_HARV$TYPE)
 
     ##  boardwalk   footpath stone wall woods road 
@@ -442,37 +431,37 @@ Let's give this a try.
 
 
 
-    #Check the class of the attribute - is it a factor?
+    # Check the class of the attribute - is it a factor?
     class(lines_HARV$TYPE)
 
     ## [1] "factor"
 
-    #how many "levels" or unique values does hte factor have?
-    #view factor values
+    # how many "levels" or unique values does hte factor have?
+    # view factor values
     levels(lines_HARV$TYPE)
 
     ## [1] "boardwalk"  "footpath"   "stone wall" "woods road"
 
-    #count the number of unique values or levels
+    # count the number of unique values or levels
     length(levels(lines_HARV$TYPE))
 
     ## [1] 4
 
-    #create a color palette of 4 colors - one for each factor level
+    # create a color palette of 4 colors - one for each factor level
     roadPalette <- c("blue","green","grey","purple")
     roadPalette
 
     ## [1] "blue"   "green"  "grey"   "purple"
 
-    #create a vector of colors - one for each feature in our vector object
-    #according to its attribute value
+    # create a vector of colors - one for each feature in our vector object
+    # according to its attribute value
     roadColors <- c("blue","green","grey","purple")[lines_HARV$TYPE]
     roadColors
 
     ##  [1] "purple" "green"  "green"  "grey"   "grey"   "grey"   "grey"  
     ##  [8] "grey"   "grey"   "blue"   "purple" "purple" "purple"
 
-    #plot the lines data, apply a diff color to each factor level)
+    # plot the lines data, apply a diff color to each factor level)
     plot(lines_HARV, 
          col=roadColors,
          lwd=3,
@@ -484,9 +473,8 @@ Let's give this a try.
 We can also adjust the width of our plot lines using `lwd`. We can set all lines
 to be thicker or thinner using `lwd=`. 
 
-     
 
-    #make all lines thicker
+    # make all lines thicker
     plot(lines_HARV, 
          col=roadColors,
          main="Roads at the NEON Harvard Forest Field Site \n All Lines Thickness=6",
@@ -506,7 +494,6 @@ Note that this requires the attribute to be of class `factor`. Let's give it a
 try.
 
 
-
     class(lines_HARV$TYPE)
 
     ## [1] "factor"
@@ -515,8 +502,8 @@ try.
 
     ## [1] "boardwalk"  "footpath"   "stone wall" "woods road"
 
-    #adjust line width by level
-    #in this case, boardwalk (the first level) is the widest.
+    # adjust line width by level
+    # in this case, boardwalk (the first level) is the widest.
     plot(lines_HARV, 
          col=roadColors,
          main="Roads at the NEON Harvard Forest Field Site \n Line width varies by Type Attribute Value",
@@ -547,8 +534,6 @@ we can create an vector of numbers, each of which specifies the thickness of eac
 feature in our `SpatialLinesDataFrame` by factor level (category): `c(6,4,1,2)[lines_HARV$TYPE]`
 {: .notice}
 
-
-
 ## Add Plot Legend
 We can add a legend to our plot too. When we add a legend, we use the following
 elements to specify labels and colors:
@@ -568,15 +553,16 @@ Let's add a legend to our plot.
          col=roadColors,
          main="Roads at the NEON Harvard Forest Field Site\n Default Legend")
     
-    #we can use the color object that we created above to color the legend objects
+    # we can use the color object that we created above to color the legend objects
     roadPalette
 
     ## [1] "blue"   "green"  "grey"   "purple"
 
-    #add a legend to our map
-    legend("bottomright",   #location of legend
-          legend=levels(lines_HARV$TYPE), #categories or elements to render in the legend
-          fill=roadPalette) #color palette to use to fill objects in legend.
+    # add a legend to our map
+    legend("bottomright",   # location of legend
+          legend=levels(lines_HARV$TYPE), # categories or elements 
+    			 # to render in the legend
+          fill=roadPalette) # color palette to use to fill objects in legend.
 
 ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/add-legend-to-plot-1.png) 
 
@@ -591,7 +577,7 @@ Let's try it out.
     plot(lines_HARV, 
          col=roadColors,
          main="Roads at the NEON Harvard Forest Field Site \n Modified Legend")
-    #add a legend to our map
+    # add a legend to our map
     legend("bottomright", 
            legend=levels(lines_HARV$TYPE), 
            fill=roadPalette, 
@@ -608,17 +594,18 @@ directly in the plot code too rather than creating a separate object.
 Let's try it!
 
 
-    #manually set the colors for the plot!
+    # manually set the colors for the plot!
     newColors <- c("springgreen", "blue", "magenta", "orange")
     newColors
 
     ## [1] "springgreen" "blue"        "magenta"     "orange"
 
-    #plot using new colors
+    # plot using new colors
     plot(lines_HARV, 
          col=(newColors)[lines_HARV$TYPE],
          main="Roads at the NEON Harvard Forest Field Site \n Pretty Colors")
-    #add a legend to our map
+    
+    # add a legend to our map
     legend("bottomright", 
            levels(lines_HARV$TYPE), 
            fill=newColors, 
@@ -647,8 +634,6 @@ other lines can be grey.
 </div>
 
 ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/bicycle-map-2-1.png) 
-
-
 
 <div id="challenge" markdown="1">
 ## Challenge 2: Plot Polygon by Attribute

@@ -93,11 +93,12 @@ for (files in rmd.files) {
   #knit Rmd to jekyll flavored md format 
   knit(input, output = mdFile, envir = parent.frame())
   
-  #COPY image director, rmd file OVER to the GIT SITE###
-  
-
-  #copy image directory over
-  file.copy(paste0(wd,"/",fig.path), paste0(gitRepoPath,imagePath), recursive=TRUE)
+  #COPY image directory, rmd file OVER to the GIT SITE###
+  #only copy over if there are images for the lesson
+  if (dir.exists(paste0(wd,"/",fig.path))){
+    #copy image directory over
+    file.copy(paste0(wd,"/",fig.path), paste0(gitRepoPath,imagePath), recursive=TRUE)
+  }
   
   #copy rmd file to the rmd directory on git
   file.copy(paste0(wd,"/",basename(files)), gitRepoPath, recursive=TRUE)
