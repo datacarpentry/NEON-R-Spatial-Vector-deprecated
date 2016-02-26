@@ -15,7 +15,7 @@ tutorialSeries: [vector-data-series]
 description: "This tutorial covers how to modify (crop) a raster extent using
 the extent of a vector shapefile. It also covers extracting pixel values from 
 defined locations stored in a spatial object."
-code1: 04-vector-raster-integration-advanced.R
+code1: 05-vector-raster-integration-advanced.R
 image:
   feature: NEONCarpentryHeader_2.png
   credit: A collaboration between the National Ecological Observatory Network (NEON) and Data Carpentry
@@ -27,7 +27,7 @@ comments: true
 {% include _toc.html %}
 
 ## About
-This lesson explains how to crop a raster using the extent of a vector
+This tutorial explains how to crop a raster using the extent of a vector
 shapefile. We will also cover how to extract values from a raster that occur
 within a set of polygons, or in a buffer (surrounding) region around a set of
 points.
@@ -42,9 +42,9 @@ After completing this activity, you will:
  * Be able to extract values from raster that correspond to a vector file
  overlay.
  
-## Things You’ll Need To Complete This Lesson
-To complete this lesson: you will need the most current version of R, and 
-preferably RStudio, loaded on your computer.
+## Things You’ll Need To Complete This Tutorial
+You will need the most current version of `R` and, preferably, `RStudio` loaded 
+on your computer to complete this tutorial.
 
 ### Install R Packages
 
@@ -52,7 +52,7 @@ preferably RStudio, loaded on your computer.
 * **rgdal:** `install.packages("rgdal")`
 * **sp:** `install.packages("sp")`
 
-* [More on Packages in R - Adapted from Software Carpentry.]({{site.baseurl}}R/Packages-In-R/)
+* [More on Packages in R - Adapted from Software Carpentry.]({{site.baseurl}}/R/Packages-In-R/)
 
 ### Download Data
 {% include/dataSubsets/_data_Site-Layout-Files.html %}
@@ -62,6 +62,7 @@ preferably RStudio, loaded on your computer.
 
 {% include/_greyBox-wd-rscript.html %}
 
+</div>
 
 ## Crop a Raster to Vector Extent
 We often work with spatial layers that have different spatial extents.
@@ -77,13 +78,13 @@ We often work with spatial layers that have different spatial extents.
 </figure>
 
 The graphic below illustrates the extent of several of the spatial layers that 
-we have worked with in this vector data lesson series:
+we have worked with in this vector data tutorial series:
 
 * Area of interest (AOI) -- blue
 * Roads and trails -- purple
 * Vegetation plot locations -- black
 
-and a raster file, that we will introduce this lesson: 
+and a raster file, that we will introduce this tutorial: 
 
 * A canopy height model (CHM) in GeoTIFF format -- green
 
@@ -170,11 +171,9 @@ roads/trails, tower location, and veg study plot locations) and one raster
 GeoTIFF file, a Canopy Height Model for the Harvard Forest, Massachusetts.
 These data can be used to create maps that characterize our study location.
 
-If you completed
-[Open and Plot Shapefiles in R]({{site.baseurl}}/R/open-shapefiles-in-R/)
-and 
-[Convert from .csv to a Shapefile in R]({{site.baseurl}}/R/csv-to-shapefile-R/)
-you may already have these `R` spatial objects. 
+If you have completed the Vector 00-04 tutorials in this 
+[Introduction to Working with Vector Data in R]({{site.baseurl}}/tutorial-series/vector-data-series/)
+series, you can skip this code as you have already created these object.)
 
 ```{r load-libraries-data }
 # load necessary packages
@@ -261,7 +260,7 @@ vegetation plot locations with the Canopy Height Model information.
 2. Plot the vegetation plot location points on top of the Canopy Height Model. 
 
 If you completed
-[.csv to Shapefile in R]({{site.baseurl}}/R/csv-to-shapefile-in-R/)
+[.csv to Shapefile in R]({{site.baseurl}}/R/csv-to-shapefile-R/)
 you have these plot locations as the spatial `R` spatial object
 `plot.locationsSp_HARV`. Otherwise, import the locations from the
 `\HARV\PlotLocations_HARV.shp` shapefile in the downloaded data. 
@@ -291,7 +290,7 @@ In the plot above, created in the challenge, all the vegetation plot locations
 (blue) appear on the Canopy Height Model raster layer except for one. One is
 situated on the white space. Why? 
 
-Look back at the first figure in this lesson showing the relative extents of all
+Look back at the first figure in this tutorial showing the relative extents of all
 the spatial objects. Notice that the extent for our vegetation plot layer
 (black) extends further west than the extent of our CHM raster (green). The crop
 function will make a raster extent smaller, it will not expand the extent in
