@@ -6,13 +6,13 @@ date:   2015-10-25
 authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2016-02-09
-lastModified: 2016-02-25
+lastModified: 2016-02-29
 packagesLibraries: [rgdal, raster]
 categories: [self-paced-tutorial]
 mainTag: vector-data-series
 tags: [vector-data, R, spatial-data-gis]
 tutorialSeries: [vector-data-series]
-description: "This lesson provides an overview of how to create a a plot of multiple
+description: "This tutorial provides an overview of how to create a a plot of multiple
 shapefiles using base R plot. It also explores adding a legend with custom
 symbols that match your plot colors and symbols."
 code1: 02-plot-multiple-shapefiles-custom-legend.R
@@ -28,7 +28,7 @@ comments: true
 
 ## About
 This tutorial builds upon [vector 01 -  to work with 
-shapefile attributes in `R`]({{ site.baseurl }}//R/shapefile-attributes-in-R/) 
+shapefile attributes in `R`]({{ site.baseurl }}/R/shapefile-attributes-in-R/) 
 and explores how to plot multiple shapefiles using base R graphics. It then covers
 how to create a custom legend with colors and symbols that match your plot.
 
@@ -43,9 +43,9 @@ After completing this activity, you will:
  * Be able to apply custom symbology to spatial objects in a plot in R.
  * Be able to customize a baseplot legend in R.
  
-## Things You’ll Need To Complete This Lesson
-To complete this lesson: you will need the most current version of R, and 
-preferably RStudio, loaded on your computer.
+## Things You’ll Need To Complete This Tutorial
+You will need the most current version of `R` and, preferably, `RStudio` loaded
+on your computer to complete this tutorial.
 
 ### Install R Packages
 
@@ -53,7 +53,7 @@ preferably RStudio, loaded on your computer.
 * **rgdal:** `install.packages("rgdal")`
 * **sp:** `install.packages("sp")`
 
-[More on Packages in R - Adapted from Software Carpentry.]({{site.baseurl}}R/Packages-In-R/)
+[More on Packages in R - Adapted from Software Carpentry.]({{site.baseurl}}/R/Packages-In-R/)
 
 ## Download Data
 {% include/dataSubsets/_data_Site-Layout-Files.html %}
@@ -69,12 +69,13 @@ To work with vector data in `R`, we can use the `rgdal` library. The `raster`
 package also allows us to explore metadata using similar commands for both
 raster and vector files. 
 
-We will import three shapefiles. The first is our `AOI` or area of
-interest boundary polygon that we worked with in 
-[Lesson 00: Open and Plot Shapefiles in R]({{site.baseurl}}R/open-shapefiles-in-R/). 
+We will import three shapefiles. The first is our `AOI` or *area of
+interest* boundary polygon that we worked with in 
+[Open and Plot Shapefiles in R]({{site.baseurl}}/R/open-shapefiles-in-R/). 
 The second is a shapefile containing the location of roads and trails within the
-field site. The third is a file containing the Harvard Forest Fisher tower location.
-
+field site. The third is a file containing the Harvard Forest Fisher tower
+location. These latter two we worked with in the
+[Explore Shapefile Attributes & Plot Shapefile Objects by Attribute Value in R]({{site.baseurl}}/R/shapefile-attributes-in-R/) tutorial.
 
 
     # load packages

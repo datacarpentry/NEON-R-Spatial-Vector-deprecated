@@ -83,7 +83,7 @@ Some reasons for data being in different CRS include:
 1. The data are stored in a particular CRS convention used by the data
 provider which might be a federal agency, or a state planning office.
 2. The data are stored in a particular CRS that is customized to a region.
-For instance, many states prefer to use a **state plane** projection customized
+For instance, many states prefer to use a **State Plane** projection customized
 for that state.
 
 <figure>

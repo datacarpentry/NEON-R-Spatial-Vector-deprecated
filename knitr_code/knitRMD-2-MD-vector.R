@@ -16,7 +16,7 @@ gitRepoPath <-"~/Documents/GitHub/NEON-R-Spatial-Vector/"
 add.date <- "2015-10-26-L"
 
 #set working dir - this is where the data are located
-wd <- "~/Documents/data/1_DataPortal_Workshop/1_WorkshopData"
+wd <- "~/Documents/data/Spatio_TemporalWorkshop"
 
 
 ################### CONFIG BELOW IS REQUIRED BY JEKYLL - DON"T CHANGE ############

@@ -7,7 +7,7 @@ library(rgdal)
 library(raster) 
 
 # set working directory to the directory location on your computer where
-# you downloaded and unzipped the data files for the lesson
+# you downloaded and unzipped the data files for the tutorial
 # setwd("pathToDirHere")
 
 ## ----Import-Shapefile----------------------------------------------------

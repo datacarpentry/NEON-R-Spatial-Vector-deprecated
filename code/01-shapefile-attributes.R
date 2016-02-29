@@ -107,23 +107,21 @@ length(boardwalk_HARV)
 plot(boardwalk_HARV,
      col=c("green"), # set color for feature 
      lwd=6,
-     main="Boardwalks at NEON Harvard Forest Field Site\n 
-		 Feature one = blue, Feature two= green")
+     main="Boardwalks at NEON Harvard Forest Field Site\n Feature one = blue, Feature two= green")
 
 # save an object with only boardwalk lines
 stoneWall_HARV<-lines_HARV[lines_HARV$TYPE == "stone wall",]
 stoneWall_HARV
 
-# how many features are in our new object
+# how many features are in our new object?
 length(stoneWall_HARV)
 
 # plot just footpaths
 plot(stoneWall_HARV,
-     col=c("green", "blue", "orange", "brown", "springgreen"), #set color 
-		 # for each feature 
+     col=c("green", "blue", "orange", "brown", "darkgreen", "purple"), 
+		 #set color for each feature 
      lwd=6,
-     main="Stone walls at NEON Harvard Forest Field Site\n 
-		 Feature one = blue, Feature two= green")
+     main="Stone walls at NEON Harvard Forest Field Site\nEach feature in different color")
 
 
 ## ----convert-to-factor---------------------------------------------------
@@ -183,7 +181,7 @@ levels(lines_HARV$TYPE)
 # in this case, boardwalk (the first level) is the widest.
 plot(lines_HARV, 
      col=roadColors,
-     main="Roads at the NEON Harvard Forest Field Site \n Line width varies by Type Attribute Value",
+     main="Roads at the NEON Harvard Forest Field Site \n Line width varies by TYPE Attribute Value",
      lwd=lines_HARV$TYPE)
 
 ## ----bicycle-map, include=TRUE, results="hide", echo=FALSE---------------
@@ -198,8 +196,7 @@ lineWidth
 # in this case, boardwalk (the first level) is the widest.
 plot(lines_HARV, 
      col=roadColors,
-     main="Roads at the NEON Harvard Forest Field Site \n
-		 Line width varies by Type Attribute Value",
+     main="Roads at the NEON Harvard Forest Field Site \n Line width varies by Type Attribute Value",
      lwd=lineWidth)
 
 
@@ -213,8 +210,8 @@ roadPalette
 
 # add a legend to our map
 legend("bottomright",   # location of legend
-      legend=levels(lines_HARV$TYPE), # categories or elements 
-			 # to render in the legend
+      legend=levels(lines_HARV$TYPE), # categories or elements to render in 
+			 # the legend
       fill=roadPalette) # color palette to use to fill objects in legend.
 
 
@@ -346,10 +343,14 @@ plot(plotLocations,
      pch=plSymbols,
      main="NEON Field Sites by Soil Type\n Unique Symbol for Each Type")
 
+# create vector of plot symbols ONLY. Legend needs only the symbols
+plSymbolsL <- c(15,17)
+plSymbolsL
+
 # create legend 
 legend("bottomright", 
        legend=c("Intceptisols","Histosols"),
-       pch=plSymbols, 
+       pch=plSymbolsL, 
        col=palette(),
        bty="n", 
        cex=1)
