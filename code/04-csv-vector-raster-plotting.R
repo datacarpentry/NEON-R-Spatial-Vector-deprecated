@@ -109,8 +109,7 @@ plot(extent(plot.locationsSp_HARV),
      col="purple", 
      xlab="easting",
      ylab="northing", lwd=8,
-     main="Extent Boundary of Plot Locations \nCompared to the AOI Spatial
-		 Object",
+     main="Extent Boundary of Plot Locations \nCompared to the AOI Spatial Object",
      ylim=c(4712400,4714000)) # extent the y axis to make room for the legend
 
 plot(extent(aoiBoundary_HARV), 
@@ -146,7 +145,9 @@ plot(aoiBoundary_HARV,
      ylim=c(ymin,ymax))
 
 plot(plot.locationsSp_HARV, 
-     pch=8, add=TRUE)
+     pch=8,
+		 col="purple",
+		 add=TRUE)
 
 # add a legend
 legend("bottomright", 
@@ -215,8 +216,7 @@ extent(newPlot.Sp.HARV.UTM)
 # when you plot in base plot, if the extent isn't specified, then the data that
 # is added FIRST will define the extent of the plot
 plot(extent(plot.locationsSp_HARV),
-     main="Comparison of Spatial Object Extents\n
-		 	Plot Locations vs New Plot Locations")
+     main="Comparison of Spatial Object Extents\nPlot Locations vs New Plot Locations")
 plot(extent(newPlot.Sp.HARV.UTM),
      col="darkgreen",
      add=TRUE)
@@ -240,7 +240,7 @@ ymax <- newPlotExtent@ymax
 # try again but this time specify the x and ylims
 # note: we could also write a function that would harvest the smallest and
 # largest
-# x and y values from an extent object. This is beyond the scope of this lesson.
+# x and y values from an extent object. This is beyond the scope of this tutorial.
 plot(plot.locationsSp_HARV, 
      main="NEON Harvard Forest Field Site\nVegetation & Phenology Plots",
      pch=8,

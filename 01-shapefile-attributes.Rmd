@@ -12,7 +12,7 @@ categories: [self-paced-tutorial]
 mainTag: vector-data-series
 tags: [vector-data, R, spatial-data-gis]
 tutorialSeries: [vector-data-series]
-description: "This lesson provides an overview of how to locate and query
+description: "This tutorial provides an overview of how to locate and query
 shapefile attributes as well as subset shapefiles by specific attribute values
 in R. It also covers plotting multiple shapefiles by attribute and building a 
 custom plot legend. "
@@ -28,7 +28,7 @@ comments: true
 {% include _toc.html %}
 
 ## About
-This lesson explains what shapefile attributes are and how to work with 
+This tutorial explains what shapefile attributes are and how to work with 
 shapefile attributes in `R`. It also covers how to identify and query shapefile
 attributes, as well as subset shapefiles by specific attribute values. 
 Finally, we will review how to plot a shapefile according to a set of attribute 
@@ -45,9 +45,9 @@ After completing this activity, you will:
  * Be able to subset shapefiles using specific attribute values.
  * Know how to plot a shapefile, colored by unique attribute values.
  
-## Things You’ll Need To Complete This Lesson
-To complete this lesson: you will need the most current version of R, and 
-preferably RStudio, loaded on your computer.
+## Things You’ll Need To Complete This Tutorial
+You will need the most current version of `R` and, preferably, `RStudio` loaded 
+on your computer to complete this tutorial.
 
 ### Install R Packages
 
@@ -55,7 +55,7 @@ preferably RStudio, loaded on your computer.
 * **rgdal:** `install.packages("rgdal")`
 * **sp:** `install.packages("sp")`
 
-[More on Packages in R - Adapted from Software Carpentry.]({{site.baseurl}}R/Packages-In-R/)
+[More on Packages in R - Adapted from Software Carpentry.]({{site.baseurl}}/R/Packages-In-R/)
 
 ## Download Data
 {% include/dataSubsets/_data_Site-Layout-Files.html %}
@@ -77,13 +77,13 @@ raster and vector files.
 
 We will import three shapefiles. The first is our `AOI` or area of
 interest boundary polygon that we worked with in 
-[Lesson 00: Open and Plot Shapefiles in R]({{site.baseurl}}R/open-shapefiles-in-R/). 
+[Open and Plot Shapefiles in R]({{site.baseurl}}/R/open-shapefiles-in-R/). 
 The second is a shapefile containing the location of roads and trails within the
 field site. The third is a file containing the Fisher tower location.
 
 If you completed the
-[Lesson 00: Open and Plot Shapefiles in R]({{site.baseurl}}R/open-shapefiles-in-R/) 
-lesson, you can skip this code.
+[Open and Plot Shapefiles in R]({{site.baseurl}}/R/open-shapefiles-in-R/) 
+tutorial, you can skip this code.
 
 ```{r load-packages-data }
 # load packages
@@ -110,7 +110,7 @@ point_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
 
 ## Query Shapefile Metadata 
 Remember, as covered in 
-[Lesson 00: Open and Plot Shapefiles in R]({{site.baseurl}}R/open-shapefiles-in-R/),
+[Open and Plot Shapefiles in R]({{site.baseurl}}/R/open-shapefiles-in-R/),
 we can view metadata associated with an `R` object using:
 
 * `class()` - Describes the type of vector data stored in the object.
@@ -248,7 +248,8 @@ length(footpath_HARV)
 ```
 
 Our subsetting operation reduces the `features` count from 13 to 2. This means
-that only two feature lines in our spatial object have the attribute "TYPE=footpath".
+that only two feature lines in our spatial object have the attribute
+"TYPE=footpath".
 
 We can plot our subsetted shapefiles.
 
@@ -265,7 +266,7 @@ Why does the plot look like there is only one feature?
 
 Let's adjust the colors used in our plot. If we have 2 features in our vector
 object, we can plot each using a unique color by assigning unique colors (`col=`)
-to our features. We use the syntax:
+to our features. We use the syntax
 
 `col="c("colorOne","colorTwo")`
 
@@ -306,23 +307,21 @@ length(boardwalk_HARV)
 plot(boardwalk_HARV,
      col=c("green"), # set color for feature 
      lwd=6,
-     main="Boardwalks at NEON Harvard Forest Field Site\n 
-		 Feature one = blue, Feature two= green")
+     main="Boardwalks at NEON Harvard Forest Field Site\n Feature one = blue, Feature two= green")
 
 # save an object with only boardwalk lines
 stoneWall_HARV<-lines_HARV[lines_HARV$TYPE == "stone wall",]
 stoneWall_HARV
 
-# how many features are in our new object
+# how many features are in our new object?
 length(stoneWall_HARV)
 
 # plot just footpaths
 plot(stoneWall_HARV,
-     col=c("green", "blue", "orange", "brown", "springgreen"), #set color 
-		 # for each feature 
+     col=c("green", "blue", "orange", "brown", "darkgreen", "purple"), 
+		 #set color for each feature 
      lwd=6,
-     main="Stone walls at NEON Harvard Forest Field Site\n 
-		 Feature one = blue, Feature two= green")
+     main="Stone walls at NEON Harvard Forest Field Site\nEach feature in different color")
 
 ```
 
@@ -432,7 +431,7 @@ levels(lines_HARV$TYPE)
 # in this case, boardwalk (the first level) is the widest.
 plot(lines_HARV, 
      col=roadColors,
-     main="Roads at the NEON Harvard Forest Field Site \n Line width varies by Type Attribute Value",
+     main="Roads at the NEON Harvard Forest Field Site \n Line width varies by TYPE Attribute Value",
      lwd=lines_HARV$TYPE)
 ```
 
@@ -464,8 +463,7 @@ lineWidth
 # in this case, boardwalk (the first level) is the widest.
 plot(lines_HARV, 
      col=roadColors,
-     main="Roads at the NEON Harvard Forest Field Site \n
-		 Line width varies by Type Attribute Value",
+     main="Roads at the NEON Harvard Forest Field Site \n Line width varies by Type Attribute Value",
      lwd=lineWidth)
 
 ```
@@ -499,8 +497,8 @@ roadPalette
 
 # add a legend to our map
 legend("bottomright",   # location of legend
-      legend=levels(lines_HARV$TYPE), # categories or elements 
-			 # to render in the legend
+      legend=levels(lines_HARV$TYPE), # categories or elements to render in 
+			 # the legend
       fill=roadPalette) # color palette to use to fill objects in legend.
 
 ```
@@ -612,7 +610,7 @@ legend("bottomright",
 ```
 
 <div id="challenge" markdown="1">
-## Challenge 2: Plot Polygon by Attribute
+## Challenge: Plot Polygon by Attribute
 
 1. Create a map of the State boundaries in the United States - using the data
 located in your downloaded data folder: `NEON-DS-Site-Layout-Files/US-Boundary-Layers\US-State-Boundaries-Census-2014`. 
@@ -620,13 +618,12 @@ Each state should be colored by it's `region` value. Add a legend.
 
 2. Using the `NEON-DS-Site-Layout-Files/HARV/PlotLocations_HARV.shp` shapefile, 
 create a map of field site locations, with each point colored by the soil type
-(`soilTypeOr`). 
+(`soilTypeOr`).  **Question:** How many different soil types are there at this particular field site? 
 
-How many different soil types are there at this particular field site? 
-
-3. BONUS -- modify the plot above. Tell `R` to plot each point, using a different
-symbol of `pch` value. HINT: to do this, create a vector object of symbols by 
-factor level using the syntax described above for line width: 
+3. BONUS -- modify the field sites plot above. Tell `R` to plot each point,
+using a different symbol of `pch` value. HINT: To do this, create a vector
+object of symbols by factor level using the syntax described above for line
+width: 
 `c(15,17)[lines_HARV$soilTypeOr]`
 
 </div>
@@ -690,10 +687,14 @@ plot(plotLocations,
      pch=plSymbols,
      main="NEON Field Sites by Soil Type\n Unique Symbol for Each Type")
 
+# create vector of plot symbols ONLY. Legend needs only the symbols
+plSymbolsL <- c(15,17)
+plSymbolsL
+
 # create legend 
 legend("bottomright", 
        legend=c("Intceptisols","Histosols"),
-       pch=plSymbols, 
+       pch=plSymbolsL, 
        col=palette(),
        bty="n", 
        cex=1)

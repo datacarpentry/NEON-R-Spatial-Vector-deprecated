@@ -6,13 +6,13 @@ date:   2015-10-26
 authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: 2016-02-25
+lastModified: 2016-02-29
 packagesLibraries: [rgdal, raster]
 categories: [self-paced-tutorial]
 mainTag: vector-data-series
 tags: [vector-data, R, spatial-data-gis]
 tutorialSeries: [vector-data-series]
-description: "This lesson provides an overview of how to locate and query
+description: "This tutorial provides an overview of how to locate and query
 shapefile attributes as well as subset shapefiles by specific attribute values
 in R. It also covers plotting multiple shapefiles by attribute and building a 
 custom plot legend. "
@@ -28,7 +28,7 @@ comments: true
 {% include _toc.html %}
 
 ## About
-This lesson explains what shapefile attributes are and how to work with 
+This tutorial explains what shapefile attributes are and how to work with 
 shapefile attributes in `R`. It also covers how to identify and query shapefile
 attributes, as well as subset shapefiles by specific attribute values. 
 Finally, we will review how to plot a shapefile according to a set of attribute 
@@ -45,9 +45,9 @@ After completing this activity, you will:
  * Be able to subset shapefiles using specific attribute values.
  * Know how to plot a shapefile, colored by unique attribute values.
  
-## Things You’ll Need To Complete This Lesson
-To complete this lesson: you will need the most current version of R, and 
-preferably RStudio, loaded on your computer.
+## Things You’ll Need To Complete This Tutorial
+You will need the most current version of `R` and, preferably, `RStudio` loaded 
+on your computer to complete this tutorial.
 
 ### Install R Packages
 
@@ -55,7 +55,7 @@ preferably RStudio, loaded on your computer.
 * **rgdal:** `install.packages("rgdal")`
 * **sp:** `install.packages("sp")`
 
-[More on Packages in R - Adapted from Software Carpentry.]({{site.baseurl}}R/Packages-In-R/)
+[More on Packages in R - Adapted from Software Carpentry.]({{site.baseurl}}/R/Packages-In-R/)
 
 ## Download Data
 {% include/dataSubsets/_data_Site-Layout-Files.html %}
@@ -77,13 +77,13 @@ raster and vector files.
 
 We will import three shapefiles. The first is our `AOI` or area of
 interest boundary polygon that we worked with in 
-[Lesson 00: Open and Plot Shapefiles in R]({{site.baseurl}}R/open-shapefiles-in-R/). 
+[Open and Plot Shapefiles in R]({{site.baseurl}}/R/open-shapefiles-in-R/). 
 The second is a shapefile containing the location of roads and trails within the
 field site. The third is a file containing the Fisher tower location.
 
 If you completed the
-[Lesson 00: Open and Plot Shapefiles in R]({{site.baseurl}}R/open-shapefiles-in-R/) 
-lesson, you can skip this code.
+[Open and Plot Shapefiles in R]({{site.baseurl}}/R/open-shapefiles-in-R/) 
+tutorial, you can skip this code.
 
 
     # load packages
@@ -123,7 +123,7 @@ lesson, you can skip this code.
 
 ## Query Shapefile Metadata 
 Remember, as covered in 
-[Lesson 00: Open and Plot Shapefiles in R]({{site.baseurl}}R/open-shapefiles-in-R/),
+[Open and Plot Shapefiles in R]({{site.baseurl}}/R/open-shapefiles-in-R/),
 we can view metadata associated with an `R` object using:
 
 * `class()` - Describes the type of vector data stored in the object.
@@ -328,7 +328,8 @@ from a spatial object in `R`.
     ## [1] 2
 
 Our subsetting operation reduces the `features` count from 13 to 2. This means
-that only two feature lines in our spatial object have the attribute "TYPE=footpath".
+that only two feature lines in our spatial object have the attribute
+"TYPE=footpath".
 
 We can plot our subsetted shapefiles.
 
@@ -345,7 +346,7 @@ Why does the plot look like there is only one feature?
 
 Let's adjust the colors used in our plot. If we have 2 features in our vector
 object, we can plot each using a unique color by assigning unique colors (`col=`)
-to our features. We use the syntax:
+to our features. We use the syntax
 
 `col="c("colorOne","colorTwo")`
 
@@ -506,7 +507,7 @@ try.
     # in this case, boardwalk (the first level) is the widest.
     plot(lines_HARV, 
          col=roadColors,
-         main="Roads at the NEON Harvard Forest Field Site \n Line width varies by Type Attribute Value",
+         main="Roads at the NEON Harvard Forest Field Site \n Line width varies by TYPE Attribute Value",
          lwd=lines_HARV$TYPE)
 
 ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/line-width-unique-1.png) 
@@ -560,8 +561,8 @@ Let's add a legend to our plot.
 
     # add a legend to our map
     legend("bottomright",   # location of legend
-          legend=levels(lines_HARV$TYPE), # categories or elements 
-    			 # to render in the legend
+          legend=levels(lines_HARV$TYPE), # categories or elements to render in 
+    			 # the legend
           fill=roadPalette) # color palette to use to fill objects in legend.
 
 ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/add-legend-to-plot-1.png) 
@@ -636,7 +637,7 @@ other lines can be grey.
 ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/bicycle-map-2-1.png) 
 
 <div id="challenge" markdown="1">
-## Challenge 2: Plot Polygon by Attribute
+## Challenge: Plot Polygon by Attribute
 
 1. Create a map of the State boundaries in the United States - using the data
 located in your downloaded data folder: `NEON-DS-Site-Layout-Files/US-Boundary-Layers\US-State-Boundaries-Census-2014`. 
@@ -644,13 +645,12 @@ Each state should be colored by it's `region` value. Add a legend.
 
 2. Using the `NEON-DS-Site-Layout-Files/HARV/PlotLocations_HARV.shp` shapefile, 
 create a map of field site locations, with each point colored by the soil type
-(`soilTypeOr`). 
+(`soilTypeOr`).  **Question:** How many different soil types are there at this particular field site? 
 
-How many different soil types are there at this particular field site? 
-
-3. BONUS -- modify the plot above. Tell `R` to plot each point, using a different
-symbol of `pch` value. HINT: to do this, create a vector object of symbols by 
-factor level using the syntax described above for line width: 
+3. BONUS -- modify the field sites plot above. Tell `R` to plot each point,
+using a different symbol of `pch` value. HINT: To do this, create a vector
+object of symbols by factor level using the syntax described above for line
+width: 
 `c(15,17)[lines_HARV$soilTypeOr]`
 
 </div>

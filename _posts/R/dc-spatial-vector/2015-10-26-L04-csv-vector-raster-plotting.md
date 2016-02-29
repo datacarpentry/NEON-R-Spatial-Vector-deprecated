@@ -1,11 +1,11 @@
 ---
 layout: post
 title: "Vector 04: Convert from .csv to a Shapefile in R"
-date:   2015-10-24
+date:   2015-10-23
 authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: 2016-02-25
+lastModified: 2016-02-29
 packagesLibraries: [rgdal, raster]
 categories: [self-paced-tutorial]
 mainTag: vector-data-series
@@ -28,7 +28,7 @@ comments: true
 
 ## About
 
-This lesson will review how to import spatial points stored in `.csv` (Comma
+This tutorial will review how to import spatial points stored in `.csv` (Comma
 Separated Value) format into
 `R` as a spatial object - a `SpatialPointsDataFrame`. We will also
 reproject data imported in a shapefile format, and export a shapefile from an
@@ -48,9 +48,9 @@ After completing this activity, you will:
 Coordinate System (Latitude, Longitude) to a projected coordinate system (UTM).
 * Be able to plot raster and vector data in the same plot to create a map.
 
-## Things You’ll Need To Complete This Lesson
-To complete this lesson: you will need the most current version of R, and 
-preferably RStudio, loaded on your computer.
+## Things You’ll Need To Complete This Tutorial
+You will need the most current version of `R` and, preferably, `RStudio` loaded 
+on your computer to complete this tutorial.
 
 ### Install R Packages
 
@@ -58,9 +58,9 @@ preferably RStudio, loaded on your computer.
 * **rgdal:** `install.packages("rgdal")`
 * **sp:** `install.packages("sp")`
 
-* [More on Packages in R - Adapted from Software Carpentry.]({{site.baseurl}}R/Packages-In-R/)
+* [More on Packages in R - Adapted from Software Carpentry.]({{site.baseurl}}/R/Packages-In-R/)
 
-##Data to Download
+## Data to Download
 {% include/dataSubsets/_data_Site-Layout-Files.html %}
 
 {% include/dataSubsets/_data_Airborne-Remote-Sensing.html %}
@@ -74,8 +74,8 @@ preferably RStudio, loaded on your computer.
 ## Spatial Data in Text Format
 
 The `HARV_PlotLocations.csv` file contains `x, y` (point) locations for plot locations 
-<a href="http://www.neoninc.org/science-design/collection-methods/terrestrial-organismal-sampling" target="_blank"> where NEON </a>
-samples vegetation and other ecological metrics. We would like to:
+<a href="http://www.neoninc.org/science-design/collection-methods/terrestrial-organismal-sampling" target="_blank"> where NEON samples vegetation and other ecological metrics</a>.
+We would like to:
 
 * Create a map of these plot locations. 
 * Export the data in a `shapefile` format to share with our colleagues. This
@@ -108,8 +108,8 @@ We will use the `rgdal` and `raster` libraries in this tutorial.
 ## Import .csv 
 To begin let's import `.csv` file that contains plot coordinate `x, y`
 locations at the NEON Harvard Forest Field Site (`HARV_PlotLocations.csv`) in
-`R`. Note we set `stringsAsFactors=FALSE` so our data import as a `character`
-rather than a `factor` class.
+`R`. Note that we set `stringsAsFactors=FALSE` so our data import as a
+`character` rather than a `factor` class.
 
 
     # Read the .csv file
@@ -120,7 +120,7 @@ rather than a `factor` class.
     # look at the data structure
     str(plot.locations_HARV)
 
-    ## 'data.frame':	21 obs. of  15 variables:
+    ## 'data.frame':	21 obs. of  16 variables:
     ##  $ easting   : num  731405 731934 731754 731724 732125 ...
     ##  $ northing  : num  4713456 4713415 4713115 4713595 4713846 ...
     ##  $ geodeticDa: chr  "WGS84" "WGS84" "WGS84" "WGS84" ...
@@ -132,6 +132,7 @@ rather than a `factor` class.
     ##  $ domainID  : chr  "D01" "D01" "D01" "D01" ...
     ##  $ siteID    : chr  "HARV" "HARV" "HARV" "HARV" ...
     ##  $ plotType  : chr  "distributed" "tower" "tower" "tower" ...
+    ##  $ subtype   : chr  "basePlot" "basePlot" "basePlot" "basePlot" ...
     ##  $ plotSize  : int  1600 1600 1600 1600 1600 1600 1600 1600 1600 1600 ...
     ##  $ elevation : num  332 342 348 334 353 ...
     ##  $ soilTypeOr: chr  "Inceptisols" "Inceptisols" "Inceptisols" "Histosols" ...
@@ -141,9 +142,10 @@ Also note that `plot.locations_HARV` is a `data.frame` that contains 21
 locations (rows) and 15 variables (attributes). 
 
 Next, let's identify explore  `data.frame` to determine whether it contains
-columns with coordinate values. If we are lucky, our `.csv` will contain either:
+columns with coordinate values. If we are lucky, our `.csv` will contain columns
+labeled:
 
-* columns labeled "X" and "Y" OR
+* "X" and "Y" OR
 * Latitude and Longitude OR
 * easting and northing (UTM coordinates)
 
@@ -155,12 +157,13 @@ Let's check out the column `names` of our file.
 
     ##  [1] "easting"    "northing"   "geodeticDa" "utmZone"    "plotID"    
     ##  [6] "stateProvi" "county"     "domainName" "domainID"   "siteID"    
-    ## [11] "plotType"   "plotSize"   "elevation"  "soilTypeOr" "plotdim_m"
+    ## [11] "plotType"   "subtype"    "plotSize"   "elevation"  "soilTypeOr"
+    ## [16] "plotdim_m"
 
 ## Identify X,Y Location Columns
 
 View the column names, we can see that our `data.frame`  that contains several 
-fields that might contain spatial information. The `plot.locations_HARV$easting` 
+fields that might contain spatial information. The `plot.locations_HARV$easting`
 and `plot.locations_HARV$northing` columns contain coordinate values. 
 
 
@@ -184,22 +187,21 @@ and `plot.locations_HARV$northing` columns contain coordinate values.
     ## [1] 4713456 4713415 4713115 4713595 4713846 4713295
 
 So, we have coordinate values in our `data.frame` but in order to convert our
-`data.frame` to a `SpatialPointsDataFrame`, we also need to know
-the `CRS` associated with those coordinate values. 
+`data.frame` to a `SpatialPointsDataFrame`, we also need to know the CRS
+associated with those coordinate values. 
 
-There are several ways to figure out the `CRS` of spatial data in text format.
+There are several ways to figure out the CRS of spatial data in text format.
 
-1. We can check the file `metadata` in hopes that the `CRS` was recorded in the
+1. We can check the file **metadata** in hopes that the CRS was recorded in the
 data. For more information on metadata, check out the
-[Understanding Time Series Metadata]({{site.baseurl}}/R/Time-Series-Metadata) 
-lesson. 
-2. We can explore the file itself to see if `CRS` information is embedded in the
+[Why Metadata Are Important: How to Work with Metadata in Text & EML Format]({{site.baseurl}}/R/why-metadata-are-important) 
+tutorial. 
+2. We can explore the file itself to see if CRS information is embedded in the
 file header or somewhere in the data columns.
 
 Following the `easting` and `northing` columns, there is a `geodeticDa` and a 
-`utmZone` column. These appear to contain `CRS` information
+`utmZone` column. These appear to contain CRS information
 (`datum` and `projection`). Let's view those next. 
-
 
 
     # view first 6 rows of the X and Y columns
@@ -211,22 +213,23 @@ Following the `easting` and `northing` columns, there is a `geodeticDa` and a
 
     ## [1] "18N" "18N" "18N" "18N" "18N" "18N"
 
-It is not typical to store `CRS` information in a column. But this particular
-file contains `CRS` information this way. The `geodeticDa` and `utmZone` columns
+It is not typical to store CRS information in a column. But this particular
+file contains CRS information this way. The `geodeticDa` and `utmZone` columns
 contain the information that helps us determine the `CRS`: 
 
 * `geodeticDa`: WGS84  -- this is geodetic datum WGS84
 * `utmZone`: 18
 
 In 
-[Vector 02: When Vector Data Don't Line Up - Handling Spatial Projection & CRS in R ]({{site.baseurl}}/R/vector-data-reproject-crs-R/)
+[When Vector Data Don't Line Up - Handling Spatial Projection & CRS in R]({{site.baseurl}}/R/vector-data-reproject-crs-R/)
 we learned about the components of a `proj4` string. We have everything we need 
-to now assign a `CRS` to our data.frame.
+to now assign a CRS to our data.frame.
 
 To create the `proj4` associated with `UTM Zone 18 WGS84` we could look up the 
 projection on the 
 <a href="http://www.spatialreference.org/ref/epsg/wgs-84-utm-zone-18n/" target="_blank"> spatial reference website</a> 
-which contains a list of `CRS` formats for each projection - 
+which contains a list of CRS formats for each projection: 
+
 <a href="http://www.spatialreference.org/ref/epsg/wgs-84-utm-zone-18n/proj4/" target="_blank"> click here for the proj4 string for UTM Zone 18N WGS84</a>. 
 However, if we have other data in the `UTM Zone 18N` projection, it's much
 easier to simply assign the `CRS` in `proj4` format from that object to our new
@@ -318,7 +321,7 @@ We now have a spatial `R` object, we can plot our newly created spatial object.
 ## Define Plot Extent
 
 In 
-[Vector 00: Open and Plot Shapefiles in R]({{site.baseurl}}/R/open-shapefiles-in-R/)
+[Open and Plot Shapefiles in R]({{site.baseurl}}/R/open-shapefiles-in-R/)
 we learned about spatial object `extent`. When we plot several spatial layers in
 `R`, the first layer that is plotted, becomes the extent of the plot. If we add
 additional layers that are outside of that extent, then the data will not be
@@ -327,8 +330,9 @@ a plot using `xlim` and `ylim`.
 
 Let's first create a SpatialPolygon object from the
 `NEON-DS-Site-Layout-Files/HarClip_UTMZ18` shapefile. (If you have completed
-Lesson 00 or 01 in this series you can skip this code as you have already
-created this object.)
+Vector 00-02 tutorials in this 
+[Introduction to Working with Vector Data in R]({{site.baseurl}}/tutorial-series/vector-data-series/)
+series, you can skip this code as you have already created this object.)
 
 
     # create boundary object 
@@ -396,8 +400,7 @@ locations are not rendered. We can see that our data are in the same projection
          col="purple", 
          xlab="easting",
          ylab="northing", lwd=8,
-         main="Extent Boundary of Plot Locations \nCompared to the AOI Spatial
-    		 Object",
+         main="Extent Boundary of Plot Locations \nCompared to the AOI Spatial Object",
          ylim=c(4712400,4714000)) # extent the y axis to make room for the legend
     
     plot(extent(aoiBoundary_HARV), 
@@ -426,11 +429,11 @@ values from the spatial object that has a larger extent. Let's try it.
 <figure>
     <a href="{{ site.baseurl }}/images/dc-spatial-vector/spatial_extent.png">
     <img src="{{ site.baseurl }}/images/dc-spatial-vector/spatial_extent.png"></a>
-    <figcaption>The spatial extent of a shapefile or `R` spatial object
-    represents the geographic *edge* or location that is the furthest north,
-    south, east and west. Thus is represents the overall geographic coverage of
-    the spatial object. 
-    Image Source: National Ecological Observatory Network (NEON) 
+    <figcaption>The spatial extent of a shapefile or R spatial object
+    represents the geographic <b> edge </b> or location that is the furthest
+    north, south, east and west. Thus is represents the overall geographic
+    coverage of the spatial object. Source: National Ecological Observatory
+    Network (NEON) 
     </figcaption>
 </figure>
 
@@ -458,7 +461,9 @@ values from the spatial object that has a larger extent. Let's try it.
          ylim=c(ymin,ymax))
     
     plot(plot.locationsSp_HARV, 
-         pch=8, add=TRUE)
+         pch=8,
+    		 col="purple",
+    		 add=TRUE)
     
     # add a legend
     legend("bottomright", 
@@ -488,9 +493,9 @@ the X and Y limits of your plot to ensure that both points are rendered by `R`!
 If you have extra time, feel free to add roads and other layers to your map!
 
 HINT: Refer to
-[Vector 02: When Vector Data Don't Line Up - Handling Spatial Projection & CRS in R]({{site.baseurl}}/R/vector-data-reproject-crs-R/)
+[When Vector Data Don't Line Up - Handling Spatial Projection & CRS in R]({{site.baseurl}}/R/vector-data-reproject-crs-R/)
 for more on working with geographic coordinate systems. You may want to "borrow"
-the projection from the objects used in that lesson!
+the projection from the objects used in that tutorial!
 </div>
 
 ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/04-csv-vector-raster-plotting/challenge-code-phen-plots-1.png) ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/04-csv-vector-raster-plotting/challenge-code-phen-plots-2.png) ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/04-csv-vector-raster-plotting/challenge-code-phen-plots-3.png) 
