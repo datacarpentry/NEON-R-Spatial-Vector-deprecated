@@ -275,7 +275,7 @@ to do this.
 ```{r plot-subset-shapefile-unique-colors }
 # plot just footpaths
 plot(footpath_HARV,
-     col=c("green","blue"), #set color for each feature 
+     col=c("green","blue"), # set color for each feature 
      lwd=6,
      main="Footpaths at NEON Harvard Forest Field Site\n Feature one = blue, Feature two= green")
 
@@ -319,7 +319,7 @@ length(stoneWall_HARV)
 # plot just footpaths
 plot(stoneWall_HARV,
      col=c("green", "blue", "orange", "brown", "darkgreen", "purple"), 
-		 #set color for each feature 
+        # set color for each feature 
      lwd=6,
      main="Stone walls at NEON Harvard Forest Field Site\nEach feature in different color")
 
@@ -560,7 +560,7 @@ using the palette method. For example `palette(rainbow(6))` or
 ## Challenge: Plot Lines by Attribute
 Create a plot that emphasizes only roads where bicycles and horses are allowed.
 To emphasize this, make the lines where bicycles are not allowed THINNER than
-the roads wher bicycles are allowed.
+the roads where bicycles are allowed.
 NOTE: this attribute information is located in the `lines_HARV$BicyclesHo` 
 attribute.
 
