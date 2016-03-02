@@ -15,7 +15,7 @@ description: "This tutorial covers how to convert a .csv file that contains
 spatial coordinate information into a spatial object in R. We will then export
 the spatial object as a Shapefile for efficient import into R and other GUI GIS
 applications including QGIS and ArcGIS"
-code1: 03-csv-vector-raster-plotting.R
+code1: 04-csv-to-shapefile.R
 image:
   feature: NEONCarpentryHeader_2.png
   credit: A collaboration between the National Ecological Observatory Network (NEON) and Data Carpentry
@@ -172,7 +172,7 @@ There are several ways to figure out the CRS of spatial data in text format.
 
 1. We can check the file **metadata** in hopes that the CRS was recorded in the
 data. For more information on metadata, check out the
-[Why Metadata Are Important: How to Work with Metadata in Text & EML Format]({{site.baseurl}}/R/why-metadata-are-important) 
+[Why Metadata Are Important: How to Work with Metadata in Text & EML Format]({{site.baseurl}}/R/why-metadata-are-important/) 
 tutorial. 
 2. We can explore the file itself to see if CRS information is embedded in the
 file header or somewhere in the data columns.
