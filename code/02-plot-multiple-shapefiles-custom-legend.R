@@ -1,4 +1,5 @@
 ## ----load-packages-data--------------------------------------------------
+
 # load packages
 # rgdal: for vector work; sp package should always load with rgdal. 
 library(rgdal)  
@@ -45,8 +46,7 @@ lineWidth
 # in this case, boardwalk (the first level) is the widest.
 plot(lines_HARV, 
      col=roadColors,
-     main="Roads at the NEON Harvard Forest Field Site \n
-		 Line width varies by Type Attribute Value",
+     main="Roads at the NEON Harvard Forest Field Site \nLine width varies by Type Attribute Value",
      lwd=lineWidth)
 
 
@@ -62,8 +62,8 @@ roadPalette
 legend("bottomright", 
        legend=levels(lines_HARV$TYPE), 
        fill=roadPalette, 
-       bty="n", #turn off the legend border
-       cex=.8) #decrease the font / legend size
+       bty="n", # turn off the legend border
+       cex=.8) # decrease the font / legend size
 
 
 ## ----plot-many-shapefiles------------------------------------------------
@@ -99,8 +99,8 @@ plot_HARV
 # add a legend to our map
 legend("bottomright", 
        legend=labels, 
-       bty="n", #turn off the legend border
-       cex=.8) #decrease the font / legend size
+       bty="n", # turn off the legend border
+       cex=.8) # decrease the font / legend size
 
 ## ----add-colors----------------------------------------------------------
 
