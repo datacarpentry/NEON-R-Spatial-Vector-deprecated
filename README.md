@@ -44,7 +44,7 @@ Contributors to this repo include Megan Jones, Sarah Newman, Joseph Stachelek,
 and Leah Wasser.
 
 ## Teaching Data Subsets
-All teaching data subsets can be found on the 
+Data used in these lessons, can be found on the 
 <a href="https://figshare.com/authors/NEON_Data_Skills_Teaching_Data_Subsets/834136" target="_blank"> NEON Data Skills Teaching Data Subsets figshare page </a>. 
 
 ### Spatio-temporal Series Teaching Data Subsets
@@ -68,8 +68,8 @@ And if you have a cool resource that you think would add to the site, please let
 us know!
 
 ## License
-The main theme of this site was created by Minimal Mistakes. The theme is free 
-and open source software, distributed under the 
+This site uses the Minimal Mistakes these for Jekyll. The theme is open source 
+software 
 [GNU General Public License](http://mmistakes.github.io/minimal-mistakes/LICENSE) 
 version 2 or later.
 
