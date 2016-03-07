@@ -136,7 +136,7 @@ lineWidth
 # in this case, boardwalk (the first level) is the widest.
 plot(lines_HARV, 
      col=roadColors,
-     main="Roads at the NEON Harvard Forest Field Site \nLine width varies by Type Attribute Value",
+     main="NEON Harvard Forest Field Site\n Roads & Trails \nLine Width Varies by Type Attribute Value",
      lwd=lineWidth)
 
 ```
@@ -162,7 +162,7 @@ Let's add a legend to our plot.
 ```{r add-legend-to-plot }
 plot(lines_HARV, 
      col=roadColors,
-     main="Roads at the NEON Harvard Forest Field Site\n Default Legend")
+     main="NEON Harvard Forest Field Site\n Roads & Trails\n Default Legend")
 
 # we can use the color object that we created above to color the legend objects
 roadPalette
@@ -193,7 +193,7 @@ the tower location and road data on top using `add=TRUE`.
 plot(aoiBoundary_HARV, 
      col = "grey93", 
      border="grey",
-     main="NEON Harvard Forest\nField Site")
+     main="NEON Harvard Forest Field Site")
 
 plot(lines_HARV, 
      col=roadColors,
@@ -343,7 +343,7 @@ legend("bottomright",
 ## Challenge: Plot Polygon by Attribute
 
 1. Using the `NEON-DS-Site-Layout-Files/HARV/PlotLocations_HARV.shp` shapefile, 
-create a map of field site locations, with each point colored by the soil type
+create a map of study plot locations, with each point colored by the soil type
 (`soilTypeOr`). How many different soil types are there at this particular field 
 site? Overlay this layer on top of the `lines_HARV` layer (the roads). Create a 
 custom legend that applies line symbols to lines and point symbols to the points.
@@ -372,7 +372,7 @@ blueGreen
 # plot roads
 plot(lines_HARV, 
      col=roadColors,
-     main="NEON Field Sites by Soil Type\n One Symbol for All Types")
+     main="NEON Harvard Forest Field Site\n Study Plots by Soil Type\n One Symbol for All Types")
 
 # plot the locations 
 plot(plotLocations,
@@ -407,7 +407,7 @@ plSymbols
 # plot roads
 plot(lines_HARV, 
      col=roadColors,
-     main="NEON Field Sites by Soil Type\n One Symbol for All Types")
+     main="NEON Harvard Forest Field Site\n Study Plots by Soil Type\n Different Symbols for Types")
 
 # plot the locations 
 plot(plotLocations,
