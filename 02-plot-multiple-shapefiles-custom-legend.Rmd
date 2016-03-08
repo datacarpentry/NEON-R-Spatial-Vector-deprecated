@@ -27,9 +27,10 @@ comments: true
 {% include _toc.html %}
 
 ## About
-This tutorial builds upon [vector 01 -  to work with 
-shapefile attributes in `R`]({{ site.baseurl }}/R/shapefile-attributes-in-R/) 
-and explores how to plot multiple shapefiles using base R graphics. It then covers
+This tutorial builds upon 
+[the previous tutorial]({{ site.baseurl }}/R/shapefile-attributes-in-R/) 
+to work with shapefile attributes in `R` and explores how to plot multiple 
+shapefiles using base R graphics. It then covers
 how to create a custom legend with colors and symbols that match your plot.
 
 **R Skill Level:** Intermediate - you've got the basics of `R` down.
@@ -78,6 +79,7 @@ location. These latter two we worked with in the
 [Explore Shapefile Attributes & Plot Shapefile Objects by Attribute Value in R]({{site.baseurl}}/R/shapefile-attributes-in-R/) tutorial.
 
 ```{r load-packages-data }
+
 # load packages
 # rgdal: for vector work; sp package should always load with rgdal. 
 library(rgdal)  
@@ -99,7 +101,6 @@ point_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
                       "HARVtower_UTM18N")
 
 ```
-
 
 ## Plot Data
 
@@ -135,8 +136,7 @@ lineWidth
 # in this case, boardwalk (the first level) is the widest.
 plot(lines_HARV, 
      col=roadColors,
-     main="Roads at the NEON Harvard Forest Field Site \n
-		 Line width varies by Type Attribute Value",
+     main="NEON Harvard Forest Field Site\n Roads & Trails \nLine Width Varies by Type Attribute Value",
      lwd=lineWidth)
 
 ```
@@ -162,7 +162,7 @@ Let's add a legend to our plot.
 ```{r add-legend-to-plot }
 plot(lines_HARV, 
      col=roadColors,
-     main="Roads at the NEON Harvard Forest Field Site\n Default Legend")
+     main="NEON Harvard Forest Field Site\n Roads & Trails\n Default Legend")
 
 # we can use the color object that we created above to color the legend objects
 roadPalette
@@ -171,8 +171,8 @@ roadPalette
 legend("bottomright", 
        legend=levels(lines_HARV$TYPE), 
        fill=roadPalette, 
-       bty="n", #turn off the legend border
-       cex=.8) #decrease the font / legend size
+       bty="n", # turn off the legend border
+       cex=.8) # decrease the font / legend size
 
 ```
 
@@ -193,7 +193,7 @@ the tower location and road data on top using `add=TRUE`.
 plot(aoiBoundary_HARV, 
      col = "grey93", 
      border="grey",
-     main="NEON Harvard Forest\nField Site")
+     main="NEON Harvard Forest Field Site")
 
 plot(lines_HARV, 
      col=roadColors,
@@ -237,8 +237,8 @@ plot_HARV
 # add a legend to our map
 legend("bottomright", 
        legend=labels, 
-       bty="n", #turn off the legend border
-       cex=.8) #decrease the font / legend size
+       bty="n", # turn off the legend border
+       cex=.8) # decrease the font / legend size
 ```
 
 Now we have a legend with the labels identified. Let's add colors to each legend
@@ -343,7 +343,7 @@ legend("bottomright",
 ## Challenge: Plot Polygon by Attribute
 
 1. Using the `NEON-DS-Site-Layout-Files/HARV/PlotLocations_HARV.shp` shapefile, 
-create a map of field site locations, with each point colored by the soil type
+create a map of study plot locations, with each point colored by the soil type
 (`soilTypeOr`). How many different soil types are there at this particular field 
 site? Overlay this layer on top of the `lines_HARV` layer (the roads). Create a 
 custom legend that applies line symbols to lines and point symbols to the points.
@@ -372,7 +372,7 @@ blueGreen
 # plot roads
 plot(lines_HARV, 
      col=roadColors,
-     main="NEON Field Sites by Soil Type\n One Symbol for All Types")
+     main="NEON Harvard Forest Field Site\n Study Plots by Soil Type\n One Symbol for All Types")
 
 # plot the locations 
 plot(plotLocations,
@@ -407,7 +407,7 @@ plSymbols
 # plot roads
 plot(lines_HARV, 
      col=roadColors,
-     main="NEON Field Sites by Soil Type\n One Symbol for All Types")
+     main="NEON Harvard Forest Field Site\n Study Plots by Soil Type\n Different Symbols for Types")
 
 # plot the locations 
 plot(plotLocations,

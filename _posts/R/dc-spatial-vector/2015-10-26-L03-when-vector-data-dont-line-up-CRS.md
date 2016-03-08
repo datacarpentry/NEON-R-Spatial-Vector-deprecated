@@ -6,7 +6,7 @@ date:   2015-10-24
 authors: [Joseph Stachelek, Leah Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: 2016-02-29
+lastModified: 2016-03-02
 packagesLibraries: [rgdal, raster]
 categories: [self-paced-tutorial]
 mainTag: vector-data-series
@@ -17,7 +17,7 @@ vector object in R. It will also explore differences in units associated with
 different projections and how to reproject data using spTransform in R. Spatial
 data need to be in the same projection in order to successfully map and process
 them in non-gui tools such as R."
-code1: 02-csv-vector-raster-plotting.R
+code1: 03-when-vector-data-dont-line-up-CRS.R
 image:
   feature: NEONCarpentryHeader_2.png
   credit: A collaboration between the National Ecological Observatory Network (NEON) and Data Carpentry

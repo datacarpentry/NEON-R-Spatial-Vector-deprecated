@@ -89,7 +89,7 @@ plot(footpath_HARV,
 ## ----plot-subset-shapefile-unique-colors---------------------------------
 # plot just footpaths
 plot(footpath_HARV,
-     col=c("green","blue"), #set color for each feature 
+     col=c("green","blue"), # set color for each feature 
      lwd=6,
      main="Footpaths at NEON Harvard Forest Field Site\n Feature one = blue, Feature two= green")
 
@@ -119,7 +119,7 @@ length(stoneWall_HARV)
 # plot just footpaths
 plot(stoneWall_HARV,
      col=c("green", "blue", "orange", "brown", "darkgreen", "purple"), 
-		 #set color for each feature 
+        # set color for each feature 
      lwd=6,
      main="Stone walls at NEON Harvard Forest Field Site\nEach feature in different color")
 

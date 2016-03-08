@@ -6,7 +6,7 @@ date:   2015-10-26
 authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: 2016-02-29
+lastModified: 2016-03-02
 packagesLibraries: [rgdal, raster]
 categories: [self-paced-tutorial]
 mainTag: vector-data-series
@@ -355,7 +355,7 @@ to do this.
 
     # plot just footpaths
     plot(footpath_HARV,
-         col=c("green","blue"), #set color for each feature 
+         col=c("green","blue"), # set color for each feature 
          lwd=6,
          main="Footpaths at NEON Harvard Forest Field Site\n Feature one = blue, Feature two= green")
 
@@ -624,7 +624,7 @@ using the palette method. For example `palette(rainbow(6))` or
 ## Challenge: Plot Lines by Attribute
 Create a plot that emphasizes only roads where bicycles and horses are allowed.
 To emphasize this, make the lines where bicycles are not allowed THINNER than
-the roads wher bicycles are allowed.
+the roads where bicycles are allowed.
 NOTE: this attribute information is located in the `lines_HARV$BicyclesHo` 
 attribute.
 

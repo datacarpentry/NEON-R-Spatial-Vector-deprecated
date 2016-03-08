@@ -6,7 +6,7 @@ date:   2015-10-25
 authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2016-02-09
-lastModified: 2016-02-29
+lastModified: 2016-03-02
 packagesLibraries: [rgdal, raster]
 categories: [self-paced-tutorial]
 mainTag: vector-data-series
@@ -27,9 +27,10 @@ comments: true
 {% include _toc.html %}
 
 ## About
-This tutorial builds upon [vector 01 -  to work with 
-shapefile attributes in `R`]({{ site.baseurl }}/R/shapefile-attributes-in-R/) 
-and explores how to plot multiple shapefiles using base R graphics. It then covers
+This tutorial builds upon 
+[the previous tutorial]({{ site.baseurl }}/R/shapefile-attributes-in-R/) 
+to work with shapefile attributes in `R` and explores how to plot multiple 
+shapefiles using base R graphics. It then covers
 how to create a custom legend with colors and symbols that match your plot.
 
 **R Skill Level:** Intermediate - you've got the basics of `R` down.
@@ -113,7 +114,6 @@ location. These latter two we worked with in the
     ## with 1 features
     ## It has 14 fields
 
-
 ## Plot Data
 
 In [vector 01 -  to work with 
@@ -160,8 +160,7 @@ by factor level or category.
     # in this case, boardwalk (the first level) is the widest.
     plot(lines_HARV, 
          col=roadColors,
-         main="Roads at the NEON Harvard Forest Field Site \n
-    		 Line width varies by Type Attribute Value",
+         main="Roads at the NEON Harvard Forest Field Site \nLine width varies by Type Attribute Value",
          lwd=lineWidth)
 
 ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/02-plot-multiple-shapefiles-custom-legend/plot-unique-lines-1.png) 
@@ -198,8 +197,8 @@ Let's add a legend to our plot.
     legend("bottomright", 
            legend=levels(lines_HARV$TYPE), 
            fill=roadPalette, 
-           bty="n", #turn off the legend border
-           cex=.8) #decrease the font / legend size
+           bty="n", # turn off the legend border
+           cex=.8) # decrease the font / legend size
 
 ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/02-plot-multiple-shapefiles-custom-legend/add-legend-to-plot-1.png) 
 
@@ -265,8 +264,8 @@ them. We will start with the labels.
     # add a legend to our map
     legend("bottomright", 
            legend=labels, 
-           bty="n", #turn off the legend border
-           cex=.8) #decrease the font / legend size
+           bty="n", # turn off the legend border
+           cex=.8) # decrease the font / legend size
 
 ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/02-plot-multiple-shapefiles-custom-legend/create-custom-labels-1.png) 
 
