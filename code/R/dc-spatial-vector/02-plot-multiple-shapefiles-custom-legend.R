@@ -206,7 +206,7 @@ legend("bottomright",
        cex=1)
 
 ## 2
-# create vector of DIFFERNT plot symbols
+# create vector of DIFFERENT plot symbols
 plSymbols <- c(15,17)[plotLocations$soilTypeOr]
 plSymbols
 

@@ -135,9 +135,9 @@ The shapefiles that we will import are:
 * A polygon shapefile representing our field site boundary, 
 * A line shapefile representing roads, and 
 * A point shapefile representing the location of the Fisher   
-<a href="http://www.neoninc.org/science-design/collection-methods/flux-tower-measurements" target="_blank">flux tower</a> 
+<a href="http://www.neonscience.org/science-design/collection-methods/flux-tower-measurements" target="_blank">flux tower</a> 
 located at the
-<a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank"> NEON Harvard Forest field site</a>.
+<a href="http://www.neonscience.org/science-design/field-sites/harvard-forest" target="_blank"> NEON Harvard Forest field site</a>.
 
 The first shapefile that we will open contains the boundary of our study area
 (or our Area Of Interest or AOI, hence the name `aoiBoundary`). To import 
