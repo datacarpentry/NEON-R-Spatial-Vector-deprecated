@@ -6,16 +6,16 @@ date:   2015-10-25
 authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2016-02-09
-lastModified: 2016-03-02
+lastModified: 2016-03-09
 packagesLibraries: [rgdal, raster]
 categories: [self-paced-tutorial]
 mainTag: vector-data-series
 tags: [vector-data, R, spatial-data-gis]
 tutorialSeries: [vector-data-series]
-description: "This tutorial provides an overview of how to create a a plot of multiple
-shapefiles using base R plot. It also explores adding a legend with custom
-symbols that match your plot colors and symbols."
-code1: 02-plot-multiple-shapefiles-custom-legend.R
+description: "This tutorial provides an overview of how to create a a plot of 
+multiple shapefiles using base R plot. It also explores adding a legend with 
+custom symbols that match your plot colors and symbols."
+code1: /R/dc-spatial-vector/02-plot-multiple-shapefiles-custom-legend.R
 image:
   feature: NEONCarpentryHeader_2.png
   credit: A collaboration between the National Ecological Observatory Network (NEON) and Data Carpentry
@@ -116,8 +116,8 @@ location. These latter two we worked with in the
 
 ## Plot Data
 
-In [vector 01 -  to work with 
-shapefile attributes in `R`]({{ site.baseurl }}//R/shapefile-attributes-in-R/) 
+In the 
+[*Explore Shapefile Attributes & Plot Shapefile Objects by Attribute Value in R* tutorial]({{ site.baseurl }}/R/shapefile-attributes-in-R/) 
 we created a plot where we customized the width of each line in a spatial object
 according to a factor level or category. To do this, we create a vector of
 colors containing a color value for EACH feature in our spatial object grouped
@@ -160,10 +160,10 @@ by factor level or category.
     # in this case, boardwalk (the first level) is the widest.
     plot(lines_HARV, 
          col=roadColors,
-         main="Roads at the NEON Harvard Forest Field Site \nLine width varies by Type Attribute Value",
+         main="NEON Harvard Forest Field Site\n Roads & Trails \nLine Width Varies by Type Attribute Value",
          lwd=lineWidth)
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/02-plot-multiple-shapefiles-custom-legend/plot-unique-lines-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/02-plot-multiple-shapefiles-custom-legend/plot-unique-lines-1.png)
 
 <i class="fa fa-star"></i> **Data Tip:** Given we have a factor with 4 levels, 
 we can create a vector of numbers, each of which specifies the thickness of each
@@ -171,7 +171,9 @@ feature in our `SpatialLinesDataFrame` by factor level (category): `c(6,4,1,2)[l
 {: .notice}
 
 ## Add Plot Legend
-We also learned how to add a basic legend to our plot.
+In the 
+[previous tutorial]({{ site.baseurl }}/R/shapefile-attributes-in-R/),
+we also learned how to add a basic legend to our plot.
 
 * `bottomright`: We specify the **location** of our legend by using a default 
 keyword. We could also use `top`, `topright`, etc.
@@ -186,7 +188,7 @@ Let's add a legend to our plot.
 
     plot(lines_HARV, 
          col=roadColors,
-         main="Roads at the NEON Harvard Forest Field Site\n Default Legend")
+         main="NEON Harvard Forest Field Site\n Roads & Trails\n Default Legend")
     
     # we can use the color object that we created above to color the legend objects
     roadPalette
@@ -200,7 +202,7 @@ Let's add a legend to our plot.
            bty="n", # turn off the legend border
            cex=.8) # decrease the font / legend size
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/02-plot-multiple-shapefiles-custom-legend/add-legend-to-plot-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/02-plot-multiple-shapefiles-custom-legend/add-legend-to-plot-1.png)
 
 However, what if we want to create a more complex plot with many shapefiles
 and unique symbols that need to be represented clearly in a legend?
@@ -218,7 +220,7 @@ the tower location and road data on top using `add=TRUE`.
     plot(aoiBoundary_HARV, 
          col = "grey93", 
          border="grey",
-         main="NEON Harvard Forest\nField Site")
+         main="NEON Harvard Forest Field Site")
     
     plot(lines_HARV, 
          col=roadColors,
@@ -229,7 +231,7 @@ the tower location and road data on top using `add=TRUE`.
          pch = 19, 
          col = "purple")
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/02-plot-multiple-shapefiles-custom-legend/plot-many-shapefiles-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/02-plot-multiple-shapefiles-custom-legend/plot-many-shapefiles-1.png)
 
     # assign plot to an object for easy modification!
     plot_HARV<- recordPlot()
@@ -267,7 +269,7 @@ them. We will start with the labels.
            bty="n", # turn off the legend border
            cex=.8) # decrease the font / legend size
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/02-plot-multiple-shapefiles-custom-legend/create-custom-labels-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/02-plot-multiple-shapefiles-custom-legend/create-custom-labels-1.png)
 
 Now we have a legend with the labels identified. Let's add colors to each legend
 element next. We can use the vectors of colors that we created earlier to do this.
@@ -294,14 +296,12 @@ element next. We can use the vectors of colors that we created earlier to do thi
            bty="n", # turn off the legend border
            cex=.8) # decrease the font / legend size
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/02-plot-multiple-shapefiles-custom-legend/add-colors-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/02-plot-multiple-shapefiles-custom-legend/add-colors-1.png)
 
 Great - now we have a legend however this legend uses boxes to symbolize each 
 element in the plot. It might be better if the lines were symbolized as a line 
 and the points, symbolized as a symbol. We can customize this using
-`pch=` in our legend.
-
-16 is a point symbol, 15 is a box. 
+`pch=` in our legend: **16** is a point symbol, **15** is a box. 
 
 <i class="fa fa-star"></i> **Data Tip:** To view a short list of `pch` symbols, 
 type `?pch` into the `R` console. 
@@ -328,7 +328,7 @@ type `?pch` into the `R` console.
            col=plotColors,
            cex=.8)
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/02-plot-multiple-shapefiles-custom-legend/custom-symbols-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/02-plot-multiple-shapefiles-custom-legend/custom-symbols-1.png)
 
 Now we've added a point symbol to represent our point element in the plot. However
 it might be more useful to use line symbols in our legend
@@ -373,14 +373,14 @@ symbol, but to instead use a line.
            col=plotColors,
            cex=.8)
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/02-plot-multiple-shapefiles-custom-legend/refine-legend-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/02-plot-multiple-shapefiles-custom-legend/refine-legend-1.png)
 
 
 <div id="challenge" markdown="1">
 ## Challenge: Plot Polygon by Attribute
 
 1. Using the `NEON-DS-Site-Layout-Files/HARV/PlotLocations_HARV.shp` shapefile, 
-create a map of field site locations, with each point colored by the soil type
+create a map of study plot locations, with each point colored by the soil type
 (`soilTypeOr`). How many different soil types are there at this particular field 
 site? Overlay this layer on top of the `lines_HARV` layer (the roads). Create a 
 custom legend that applies line symbols to lines and point symbols to the points.
@@ -393,4 +393,4 @@ Create a custom legend.
 
 </div>
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/02-plot-multiple-shapefiles-custom-legend/challenge-code-plot-color-1.png) ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/02-plot-multiple-shapefiles-custom-legend/challenge-code-plot-color-2.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/02-plot-multiple-shapefiles-custom-legend/challenge-code-plot-color-1.png)![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/02-plot-multiple-shapefiles-custom-legend/challenge-code-plot-color-2.png)

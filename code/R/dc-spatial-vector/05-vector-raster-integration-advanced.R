@@ -52,7 +52,7 @@ plot(extent(chm_HARV),
      col="springgreen")
 
 legend("topright", 
-        legend=c("Roads","Plot Locations","Tower AOI", "CHM"),
+       legend=c("Roads","Plot Locations","Tower AOI", "CHM"),
        lwd=3,
        col=c("purple","black","blue","springgreen"),
        bty = "n",  
@@ -157,6 +157,13 @@ plot(extent(CHM_plots_HARVcrop),
      add=TRUE, 
      lwd=5,
      col="darkgreen")
+
+legend("bottomright", 
+        legend=c("Roads","Plot Locations", "CHM", "CHM cropped to Plots"),
+       lwd=3,
+       col=c("purple","black","springgreen", "darkgreen"),
+       bty = "n",  
+       cex = .8)
 
 
 ## ----hidden-extent-chunk-------------------------------------------------

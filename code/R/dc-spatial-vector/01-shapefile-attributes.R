@@ -83,7 +83,7 @@ length(footpath_HARV)
 # plot just footpaths
 plot(footpath_HARV,
      lwd=6,
-     main="Footpaths at NEON Harvard Forest Field Site")
+     main="NEON Harvard Forest Field Site\n Footpaths")
 
 
 ## ----plot-subset-shapefile-unique-colors---------------------------------
@@ -91,7 +91,7 @@ plot(footpath_HARV,
 plot(footpath_HARV,
      col=c("green","blue"), # set color for each feature 
      lwd=6,
-     main="Footpaths at NEON Harvard Forest Field Site\n Feature one = blue, Feature two= green")
+     main="NEON Harvard Forest Field Site\n Footpaths \n Feature one = blue, Feature two= green")
 
 
 ## ----challenge-code-feature-subset, results="hide", echo=FALSE-----------
@@ -107,7 +107,7 @@ length(boardwalk_HARV)
 plot(boardwalk_HARV,
      col=c("green"), # set color for feature 
      lwd=6,
-     main="Boardwalks at NEON Harvard Forest Field Site\n Feature one = blue, Feature two= green")
+     main="NEON Harvard Forest Field Site\n Boardwalks\n Feature one = blue, Feature two= green")
 
 # save an object with only boardwalk lines
 stoneWall_HARV<-lines_HARV[lines_HARV$TYPE == "stone wall",]
@@ -121,7 +121,7 @@ plot(stoneWall_HARV,
      col=c("green", "blue", "orange", "brown", "darkgreen", "purple"), 
         # set color for each feature 
      lwd=6,
-     main="Stone walls at NEON Harvard Forest Field Site\nEach feature in different color")
+     main="NEON Harvard Forest Field Site\n Stonewalls\n Each Feature in Different Color")
 
 
 ## ----convert-to-factor---------------------------------------------------
@@ -163,14 +163,14 @@ roadColors
 plot(lines_HARV, 
      col=roadColors,
      lwd=3,
-     main="Roads at the NEON Harvard Forest Field Site")
+     main="NEON Harvard Forest Field Site\n Roads & Trails")
 
 
 ## ----adjust-line-width---------------------------------------------------
 # make all lines thicker
 plot(lines_HARV, 
      col=roadColors,
-     main="Roads at the NEON Harvard Forest Field Site \n All Lines Thickness=6",
+     main="NEON Harvard Forest Field Site\n Roads & Trails\n All Lines Thickness=6",
      lwd=6)
 
 
@@ -181,7 +181,7 @@ levels(lines_HARV$TYPE)
 # in this case, boardwalk (the first level) is the widest.
 plot(lines_HARV, 
      col=roadColors,
-     main="Roads at the NEON Harvard Forest Field Site \n Line width varies by TYPE Attribute Value",
+     main="NEON Harvard Forest Field Site\n Roads & Trails \n Line width varies by TYPE Attribute Value",
      lwd=lines_HARV$TYPE)
 
 ## ----bicycle-map, include=TRUE, results="hide", echo=FALSE---------------
@@ -196,14 +196,14 @@ lineWidth
 # in this case, boardwalk (the first level) is the widest.
 plot(lines_HARV, 
      col=roadColors,
-     main="Roads at the NEON Harvard Forest Field Site \n Line width varies by Type Attribute Value",
+     main="NEON Harvard Forest Field Site\n Roads & Trails \n Line width varies by Type Attribute Value",
      lwd=lineWidth)
 
 
 ## ----add-legend-to-plot--------------------------------------------------
 plot(lines_HARV, 
      col=roadColors,
-     main="Roads at the NEON Harvard Forest Field Site\n Default Legend")
+     main="NEON Harvard Forest Field Site\n Roads & Trails\n Default Legend")
 
 # we can use the color object that we created above to color the legend objects
 roadPalette
@@ -219,13 +219,13 @@ legend("bottomright",   # location of legend
 
 plot(lines_HARV, 
      col=roadColors,
-     main="Roads at the NEON Harvard Forest Field Site \n Modified Legend")
+     main="NEON Harvard Forest Field Site\n Roads & Trails \n Modified Legend")
 # add a legend to our map
 legend("bottomright", 
        legend=levels(lines_HARV$TYPE), 
        fill=roadPalette, 
-       bty="n", #turn off the legend border
-       cex=.8) #decrease the font / legend size
+       bty="n", # turn off the legend border
+       cex=.8) # decrease the font / legend size
 
 
 ## ----plot-different-colors-----------------------------------------------
@@ -237,7 +237,7 @@ newColors
 # plot using new colors
 plot(lines_HARV, 
      col=(newColors)[lines_HARV$TYPE],
-     main="Roads at the NEON Harvard Forest Field Site \n Pretty Colors")
+     main="NEON Harvard Forest Field Site\n Roads & Trails \n Pretty Colors")
 
 # add a legend to our map
 legend("bottomright", 
@@ -274,14 +274,14 @@ c(4,1,1)[lines_HARV$BicyclesHo]
 plot(lines_HARV,
      col=(challengeColors)[lines_HARV$BicyclesHo],
      lwd=c(4,1,1)[lines_HARV$BicyclesHo],
-     main="Roads Where Bikes and Horses Are Allowed \n NEON Harvard Forest Field Site")
+     main="NEON Harvard Forest Field Site\n Roads Where Bikes and Horses Are Allowed")
 
 # add a legend to our map
 legend("bottomright", 
        levels(lines_HARV$BicyclesHo), 
        fill=challengeColors, 
-       bty="n", #turn off border
-       cex=.7) #adjust font size
+       bty="n", # turn off border
+       cex=.7) # adjust font size
 
 
 ## ----challenge-code-plot-color, results="hide", warning= FALSE, echo=FALSE----
@@ -322,7 +322,7 @@ blueGreen
 plot(plotLocations,
      col=(blueGreen)[plotLocations$soilTypeOr], 
      pch=18,
-     main="NEON Field Sites by Soil Type\n One Symbol for All Types")
+     main="NEON Harvard Forest Field Site\n Study Plots by Soil Type\n One Symbol for All Types")
 
 # create legend 
 legend("bottomright", 
@@ -341,7 +341,7 @@ plSymbols
 plot(plotLocations,
      col=plotLocations$soilTypeOr, 
      pch=plSymbols,
-     main="NEON Field Sites by Soil Type\n Unique Symbol for Each Type")
+     main="NEON Harvard Forest Field Site\n Study Plots by Soil Type\n Unique Symbol for Each Type")
 
 # create vector of plot symbols ONLY. Legend needs only the symbols
 plSymbolsL <- c(15,17)
