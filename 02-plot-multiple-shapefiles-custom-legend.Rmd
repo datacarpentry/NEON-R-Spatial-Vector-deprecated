@@ -12,10 +12,10 @@ categories: [self-paced-tutorial]
 mainTag: vector-data-series
 tags: [vector-data, R, spatial-data-gis]
 tutorialSeries: [vector-data-series]
-description: "This tutorial provides an overview of how to create a a plot of multiple
-shapefiles using base R plot. It also explores adding a legend with custom
-symbols that match your plot colors and symbols."
-code1: 02-plot-multiple-shapefiles-custom-legend.R
+description: "This tutorial provides an overview of how to create a a plot of 
+multiple shapefiles using base R plot. It also explores adding a legend with 
+custom symbols that match your plot colors and symbols."
+code1: /R/dc-spatial-vector/02-plot-multiple-shapefiles-custom-legend.R
 image:
   feature: NEONCarpentryHeader_2.png
   credit: A collaboration between the National Ecological Observatory Network (NEON) and Data Carpentry
@@ -104,8 +104,8 @@ point_HARV <- readOGR("NEON-DS-Site-Layout-Files/HARV/",
 
 ## Plot Data
 
-In [vector 01 -  to work with 
-shapefile attributes in `R`]({{ site.baseurl }}//R/shapefile-attributes-in-R/) 
+In the 
+[*Explore Shapefile Attributes & Plot Shapefile Objects by Attribute Value in R* tutorial]({{ site.baseurl }}/R/shapefile-attributes-in-R/) 
 we created a plot where we customized the width of each line in a spatial object
 according to a factor level or category. To do this, we create a vector of
 colors containing a color value for EACH feature in our spatial object grouped
@@ -147,7 +147,9 @@ feature in our `SpatialLinesDataFrame` by factor level (category): `c(6,4,1,2)[l
 {: .notice}
 
 ## Add Plot Legend
-We also learned how to add a basic legend to our plot.
+In the 
+[previous tutorial]({{ site.baseurl }}/R/shapefile-attributes-in-R/),
+we also learned how to add a basic legend to our plot.
 
 * `bottomright`: We specify the **location** of our legend by using a default 
 keyword. We could also use `top`, `topright`, etc.
@@ -268,9 +270,7 @@ legend("bottomright",
 Great - now we have a legend however this legend uses boxes to symbolize each 
 element in the plot. It might be better if the lines were symbolized as a line 
 and the points, symbolized as a symbol. We can customize this using
-`pch=` in our legend.
-
-16 is a point symbol, 15 is a box. 
+`pch=` in our legend: **16** is a point symbol, **15** is a box. 
 
 <i class="fa fa-star"></i> **Data Tip:** To view a short list of `pch` symbols, 
 type `?pch` into the `R` console. 
@@ -366,7 +366,7 @@ plotLocations <- readOGR("NEON-DS-Site-Layout-Files/HARV",
 unique(plotLocations$soilTypeOr)
 
 # create new color palette -- topo.colors palette
-blueGreen <- c("blue","springgreen")
+blueGreen <- c("blue","darkgreen")
 blueGreen
 
 # plot roads
@@ -400,7 +400,7 @@ legend("bottomright",
        cex=1)
 
 ## 2
-# create vector of plot symbols
+# create vector of DIFFERNT plot symbols
 plSymbols <- c(15,17)[plotLocations$soilTypeOr]
 plSymbols
 
@@ -412,7 +412,7 @@ plot(lines_HARV,
 # plot the locations 
 plot(plotLocations,
      col=(blueGreen)[plotLocations$soilTypeOr], 
-     pch=18,
+     pch=plSymbols,
      add=TRUE)
 
 # create line object
