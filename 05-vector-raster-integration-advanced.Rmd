@@ -15,7 +15,7 @@ tutorialSeries: [vector-data-series]
 description: "This tutorial covers how to modify (crop) a raster extent using
 the extent of a vector shapefile. It also covers extracting pixel values from 
 defined locations stored in a spatial object."
-code1: 05-vector-raster-integration-advanced.R
+code1: /R/dc-spatial-vector/05-vector-raster-integration-advanced.R
 image:
   feature: NEONCarpentryHeader_2.png
   credit: A collaboration between the National Ecological Observatory Network (NEON) and Data Carpentry
@@ -142,7 +142,7 @@ plot(extent(chm_HARV),
      col="springgreen")
 
 legend("topright", 
-        legend=c("Roads","Plot Locations","Tower AOI", "CHM"),
+       legend=c("Roads","Plot Locations","Tower AOI", "CHM"),
        lwd=3,
        col=c("purple","black","blue","springgreen"),
        bty = "n",  
@@ -290,12 +290,13 @@ In the plot above, created in the challenge, all the vegetation plot locations
 (blue) appear on the Canopy Height Model raster layer except for one. One is
 situated on the white space. Why? 
 
-Look back at the first figure in this tutorial showing the relative extents of all
-the spatial objects. Notice that the extent for our vegetation plot layer
-(black) extends further west than the extent of our CHM raster (green). The crop
-function will make a raster extent smaller, it will not expand the extent in
-areas where there are no data. Thus, extent of our vegetation plot layer will
-still extend further west than the extent of our (cropped) raster data.
+A modification of the first figure in this tutorial is below, showing the 
+relative extents of all the spatial objects. Notice that the extent for our 
+vegetation plot layer (black) extends further west than the extent of our CHM 
+raster (bright green). The crop function will make a raster extent smaller, it 
+will not expand the extent in areas where there are no data. Thus, extent of our
+vegetation plot layer will still extend further west than the extent of our 
+(cropped) raster data (dark green).
 
 ``` {r raster-extents-cropped, echo=FALSE}
 plot(extent(lines_HARV),
@@ -316,6 +317,13 @@ plot(extent(CHM_plots_HARVcrop),
      add=TRUE, 
      lwd=5,
      col="darkgreen")
+
+legend("bottomright", 
+        legend=c("Roads","Plot Locations", "CHM", "CHM cropped to Plots"),
+       lwd=3,
+       col=c("purple","black","springgreen", "darkgreen"),
+       bty = "n",  
+       cex = .8)
 
 ```
 

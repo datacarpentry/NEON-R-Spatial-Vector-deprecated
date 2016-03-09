@@ -6,7 +6,7 @@ date:   2015-10-26
 authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: 2016-03-02
+lastModified: 2016-03-09
 packagesLibraries: [rgdal, raster]
 categories: [self-paced-tutorial]
 mainTag: vector-data-series
@@ -16,7 +16,7 @@ description: "This tutorial provides an overview of how to locate and query
 shapefile attributes as well as subset shapefiles by specific attribute values
 in R. It also covers plotting multiple shapefiles by attribute and building a 
 custom plot legend. "
-code1: 01-shapefile-attributes.R
+code1: /R/dc-spatial-vector/01-shapefile-attributes.R
 image:
   feature: NEONCarpentryHeader_2.png
   credit: A collaboration between the National Ecological Observatory Network (NEON) and Data Carpentry
@@ -337,9 +337,9 @@ We can plot our subsetted shapefiles.
     # plot just footpaths
     plot(footpath_HARV,
          lwd=6,
-         main="Footpaths at NEON Harvard Forest Field Site")
+         main="NEON Harvard Forest Field Site\n Footpaths")
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/plot-subset-shapefile-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/plot-subset-shapefile-1.png)
 
 Interesting. Above, it appeared as if we had 2 features in our footpaths subset.
 Why does the plot look like there is only one feature?
@@ -357,9 +357,9 @@ to do this.
     plot(footpath_HARV,
          col=c("green","blue"), # set color for each feature 
          lwd=6,
-         main="Footpaths at NEON Harvard Forest Field Site\n Feature one = blue, Feature two= green")
+         main="NEON Harvard Forest Field Site\n Footpaths \n Feature one = blue, Feature two= green")
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/plot-subset-shapefile-unique-colors-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/plot-subset-shapefile-unique-colors-1.png)
 
 Now, we see that there are in fact two features in our plot! 
 
@@ -374,7 +374,7 @@ Subset out all:
 For each plot, color each feature using a unique color.
 </div>
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/challenge-code-feature-subset-1.png) ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/challenge-code-feature-subset-2.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/challenge-code-feature-subset-1.png)![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/challenge-code-feature-subset-2.png)
 
 ## Plot Lines by Attribute Value
 To plot vector data with the color determined by a set of attribute values, the 
@@ -466,9 +466,9 @@ Let's give this a try.
     plot(lines_HARV, 
          col=roadColors,
          lwd=3,
-         main="Roads at the NEON Harvard Forest Field Site")
+         main="NEON Harvard Forest Field Site\n Roads & Trails")
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/palette-and-plot-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/palette-and-plot-1.png)
 
 ### Adjust Line Width
 We can also adjust the width of our plot lines using `lwd`. We can set all lines
@@ -478,10 +478,10 @@ to be thicker or thinner using `lwd=`.
     # make all lines thicker
     plot(lines_HARV, 
          col=roadColors,
-         main="Roads at the NEON Harvard Forest Field Site \n All Lines Thickness=6",
+         main="NEON Harvard Forest Field Site\n Roads & Trails\n All Lines Thickness=6",
          lwd=6)
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/adjust-line-width-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/adjust-line-width-1.png)
 
 ### Adjust Line Width by Attribute
 
@@ -507,10 +507,10 @@ try.
     # in this case, boardwalk (the first level) is the widest.
     plot(lines_HARV, 
          col=roadColors,
-         main="Roads at the NEON Harvard Forest Field Site \n Line width varies by TYPE Attribute Value",
+         main="NEON Harvard Forest Field Site\n Roads & Trails \n Line width varies by TYPE Attribute Value",
          lwd=lines_HARV$TYPE)
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/line-width-unique-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/line-width-unique-1.png)
 
 <div id="challenge" markdown="1">
 ## Challenge: Plot Line Width by Specific Attribute 
@@ -528,7 +528,7 @@ Create a plot of roads using the following line thicknesses:
  
 </div>
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/bicycle-map-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/bicycle-map-1.png)
 
 <i class="fa fa-star"></i> **Data Tip:** Given we have a factor with 4 levels, 
 we can create an vector of numbers, each of which specifies the thickness of each
@@ -552,7 +552,7 @@ Let's add a legend to our plot.
 
     plot(lines_HARV, 
          col=roadColors,
-         main="Roads at the NEON Harvard Forest Field Site\n Default Legend")
+         main="NEON Harvard Forest Field Site\n Roads & Trails\n Default Legend")
     
     # we can use the color object that we created above to color the legend objects
     roadPalette
@@ -565,7 +565,7 @@ Let's add a legend to our plot.
     			 # the legend
           fill=roadPalette) # color palette to use to fill objects in legend.
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/add-legend-to-plot-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/add-legend-to-plot-1.png)
 
 We can tweak the appearance of our legend too.
 
@@ -577,15 +577,15 @@ Let's try it out.
 
     plot(lines_HARV, 
          col=roadColors,
-         main="Roads at the NEON Harvard Forest Field Site \n Modified Legend")
+         main="NEON Harvard Forest Field Site\n Roads & Trails \n Modified Legend")
     # add a legend to our map
     legend("bottomright", 
            legend=levels(lines_HARV$TYPE), 
            fill=roadPalette, 
-           bty="n", #turn off the legend border
-           cex=.8) #decrease the font / legend size
+           bty="n", # turn off the legend border
+           cex=.8) # decrease the font / legend size
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/modify-legend-plot-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/modify-legend-plot-1.png)
 
 We can modify the colors used to plot our lines by creating a new color vector,
 directly in the plot code too rather than creating a separate object.
@@ -604,7 +604,7 @@ Let's try it!
     # plot using new colors
     plot(lines_HARV, 
          col=(newColors)[lines_HARV$TYPE],
-         main="Roads at the NEON Harvard Forest Field Site \n Pretty Colors")
+         main="NEON Harvard Forest Field Site\n Roads & Trails \n Pretty Colors")
     
     # add a legend to our map
     legend("bottomright", 
@@ -612,7 +612,7 @@ Let's try it!
            fill=newColors, 
            bty="n", cex=.8)
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/plot-different-colors-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/plot-different-colors-1.png)
 
 <i class="fa fa-star"></i> **Data Tip:** You can modify the defaul R color palette 
 using the palette method. For example `palette(rainbow(6))` or
@@ -634,7 +634,7 @@ other lines can be grey.
 
 </div>
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/bicycle-map-2-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/bicycle-map-2-1.png)
 
 <div id="challenge" markdown="1">
 ## Challenge: Plot Polygon by Attribute
@@ -644,10 +644,10 @@ located in your downloaded data folder: `NEON-DS-Site-Layout-Files/US-Boundary-L
 Each state should be colored by it's `region` value. Add a legend.
 
 2. Using the `NEON-DS-Site-Layout-Files/HARV/PlotLocations_HARV.shp` shapefile, 
-create a map of field site locations, with each point colored by the soil type
+create a map of study plot locations, with each point colored by the soil type
 (`soilTypeOr`).  **Question:** How many different soil types are there at this particular field site? 
 
-3. BONUS -- modify the field sites plot above. Tell `R` to plot each point,
+3. BONUS -- modify the field site plot above. Tell `R` to plot each point,
 using a different symbol of `pch` value. HINT: To do this, create a vector
 object of symbols by factor level using the syntax described above for line
 width: 
@@ -655,4 +655,4 @@ width:
 
 </div>
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/challenge-code-plot-color-1.png) ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/challenge-code-plot-color-2.png) ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/challenge-code-plot-color-3.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/challenge-code-plot-color-1.png)![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/challenge-code-plot-color-2.png)![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/01-shapefile-attributes/challenge-code-plot-color-3.png)

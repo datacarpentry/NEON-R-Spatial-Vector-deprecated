@@ -5,7 +5,7 @@ date:   2015-10-23
 authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: 2016-03-02
+lastModified: 2016-03-09
 packagesLibraries: [rgdal, raster]
 categories: [self-paced-tutorial]
 mainTag: vector-data-series
@@ -15,7 +15,7 @@ description: "This tutorial covers how to convert a .csv file that contains
 spatial coordinate information into a spatial object in R. We will then export
 the spatial object as a Shapefile for efficient import into R and other GUI GIS
 applications including QGIS and ArcGIS"
-code1: 04-csv-to-shapefile-in-R.R
+code1: /R/dc-spatial-vector/04-csv-to-shapefile-in-R.R
 image:
   feature: NEONCarpentryHeader_2.png
   credit: A collaboration between the National Ecological Observatory Network (NEON) and Data Carpentry
@@ -73,8 +73,9 @@ on your computer to complete this tutorial.
 
 ## Spatial Data in Text Format
 
-The `HARV_PlotLocations.csv` file contains `x, y` (point) locations for plot locations 
-<a href="http://www.neoninc.org/science-design/collection-methods/terrestrial-organismal-sampling" target="_blank"> where NEON samples vegetation and other ecological metrics</a>.
+The `HARV_PlotLocations.csv` file contains `x, y` (point) locations for study 
+plot where NEON collects data on
+<a href="http://www.neonscience.org/science-design/collection-methods/terrestrial-organismal-sampling" target="_blank"> vegetation and other ecological metrics</a>.
 We would like to:
 
 * Create a map of these plot locations. 
@@ -215,7 +216,7 @@ Following the `easting` and `northing` columns, there is a `geodeticDa` and a
 
 It is not typical to store CRS information in a column. But this particular
 file contains CRS information this way. The `geodeticDa` and `utmZone` columns
-contain the information that helps us determine the `CRS`: 
+contain the information that helps us determine the CRS: 
 
 * `geodeticDa`: WGS84  -- this is geodetic datum WGS84
 * `utmZone`: 18
@@ -230,11 +231,13 @@ projection on the
 <a href="http://www.spatialreference.org/ref/epsg/wgs-84-utm-zone-18n/" target="_blank"> spatial reference website</a> 
 which contains a list of CRS formats for each projection: 
 
-<a href="http://www.spatialreference.org/ref/epsg/wgs-84-utm-zone-18n/proj4/" target="_blank"> click here for the proj4 string for UTM Zone 18N WGS84</a>. 
+* This link shows 
+<a href="http://www.spatialreference.org/ref/epsg/wgs-84-utm-zone-18n/proj4/" target="_blank">the proj4 string for UTM Zone 18N WGS84</a>. 
+
 However, if we have other data in the `UTM Zone 18N` projection, it's much
-easier to simply assign the `CRS` in `proj4` format from that object to our new
-spatial object. Let's import the roads layer from Harvard forest and check out
-its `CRS`.
+easier to simply assign the `crs()` in `proj4` format from that object to our 
+new spatial object. Let's import the roads layer from Harvard forest and check 
+out its CRS.
 
 
     # Import the line shapefile
@@ -265,7 +268,7 @@ Exploring the data above, we can see that the lines shapefile is in
 `UTM zone 18N`. We can thus use the CRS from that spatial object to convert our
 non-spatial `data.frame` into a `spatialPointsDataFrame`. 
 
-Next, let's create a `crs` object that we can use to define the `CRS` of our 
+Next, let's create a `crs` object that we can use to define the CRS of our 
 `SpatialPointsDataFrame` when we create it
 
 
@@ -316,7 +319,7 @@ We now have a spatial `R` object, we can plot our newly created spatial object.
     plot(plot.locationsSp_HARV, 
          main="Map of Plot Locations")
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/04-csv-to-shapefile-in-R/plot-data-points-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/04-csv-to-shapefile-in-R/plot-data-points-1.png)
 
 ## Define Plot Extent
 
@@ -355,7 +358,7 @@ To begin, let's plot our `aoiBoundary` object with our vegetation plots.
     plot(plot.locationsSp_HARV, 
          pch=8, add=TRUE)
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/04-csv-to-shapefile-in-R/plot-data-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/04-csv-to-shapefile-in-R/plot-data-1.png)
 
     # no plots added, why? CRS?
     # view CRS of each
@@ -417,7 +420,7 @@ locations are not rendered. We can see that our data are in the same projection
            lty=c(1,1),
            lwd=6)
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/04-csv-to-shapefile-in-R/compare-extents-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/04-csv-to-shapefile-in-R/compare-extents-1.png)
 
 The **extents** of our two objects are **different**. `plot.locationsSp_HARV` is
 much larger than `aoiBoundary_HARV`. When we plot `aoiBoundary_HARV` first, `R`
@@ -474,7 +477,7 @@ values from the spatial object that has a larger extent. Let's try it.
            col=c("purple","darkgreen"),
            cex=.8)
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/04-csv-to-shapefile-in-R/set-plot-extent-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/04-csv-to-shapefile-in-R/set-plot-extent-1.png)
 
 <div id="challenge" markdown="1">
 ## Challenge - Import & Plot Additional Points
@@ -498,7 +501,7 @@ for more on working with geographic coordinate systems. You may want to "borrow"
 the projection from the objects used in that tutorial!
 </div>
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/04-csv-to-shapefile-in-R/challenge-code-phen-plots-1.png) ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/04-csv-to-shapefile-in-R/challenge-code-phen-plots-2.png) ![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/04-csv-to-shapefile-in-R/challenge-code-phen-plots-3.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/04-csv-to-shapefile-in-R/challenge-code-phen-plots-1.png)![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/04-csv-to-shapefile-in-R/challenge-code-phen-plots-2.png)![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/04-csv-to-shapefile-in-R/challenge-code-phen-plots-3.png)
 
 ## Export a Shapefile
 

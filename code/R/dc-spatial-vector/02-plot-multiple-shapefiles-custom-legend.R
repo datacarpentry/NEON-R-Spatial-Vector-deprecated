@@ -46,14 +46,14 @@ lineWidth
 # in this case, boardwalk (the first level) is the widest.
 plot(lines_HARV, 
      col=roadColors,
-     main="Roads at the NEON Harvard Forest Field Site \nLine width varies by Type Attribute Value",
+     main="NEON Harvard Forest Field Site\n Roads & Trails \nLine Width Varies by Type Attribute Value",
      lwd=lineWidth)
 
 
 ## ----add-legend-to-plot--------------------------------------------------
 plot(lines_HARV, 
      col=roadColors,
-     main="Roads at the NEON Harvard Forest Field Site\n Default Legend")
+     main="NEON Harvard Forest Field Site\n Roads & Trails\n Default Legend")
 
 # we can use the color object that we created above to color the legend objects
 roadPalette
@@ -72,7 +72,7 @@ legend("bottomright",
 plot(aoiBoundary_HARV, 
      col = "grey93", 
      border="grey",
-     main="NEON Harvard Forest\nField Site")
+     main="NEON Harvard Forest Field Site")
 
 plot(lines_HARV, 
      col=roadColors,
@@ -172,13 +172,13 @@ plotLocations <- readOGR("NEON-DS-Site-Layout-Files/HARV",
 unique(plotLocations$soilTypeOr)
 
 # create new color palette -- topo.colors palette
-blueGreen <- c("blue","springgreen")
+blueGreen <- c("blue","darkgreen")
 blueGreen
 
 # plot roads
 plot(lines_HARV, 
      col=roadColors,
-     main="NEON Field Sites by Soil Type\n One Symbol for All Types")
+     main="NEON Harvard Forest Field Site\n Study Plots by Soil Type\n One Symbol for All Types")
 
 # plot the locations 
 plot(plotLocations,
@@ -206,19 +206,19 @@ legend("bottomright",
        cex=1)
 
 ## 2
-# create vector of plot symbols
+# create vector of DIFFERENT plot symbols
 plSymbols <- c(15,17)[plotLocations$soilTypeOr]
 plSymbols
 
 # plot roads
 plot(lines_HARV, 
      col=roadColors,
-     main="NEON Field Sites by Soil Type\n One Symbol for All Types")
+     main="NEON Harvard Forest Field Site\n Study Plots by Soil Type\n Different Symbols for Types")
 
 # plot the locations 
 plot(plotLocations,
      col=(blueGreen)[plotLocations$soilTypeOr], 
-     pch=18,
+     pch=plSymbols,
      add=TRUE)
 
 # create line object

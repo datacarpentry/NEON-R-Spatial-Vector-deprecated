@@ -6,7 +6,7 @@ date:   2015-10-27
 authors: [Joseph Stachelek, Leah A. Wasser, Megan A. Jones]
 contributors: [Sarah Newman]
 dateCreated:  2015-10-23
-lastModified: 2016-03-02
+lastModified: 2016-03-09
 packagesLibraries: [rgdal, raster]
 categories: [self-paced-tutorial]
 mainTag: vector-data-series
@@ -14,7 +14,7 @@ tags: [vector-data, R, spatial-data-gis]
 tutorialSeries: [vector-data-series]
 description: "This spatial data tutorial explains the how to open and plot 
 shapefiles containing point, line and polygon vector data in R."
-code1: 00-open-a-shapefile.R
+code1: /R/dc-spatial-vector/00-open-a-shapefile.R
 image:
   feature: NEONCarpentryHeader_2.png
   credit: A collaboration between the National Ecological Observatory Network  (NEON) and Data Carpentry
@@ -135,9 +135,9 @@ The shapefiles that we will import are:
 * A polygon shapefile representing our field site boundary, 
 * A line shapefile representing roads, and 
 * A point shapefile representing the location of the Fisher   
-<a href="http://www.neoninc.org/science-design/collection-methods/flux-tower-measurements" target="_blank">flux tower</a> 
+<a href="http://www.neonscience.org/science-design/collection-methods/flux-tower-measurements" target="_blank">flux tower</a> 
 located at the
-<a href="http://www.neoninc.org/science-design/field-sites/harvard-forest" target="_blank"> NEON Harvard Forest field site</a>.
+<a href="http://www.neonscience.org/science-design/field-sites/harvard-forest" target="_blank"> NEON Harvard Forest field site</a>.
 
 The first shapefile that we will open contains the boundary of our study area
 (or our Area Of Interest or AOI, hence the name `aoiBoundary`). To import 
@@ -321,7 +321,7 @@ Next, let's visualize the data in our `R` `spatialpolygonsdataframe` object usin
     plot(aoiBoundary_HARV, col="cyan1", border="black", lwd=3,
          main="AOI Boundary Plot")
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/00-open-a-shapefile/plot-shapefile-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/00-open-a-shapefile/plot-shapefile-1.png)
 
 <div id="challenge" markdown="1">
 ## Challenge: Import Line and Point Shapefiles
@@ -356,7 +356,7 @@ lines, we use `\n` where the line should break.
     # use the pch element to adjust the symbology of the points
     plot(point_HARV, add  = TRUE, pch = 19, col = "purple")
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/00-open-a-shapefile/plot-multiple-shapefiles-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/00-open-a-shapefile/plot-multiple-shapefiles-1.png)
 
 
 <div id="challenge" markdown="1">
@@ -379,7 +379,7 @@ the [Plot Raster Data in R]({{site.baseurl}}/R/Plot-Rasters-In-R/ )
 tutorials. 
 </div>
 
-![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/00-open-a-shapefile/challenge-vector-raster-overlay-1.png) 
+![ ]({{ site.baseurl }}/images/rfigs/dc-spatial-vector/00-open-a-shapefile/challenge-vector-raster-overlay-1.png)
 
 ***
 

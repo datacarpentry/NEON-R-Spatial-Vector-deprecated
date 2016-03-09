@@ -15,7 +15,7 @@ description: "This tutorial covers how to convert a .csv file that contains
 spatial coordinate information into a spatial object in R. We will then export
 the spatial object as a Shapefile for efficient import into R and other GUI GIS
 applications including QGIS and ArcGIS"
-code1: 04-csv-to-shapefile-in-R.R
+code1: /R/dc-spatial-vector/04-csv-to-shapefile-in-R.R
 image:
   feature: NEONCarpentryHeader_2.png
   credit: A collaboration between the National Ecological Observatory Network (NEON) and Data Carpentry
@@ -73,8 +73,9 @@ on your computer to complete this tutorial.
 
 ## Spatial Data in Text Format
 
-The `HARV_PlotLocations.csv` file contains `x, y` (point) locations for plot locations 
-<a href="http://www.neoninc.org/science-design/collection-methods/terrestrial-organismal-sampling" target="_blank"> where NEON samples vegetation and other ecological metrics</a>.
+The `HARV_PlotLocations.csv` file contains `x, y` (point) locations for study 
+plot where NEON collects data on
+<a href="http://www.neonscience.org/science-design/collection-methods/terrestrial-organismal-sampling" target="_blank"> vegetation and other ecological metrics</a>.
 We would like to:
 
 * Create a map of these plot locations. 
@@ -190,7 +191,7 @@ head(plot.locations_HARV$utmZone)
 
 It is not typical to store CRS information in a column. But this particular
 file contains CRS information this way. The `geodeticDa` and `utmZone` columns
-contain the information that helps us determine the `CRS`: 
+contain the information that helps us determine the CRS: 
 
 * `geodeticDa`: WGS84  -- this is geodetic datum WGS84
 * `utmZone`: 18
@@ -205,11 +206,13 @@ projection on the
 <a href="http://www.spatialreference.org/ref/epsg/wgs-84-utm-zone-18n/" target="_blank"> spatial reference website</a> 
 which contains a list of CRS formats for each projection: 
 
-<a href="http://www.spatialreference.org/ref/epsg/wgs-84-utm-zone-18n/proj4/" target="_blank"> click here for the proj4 string for UTM Zone 18N WGS84</a>. 
+* This link shows 
+<a href="http://www.spatialreference.org/ref/epsg/wgs-84-utm-zone-18n/proj4/" target="_blank">the proj4 string for UTM Zone 18N WGS84</a>. 
+
 However, if we have other data in the `UTM Zone 18N` projection, it's much
-easier to simply assign the `CRS` in `proj4` format from that object to our new
-spatial object. Let's import the roads layer from Harvard forest and check out
-its `CRS`.
+easier to simply assign the `crs()` in `proj4` format from that object to our 
+new spatial object. Let's import the roads layer from Harvard forest and check 
+out its CRS.
 
 ```{r explore-units}
 
@@ -228,7 +231,7 @@ Exploring the data above, we can see that the lines shapefile is in
 `UTM zone 18N`. We can thus use the CRS from that spatial object to convert our
 non-spatial `data.frame` into a `spatialPointsDataFrame`. 
 
-Next, let's create a `crs` object that we can use to define the `CRS` of our 
+Next, let's create a `crs` object that we can use to define the CRS of our 
 `SpatialPointsDataFrame` when we create it
 
 ```{r crs-object } 
