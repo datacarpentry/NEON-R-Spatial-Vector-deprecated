@@ -9,24 +9,25 @@
 require(knitr)
 
 #################### Set up Input Variables #############################
-#Inputs - Where the git repo is on your computer
+# Inputs - Where the git repo is on your computer
+# gitRepoPath <-"~/Documents/GitHub/NEON-R-Spatial-Vector/"
 gitRepoPath <-"~/Documents/GitHub/NEON-R-Spatial-Vector/"
 
-#jekyll will only render md posts that begin with a date. Add one.
+#set working dir - this is where the data are located
+wd <- "~/Documents/data/1_DataPortal_Workshop/1_WorkshopData"
+# wd <- "~/Documents/data/Spatio_TemporalWorkshop"
+
+# jekyll will only render md posts that begin with a date. Add one.
 add.date <- "2015-10-26-SV"
 
-#set working dir - this is where the data are located
-#wd <- "~/Documents/data/1_DataPortal_Workshop/1_WorkshopData"
-wd <- "~/Documents/data/Spatio_TemporalWorkshop"
-
 ################### CONFIG BELOW IS REQUIRED BY JEKYLL - DON"T CHANGE ##########
-#set data working dir
+# set data working dir
 setwd(wd)
 
 # set series subdir
 subDir <- "dc-spatial-vector/"
 
-#don't change - this is the posts dir location required by jekyll
+# don't change - this is the posts dir location required by jekyll
 postsDir <- paste0("_posts/R/", subDir)
 codeDir <- paste0("code/R/", subDir)
 
@@ -101,7 +102,7 @@ rmd.files <- list.files(gitRepoPath, pattern="*.Rmd", full.names = TRUE )
 #################### Set up Image Directory #############################
 
 # just render one file
-# rmd.files <- rmd.files[5]
+#rmd.files <- rmd.files[2]
 
 for (files in rmd.files) {
   
