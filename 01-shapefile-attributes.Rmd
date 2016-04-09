@@ -432,7 +432,7 @@ levels(lines_HARV$TYPE)
 # create vector of line widths
 lineWidths <- (c(1,2,3,4))[lines_HARV$TYPE]
 # adjust line width by level
-# in this case, boardwalk (the first level) is the widest.
+# in this case, boardwalk (the first level) is the narrowest.
 plot(lines_HARV, 
      col=roadColors,
      main="NEON Harvard Forest Field Site\n Roads & Trails \n Line width varies by TYPE Attribute Value",
@@ -618,7 +618,7 @@ legend("bottomright",
 
 1. Create a map of the State boundaries in the United States using the data
 located in your downloaded data folder: `NEON-DS-Site-Layout-Files/US-Boundary-Layers\US-State-Boundaries-Census-2014`. 
-Apply a fill color to teach state using its `region` value. Add a legend.
+Apply a fill color to each state using its `region` value. Add a legend.
 
 2. Using the `NEON-DS-Site-Layout-Files/HARV/PlotLocations_HARV.shp` shapefile, 
 create a map of study plot locations, with each point colored by the soil type
