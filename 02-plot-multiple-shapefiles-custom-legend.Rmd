@@ -133,7 +133,7 @@ lineWidth <- c(2,4,3,8)[lines_HARV$TYPE]
 # view vector
 lineWidth
 
-# in this case, boardwalk (the first level) is the widest.
+# in this case, woods road (the last level) is the widest.
 plot(lines_HARV, 
      col=roadColors,
      main="NEON Harvard Forest Field Site\n Roads & Trails \nLine Width Varies by Type Attribute Value",
@@ -193,7 +193,7 @@ the tower location and road data on top using `add=TRUE`.
 
 # Plot multiple shapefiles
 plot(aoiBoundary_HARV, 
-     col = "grey93", 
+     col = "lightyellow", 
      border="grey",
      main="NEON Harvard Forest Field Site")
 
@@ -204,7 +204,7 @@ plot(lines_HARV,
 plot(point_HARV, 
      add  = TRUE, 
      pch = 19, 
-     col = "purple")
+     col = "red")
 
 # assign plot to an object for easy modification!
 plot_HARV<- recordPlot()
@@ -252,7 +252,7 @@ element next. We can use the vectors of colors that we created earlier to do thi
 roadPalette
 
 # create a list of colors to use 
-plotColors <- c("purple", "grey", roadPalette)
+plotColors <- c("red", "lightyellow", roadPalette)
 plotColors
 
 # render plot
