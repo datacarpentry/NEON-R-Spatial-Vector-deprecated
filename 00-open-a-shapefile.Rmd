@@ -346,6 +346,11 @@ plot(lines_HARV, add = TRUE)
 plot(point_HARV, add  = TRUE, pch = 19, col = "purple")
 ```
 
+<i class="fa fa-star"></i> **Data Tip:** The pch argument specifies the point shape. A list of valid point shapes can be found by viewing  
+<a href="http://www.statmethods.net/advgraphs/images/points.png" target="_blank"> 
+this graphic</a> 
+{: .notice}
+
 
 <div id="challenge" markdown="1">
 ## Challenge: Plot Raster & Vector Data Together
